@@ -70,5 +70,9 @@ int main() {
     std::cout << sums[i] << ' ';
   }
   std::cout << sums[max_len - 1];
+  for (size_t j = 0; j != count; j++)
+    {
+      pairs[j].second.free();
+    }
   return 0;
 }

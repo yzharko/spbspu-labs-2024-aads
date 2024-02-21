@@ -18,7 +18,7 @@ namespace susidko
       {}
       void pushBack(T date_)
       {
-        Node< T > * ptr = new Node(date_);
+        Node< T > * ptr = new Node < int >(date_);
         if (isEmpty()) {
           first_ = ptr;
           last_ = ptr;
@@ -28,6 +28,16 @@ namespace susidko
         last_ = ptr;
         right_iter_.node = ptr;
       }
+      /*void free()
+      {
+        Node< T > * curr = last_;
+        while (curr != first_)
+        {
+          curr = curr->prev;
+          delete curr->next;
+        }
+        delete curr;
+      }*/
       bool isEmpty()
       {
         return first_ == nullptr;
