@@ -7,9 +7,9 @@
 
 int main() {
   const int len = 15;
-  using storage_t = List< int >;
+  using storage_t = susidko::List < int >;
   storage_t data;
-  std::pair < std::string, List <int > > pairs[len];
+  std::pair < std::string, susidko::List < int > > pairs[len];
   std::string input = "";
   size_t count = -1;
   size_t max_len = 0;
@@ -33,14 +33,14 @@ int main() {
       curr_len ++;
     }
     else
-    { 
+    {
       if (curr_len > max_len)
       {
         max_len = curr_len;
         curr_len = 0;
       }
       count++;
-      pairs[count] = std::pair< std::string, List < int > > (input, List < int >());
+      pairs[count] = std::pair< std::string, susidko::List < int > > (input, susidko::List < int >());
     }
   }
   if (isSeq == 0)
