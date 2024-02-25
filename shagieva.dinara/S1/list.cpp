@@ -2,26 +2,47 @@ template< typename T >
 class List
 {
 private:
-  struct Link
+  struct Node
   {
-    Link * prev;
-    Link * next;
+    Node * prev = nullptr;
+    Node * next = nullptr;
     T data;
   };
 
-  Link * first;
-  Link * last;
+  Node * head = nullptr;
+  Node * tail = nullptr;
+
+public:
+  List() = default;
+
+  List(std::initializer_list<T> elements)
+  {
+    for (auto & el : elements)
+    {
+      push_back(el);
+    }
+  }
+
+  ~List()
+  {
+    clear();
+  }
 
 public:
   class iterator
   {
   private:
-    Link * curr;
+    Node * curr;
 
   public:
-    iterator(Link * p) :
+    iterator(Node * p) :
       curr(p)
     {}
+
+    const Node * get() const
+    {
+      return curr;
+    }
 
     T operator*()
     {
@@ -65,15 +86,144 @@ public:
     }
   };
 
-  iterator begin();
-  iterator end();
-  iterator insert(iterator p, const T& v);
-  iterator erase(iterator p);
-  void push_back(const T& v);
-  void push_front(const T& v);
-  void pop_front();
-  void pop_back();
+  iterator begin() const
+  {
+    return head;
+  }
 
-  T& front();
-  T& back();
+  iterator end() const
+  {
+    return nullptr;
+  }
+
+  void insert(iterator place, const T& el)
+  {
+    auto ptr = place.get();
+    if(!ptr)
+    {
+      push_back(std::move(el));
+      return;
+    }
+
+    auto newNode = new Node { std::move(el) };
+
+    newNode->next = ptr;
+    newNode->prev = ptr->prev;
+
+    if (ptr->prev)
+    {
+      ptr->prev->next = newNode;
+    }
+
+    ptr->prev = newNode;
+  }
+
+  void erase(iterator place)
+  {
+    auto ptr = place.get();
+    if (ptr->prev)
+    {
+      ptr->prev->next = ptr->next;
+    }
+    else
+    {
+      head = ptr->next;
+    }
+
+    if (ptr->next)
+    {
+      ptr->next->prev = ptr->prev;
+    }
+    else
+    {
+      tail = ptr->prev;
+    }
+
+    delete ptr;
+  }
+
+  void push_back(const T& el)
+  {
+    auto newNode = new Node { std::move(el) };
+    if (tail)
+    {
+      tail->next = newNode;
+      newNode->prev = tail;
+      tail = newNode;
+    }
+    else
+    {
+      head = tail = newNode;
+    }
+  }
+
+  void push_front(const T& el)
+  {
+    auto newNode = new Node { std::move(el) };
+    if (head)
+    {
+      head->prev = newNode;
+      newNode->next = head;
+      head = newNode;
+    }
+    else
+    {
+      head = tail = newNode;
+    }
+  }
+
+  void pop_front()
+  {
+    if (head)
+    {
+      auto newHead = head->next;
+      newHead->prev = nullptr;
+      delete head;
+      head = newHead;
+    }
+  }
+
+  void pop_back()
+  {
+    if (tail)
+    {
+      auto newTail = tail->prev;
+      newTail->next = nullptr;
+      delete tail;
+      tail = newTail;
+    }
+  }
+
+  void clear() noexcept
+  {
+    while (head)
+    {
+      delete std::exchange(head, head->next);
+    }
+    tail = nullptr;
+  }
+
+  T& front()
+  {
+    if (head)
+    {
+      return head.data;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+
+  T& back()
+  {
+    if (tail)
+    {
+      return tail->data;
+    }
+    else
+    {
+      return 0;
+    }
+  }
 };
