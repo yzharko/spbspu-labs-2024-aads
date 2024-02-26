@@ -11,6 +11,12 @@ int main()
     return 0;
   }*/
 
+  if (!std::cin)
+  {
+    std::cout << 0 << "\n";
+    return 0;
+  }
+
   std::string seqName, num;
   shagieva::List< std::pair<std::string, shagieva::List<int>> > fullList;
   std::string name;
@@ -35,6 +41,11 @@ int main()
       }
       numbers.push_back(number);
     }
+  }
+
+  if (fullList.empty())
+  {
+    std::cout << 0 << "\n";
   }
   return 0;
 }

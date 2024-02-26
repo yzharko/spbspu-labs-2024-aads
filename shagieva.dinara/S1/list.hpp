@@ -202,6 +202,11 @@ namespace shagieva
       }
       tail = nullptr;
     }
+
+    bool empty() const
+    {
+      return head == nullptr;
+    }
   };
 
   template< typename T  >
