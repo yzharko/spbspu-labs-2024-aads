@@ -46,16 +46,12 @@ namespace shagieva
     private:
       Node * curr = nullptr;
 
-      /*iterator(Node * ptr):
-        iterator { ptr }
-      {}*/
-
     public:
       iterator(Node * p) :
         curr(p)
       {}
 
-      const Node * get()
+      Node * get()
       {
         return curr;
       }
