@@ -6,6 +6,7 @@
 
 namespace shagieva
 {
+  template<typename T>
   class List
   {
   private:
