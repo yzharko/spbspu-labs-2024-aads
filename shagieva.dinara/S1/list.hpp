@@ -6,133 +6,188 @@
 
 namespace shagieva
 {
-  template< typename T >
   class List
   {
   private:
     struct Node
     {
-      Node * prev = nullptr;
-      Node * next = nullptr;
       T data;
+      Node * prev;
+      Node * next;
 
       Node(T el):
-        data { std::move(el) }
+        data(el)
       {}
-    };
-
-    Node * head = nullptr;
-    Node * tail = nullptr;
-
-  public:
-    List() = default;
-
-    List(std::initializer_list<T> elements)
-    {
-      for (auto & el : elements)
-      {
-        push_back(el);
-      }
     }
 
-    ~List()
-    {
-      clear();
-    }
+    Node * head;
+    Node * tail;
 
   public:
-    class iterator
+    List():
+      head(nullptr),
+      tail(nullptr)
+    {}
+
+    class ConstIterator
     {
-    private:
-      Node * curr = nullptr;
+    protected:
+      const Node * curr;
 
     public:
-      iterator(Node * p) :
-        curr(p)
+      ConstIterator(const Node * node):
+        curr(node)
       {}
 
-      Node * get()
-      {
-        return curr;
-      }
-
-      T operator*()
+      T& operator*() const
       {
         return curr->data;
       }
 
-      iterator operator++()
+      ConstIterator& operator++()
       {
         curr = curr->next;
         return *this;
       }
 
-      iterator operator++(int)
+      ConstIterator operator++(int)
       {
-        iterator it = *this;
+        ConstIterator it = *this;
         curr = curr->next;
         return it;
       }
 
-      iterator operator--()
+      ConstIterator& operator--()
       {
         curr = curr->prev;
         return *this;
       }
 
-      iterator operator--(int)
+      ConstIterator operator--(int)
       {
-        iterator it = *this;
+        ConstIterator it = *this;
         curr = curr->prev;
         return it;
       }
 
-      bool operator==(const iterator & other) const
+      bool operator==(ConstIterator& other) const
       {
         return curr == other.curr;
       }
 
-      bool operator!=(const iterator & other) const
+      bool operator!=(ConstIterator& other) const
+      {
+        return curr != other.curr;
+      }
+    }
+
+    class Iterator: public ConstIterator
+    {
+    public:
+      Iterator(Node * node):
+        ConstIterator(node)
+      {}
+
+      T& operator*() const
+      {
+        return const_cast<T&>(ConstIterator::operator*());
+      }
+
+      Iterator& operator++()
+      {
+        ConstIterator::operator++();
+        return *this;
+      }
+
+      Iterator operator++(int)
+      {
+        Iterator it = *this;
+        curr = curr->next;
+        return it;
+      }
+
+      Iterator operator--()
+      {
+        ConstIterator::operator--();
+        return *this;
+      }
+
+      Iterator operator--(int)
+      {
+        Iterator it = *this;
+        curr = curr->prev;
+        return it;
+      }
+
+      bool operator==(const Iterator& other) const
+      {
+        return curr == other.curr;
+      }
+
+      bool operator!=(const Iterator& other) const
       {
         return curr != other.curr;
       }
     };
 
-    iterator begin() const
+    ConstIterator begin() const
     {
-      return head;
+      return ConstIterator(head);
     }
 
-    iterator end() const
+    ConstIterator end() const
     {
-      return nullptr;
+      return ConstIterator(nullptr);
     }
 
-    void insert(iterator place, const T & el)
+    Iterator begin() const
     {
-      auto ptr = place.get();
-      if(!ptr)
+      return Iterator(head);
+    }
+
+    Iterator end() const
+    {
+      return Iterator(nullptr);
+    }
+
+    bool empty() const
+    {
+      return head == nullptr;
+    }
+
+    void push_back(const T& el)
+    {
+      auto newNode = new Node(el);
+      if (tail)
       {
-        push_back(std::move(el));
-        return;
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
       }
-
-      auto newNode = new Node { std::move(el) };
-
-      newNode->next = ptr;
-      newNode->prev = ptr->prev;
-
-      if (ptr->prev)
+      else
       {
-        ptr->prev->next = newNode;
+        head = tail = newNode;
       }
-
-      ptr->prev = newNode;
     }
 
-    void erase(iterator place)
+    void push_front(const T& el)
     {
-      auto ptr = place.get();
+      auto newNode = new Node(el);
+      if (head)
+      {
+        head->prev = newNode;
+        newNode->next = head;
+        head = newNode;
+      }
+      else
+      {
+        head = tail = newNode;
+      }
+    }
+
+    void erase(Iterator place)
+    {
+      auto ptr = place.curr;
       if (ptr->prev)
       {
         ptr->prev->next = ptr->next;
@@ -154,36 +209,6 @@ namespace shagieva
       delete ptr;
     }
 
-    void push_back(const T& el)
-    {
-      auto newNode = new Node { std::move(el) };
-      if (tail)
-      {
-        tail->next = newNode;
-        newNode->prev = tail;
-        tail = newNode;
-      }
-      else
-      {
-        head = tail = newNode;
-      }
-    }
-
-    void push_front(const T& el)
-    {
-      auto newNode = new Node { std::move(el) };
-      if (head)
-      {
-        head->prev = newNode;
-        newNode->next = head;
-        head = newNode;
-      }
-      else
-      {
-        head = tail = newNode;
-      }
-    }
-
     void pop_front()
     {
       erase(begin());
@@ -194,30 +219,15 @@ namespace shagieva
       erase(--end());
     }
 
-    void clear() noexcept
+    void clear()
     {
       while (head)
       {
         delete std::exchange(head, head->next);
       }
-      tail = nullptr;
-    }
-
-    bool empty() const
-    {
-      return head == nullptr;
     }
   };
-
-  template< typename T  >
-  void printList(const List<T> & list, std::ostream & out)
-  {
-    for (const auto & el: list)
-    {
-      out << el << " ";
-    }
-    out << "\n";
-  }
 }
-
 #endif
+
+

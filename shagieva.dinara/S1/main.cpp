@@ -3,29 +3,15 @@
 
 int main()
 {
-  /*std::string seqName = 0;
-  std::cin >> seqName;
-  if (!std::cin)
-  {
-    std::cout << 0 << "\n";
-    return 0;
-  }*/
-
-  if (!std::cin)
-  {
-    std::cout << 0 << "\n";
-    return 0;
-  }
-
-  std::string seqName, num;
-  shagieva::List< std::pair<std::string, shagieva::List<int>> > fullList;
+  using pairList = shagieva::List<std::pair<std::string, shagieva::List<int>>>;
+  using intList = shagieva::List<int>;
+  pairList fullList;
   std::string name;
-  int number;
+  int number = 0;
 
   while (std::cin >> name)
   {
-    shagieva::List<int> numbers;
-    fullList.push_back(std::make_pair(name, numbers));
+    intList numbers;
 
     if (std::cin.peek() == '\n')
     {
@@ -41,11 +27,21 @@ int main()
       }
       numbers.push_back(number);
     }
+
+    fullList.push_back(std::make_pair(name, numbers));
   }
 
   if (fullList.empty())
   {
     std::cout << 0 << "\n";
   }
+
+  /*for (pairList::iterator it = fullList.begin();
+    it != fullList.end(); ++it)
+  {
+    auto & name = it.first;
+    std::cout << name << " ";
+  }*/
+
   return 0;
 }
