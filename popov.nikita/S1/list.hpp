@@ -11,6 +11,7 @@ namespace popov
   {
     ListIterator<T> iter;
     Node< T > * head, * tail;
+    size_t size;
     List():
       head(nullptr),
       tail(nullptr)
@@ -36,6 +37,7 @@ namespace popov
         iter.node = head;
       }
       tail = ptr;
+      ++size;
     }
     void pop_front()
     {
@@ -50,6 +52,13 @@ namespace popov
       }
       delete head;
       head = ptr;
+    }
+    void iterBegin()
+    {
+      if (iter.node == tail)
+      {
+        iter.node = head;
+      }
     }
   };
 }
