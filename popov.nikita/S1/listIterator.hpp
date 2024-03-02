@@ -2,6 +2,7 @@
 #define LISTITERATOR_HPP
 #include "node.hpp"
 #include <iostream>
+#include <cassert>
 
 namespace popov
 {
@@ -20,7 +21,7 @@ namespace popov
       node = node -> next;
       return *this;
     }
-    this_t & operator++(int)
+    this_t operator++(int)
     {
       assert(node != nullptr);
       this_t result(*this);
@@ -51,7 +52,7 @@ namespace popov
       node = node -> prev;
       return *this;
     }
-    this_t & operator--(int)
+    this_t operator--(int)
     {
       assert(node != nullptr);
       this_t result(*this);

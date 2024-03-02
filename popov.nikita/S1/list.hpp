@@ -2,12 +2,14 @@
 #define LIST_HPP
 
 #include "node.hpp"
+#include "listIterator.hpp"
 
 namespace popov
 {
   template< typename T >
   struct List
   {
+    ListIterator<T> iter;
     Node< T > * head, * tail;
     List():
       head(nullptr),
@@ -31,6 +33,7 @@ namespace popov
       if (head == nullptr)
       {
         head = ptr;
+        iter.node = head;
       }
       tail = ptr;
     }
