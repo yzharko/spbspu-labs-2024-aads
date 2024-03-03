@@ -5,6 +5,7 @@ int main()
 {
   using pairList = shagieva::List<std::pair<std::string, shagieva::List<int>>>;
   using intList = shagieva::List<int>;
+
   pairList fullList;
   std::string name;
   int number = 0;
@@ -36,12 +37,27 @@ int main()
     std::cout << 0 << "\n";
   }
 
-  /*for (pairList::Iterator it = fullList.begin();
+  for (pairList::Iterator it = fullList.begin();
     it != fullList.end(); ++it)
   {
-    auto & name = it.first;
+    auto & name = it.curr->data.first;
     std::cout << name << " ";
-  }*/
+  }
+  std::cout << "\n";
+
+  for (pairList::Iterator it = fullList.begin();
+    it != fullList.end(); ++it)
+  {
+    auto numbers = it.curr->data.second;
+    for (intList::Iterator it = numbers.begin();
+      it != numbers.end(); ++it)
+    {
+      auto & number = it.curr->data;
+      std::cout << name << " ";
+    }
+    std::cout << "\n";
+  }
+  std::cout << "\n";
 
   return 0;
 }
