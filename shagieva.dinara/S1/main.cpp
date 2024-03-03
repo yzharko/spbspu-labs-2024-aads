@@ -53,7 +53,7 @@ int main()
       it != numbers.end(); ++it)
     {
       auto & number = it.curr->data;
-      std::cout << name << " ";
+      std::cout << number << " ";
     }
     std::cout << "\n";
   }
