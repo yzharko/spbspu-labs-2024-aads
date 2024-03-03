@@ -42,7 +42,7 @@ namespace shagieva
     private:
       friend class List;
 
-    protected:
+    public:
       const Node * curr;
 
       const Node * get() const
@@ -86,12 +86,12 @@ namespace shagieva
         return it;
       }
 
-      bool operator==(ConstIterator& other) const
+      bool operator==(const ConstIterator& other) const
       {
         return curr == other.curr;
       }
 
-      bool operator!=(ConstIterator& other) const
+      bool operator!=(const ConstIterator& other) const
       {
         return curr != other.curr;
       }
