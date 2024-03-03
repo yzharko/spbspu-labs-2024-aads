@@ -19,14 +19,17 @@ namespace reznikova
     ListIterator< T > operator++(int);
     ListIterator< T > & operator--();
     ListIterator< T > operator--(int);
-    
+
     T & operator*();
     T * operator->();
     const T& operator*() const; // ! ! ! ! !
     const T* operator->() const; // ! ! ! ! !
-    
+
     bool operator!=(const ListIterator< T >&) const;
     bool operator==(const ListIterator< T >&) const;
+
+    void moveForward(size_t i);
+    void moveBackward(size_t i);
   };
 
   template< typename T >
@@ -34,7 +37,7 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     node = node->next_;
     return *this;
@@ -45,7 +48,7 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     ListIterator< T > result(*this);
     node = node->next_;
@@ -57,7 +60,7 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     node = node->prev_;
     return *this;
@@ -68,7 +71,7 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     ListIterator< T > result(*this);
     node = node->prev_;
@@ -92,7 +95,7 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     return node->data_;
   }
@@ -102,10 +105,37 @@ namespace reznikova
   {
     if (node == nullptr)
     {
-      std::cout << "a"; // ! ! ! ! !
+      throw std::logic_error("iterator is null");
     }
     return std::addressof(node->data_);
   }
 
+  template< typename T >
+  void ListIterator< T >::moveForward(size_t i)
+  {
+    for (size_t j = 0; j < i; j++)
+    {
+      if (!node)
+      {
+        throw std::logic_error("index out of range");
+      }
+      node = node->next_;
+    }
+  }
+
+  template< typename T >
+  void ListIterator< T >::moveBackward(size_t i)
+  {
+    for (size_t j = 0; j < i; j++)
+    {
+      if (!node)
+      {
+        throw std::logic_error("index out of range");
+      }
+      node = node->prev_;
+    }
+  }
+
 }
 #endif
+

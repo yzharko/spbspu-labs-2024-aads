@@ -12,9 +12,12 @@ namespace reznikova
   public:
     List();
     ~List();
-    List(const List & other) = default; // ?
-    List(List && other) = default; // ?
-    
+    List(const List & other);
+    List(List && other);
+
+    List< T >& operator=(const List< T >& other);
+  //  List< T >& operator=(List< T >&& other);
+
     void pushFront(const T & val);
     void pushBack(const T & val);
     void popFront();
@@ -28,8 +31,9 @@ namespace reznikova
     ListIterator< T > end();
 //    ListIterator< T > cbegin();
 //    ListIterator< T > cend();
-    
-  //private:
+
+    Node<T>* operator[](const size_t index);
+
     size_t size_;
     Node< T > * head_;
     Node< T > * tail_;
@@ -46,6 +50,43 @@ namespace reznikova
   List<T>::~List()
   {
     clear();
+    delete head_;
+  }
+
+  template< typename T >
+  List<T>::List(const List & other):
+  size_(0),
+  head_(nullptr),
+  tail_(nullptr)
+  {
+    Node< T > * temp = other.head_;
+    while(temp)
+    {
+      pushBack(temp->data_);
+      temp = temp->next_;
+    }
+  }
+
+  template< typename T >
+  List< T >::List(List && other):
+  size_(other.size_),
+  head_(other.head_),
+  tail_(other.tail_)
+  {
+    other.size_ = 0;
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+  }
+
+  template< typename T >
+  List< T >& List< T >::operator=(const List< T >& other)
+  {
+    List< T > temp(other);
+    if (std::addressof(other) != this)
+     {
+       swap(temp);
+     }
+     return *this;
   }
 
   template< typename T >
@@ -87,15 +128,14 @@ namespace reznikova
   {
     if (empty())
     {
-      //    throw EmptyException
+      throw std::logic_error("can't delete element from empty list");
     }
     Node<T> * temp = head_;
-    head_ = temp->next_;
-    if (size_ == 1)
+    head_ = head_->next_;
+    if (temp->next_ == nullptr)
     {
       tail_ = nullptr;
     }
-   // head_->prev_ = nullptr;
     delete temp;
     size_--;
   }
@@ -105,15 +145,14 @@ namespace reznikova
   {
     if (empty())
     {
-      //    throw EmptyException
+      throw std::logic_error("can't delete element from empty list");
     }
     Node<T> * temp = tail_;
-    tail_ = tail_->next_;
+    tail_ = tail_->prev_;
     if (size_ == 1)
     {
       head_ = nullptr;
     }
-  //  tail_->prev_ = nullptr;
     delete temp;
     size_--;
   }
@@ -150,7 +189,7 @@ namespace reznikova
   {
     std::swap(head_, other.head_);
     std::swap(tail_, other.tail_);
-    std::swap(size_, other.capasity_);
+    std::swap(size_, other.size_);
   }
 
   template< typename T >
@@ -165,6 +204,23 @@ namespace reznikova
     return ListIterator< T >(tail_);
   }
 
+  template< typename T >
+  reznikova::Node<T>* List<T>::operator[](const size_t index)
+  {
+    if (empty())
+    {
+      throw std::logic_error("list is empty");
+    }
+    Node<T>* temp = head_;
+    for (int i = 0; i < index; i++)
+    {
+      temp = temp->next_;
+      if (!temp)
+      {
+        return nullptr;
+      }
+    }
+    return temp;
+  }
 }
 #endif
-

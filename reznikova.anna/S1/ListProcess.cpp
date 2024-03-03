@@ -38,3 +38,42 @@ size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< int > > 
   }
   return max_size;
 }
+
+void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< int > > > & list)
+{
+  List< int > sums;
+  size_t max_size = findMaxLenOfArgs(list);
+  for (size_t i = 0; i != max_size; i++)
+  {
+    int sum = 0;
+    ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
+    while (iterator.node)
+    {
+      ListIterator< int > args_iterator = iterator.node->data_.second.begin();
+      if (iterator.node->data_.second[i])
+      {
+        args_iterator.moveForward(i);
+        if (sum > 0)
+        {
+          output << " ";
+        }
+        output <<  args_iterator.node->data_;
+        sum += args_iterator.node->data_;
+      }
+      iterator++;
+    }
+    sums.pushBack(sum);
+    output << "\n";
+  }
+
+  ListIterator< int > sum_iterator = sums.begin();
+  while (sum_iterator.node)
+  {
+    if (sum_iterator.node != sums.head_)
+    {
+      output << " ";
+    }
+    output << sum_iterator.node->data_;
+    sum_iterator++;
+  }
+}
