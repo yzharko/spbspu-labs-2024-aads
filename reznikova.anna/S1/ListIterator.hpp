@@ -33,7 +33,7 @@ namespace reznikova
   };
 
   template< typename T >
-  ListIterator< T >& ListIterator< T >::operator++() 
+  ListIterator< T >& ListIterator< T >::operator++()
   {
     if (node == nullptr)
     {
@@ -67,7 +67,7 @@ namespace reznikova
   }
 
   template< typename T >
-  ListIterator< T > ListIterator< T >::operator--(int) 
+  ListIterator< T > ListIterator< T >::operator--(int)
   {
     if (node == nullptr)
     {
@@ -85,13 +85,13 @@ namespace reznikova
   }
 
   template< typename T >
-  bool ListIterator< T >::operator!=(const ListIterator< T >& rhs) const 
+  bool ListIterator< T >::operator!=(const ListIterator< T >& rhs) const
   {
     return !(rhs == *this);
   }
 
   template< typename T >
-  T & ListIterator< T >::operator*() 
+  T & ListIterator< T >::operator*()
   {
     if (node == nullptr)
     {
@@ -101,7 +101,7 @@ namespace reznikova
   }
 
   template< typename T >
-  T * ListIterator< T >::operator->() 
+  T * ListIterator< T >::operator->()
   {
     if (node == nullptr)
     {
@@ -138,4 +138,3 @@ namespace reznikova
 
 }
 #endif
-
