@@ -19,21 +19,26 @@ namespace shagieva
       Node(T el):
         data(el)
       {}
-    }
+    };
 
     Node * head;
     Node * tail;
 
   public:
-    List():
-      head(nullptr),
-      tail(nullptr)
-    {}
+    List() = default;
 
     class ConstIterator
     {
+    private:
+      friend class List;
+
     protected:
       const Node * curr;
+
+      const Node * get() const
+      {
+        return curr;
+      }
 
     public:
       ConstIterator(const Node * node):
@@ -80,10 +85,13 @@ namespace shagieva
       {
         return curr != other.curr;
       }
-    }
+    };
 
     class Iterator: public ConstIterator
     {
+    private:
+      friend class List;
+
     public:
       Iterator(Node * node):
         ConstIterator(node)
@@ -102,9 +110,8 @@ namespace shagieva
 
       Iterator operator++(int)
       {
-        Iterator it = *this;
-        curr = curr->next;
-        return it;
+        auto res = ConstIterator::operator++(0);
+        return Iterator(const_cast<Node *>(res.get()));
       }
 
       Iterator operator--()
@@ -115,19 +122,8 @@ namespace shagieva
 
       Iterator operator--(int)
       {
-        Iterator it = *this;
-        curr = curr->prev;
-        return it;
-      }
-
-      bool operator==(const Iterator& other) const
-      {
-        return curr == other.curr;
-      }
-
-      bool operator!=(const Iterator& other) const
-      {
-        return curr != other.curr;
+        auto res = ConstIterator::operator--(0);
+        return Iterator(const_cast<Node *>(res.get()));
       }
     };
 
@@ -141,14 +137,24 @@ namespace shagieva
       return ConstIterator(nullptr);
     }
 
-    Iterator begin() const
+    Iterator begin()
     {
       return Iterator(head);
     }
 
-    Iterator end() const
+    Iterator end()
     {
       return Iterator(nullptr);
+    }
+
+    T& front()
+    {
+      return head->data;
+    }
+
+    T& back()
+    {
+      return tail->data;
     }
 
     bool empty() const
@@ -225,6 +231,16 @@ namespace shagieva
       while (head)
       {
         delete std::exchange(head, head->next);
+      }
+    }
+
+    void swap(List & other)
+    {
+      if (*this != other)
+      {
+        List<T> temp = *this;
+        *this = other;
+        other = temp;
       }
     }
   };
