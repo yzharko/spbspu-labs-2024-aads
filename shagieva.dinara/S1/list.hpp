@@ -27,6 +27,16 @@ namespace shagieva
   public:
     List() = default;
 
+    List(List const & l):
+      head(l.head),
+      tail(l.tail)
+    {}
+
+    List(List && l):
+      head(l.head),
+      tail(l.tail)
+    {}
+
     class ConstIterator
     {
     private:
@@ -242,6 +252,32 @@ namespace shagieva
         *this = other;
         other = temp;
       }
+    }
+
+    void fill(Iterator first, Iterator last, const T& el)
+    {
+      for (auto it = first; it == last; ++it)
+      {
+        *it = el;
+      }
+    }
+
+    Iterator find(const T& el) const
+    {
+      for (auto it = begin(); it != end(); ++it)
+      {
+        if (*it == el)
+        {
+          return it;
+        }
+      }
+      return Iterator(nullptr);
+    }
+
+    void remove(const T& el)
+    {
+      Iterator iteratorToRemove = find(el);
+      erase(iteratorToRemove);
     }
   };
 }
