@@ -10,8 +10,8 @@ namespace reznikova
   class List
   {
   public:
-    using iterator = ListIterator< T >;
-    using const_iterator = ListIterator< const T >;
+    typedef ListIterator< T > iterator;
+    typedef ListIterator< const T > const_iterator;
 
     List();
     ~List();
@@ -19,7 +19,7 @@ namespace reznikova
     List(List && other);
 
     List< T >& operator=(const List< T >& other);
-  //  List< T >& operator=(List< T >&& other);
+    List< T >& operator=(List< T >&& other);
 
     void pushFront(const T & val);
     void pushBack(const T & val);
@@ -30,12 +30,12 @@ namespace reznikova
     bool empty();
     void clear();
     void swap(List & other);
-    iterator begin();
-    iterator end();
-//  const_iterator cbegin();
-//  const_iterator cend();
+    iterator begin() const;
+    iterator end() const;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
 
-    Node<T>* operator[](const size_t index);
+    Node< T > * operator[](const size_t index);
 
     size_t size_;
     Node< T > * head_;
