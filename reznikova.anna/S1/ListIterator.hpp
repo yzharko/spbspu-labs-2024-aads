@@ -22,8 +22,8 @@ namespace reznikova
 
     T & operator*();
     T * operator->();
-    const T& operator*() const; // ! ! ! ! !
-    const T* operator->() const; // ! ! ! ! !
+    const T& operator*() const;
+    const T* operator->() const;
 
     bool operator!=(const ListIterator< T >&) const;
     bool operator==(const ListIterator< T >&) const;
@@ -44,7 +44,7 @@ namespace reznikova
   }
 
   template< typename T >
-  ListIterator< T > ListIterator< T >::operator++(int) 
+  ListIterator< T > ListIterator< T >::operator++(int)
   {
     if (node == nullptr)
     {
@@ -79,7 +79,7 @@ namespace reznikova
   }
 
   template< typename T >
-  bool ListIterator< T >::operator==(const ListIterator< T >& rhs) const 
+  bool ListIterator< T >::operator==(const ListIterator< T >& rhs) const
   {
     return node == rhs.node;
   }
