@@ -10,10 +10,9 @@ namespace reznikova
   class List
   {
   public:
-    typedef ListIterator< T > iterator;
-    typedef ListIterator< const T > const_iterator;
-
     List();
+    List(size_t count, const T & value);
+    List(std::initializer_list<T> init);
     ~List();
     List(const List & other);
     List(List && other);
@@ -30,12 +29,20 @@ namespace reznikova
     bool empty();
     void clear();
     void swap(List & other);
-    iterator begin() const;
-    iterator end() const;
-    const_iterator cbegin() const;
-    const_iterator cend() const;
+    ListIterator< T > begin() const;
+    ListIterator< T > end() const;
+    ListIterator< const T > cbegin() const;
+    ListIterator< const T > cend() const;
 
-    Node< T > * operator[](const size_t index);
+    void remove(const T& value);
+    template< class UnaryPredicate >
+    void remove_if(UnaryPredicate p);
+    void assign(size_t count, const T& value);
+    template< class InputIt >
+    void assign(InputIt first, InputIt last);
+    void assign(std::initializer_list<T> ilist);
+    ListIterator< T > insert(ListIterator< const T >  pos, const T& value);
+    ListIterator< T > erase(ListIterator< T > pos);
 
     size_t size_;
     Node< T > * head_;
@@ -48,6 +55,28 @@ namespace reznikova
     head_(nullptr),
     tail_(nullptr)
   {}
+
+  template< typename T >
+  List< T >::List(size_t count, const T & value):
+    List()
+  {
+    for (size_t i; i < count; i++)
+    {
+      pushBack(value);
+    }
+  }
+
+  template< typename T >
+  List< T >::List(std::initializer_list<T> init):
+    List()
+  {
+    const T * ptr = init.begin();
+    while (ptr)
+    {
+      pushBack(*ptr);
+      ptr++;
+    }
+  }
 
   template< typename T >
   List<T>::~List()
@@ -216,7 +245,7 @@ namespace reznikova
   template< typename T >
   ListIterator< T > List< T >::end() const
   {
-    return ListIterator< T >(tail_);
+    return ListIterator< T >(tail_->next_);
   }
 
   template< typename T >
@@ -228,27 +257,136 @@ namespace reznikova
   template< typename T >
   ListIterator< const T > List< T >::cend() const
   {
-    return ListIterator< T >(tail_);
+    return ListIterator< T >(tail_->next_);
   }
-
 
   template< typename T >
-  Node< T >* List< T >::operator[](const size_t index)
+  void List< T >::remove(const T& value)
   {
-    if (empty())
+    Node<T> * temp = head_;
+    while (temp)
     {
-      throw std::logic_error("list is empty");
-    }
-    Node<T>* temp = head_;
-    for (size_t i = 0; i < index; i++)
-    {
-      temp = temp->next_;
-      if (!temp)
+      if ((temp->data_ == value) && (temp == head_))
       {
-        return nullptr;
+        popFront();
       }
+      else if ((temp->data_ == value) && (temp == tail_))
+      {
+        popBack();
+      }
+      else if ((temp->data_ == value) && (temp != tail_) && (temp != head_))
+      {
+        temp->next_->prev_ = temp->prev_;
+        temp->prev_->next_ = temp->next_;
+        delete temp;
+        size_--;
+      }
+      temp = temp->next_;
     }
-    return temp;
   }
-}
+  
+  template< typename T >
+  template< class UnaryPredicate>
+  void List< T >::remove_if(UnaryPredicate p)
+  {
+    Node<T> * temp = head_;
+    while (temp)
+    {
+      if ((p(temp->data_)) && (temp == head_))
+      {
+        popFront();
+      }
+      else if ((p(temp->data_)) && (temp == tail_))
+      {
+        popBack();
+      }
+      else if ((p(temp->data_)) && (temp != tail_) && (temp != head_))
+      {
+        temp->next_->prev_ = temp->prev_;
+        temp->prev_->next_ = temp->next_;
+        delete temp;
+        size_--;
+      }
+      temp = temp->next_;
+    }
+  }
+
+  template< typename T >
+  void List< T >::assign(size_t count, const T& value)
+  {
+    clear();
+    for (size_t i = 0; i < count; i++)
+    {
+      pushBack(value);
+    }
+  }
+
+  template< typename T >
+  template< class InputIt >
+  void List< T >::assign(InputIt first, InputIt last)
+  {
+    clear();
+    while (first != last)
+    {
+      pushBack(*first);
+      first++;
+    }
+  }
+
+  template< typename T >
+  void List< T >::assign(std::initializer_list<T> ilist)
+  {
+    clear();
+    const T * ptr = ilist.begin();
+    while (ptr)
+    {
+      pushBack(*ptr);
+      ptr++;
+    }
+  }
+
+  template< typename T >
+  ListIterator< T > List< T >::insert(ListIterator< const T >  pos, const T& value)
+  {
+    ListIterator< T > it;
+    if (pos == head_)
+    {
+      pushFront(value);
+      it = head_;
+    }
+    else
+    {
+      Node< T > * node = new Node< T >(value, pos->prev_, pos->prev_->next_);
+      it = node;
+      pos->prev_ = it;
+      pos->prev_next_ = it;
+    }
+    return it;
+  }
+
+  template< typename T >
+  ListIterator< T > List< T >::erase(ListIterator< T > pos)
+  {
+    ListIterator< T > it;
+    if (pos == head_)
+    {
+      popFront();
+      it = head_;
+    }
+    else if (pos == tail_)
+    {
+      popBack();
+      it = tail_;
+    }
+    else
+    {
+      pos->next_->prev_ = pos->prev_;
+      pos->prev_->next_ = pos->next_;
+      it = pos->next_;
+      delete pos;
+    }
+    return it;
+  }
+
 #endif
+
