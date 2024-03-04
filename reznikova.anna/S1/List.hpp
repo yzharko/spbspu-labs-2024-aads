@@ -110,7 +110,6 @@ namespace reznikova
     other.tail_ = nullptr;
   }
 
-
   template< typename T >
   List< T >& List< T >::operator=(const List< T >& other)
   {
@@ -284,7 +283,7 @@ namespace reznikova
       temp = temp->next_;
     }
   }
-  
+
   template< typename T >
   template< class UnaryPredicate>
   void List< T >::remove_if(UnaryPredicate p)
