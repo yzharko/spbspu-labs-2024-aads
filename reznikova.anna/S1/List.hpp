@@ -27,8 +27,8 @@ namespace reznikova
     bool empty();
     void clear();
     void swap(List & other);
-    ListIterator< T > begin();
-    ListIterator< T > end();
+    reznikova::ListIterator< T > begin();
+    reznikova::ListIterator< T > end();
 //    ListIterator< T > cbegin();
 //    ListIterator< T > cend();
 
@@ -193,13 +193,13 @@ namespace reznikova
   }
 
   template< typename T >
-  ListIterator< T > List<T>::begin()
+  reznikova::ListIterator< T > List<T>::begin()
   {
     return ListIterator< T >(head_);
   }
 
   template< typename T >
-  ListIterator< T > List<T>::end()
+  reznikova::ListIterator< T > List<T>::end()
   {
     return ListIterator< T >(tail_);
   }
@@ -212,7 +212,7 @@ namespace reznikova
       throw std::logic_error("list is empty");
     }
     Node<T>* temp = head_;
-    for (int i = 0; i < index; i++)
+    for (size_t i = 0; i < index; i++)
     {
       temp = temp->next_;
       if (!temp)
