@@ -10,6 +10,9 @@ namespace reznikova
   class List
   {
   public:
+    using iterator = ListIterator< T >;
+    using const_iterator = ListIterator< const T >;
+
     List();
     ~List();
     List(const List & other);
@@ -27,10 +30,10 @@ namespace reznikova
     bool empty();
     void clear();
     void swap(List & other);
-    reznikova::ListIterator< T > begin();
-    reznikova::ListIterator< T > end();
-//    ListIterator< T > cbegin();
-//    ListIterator< T > cend();
+    iterator begin();
+    iterator end();
+//  const_iterator cbegin();
+//  const_iterator cend();
 
     Node<T>* operator[](const size_t index);
 
@@ -193,19 +196,19 @@ namespace reznikova
   }
 
   template< typename T >
-  reznikova::ListIterator< T > List<T>::begin()
+  ListIterator< T > List<T>::begin()
   {
     return ListIterator< T >(head_);
   }
 
   template< typename T >
-  reznikova::ListIterator< T > List<T>::end()
+  ListIterator< T > List<T>::end()
   {
     return ListIterator< T >(tail_);
   }
 
   template< typename T >
-  reznikova::Node<T>* List<T>::operator[](const size_t index)
+  Node< T >* List< T >::operator[](const size_t index)
   {
     if (empty())
     {
