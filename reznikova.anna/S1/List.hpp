@@ -81,10 +81,22 @@ namespace reznikova
     other.tail_ = nullptr;
   }
 
+
   template< typename T >
   List< T >& List< T >::operator=(const List< T >& other)
   {
     List< T > temp(other);
+    if (std::addressof(other) != this)
+     {
+       swap(temp);
+     }
+     return *this;
+  }
+
+  template< typename T >
+  List< T >& List< T >::operator=(List< T >&& other)
+  {
+    List< T > temp(std::move(other));
     if (std::addressof(other) != this)
      {
        swap(temp);
@@ -196,16 +208,29 @@ namespace reznikova
   }
 
   template< typename T >
-  ListIterator< T > List<T>::begin()
+  ListIterator< T > List< T >::begin() const
   {
     return ListIterator< T >(head_);
   }
 
   template< typename T >
-  ListIterator< T > List<T>::end()
+  ListIterator< T > List< T >::end() const
   {
     return ListIterator< T >(tail_);
   }
+
+  template< typename T >
+  ListIterator< const T > List< T >::cbegin() const
+  {
+    return ListIterator< T >(head_);
+  }
+
+  template< typename T >
+  ListIterator< const T > List< T >::cend() const
+  {
+    return ListIterator< T >(tail_);
+  }
+
 
   template< typename T >
   Node< T >* List< T >::operator[](const size_t index)
