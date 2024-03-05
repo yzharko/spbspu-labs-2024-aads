@@ -25,18 +25,6 @@ namespace shagieva
     Node * tail;
 
   public:
-    List() = default;
-
-    List(List const & l):
-      head(l.head),
-      tail(l.tail)
-    {}
-
-    List(List && l):
-      head(l.head),
-      tail(l.tail)
-    {}
-
     class ConstIterator
     {
     private:
@@ -137,150 +125,207 @@ namespace shagieva
       }
     };
 
-    ConstIterator begin() const
-    {
-      return ConstIterator(head);
-    }
 
-    ConstIterator end() const
-    {
-      return ConstIterator(nullptr);
-    }
-
-    Iterator begin()
-    {
-      return Iterator(head);
-    }
-
-    Iterator end()
-    {
-      return Iterator(nullptr);
-    }
-
-    T& front()
-    {
-      return head->data;
-    }
-
-    T& back()
-    {
-      return tail->data;
-    }
-
-    bool empty() const
-    {
-      return head == nullptr;
-    }
-
-    void push_back(const T& el)
-    {
-      auto newNode = new Node(el);
-      if (tail)
-      {
-        tail->next = newNode;
-        newNode->prev = tail;
-        tail = newNode;
-      }
-      else
-      {
-        head = tail = newNode;
-      }
-    }
-
-    void push_front(const T& el)
-    {
-      auto newNode = new Node(el);
-      if (head)
-      {
-        head->prev = newNode;
-        newNode->next = head;
-        head = newNode;
-      }
-      else
-      {
-        head = tail = newNode;
-      }
-    }
-
-    void erase(Iterator place)
-    {
-      auto ptr = place.curr;
-      if (ptr->prev)
-      {
-        ptr->prev->next = ptr->next;
-      }
-      else
-      {
-        head = ptr->next;
-      }
-
-      if (ptr->next)
-      {
-        ptr->next->prev = ptr->prev;
-      }
-      else
-      {
-        tail = ptr->prev;
-      }
-
-      delete ptr;
-    }
-
-    void pop_front()
-    {
-      erase(begin());
-    }
-
-    void pop_back()
-    {
-      erase(--end());
-    }
-
-    void clear()
-    {
-      while (head)
-      {
-        delete std::exchange(head, head->next);
-      }
-    }
-
-    void swap(List & other)
-    {
-      if (*this != other)
-      {
-        List<T> temp = *this;
-        *this = other;
-        other = temp;
-      }
-    }
-
-    void fill(Iterator first, Iterator last, const T& el)
-    {
-      for (auto it = first; it == last; ++it)
-      {
-        *it = el;
-      }
-    }
-
-    Iterator find(const T& el) const
-    {
-      for (auto it = begin(); it != end(); ++it)
-      {
-        if (*it == el)
-        {
-          return it;
-        }
-      }
-      return Iterator(nullptr);
-    }
-
-    void remove(const T& el)
-    {
-      Iterator iteratorToRemove = find(el);
-      erase(iteratorToRemove);
-    }
+  public:
+    List();
+    List(List const & l);
+    List(List && l);
+    ConstIterator begin() const;
+    ConstIterator end() const;
+    Iterator begin();
+    Iterator end();
+    T& front();
+    T& back();
+    bool empty() const;
+    void push_back(const T& el);
+    void push_front(const T& el);
+    void erase(Iterator place);
+    void pop_front();
+    void pop_back();
+    void clear();
+    void swap(List & other);
+    void fill(Iterator first, Iterator last, const T& el);
+    Iterator find(const T& el) const;
+    void remove(const T& el);
   };
 }
+
+template< typename T >
+shagieva::List<T>::List():
+  head(nullptr),
+  tail(nullptr)
+{}
+
+template< typename T >
+shagieva::List<T>::List(List const & l):
+  head(l.head),
+  tail(l.tail)
+{}
+
+template< typename T >
+shagieva::List<T>::List(List && l):
+  head(l.head),
+  tail(l.tail)
+{}
+
+template< typename T >
+typename shagieva::List<T>::ConstIterator shagieva::List<T>::begin() const
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename shagieva::List<T>::ConstIterator shagieva::List<T>::end() const
+{
+  return ConstIterator(nullptr);
+}
+
+template< typename T >
+typename shagieva::List<T>::Iterator shagieva::List<T>::begin()
+{
+  return Iterator(head);
+}
+
+template< typename T >
+typename shagieva::List<T>::Iterator shagieva::List<T>::end()
+{
+  return Iterator(nullptr);
+}
+
+template< typename T >
+T& shagieva::List<T>::front()
+{
+  return head->data;
+}
+
+template< typename T >
+T& shagieva::List<T>::back()
+{
+  return tail->data;
+}
+
+template< typename T >
+bool shagieva::List<T>::empty() const
+{
+  return head == nullptr;
+}
+
+template< typename T >
+void shagieva::List<T>::push_back(const T& el)
+{
+  auto newNode = new Node(el);
+  if (tail)
+  {
+    tail->next = newNode;
+    newNode->prev = tail;
+    tail = newNode;
+  }
+  else
+  {
+    head = tail = newNode;
+  }
+}
+
+template< typename T >
+void shagieva::List<T>::push_front(const T& el)
+{
+  auto newNode = new Node(el);
+  if (head)
+  {
+    head->prev = newNode;
+    newNode->next = head;
+    head = newNode;
+  }
+  else
+  {
+    head = tail = newNode;
+  }
+}
+
+template< typename T >
+void shagieva::List<T>::erase(Iterator place)
+{
+
+  auto ptr = place.curr;
+  if (ptr->prev)
+  {
+    ptr->prev->next = ptr->next;
+  }
+  else
+  {
+    head = ptr->next;
+  }
+
+  if (ptr->next)
+  {
+    ptr->next->prev = ptr->prev;
+  }
+  else
+  {
+    tail = ptr->prev;
+  }
+
+  delete ptr;
+}
+
+template< typename T >
+void shagieva::List<T>::pop_front()
+{
+  erase(begin());
+}
+
+template< typename T >
+void shagieva::List<T>::pop_back()
+{
+  erase(--end());
+}
+
+template< typename T >
+void shagieva::List<T>::clear()
+{
+  while (head)
+  {
+    delete std::exchange(head, head->next);
+  }
+}
+
+template< typename T >
+void shagieva::List<T>::swap(List & other)
+{
+  if (*this != other)
+  {
+    List<T> temp = *this;
+    *this = other;
+    other = temp;
+  }
+}
+
+template< typename T >
+void shagieva::List<T>::fill(Iterator first, Iterator last, const T& el)
+{
+  for (auto it = first; it == last; ++it)
+  {
+    *it = el;
+  }
+}
+
+template< typename T >
+typename shagieva::List<T>::Iterator shagieva::List<T>::find(const T& el) const
+{
+  for (auto it = begin(); it != end(); ++it)
+  {
+    if (*it == el)
+    {
+      return it;
+    }
+  }
+  return Iterator(nullptr);
+}
+
+template< typename T >
+void shagieva::List<T>::remove(const T& el)
+{
+  Iterator iteratorToRemove = find(el);
+  erase(iteratorToRemove);
+}
 #endif
-
-
