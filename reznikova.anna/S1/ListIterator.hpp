@@ -1,6 +1,5 @@
 #ifndef LISTITERATOR_HPP
 #define LISTITERATOR_HPP
-#include "List.hpp"
 #include "Node.hpp"
 
 namespace reznikova
@@ -19,15 +18,12 @@ namespace reznikova
     ListIterator< T > operator++(int);
     ListIterator< T > & operator--();
     ListIterator< T > operator--(int);
-
     T & operator*();
     T * operator->();
     const T& operator*() const;
     const T* operator->() const;
-
     bool operator!=(const ListIterator< T >&) const;
     bool operator==(const ListIterator< T >&) const;
-
     void moveForward(size_t i);
     void moveBackward(size_t i);
   };
@@ -44,7 +40,7 @@ namespace reznikova
   }
 
   template< typename T >
-  ListIterator< T > ListIterator< T >::operator++(int)
+  ListIterator< T > ListIterator< T >::operator++(int) 
   {
     if (node == nullptr)
     {
@@ -79,7 +75,7 @@ namespace reznikova
   }
 
   template< typename T >
-  bool ListIterator< T >::operator==(const ListIterator< T >& rhs) const
+  bool ListIterator< T >::operator==(const ListIterator< T >& rhs) const 
   {
     return node == rhs.node;
   }
@@ -138,3 +134,4 @@ namespace reznikova
 
 }
 #endif
+
