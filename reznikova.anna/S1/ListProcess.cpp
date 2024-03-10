@@ -80,7 +80,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     sums.pushBack(sum);
     output << "\n";
   }
-  
+
   ListIterator< int > sum_iterator = sums.begin();
   while (sum_iterator.node)
   {
@@ -91,7 +91,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     output << sum_iterator.node->data_;
     sum_iterator++;
   }
-  
+
   if (sums.empty())
   {
     output << 0;
