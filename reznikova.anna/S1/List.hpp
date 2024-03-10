@@ -15,6 +15,8 @@ namespace reznikova
     List();
     List(size_t count, const T & value);
     List(std::initializer_list<T> init);
+    template < class InputIterator >
+    List(InputIterator first, InputIterator last);
     ~List();
     List(const List & other);
     List(List && other);
@@ -45,6 +47,8 @@ namespace reznikova
     void assign(std::initializer_list<T> ilist);
     ListIterator< T > insert(ListIterator< const T >  pos, const T& value);
     ListIterator< T > erase(ListIterator< T > pos);
+    void reverse();
+    void splice(ListIterator< const T > position, List< T >& x);
 
     size_t size_;
     Node< T > * head_;
@@ -53,14 +57,14 @@ namespace reznikova
 
   template< typename T >
   List< T >::List():
-    size_(0),
-    head_(nullptr),
-    tail_(nullptr)
+  size_(0),
+  head_(nullptr),
+  tail_(nullptr)
   {}
 
   template< typename T >
   List< T >::List(size_t count, const T & value):
-    List()
+  List()
   {
     for (size_t i; i < count; i++)
     {
@@ -70,13 +74,25 @@ namespace reznikova
 
   template< typename T >
   List< T >::List(std::initializer_list<T> init):
-    List()
+  List()
   {
     const T * ptr = init.begin();
     while (ptr)
     {
       pushBack(*ptr);
       ptr++;
+    }
+  }
+
+  template< typename T >
+  template < class InputIterator >
+  List< T >::List(InputIterator first, InputIterator last):
+  List()
+  {
+    while (first != last)
+    {
+      pushBack(*first);
+      first++;
     }
   }
 
@@ -117,10 +133,10 @@ namespace reznikova
   {
     List< T > temp(other);
     if (std::addressof(other) != this)
-     {
-       swap(temp);
-     }
-     return *this;
+    {
+      swap(temp);
+    }
+    return *this;
   }
 
   template< typename T >
@@ -128,10 +144,10 @@ namespace reznikova
   {
     List< T > temp(std::move(other));
     if (std::addressof(other) != this)
-     {
-       swap(temp);
-     }
-     return *this;
+    {
+      swap(temp);
+    }
+    return *this;
   }
 
   template< typename T >
@@ -388,6 +404,30 @@ namespace reznikova
     }
     return it;
   }
+
+  template< typename T >
+  void List< T >::reverse()
+  {
+    Node< T > * temp = head_;
+    while (head_->next_)
+    {
+      std::swap(head_->next_, head_->prev_);
+      head_ = head_->prev_;
+    }
+    std::swap(tail_, temp);
+    delete temp;
+  }
+
+  template< typename T >
+  void List< T >::splice(ListIterator< const T > position, List< T >& x)
+  {
+    while (x.head_)
+    {
+      this->insert(position);
+      position++;
+      x.head_ = x.head_->next_;
+    }
+    delete x;
+  }
 }
 #endif
-
