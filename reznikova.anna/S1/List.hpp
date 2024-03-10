@@ -388,6 +388,6 @@ namespace reznikova
     }
     return it;
   }
-
+}
 #endif
 
