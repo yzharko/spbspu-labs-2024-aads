@@ -19,10 +19,15 @@ int main()
     outputArgs(std::cout, list);
     std::cout << "\n";
   }
-  catch (const std::exception& e)
+  catch (const std::logic_error& e)
   {
     std::cerr << e.what() << "\n";
     return 1;
+  }
+  catch (const std::runtime_error& e)
+  {
+    std::cerr << e.what() << "\n";
+    return 0;
   }
 
   return 0;

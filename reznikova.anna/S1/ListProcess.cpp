@@ -1,7 +1,4 @@
 #include "ListProcess.hpp"
-#include "List.hpp"
-#include "ListIterator.hpp"
-#include "Node.hpp"
 #include <iostream>
 #include <string>
 
@@ -14,17 +11,32 @@ void reznikova::inputList(std::istream & input, List< std::pair< std::string, Li
     list.pushBack({ line, List< int >() });
     while (input >> line && !std::isalpha(line[0]))
     {
-      list.back().second.pushBack(stoi(line));
+      try
+      {
+        list.back().second.pushBack(stoi(line));
+      }
+      catch (const std::exception& e)
+      {
+        throw std::logic_error("overflow");
+      }
     }
   }
 }
 
 void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string, List< int > > > & list)
 {
+  if (list.empty())
+  {
+    throw std::runtime_error("empty input");
+  }
   ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
   while (iterator.node)
   {
-    output << iterator.node->data_.first << " ";
+    if (iterator.node != list.head_)
+    {
+      output << " ";
+    }
+    output << iterator.node->data_.first;
     iterator++;
   }
 }
@@ -68,7 +80,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     sums.pushBack(sum);
     output << "\n";
   }
-
+  
   ListIterator< int > sum_iterator = sums.begin();
   while (sum_iterator.node)
   {
@@ -78,5 +90,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     }
     output << sum_iterator.node->data_;
     sum_iterator++;
+  }
+  
+  if (sums.empty())
+  {
+    output << 0;
   }
 }
