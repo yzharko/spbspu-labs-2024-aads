@@ -27,7 +27,7 @@ void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string,
 {
   if (list.empty())
   {
-    throw std::runtime_error("empty input");
+    output << 0;
   }
   ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
   while (iterator.node)
@@ -60,6 +60,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   size_t max_size = findMaxLenOfArgs(list);
   for (size_t i = 0; i != max_size; i++)
   {
+    if (overflow == 1)
+    {
+      throw std::logic_error("overflow");
+    }
     int sum = 0;
     ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
     while (iterator.node)
@@ -96,8 +100,5 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   {
     output << 0;
   }
-  if (overflow == 1)
-  {
-    throw std::logic_error("overflow");
-  }
 }
+
