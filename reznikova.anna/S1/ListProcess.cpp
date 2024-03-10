@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-void reznikova::inputList(std::istream & input, List< std::pair< std::string, List<int> > > & list)
+void reznikova::inputList(std::istream & input, List< std::pair< std::string, List<int> > > & list, bool & overflow)
 {
   std::string line = "";
   input >> line;
@@ -17,7 +17,7 @@ void reznikova::inputList(std::istream & input, List< std::pair< std::string, Li
       }
       catch (const std::exception& e)
       {
-        throw std::logic_error("overflow");
+        overflow = 1;
       }
     }
   }
@@ -54,7 +54,7 @@ size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< int > > 
   return max_size;
 }
 
-void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< int > > > & list)
+void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< int > > > & list, bool & overflow)
 {
   List< int > sums;
   size_t max_size = findMaxLenOfArgs(list);
@@ -95,5 +95,9 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   if (sums.empty())
   {
     output << 0;
+  }
+  if (overflow == 1)
+  {
+    throw std::logic_error("overflow");
   }
 }
