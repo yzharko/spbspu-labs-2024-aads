@@ -12,23 +12,13 @@ int main()
   try
   {
     inputList(std::cin, list, overflow);
-
     namesOutput(std::cout, list);
-    std::cout << "\n";
-
     outputArgs(std::cout, list, overflow);
-    std::cout << "\n";
   }
-  catch (const std::logic_error& e)
+  catch (const std::exception& e)
   {
     std::cerr << e.what() << "\n";
     return 1;
   }
-  catch (const std::runtime_error& e)
-  {
-    std::cerr << e.what() << "\n";
-    return 0;
-  }
-
   return 0;
 }
