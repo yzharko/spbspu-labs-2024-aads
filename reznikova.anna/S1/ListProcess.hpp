@@ -1,6 +1,5 @@
-#ifndef ListProcess_hpp
-#define ListProcess_hpp
-
+#ifndef LIST_PROCESS_HPP
+#define LIST_PROCESS_HPP
 #include "List.hpp"
 #include "Node.hpp"
 #include "ListIterator.hpp"

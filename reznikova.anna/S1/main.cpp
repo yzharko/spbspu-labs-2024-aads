@@ -9,7 +9,6 @@ int main()
   using namespace reznikova;
 
   List< std::pair< std::string, List< int > > > list;
-
   try
   {
     inputList(std::cin, list);

@@ -1,8 +1,11 @@
 #include "ListProcess.hpp"
+#include "List.hpp"
+#include "ListIterator.hpp"
+#include "Node.hpp"
 #include <iostream>
 #include <string>
 
-void reznikova::inputList(std::istream & input, reznikova::List< std::pair< std::string, List<int> > > & list)
+void reznikova::inputList(std::istream & input, List< std::pair< std::string, List<int> > > & list)
 {
   std::string line = "";
   input >> line;
@@ -50,9 +53,9 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     while (iterator.node)
     {
       ListIterator< int > args_iterator = iterator.node->data_.second.begin();
-      if (iterator.node->data_.second[i])
+      if (iterator.node->data_.second.size_ > i)
       {
-        args_iterator.moveForward(i);
+        args_iterator = args_iterator.moveForward(i);
         if (sum > 0)
         {
           output << " ";
@@ -65,7 +68,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
     sums.pushBack(sum);
     output << "\n";
   }
-
+  
   ListIterator< int > sum_iterator = sums.begin();
   while (sum_iterator.node)
   {
