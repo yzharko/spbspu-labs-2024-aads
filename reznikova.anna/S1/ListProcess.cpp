@@ -54,6 +54,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
 {
   List< int > sums;
   size_t max_size = findMaxLenOfArgs(list);
+  if (overflow == 1)
+  {
+    throw std::logic_error("overflow");
+  }
   for (size_t i = 0; i != max_size; i++)
   {
     int sum = 0;
@@ -74,12 +78,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
       iterator++;
     }
     sums.pushBack(sum);
-    output << "\n";
-  }
-
-  if (overflow == 1)
-  {
-    throw std::logic_error("overflow");
+    if (!sums.empty())
+    {
+      output << "\n";
+    }
   }
 
   ListIterator< int > sum_iterator = sums.begin();
