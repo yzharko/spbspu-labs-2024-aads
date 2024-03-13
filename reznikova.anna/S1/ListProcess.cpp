@@ -77,9 +77,10 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
           output << " ";
         }
         output <<  args_iterator.node->data_;
-        if (maximum - sum > args_iterator.node->data_)
+        if (maximum - sum <= args_iterator.node->data_)
         {
           overflow = 1;
+          output << " ";
         }
         else
         {
