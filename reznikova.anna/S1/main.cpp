@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstddef>
 #include "List.hpp"
 #include "ListIterator.hpp"
 #include "Node.hpp"
@@ -8,7 +9,7 @@ int main()
 {
   using namespace reznikova;
   bool overflow = 0;
-  List< std::pair< std::string, List< int > > > list;
+  List< std::pair< std::string, List< size_t > > > list;
   try
   {
     inputList(std::cin, list, overflow);

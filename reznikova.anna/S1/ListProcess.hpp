@@ -5,10 +5,10 @@
 namespace reznikova
 
 {
-  void inputList(std::istream & input, List< std::pair< std::string, List<int> > > & list, bool & overflow);
-  void namesOutput(std::ostream & output, List< std::pair < std::string, List< int > > > & list);
-  size_t findMaxLenOfArgs(List< std::pair < std::string, List< int > > > & list);
-  void outputArgs(std::ostream & output, List< std::pair< std::string, List< int > > > & list, bool & overflow);
+  void inputList(std::istream & input, List< std::pair< std::string, List< size_t > > > & list, bool & overflow);
+  void namesOutput(std::ostream & output, List< std::pair < std::string, List< size_t > > > & list);
+  size_t findMaxLenOfArgs(List< std::pair < std::string, List< size_t > > > & list);
+  void outputArgs(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list, bool & overflow);
 }
 
 #endif

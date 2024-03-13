@@ -1,19 +1,22 @@
 #include "ListProcess.hpp"
 #include <iostream>
 #include <string>
+#include <cstddef>
+#include <limits>
 
-void reznikova::inputList(std::istream & input, List< std::pair< std::string, List<int> > > & list, bool & overflow)
+void reznikova::inputList(std::istream & input, List< std::pair< std::string, List< size_t > > > & list, bool & overflow)
 {
   std::string line = "";
   input >> line;
   while (input)
   {
-    list.pushBack({ line, List< int >() });
+    list.pushBack({ line, List< size_t >() });
     while (input >> line && !std::isalpha(line[0]))
     {
       try
       {
-        list.back().second.pushBack(stoi(line));
+        size_t num = stoull(line);
+        list.back().second.pushBack(num);
       }
       catch (const std::exception& e)
       {
@@ -23,9 +26,9 @@ void reznikova::inputList(std::istream & input, List< std::pair< std::string, Li
   }
 }
 
-void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string, List< int > > > & list)
+void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list)
 {
-  ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
+  ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
   while (iterator.node)
   {
     if (iterator.node != list.head_)
@@ -41,9 +44,9 @@ void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string,
   }
 }
 
-size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< int > > > & list)
+size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< size_t > > > & list)
 {
-  ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
+  ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
   size_t max_size = 0;
   while (iterator.node)
   {
@@ -54,17 +57,18 @@ size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< int > > 
   return max_size;
 }
 
-void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< int > > > & list, bool & overflow)
+void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list, bool & overflow)
 {
-  List< int > sums;
+  List< size_t > sums;
   size_t max_size = findMaxLenOfArgs(list);
+  const size_t maximum = std::numeric_limits< size_t >::max();
   for (size_t i = 0; i != max_size; i++)
   {
-    int sum = 0;
-    ListIterator< std::pair< std::string, List< int > > > iterator = list.begin();
+    size_t sum = 0;
+    ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
     while (iterator.node)
     {
-      ListIterator< int > args_iterator = iterator.node->data_.second.begin();
+      ListIterator< size_t > args_iterator = iterator.node->data_.second.begin();
       if (iterator.node->data_.second.size_ > i)
       {
         args_iterator = args_iterator.moveForward(i);
@@ -73,7 +77,14 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
           output << " ";
         }
         output <<  args_iterator.node->data_;
-        sum += args_iterator.node->data_;
+        if (maximum - sum > args_iterator.node->data_)
+        {
+          overflow = 1;
+        }
+        else
+        {
+          sum += args_iterator.node->data_;
+        }
       }
       iterator++;
     }
@@ -84,7 +95,7 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   {
     throw std::logic_error("overflow");
   }
-  ListIterator< int > sum_iterator = sums.begin();
+  ListIterator< size_t > sum_iterator = sums.begin();
   while (sum_iterator.node)
   {
     if (sum_iterator.node != sums.head_)
