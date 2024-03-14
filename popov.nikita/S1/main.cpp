@@ -24,7 +24,7 @@ int main()
   {
     std::cout << 0 << "\n";
   }
-  while (OList.iter.node->next != nullptr)
+  while (OList.iter.node != nullptr)
   {
     std::cout << OList.iter.node->data.first << " ";
     OList.iter++;
@@ -33,18 +33,19 @@ int main()
   OList.iterBegin();
   for (size_t i = 0; i != OList.size; i++)
   {
-    while (OList.iter.node->next != nullptr)
+    while (OList.iter.node != nullptr)
     {
       sizeIn += OList.iter.node->data.second.size;
       OList.iter++;
     }
   }
+  OList.iterBegin();
   sizeAll = OList.size * sizeIn;
   int sum[OList.size];
   int count = 0;
   for (size_t i = 0; i != sizeAll; i++)
   {
-    if (OList.iter.node->data.second.iter.node->next != nullptr)
+    if (OList.iter.node->data.second.iter.node != nullptr)
     {
       sum[count] += OList.iter.node->data.second.iter.node->data;
       std::cout << OList.iter.node->data.second.iter.node->data << " ";
