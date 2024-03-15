@@ -67,7 +67,6 @@ int main() {
     std::cout << pairs[i].first << ' ';
   }
   std::cout << pairs[count].first << '\n';
-  
   for (size_t i = 0; i < max_len; i++)
   {
     for (size_t j = 0; j <= count; j++)
