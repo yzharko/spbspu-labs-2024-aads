@@ -39,7 +39,6 @@ namespace susidko
           delete first_;
           first_ = temp;
         }
-        std::cout << "ok";
       }
       bool isEmpty()
       {

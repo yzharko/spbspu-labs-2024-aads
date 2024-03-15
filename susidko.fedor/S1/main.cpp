@@ -58,7 +58,7 @@ int main() {
   }
   if (isSeq == 0)
   {
-    std::cout << 0;
+    std::cout << 0 << std::endl;
     return 0;
   }
   int sums[max_len] {};
@@ -76,13 +76,13 @@ int main() {
     }
     sums[i] += pairs[count].second.getValue();
     pairs[count].second.printNext(0);
-    std::cout << '\n';
+    std::cout << std::endl;
   }
   for (size_t i = 0; i != max_len - 1; i++)
   {
     std::cout << sums[i] << ' ';
   }
-  std::cout << sums[max_len - 1];
+  std::cout << sums[max_len - 1] << std::endl;
   for (size_t j = 0; j <= count; j++)
   {
     pairs[j].second.free();
