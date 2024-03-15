@@ -82,7 +82,7 @@ namespace susidko
           if (left_iter_.node->data > std::numeric_limits< unsigned long long >::max() - summ)
           {
             throw std::overflow_error("vjw");
-          } 
+          }
           summ += left_iter_.node->data;
           left_iter_++;
         }
