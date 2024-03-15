@@ -92,7 +92,11 @@ int main() {
       }
     catch(const std::overflow_error & e)
       {
-        std::cout << "Overflow_error: " << e.what() << '\n';
+        for (size_t j = 0; j <= count; j++)
+        {
+          pairs[j].second.free();
+        }
+        std::cerr << "Overflow_error: " << e.what() << '\n';
         return 1;
       }
     list.free();
