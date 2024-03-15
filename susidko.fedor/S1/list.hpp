@@ -68,20 +68,46 @@ namespace susidko
         }
         else
         {
-          return left_iter_.node->data;
+          T value = left_iter_.node->data;
+          left_iter_++;
+          return value;
+        }
+      }
+      T getSum()
+      {
+        T summ {};
+        while (left_iter_.node != nullptr)
+        {
+          summ += left_iter_.node->data;
+          left_iter_++;
+        }
+        return summ;
+      }
+      void printFirst()
+      {
+        if (left_iter_.node != nullptr)
+        {
+		  std::cout << left_iter_.node->data;
+          left_iter_++;
         }
       }
       void printNext()
       {
         if (left_iter_.node != nullptr)
         {
-          std::cout << left_iter_.node->data;
-          if (left_iter_.node->next)
-          {
-            std::cout << ' ';
-          }
+          std::cout << ' ' << left_iter_.node->data;
           left_iter_++;
         }
+      }
+      void print()
+      {
+        while (left_iter_.node->next != nullptr)
+        {
+		  std::cout << left_iter_.node->data << ' ';
+          left_iter_++;
+        }
+        std::cout << left_iter_.node->data << '\n';
+        left_iter_.node = first_;
       }
     private:
       ListIterator< T > left_iter_;

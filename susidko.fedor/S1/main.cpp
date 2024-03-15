@@ -7,7 +7,7 @@
 
 int main() {
   const int len = 15;
-  using storage_t = susidko::List < unsigned long long >;
+  using storage_t = susidko::List < unsigned long >;
   storage_t data;
   std::pair < std::string, storage_t > pairs[len];
   std::string input = "";
@@ -24,6 +24,13 @@ int main() {
       {
         max_len = curr_len;
       }
+      if (count == 0)
+      {
+        pairs[0].second.free();
+        std::cout << input << '\n';
+        std::cout << 0 << '\n';
+        return 0;
+      }
       continue;
     }
     if (isdigit(input[0]))
@@ -31,7 +38,7 @@ int main() {
       isSeq = 1;
       try
       {
-        unsigned long long temp = std::stoull(input);
+        unsigned long temp = std::stoul(input);
         pairs[count].second.pushBack(temp);
       }
       catch(...)
@@ -50,8 +57,8 @@ int main() {
       if (curr_len > max_len)
       {
         max_len = curr_len;
-        curr_len = 0;
       }
+      curr_len = 0;
       count++;
       pairs[count] = std::pair< std::string, storage_t > (input, storage_t());
     }
@@ -67,16 +74,21 @@ int main() {
     std::cout << pairs[i].first << ' ';
   }
   std::cout << pairs[count].first << '\n';
-  for (size_t i = 0; i < max_len; i++)
+  for (size_t i = 0; i <= max_len - 1; i++)
   {
+    storage_t list;
     for (size_t j = 0; j <= count; j++)
     {
-      sums[i] += pairs[j].second.getValue();
-      pairs[j].second.printNext();
+      unsigned int temp = pairs[j].second.getValue();
+      if (temp)
+      {
+        list.pushBack(temp);
+      }
     }
-    std::cout << '\n';
+    list.print();
+    sums[i] = list.getSum();
   }
-  for (size_t i = 0; i != max_len - 1; i++)
+  for (size_t i = 0; i < max_len - 1; i++)
   {
     std::cout << sums[i] << ' ';
   }
