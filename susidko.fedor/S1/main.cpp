@@ -7,7 +7,7 @@
 
 int main() {
   const int len = 15;
-  using storage_t = susidko::List < int >;
+  using storage_t = susidko::List < unsigned long long >;
   storage_t data;
   std::pair < std::string, storage_t > pairs[len];
   std::string input = "";
@@ -38,12 +38,12 @@ int main() {
       isSeq = 1;
       try
       {
-        int temp = std::stoi(input);
+        unsigned long long temp = std::stoull(input);
         pairs[count].second.pushBack(temp);
       }
       catch(...)
       {
-        std::cerr << "Invalid number";
+        std::cerr << "Invalid number\n";
         for (size_t i = 0; i <= count; i++)
         {
           pairs[i].second.free();
@@ -68,7 +68,7 @@ int main() {
     std::cout << 0 << '\n';
     return 0;
   }
-  int sums[max_len] {};
+  unsigned long long sums[max_len] {};
   for (size_t i = 0; i != count; i++)
   {
     std::cout << pairs[i].first << ' ';
@@ -79,14 +79,22 @@ int main() {
     storage_t list;
     for (size_t j = 0; j <= count; j++)
     {
-      int temp = pairs[j].second.getValue();
+      unsigned long long temp = pairs[j].second.getValue();
       if (temp)
       {
         list.pushBack(temp);
       }
     }
     list.print();
-    sums[i] = list.getSum();
+    try
+      {
+        sums[i] = list.getSum();
+      }
+    catch(const std::overflow_error & e)
+      {
+        std::cout << "Overflow_error: " << e.what() << '\n';
+        return 1;
+      }
     list.free();
   }
   for (size_t i = 0; i < max_len - 1; i++)

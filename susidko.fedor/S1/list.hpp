@@ -4,6 +4,7 @@
 #include "node.hpp"
 #include "Iterator.hpp"
 #include <iostream>
+#include <limits>
 
 namespace susidko
 {
@@ -78,6 +79,10 @@ namespace susidko
         T summ {};
         while (left_iter_.node != nullptr)
         {
+          if (left_iter_.node->data > std::numeric_limits< unsigned long long >::max() - summ)
+          {
+            throw std::overflow_error("vjw");
+          } 
           summ += left_iter_.node->data;
           left_iter_++;
         }
