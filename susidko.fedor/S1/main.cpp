@@ -87,6 +87,7 @@ int main() {
     }
     list.print();
     sums[i] = list.getSum();
+    list.free();
   }
   for (size_t i = 0; i < max_len - 1; i++)
   {
