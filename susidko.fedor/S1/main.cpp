@@ -7,9 +7,9 @@
 
 int main() {
   const int len = 15;
-  using storage_t = susidko::List < int >;
+  using storage_t = susidko::List < unsigned long long >;
   storage_t data;
-  std::pair < std::string, susidko::List < int > > pairs[len];
+  std::pair < std::string, storage_t > pairs[len];
   std::string input = "";
   size_t count = -1;
   size_t max_len = 0;
@@ -29,7 +29,20 @@ int main() {
     if (isdigit(input[0]))
     {
       isSeq = 1;
-      pairs[count].second.pushBack(std::stoi(input));
+      try
+      {
+        unsigned long long temp = std::stoull(input);
+        pairs[count].second.pushBack(temp);
+      }
+      catch(...)
+      {
+        std::cerr << "Invalid number";
+        for (size_t i = 0; i <= count; i++)
+        {
+          pairs[i].second.free();
+        }
+        return 1;
+      }
       curr_len ++;
     }
     else
@@ -40,7 +53,7 @@ int main() {
         curr_len = 0;
       }
       count++;
-      pairs[count] = std::pair< std::string, susidko::List < int > > (input, susidko::List < int >());
+      pairs[count] = std::pair< std::string, storage_t > (input, storage_t());
     }
   }
   if (isSeq == 0)
@@ -70,9 +83,9 @@ int main() {
     std::cout << sums[i] << ' ';
   }
   std::cout << sums[max_len - 1];
-  /*for (size_t j = 0; j != count; j++)
-    {
-      pairs[j].second.free();
-    }*/
+  for (size_t j = 0; j <= count; j++)
+  {
+    pairs[j].second.free();
+  }
   return 0;
 }
