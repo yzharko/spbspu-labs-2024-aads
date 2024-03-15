@@ -87,7 +87,7 @@ namespace susidko
       {
         if (left_iter_.node != nullptr)
         {
-		  std::cout << left_iter_.node->data;
+		      std::cout << left_iter_.node->data;
           left_iter_++;
         }
       }
