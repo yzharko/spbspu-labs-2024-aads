@@ -96,6 +96,7 @@ int main() {
         {
           pairs[j].second.free();
         }
+        list.free();
         std::cerr << "Overflow_error: " << e.what() << '\n';
         return 1;
       }
