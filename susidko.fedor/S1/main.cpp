@@ -7,7 +7,7 @@
 
 int main() {
   const int len = 15;
-  using storage_t = susidko::List < unsigned long >;
+  using storage_t = susidko::List < int >;
   storage_t data;
   std::pair < std::string, storage_t > pairs[len];
   std::string input = "";
@@ -38,7 +38,7 @@ int main() {
       isSeq = 1;
       try
       {
-        unsigned long temp = std::stoul(input);
+        int temp = std::stoi(input);
         pairs[count].second.pushBack(temp);
       }
       catch(...)
@@ -79,7 +79,7 @@ int main() {
     storage_t list;
     for (size_t j = 0; j <= count; j++)
     {
-      unsigned int temp = pairs[j].second.getValue();
+      int temp = pairs[j].second.getValue();
       if (temp)
       {
         list.pushBack(temp);
