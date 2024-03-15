@@ -103,7 +103,7 @@ namespace susidko
       {
         while (left_iter_.node->next != nullptr)
         {
-		  std::cout << left_iter_.node->data << ' ';
+          std::cout << left_iter_.node->data << ' ';
           left_iter_++;
         }
         std::cout << left_iter_.node->data << '\n';
