@@ -71,12 +71,12 @@ namespace susidko
           return left_iter_.node->data;
         }
       }
-      void printNext(int flag)
+      void printNext()
       {
         if (left_iter_.node != nullptr)
         {
           std::cout << left_iter_.node->data;
-          if (flag)
+          if (left_iter_.node->next)
           {
             std::cout << ' ';
           }
