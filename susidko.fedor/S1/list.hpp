@@ -46,7 +46,7 @@ namespace susidko
       ListIterator< T > val_iter_;
       size_t size_;
   };
-  
+
   template< typename T >
   List< T >::List(List< T > & p)
   {
