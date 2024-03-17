@@ -10,33 +10,33 @@ namespace susidko
   struct ListIterator {
     Node< T > * node;
     using this_t = ListIterator< T >;
-
     ListIterator(): node(nullptr) {}
     ListIterator(Node< T > * nd): node(nd) {}
     ~ListIterator() = default;
     ListIterator(const this_t &) = default;
     this_t & operator=(const this_t &) = default;
 
-    this_t & operator++() {
+    this_t & operator++()
+    {
       assert(node != nullptr);
       node = node->next;
       return *this;
     }
-
-    this_t operator++(int) {
+    this_t operator++(int)
+    {
       assert(node != nullptr);
       this_t result(*this);
       ++(*this);
       return result;
     }
-
-    this_t & operator--() {
+    this_t & operator--()
+    {
       assert(node != nullptr);
       node = node->prev;
       return *this;
     }
-
-    this_t operator+(int index) {
+    this_t operator+(int index)
+    {
       assert(node != nullptr);
       for (size_t i = 0; i < index; i++)
       {
@@ -44,28 +44,28 @@ namespace susidko
       }
       return *this;
     }
-    
-    this_t operator--(int) {
+    this_t operator--(int)
+    {
       assert(node != nullptr);
       this_t result(*this);
       --(*this);
       return result;
     }
-
-    bool operator==(const this_t & rhs) const {
+    bool operator==(const this_t & rhs) const
+    {
       return node == rhs.node;
     }
-
-    bool operator!=(const this_t & rhs) const {
+    bool operator!=(const this_t & rhs) const
+    {
       return !(rhs == *this);
     }
-
-    T & operator*() {
+    T & operator*()
+    {
       assert(node != nullptr);
       return node->data;
     }
-
-    T * operator->() {
+    T * operator->()
+    {
       assert(node != nullptr);
       return std::addressof(node->data);
     }

@@ -42,7 +42,7 @@ namespace susidko
       ListIterator< T > val_iter_;
       size_t size_;
   };
-  
+
   template< typename T >
   T & List< T >::operator[](size_t index)
   {
@@ -77,7 +77,7 @@ namespace susidko
   {
     Node< T > * ptr = new Node < T >(date_);
     if (empty())
-    { 
+    {
       first_ = ptr;
       last_ = ptr;
     }
