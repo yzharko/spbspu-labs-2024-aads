@@ -35,7 +35,7 @@ namespace susidko
       node = node->prev;
       return *this;
     }
-    this_t operator+(int index)
+    this_t operator+(size_t index)
     {
       assert(node != nullptr);
       for (size_t i = 0; i < index; i++)
