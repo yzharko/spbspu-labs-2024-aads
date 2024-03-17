@@ -18,11 +18,12 @@ namespace susidko
         val_iter_(),
         size_(0)
       {}
+      T & operator[](size_t index);
       void pushBack(T date_);
       void pushFront(T date_);
       void popBack();
       void popFront();
-      void free();
+      void clear();
       bool empty();
       size_t size();
       ListIterator< T > begin();
@@ -34,6 +35,7 @@ namespace susidko
       void print();
       void printpr();
       void printne();
+      void swap(List< T > & other);
     private:
       Node< T > * first_;
       Node< T > * last_;
@@ -41,6 +43,17 @@ namespace susidko
       size_t size_;
   };
   
+  template< typename T >
+  T & List< T >::operator[](size_t index)
+  {
+    if (index >= size_)
+    {
+      throw std::out_of_range("List index out of range");
+    }
+    ListIterator< T > temp_iter = begin();
+    temp_iter = temp_iter + index;
+    return temp_iter.node->data;
+  }
   template< typename T >
   void List< T >::pushBack(T date_)
   {
@@ -111,7 +124,7 @@ namespace susidko
     size_--;
   }
   template< typename T >
-  void List< T >::free()
+  void List< T >::clear()
   {
     while(first_)
     {
@@ -217,6 +230,13 @@ namespace susidko
     }
     std::cout << printIter.node->prev->data << '\n';
     printIter.node = first_;
+  }
+  template< typename T >
+  void List< T >::swap(List< T > & other)
+  {
+    std::swap(first_, other.first_);
+    std::swap(last_, other.last_);
+    std::swap(size_, other.size_);
   }
 }
 

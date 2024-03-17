@@ -26,7 +26,7 @@ int main() {
       }
       if (count == 0)
       {
-        pairs[0].second.free();
+        pairs[0].second.clear();
         std::cout << input << '\n';
         std::cout << 0 << '\n';
         return 0;
@@ -46,7 +46,7 @@ int main() {
         std::cerr << "Invalid number\n";
         for (size_t i = 0; i <= count; i++)
         {
-          pairs[i].second.free();
+          pairs[i].second.clear();
         }
         return 1;
       }
@@ -94,13 +94,13 @@ int main() {
       {
         for (size_t j = 0; j <= count; j++)
         {
-          pairs[j].second.free();
+          pairs[j].second.clear();
         }
-        list.free();
+        list.clear();
         std::cerr << "Overflow_error: " << e.what() << '\n';
         return 1;
       }
-    list.free();
+    list.clear();
   }
   for (size_t i = 0; i < max_len - 1; i++)
   {
@@ -109,7 +109,7 @@ int main() {
   std::cout << sums[max_len - 1] << '\n';
   for (size_t j = 0; j <= count; j++)
   {
-    pairs[j].second.free();
+    pairs[j].second.clear();
   }
   return 0;
 }
