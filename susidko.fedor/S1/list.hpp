@@ -18,6 +18,10 @@ namespace susidko
         val_iter_(),
         size_(0)
       {}
+      List(List< T > & p);
+      List(List< T > && moved);
+      List< T > & operator=(List< T > & p);
+      List< T > & operator=(List< T > && moved);
       T & operator[](size_t index);
       void pushBack(T date_);
       void pushFront(T date_);
@@ -42,7 +46,59 @@ namespace susidko
       ListIterator< T > val_iter_;
       size_t size_;
   };
-
+  
+  template< typename T >
+  List< T >::List(List< T > & p)
+  {
+    first_ = nullptr;
+    last_ = nullptr;
+    ListIterator< T > val_iter_;
+    size_ = 0;
+    for (size_t i = 0; i < p.size_; i++)
+    {
+      auto temp = p.getValue(i);
+      pushBack(temp);
+    }
+  }
+  template< typename T >
+  List< T >::List(List< T > && moved)
+  {
+    first_ = moved.first_;
+    last_ = moved.last_;
+    val_iter_ = moved.val_iter_;
+    size_ = moved.size_;
+    moved.first_ = nullptr;
+    moved.last_ = nullptr;
+    moved.val_iter_;
+    moved.size_ = 0;
+    }
+  template< typename T >
+  List< T > & List< T >::operator=(List< T > & p)
+  {
+    first_ = nullptr;
+    last_ = nullptr;
+    ListIterator< T > val_iter_;
+    size_ = 0;
+    for (size_t i = 0; i < p.size_; i++)
+    {
+      auto temp = p.getValue(i);
+      pushBack(temp);
+    }
+    return *this;
+  }
+  template< typename T >
+  List< T > & List< T >::operator=(List< T > && moved)
+  {
+    first_ = moved.first_;
+    last_ = moved.last_;
+    val_iter_ = moved.val_iter_;
+    size_ = moved.size_;
+    moved.first_ = nullptr;
+    moved.last_ = nullptr;
+    moved.val_iter_;
+    moved.size_ = 0;
+    return *this;
+    }
   template< typename T >
   T & List< T >::operator[](size_t index)
   {
