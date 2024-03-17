@@ -95,7 +95,7 @@ namespace susidko
     size_ = moved.size_;
     moved.first_ = nullptr;
     moved.last_ = nullptr;
-    moved.val_iter_;
+    delete moved.val_iter_;
     moved.size_ = 0;
     return *this;
     }
