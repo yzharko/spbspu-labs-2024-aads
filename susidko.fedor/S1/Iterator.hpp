@@ -12,6 +12,7 @@ namespace susidko
     using this_t = ListIterator< T >;
 
     ListIterator(): node(nullptr) {}
+    ListIterator(Node< T > * nd): node(nd) {}
     ~ListIterator() = default;
     ListIterator(const this_t &) = default;
     this_t & operator=(const this_t &) = default;
@@ -35,6 +36,15 @@ namespace susidko
       return *this;
     }
 
+    this_t operator+(int index) {
+      assert(node != nullptr);
+      for (size_t i = 0; i < index; i++)
+      {
+        (*this)++;
+      }
+      return *this;
+    }
+    
     this_t operator--(int) {
       assert(node != nullptr);
       this_t result(*this);

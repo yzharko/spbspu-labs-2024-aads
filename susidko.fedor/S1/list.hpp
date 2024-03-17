@@ -15,44 +15,99 @@ namespace susidko
       List():
         first_(nullptr),
         last_(nullptr),
-        len_(0)
+        val_iter_(),
+        size_(0)
       {}
       void pushBack(T date_);
+      void pushFront(T date_);
+      void popBack();
+      void popFront();
       void free();
       bool empty();
+      size_t size();
       ListIterator< T > begin();
       ListIterator< T > end();
       T front();
       T back();
-      T getValue();
+      T getValue(size_t);
       T getSum();
-      void printFirst();
-      void printNext();
       void print();
+      void printpr();
+      void printne();
     private:
-      ListIterator< T > left_iter_;
-      ListIterator< T > right_iter_;
       Node< T > * first_;
       Node< T > * last_;
-      size_t len_;
+      ListIterator< T > val_iter_;
+      size_t size_;
   };
   
   template< typename T >
   void List< T >::pushBack(T date_)
   {
     Node< T > * ptr = new Node < T >(date_);
-    if (empty()) {
+    if (empty())
+    {
       first_ = ptr;
       last_ = ptr;
-      left_iter_.node = ptr;
     }
     else
     {
       last_->next = ptr;
+      Node< T > * temp = last_;
       last_ = ptr;
-      right_iter_.node = last_->next;
+      last_->prev = temp;
     }
-    len_ += 1;
+    size_++;
+  }
+  template< typename T >
+  void List< T >::pushFront(T date_)
+  {
+    Node< T > * ptr = new Node < T >(date_);
+    if (empty())
+    { 
+      first_ = ptr;
+      last_ = ptr;
+    }
+    else
+    {
+      first_->prev = ptr;
+      Node< T > * temp = first_;
+      first_ = ptr;
+      first_->next = temp;
+    }
+    size_++;
+  }
+  template< typename T >
+  void List< T >::popBack()
+  {
+    if (empty())
+    {
+      throw std::logic_error("List is empty");
+    }
+    else
+    {
+      std::cout << 's';
+      //Node< T > * temp = last_;
+      //delete last_;
+      //last_ = temp;
+      //right_iter_.node = last_->next;
+    }
+    size_--;
+  }
+  template< typename T >
+  void List< T >::popFront()
+  {
+    if (empty())
+    {
+      throw std::logic_error("List is empty");
+    }
+    else
+    {
+      //left_iter_++;
+      //delete first_;
+      //first_ = left_iter_.node;
+    }
+    size_--;
   }
   template< typename T >
   void List< T >::free()
@@ -70,14 +125,19 @@ namespace susidko
     return first_ == nullptr;
   }
   template< typename T >
+  size_t List< T >::size()
+  {
+    return size_;
+  }
+  template< typename T >
   ListIterator< T > List< T >::begin()
   {
-    return left_iter_;
+    return ListIterator< T >(first_);
   }
   template< typename T >
   ListIterator< T > List< T >::end()
   {
-    return right_iter_;
+    return ListIterator< T >(last_->next);
   }
   template< typename T >
   T List< T >::front()
@@ -90,62 +150,69 @@ namespace susidko
     return last_.date;
   }
   template< typename T >
-  T List< T >::getValue()
+  T List< T >::getValue(size_t index)
   {
-    if (empty() or left_iter_.node == nullptr)
+    if (empty() or index >= size_)
     {
       return 0;
     }
     else
     {
-      T value = left_iter_.node->data;
-      left_iter_++;
-      return value;
+      ListIterator< T > val_iter(begin());
+      return (val_iter + index).node->data;
     }
   }
   template< typename T >
   T List< T >::getSum()
   {
+    ListIterator< T > sum_iter(begin());
     T summ {};
-    while (left_iter_.node != nullptr)
+    while (sum_iter.node != nullptr)
     {
-      if (left_iter_.node->data > std::numeric_limits< unsigned long long >::max() - summ)
+      if (sum_iter.node->data > std::numeric_limits< unsigned long long >::max() - summ)
       {
         throw std::overflow_error("vjw");
       }
-      summ += left_iter_.node->data;
-      left_iter_++;
+      summ += sum_iter.node->data;
+      sum_iter++;
     }
     return summ;
   }
   template< typename T >
-  void List< T >::printFirst()
-  {
-    if (left_iter_.node != nullptr)
-    {
-      std::cout << left_iter_.node->data;
-      left_iter_++;
-    }
-  }
-  template< typename T >
-  void List< T >::printNext()
-  {
-    if (left_iter_.node != nullptr)
-    {
-      std::cout << ' ' << left_iter_.node->data;
-      left_iter_++;
-    }
-  }
-  template< typename T >
   void List< T >::print()
   {
-    while (left_iter_.node->next != nullptr)
+    ListIterator< T > printIter(begin());
+    while (printIter.node->next != nullptr)
     {
-      std::cout << left_iter_.node->data << ' ';
-      left_iter_++;
+      std::cout << printIter.node->data << ' ';
+      printIter++;
     }
-    std::cout << left_iter_.node->data << '\n';
-    left_iter_.node = first_;
+    std::cout << printIter.node->data << '\n';
+    printIter.node = first_;
+  }
+  template< typename T >
+  void List< T >::printpr()
+  {
+    ListIterator< T > printIter(begin());
+    while (printIter.node->next->next != nullptr)
+    {
+      std::cout << printIter.node->next->data << ' ';
+      printIter++;
+    }
+    std::cout << printIter.node->next->data << '\n';
+    printIter.node = first_;
+  }
+  template< typename T >
+  void List< T >::printne()
+  {
+    ListIterator< T > printIter(begin());
+    while (printIter.node != nullptr)
+    {
+      std::cout << printIter.node->prev->data << ' ';
+      printIter++;
+    }
+    std::cout << printIter.node->prev->data << '\n';
+    printIter.node = first_;
   }
 }
 

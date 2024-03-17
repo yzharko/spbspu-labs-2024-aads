@@ -79,7 +79,7 @@ int main() {
     storage_t list;
     for (size_t j = 0; j <= count; j++)
     {
-      unsigned long long temp = pairs[j].second.getValue();
+      unsigned long long temp = pairs[j].second.getValue(i);
       if (temp)
       {
         list.pushBack(temp);
