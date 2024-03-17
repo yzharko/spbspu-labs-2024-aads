@@ -86,11 +86,11 @@ namespace susidko
     }
     else
     {
-      std::cout << 's';
-      //Node< T > * temp = last_;
-      //delete last_;
-      //last_ = temp;
-      //right_iter_.node = last_->next;
+      Node< T > * temp = new Node < T >(last_->prev->data, nullptr, last_->prev->prev);
+      last_->prev->prev->next = temp;
+      //delete last_->prev;
+      delete last_;
+      last_ = temp;
     }
     size_--;
   }
@@ -103,9 +103,10 @@ namespace susidko
     }
     else
     {
-      //left_iter_++;
-      //delete first_;
-      //first_ = left_iter_.node;
+      Node< T > * temp = new Node < T >(first_->next->data, first_->next->next, nullptr);
+      //delete last_->prev;
+      delete first_;
+      first_ = temp;
     }
     size_--;
   }
@@ -181,17 +182,20 @@ namespace susidko
   template< typename T >
   void List< T >::print()
   {
-    ListIterator< T > printIter(begin());
+    if (empty())
+    {
+      return;
+    }
+    ListIterator< T > printIter = begin();
     while (printIter.node->next != nullptr)
     {
       std::cout << printIter.node->data << ' ';
       printIter++;
     }
     std::cout << printIter.node->data << '\n';
-    printIter.node = first_;
   }
   template< typename T >
-  void List< T >::printpr()
+  void List< T >::printne()
   {
     ListIterator< T > printIter(begin());
     while (printIter.node->next->next != nullptr)
@@ -203,10 +207,10 @@ namespace susidko
     printIter.node = first_;
   }
   template< typename T >
-  void List< T >::printne()
+  void List< T >::printpr()
   {
-    ListIterator< T > printIter(begin());
-    while (printIter.node != nullptr)
+    ListIterator< T > printIter(begin() + 1);
+    while (printIter.node->next != nullptr)
     {
       std::cout << printIter.node->prev->data << ' ';
       printIter++;

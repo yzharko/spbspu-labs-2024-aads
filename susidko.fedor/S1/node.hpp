@@ -11,6 +11,11 @@ namespace susidko
       next(nullptr),
       prev(nullptr)
     {}
+    Node(T data_, Node< T > * next_, Node< T > * prev_):
+      data(data_),
+      next(next_),
+      prev(prev_)
+    {}
     T data;
     Node< T > * next;
     Node< T > * prev;
