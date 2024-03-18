@@ -14,7 +14,8 @@ namespace popov
     size_t size;
     List():
       head(nullptr),
-      tail(nullptr)
+      tail(nullptr),
+      size(0)
     {}
     ~List()
     {
@@ -55,7 +56,7 @@ namespace popov
     }
     void iterBegin()
     {
-      if (iter.node == tail)
+      if (iter.node == nullptr)
       {
         iter.node = head;
       }
