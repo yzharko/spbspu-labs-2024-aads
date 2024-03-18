@@ -9,7 +9,7 @@ int main()
   size_t sizeAll = 0;
   size_t sizeIn = 0;
   std::string input = "";
-  while (input != "please")//(!std::cin.eof())
+  while (!std::cin.eof())
   {
     std::cin >> input;
     if (isdigit(input[0]))
@@ -38,7 +38,7 @@ int main()
     while (OList.iter.node != nullptr)
     {
       maxSizeIn = OList.iter.node->data.second.size;
-      if (maxSizeIn > sizeIn) 
+      if (maxSizeIn > sizeIn)
       {
         sizeIn = maxSizeIn;
       }
