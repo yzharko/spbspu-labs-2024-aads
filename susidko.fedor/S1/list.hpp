@@ -18,13 +18,16 @@ namespace susidko
         val_iter_(),
         size_(0)
       {}
+      List(size_t count);
+      List(size_t count, const T & value);
       List(List< T > & p);
       List(List< T > && moved);
       List< T > & operator=(List< T > & p);
       List< T > & operator=(List< T > && moved);
       T & operator[](size_t index);
-      void pushBack(T date_);
-      void pushFront(T date_);
+      void assign(T data_);
+      void pushBack(T data_);
+      void pushFront(T data_);
       void popBack();
       void popFront();
       void clear();
@@ -47,6 +50,26 @@ namespace susidko
       size_t size_;
   };
 
+  template< typename T >
+  List< T >::List(size_t count)
+  {
+    first_ = nullptr;
+    size_ = 0;
+    for (size_t i = 0; i < count; i++)
+    {
+      pushBack(T{});
+    }
+  }
+  template< typename T >
+  List< T >::List(size_t count, const T & value)
+  {
+    first_ = nullptr;
+    size_ = 0;
+    for (size_t i = 0; i < count; i++)
+    {
+      pushBack(value);
+    }
+  }
   template< typename T >
   List< T >::List(List< T > & p)
   {
@@ -111,9 +134,19 @@ namespace susidko
     return temp_iter.node->data;
   }
   template< typename T >
-  void List< T >::pushBack(T date_)
+  void List< T >::assign(T data_)
   {
-    Node< T > * ptr = new Node < T >(date_);
+    ListIterator< T > temp_iter = begin();
+    for (size_t i = 0; i < size_; i++)
+    {
+      temp_iter.node->data = data_;
+      temp_iter++;
+    }
+  }
+  template< typename T >
+  void List< T >::pushBack(T data_)
+  {
+    Node< T > * ptr = new Node < T >(data_);
     if (empty())
     {
       first_ = ptr;
@@ -129,9 +162,9 @@ namespace susidko
     size_++;
   }
   template< typename T >
-  void List< T >::pushFront(T date_)
+  void List< T >::pushFront(T data_)
   {
-    Node< T > * ptr = new Node < T >(date_);
+    Node< T > * ptr = new Node < T >(data_);
     if (empty())
     {
       first_ = ptr;
@@ -212,12 +245,12 @@ namespace susidko
   template< typename T >
   T List< T >::front()
   {
-    return first_.date;
+    return first_.data;
   }
   template< typename T >
   T List< T >::back()
   {
-    return last_.date;
+    return last_.data;
   }
   template< typename T >
   T List< T >::getValue(size_t index)
