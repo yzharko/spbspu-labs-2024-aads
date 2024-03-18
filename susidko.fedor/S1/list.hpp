@@ -92,7 +92,6 @@ namespace susidko
     size_ = moved.size_;
     moved.first_ = nullptr;
     moved.last_ = nullptr;
-    moved.val_iter_;
     moved.size_ = 0;
     }
   template< typename T >
@@ -118,7 +117,6 @@ namespace susidko
     size_ = moved.size_;
     moved.first_ = nullptr;
     moved.last_ = nullptr;
-    delete moved.val_iter_;
     moved.size_ = 0;
     return *this;
     }
