@@ -4,11 +4,11 @@
 #include "List.hpp"
 int main()
 {
+  using pair = std::pair<std::string, List<int>>;
+  List<pair> pair_list;
+  size_t max_length = 0;
   try
   {
-    using pair = std::pair<std::string, List<int>>;
-    List<pair> pair_list;
-    size_t max_length = 0;
     while (1)
     {
       std::string line;
@@ -44,7 +44,10 @@ int main()
       pair_list.push({ str_name, int_list });
     }
     if (pair_list.empty())
+    {
+      pair_list.clear();
       return 0;
+    }
     for (size_t i = 0; i < pair_list.length(); i++)
     {
       std::cout << pair_list[i].first << " ";
@@ -68,16 +71,19 @@ int main()
       }
     }
     std::cout << sum;
+    pair_list.clear();
     return 0;
   }
   catch (std::invalid_argument& e)
   {
     std::cerr << "Not a number in a number list\n";
+    pair_list.clear();
     return 1;
   }
   catch (std::logic_error& e)
   {
     std::cerr << e.what();
+    pair_list.clear();
     return 1;
   }
 }
