@@ -62,7 +62,7 @@ int main()
         if (pair_list[j].second.length() > i)
         {
           sum += pair_list[j].second[i];
-          std::cout << pair_list[j].second[i] << " ";
+          std::cout << pair_list[j].second[i] << ((j + 1 == pair_list.length()) ? "" : " ");
         }
       }
       sum_list.push(sum);
@@ -70,7 +70,7 @@ int main()
     }
     for (size_t i = 0; i < sum_list.length(); i++)
     {
-      std::cout << sum_list[i] << " ";
+      std::cout << sum_list[i] << ((i + 1 == sum_list.length()) ? "" : " ");
     }
     sum_list.clear();
     pair_list.clear();
