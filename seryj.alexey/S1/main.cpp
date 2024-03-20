@@ -53,24 +53,26 @@ int main()
       std::cout << pair_list[i].first << " ";
     }
     std::cout << '\n';
+    List<int> sum_list;
     for (size_t i = 0; i < max_length; i++)
     {
+      size_t sum = 0;
       for (size_t j = 0; j < pair_list.length(); j++)
       {
         if (pair_list[j].second.length() > i)
+        {
+          sum += pair_list[j].second[i];
           std::cout << pair_list[j].second[i] << " ";
+        }
       }
+      sum_list.push(sum);
+      std::cout << '\n';
     }
-    std::cout << '\n';
-    size_t sum = 0;
-    for (size_t i = 0; i < pair_list.length(); i++)
+    for (size_t i = 0; i < sum_list.length(); i++)
     {
-      for (size_t j = 0; j < pair_list[i].second.length(); j++)
-      {
-        sum += pair_list[i].second[j];
-      }
+      std::cout << sum_list[i] << " ";
     }
-    std::cout << sum;
+    sum_list.clear();
     pair_list.clear();
     return 0;
   }

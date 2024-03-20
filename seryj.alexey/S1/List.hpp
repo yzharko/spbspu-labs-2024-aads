@@ -22,7 +22,7 @@ public:
 
   bool empty()const noexcept;
   void push(const T& value) noexcept;
-  void pop();
+  void pop() noexcept;
   void clear() noexcept;
   void swap(List<T>& other) noexcept;
   size_t length() noexcept;
@@ -124,10 +124,10 @@ void List<T>::push(const T& value) noexcept
 }
 
 template<class T>
-void List<T>::pop()
+void List<T>::pop()noexcept
 {
   if (empty())
-    throw std::logic_error("No more elements to pop\n");
+    return;
   Iterator<T> iter(begin);
   while (iter.node->next != end.node && size > 1)
   {
