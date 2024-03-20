@@ -1,6 +1,8 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 #include "Node.hpp"
+#include <iostream>
+#include <memory>
 template <class T>
 struct Iterator
 {

@@ -70,14 +70,14 @@ int main()
     std::cout << sum;
     return 0;
   }
+  catch (std::invalid_argument& e)
+  {
+    std::cerr << "Not a number in a number list\n";
+    return 1;
+  }
   catch (std::logic_error& e)
   {
     std::cerr << e.what();
-    return 1;
-  }
-  catch (std::invalid_argument)
-  {
-    std::cerr << "Not a number in a number list\n";
     return 1;
   }
 }
