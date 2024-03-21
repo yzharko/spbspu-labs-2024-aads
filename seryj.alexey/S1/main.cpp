@@ -50,7 +50,7 @@ int main()
     }
     for (size_t i = 0; i < pair_list.length(); i++)
     {
-      std::cout << pair_list[i].first << " ";
+      std::cout << pair_list[i].first << ((i + 1 == pair_list.length()) ? "" : " ");
     }
     std::cout << '\n';
     List<int> sum_list;
