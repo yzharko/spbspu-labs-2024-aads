@@ -11,7 +11,7 @@ private:
   Iterator<T> end;
   size_t size = 0;
 public:
-  List<T>();
+  List<T>() = default;
   List<T>(const List<T>& copy);
   List<T>(List<T>&& other);
   ~List<T>();
@@ -27,13 +27,6 @@ public:
   void swap(List<T>& other) noexcept;
   size_t length() noexcept;
 };
-template<class T>
-List<T>::List()
-{
-  head = new Node<T>();
-  begin.node = head;
-  end = begin;
-}
 template<class T>
 List<T>::List(const List<T>& copy)
 {
@@ -111,7 +104,10 @@ void List<T>::push(const T& value) noexcept
 {
   if (empty())
   {
-    *end = value;
+    head = new Node<T>;
+    head->data = value;
+    begin.node = head;
+    end = begin;
     size++;
   }
   else
