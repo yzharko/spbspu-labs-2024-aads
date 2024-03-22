@@ -2,9 +2,9 @@
 #define LIST_HPP
 
 #include "node.hpp"
-//#include "Iterator.hpp"
 #include <iostream>
 #include <limits>
+#include <cassert>
 
 namespace susidko
 {
@@ -24,7 +24,7 @@ namespace susidko
       List(size_t count);
       List(size_t count, const T & value);
       List(List< T > & p);
-      List(List< T > && moved);
+      List(List< T > && moved) noexcept;
       List< T > & operator=(List< T > & p);
       List< T > & operator=(List< T > && moved);
 
@@ -38,12 +38,14 @@ namespace susidko
       void remove(const T & value);
       void remove_if(bool (*p)(T));
       void clear();
-      bool empty();
+      bool empty() noexcept;
       size_t size();
-      Iterator begin();
-      Iterator end();
-      ConstIterator cbegin();
-      ConstIterator cend();
+      Iterator begin() noexcept;
+      Iterator end() noexcept;
+      ConstIterator begin() const noexcept;
+      ConstIterator end() const noexcept;
+      ConstIterator cbegin() const noexcept;
+      ConstIterator cend() const noexcept;
       T front();
       T back();
       T getValue(size_t);
@@ -51,7 +53,7 @@ namespace susidko
       void print();
       void printpr();
       void printne();
-      void swap(List< T > & other);
+      void swap(List< T > & other) noexcept;
     private:
       Node< T > * first_;
       Node< T > * last_;
@@ -89,10 +91,7 @@ namespace susidko
       node_t node;
       ConstIterator(node_t*, const List< T >*);
   };
-  //template< typename T >
-  //using iterator = typename List< T >::Iterator;
-  template< typename T >
-  using const_iterator = typename List< T >::ConstIterator;
+
   template< typename T >
   typename List< T >::ConstIterator & List< T >::ConstIterator::operator++()
   {
@@ -176,9 +175,9 @@ namespace susidko
       this_t operator--(int);
       this_t operator+(size_t index);
 
-      T & operator*();
+      T operator*();
       T * operator->();
-      const T & operator*() const;
+      const T operator*() const;
       const T * operator->() const;
 
       bool operator!=(const this_t&) const;
@@ -237,13 +236,14 @@ namespace susidko
     return !(rhs == *this);
   }
   template< typename T >
-  const T &  List< T >::Iterator::operator*() const
+  T List< T >::Iterator::operator*()
   {
     assert(iter_ != ConstIterator());
-    return iter_.node.data;
+	T temp = iter_.node->data;
+	return temp;
   }
   template< typename T >
-  const T *  List< T >::Iterator::operator->()const
+  T *  List< T >::Iterator::operator->()
   {
     assert(iter_ != ConstIterator());
     return std::addressof(iter_.node.data);
@@ -287,7 +287,7 @@ namespace susidko
     }
   }
   template< typename T >
-  List< T >::List(List< T > && moved)
+  List< T >::List(List< T > && moved) noexcept
   {
     first_ = moved.first_;
     last_ = moved.last_;
@@ -332,7 +332,7 @@ namespace susidko
     }
     Iterator temp_iter = begin();
     temp_iter = temp_iter + index;
-    return temp_iter.iter_.node->data;
+    return *temp_iter;
   }
   template< typename T >
   void List< T >::assign(T data_)
@@ -423,7 +423,7 @@ namespace susidko
     else
     {
       Iterator temp_iter = begin();
-      while (temp_iter.iter_.node->data == value)
+      while (*temp_iter == value)
       {
         Node< T > * temp_node = temp_iter.iter_.node;
         temp_iter++;
@@ -435,7 +435,7 @@ namespace susidko
       temp_iter++;
       for (size_t i = 1; i < temp_size - 1; i++)
       {
-        if (temp_iter.iter_.node->data == value)
+        if (*temp_iter == value)
         {
           Node< T > * temp_node = temp_iter.iter_.node;
           temp_iter.iter_.node->prev->next = temp_iter.iter_.node->next;
@@ -449,7 +449,7 @@ namespace susidko
           temp_iter++;
         }
       }
-      if (temp_iter.iter_.node->data == value)
+      if (*temp_iter == value)
       {
         Node< T > * temp_node = temp_iter.iter_.node;
         temp_iter.iter_.node->prev->next = nullptr;
@@ -469,7 +469,7 @@ namespace susidko
     else
     {
       Iterator temp_iter = begin();
-      while (p(temp_iter.iter_.node->data))
+      while (p(*temp_iter))
       {
         Node< T > * temp_node = temp_iter.iter_.node;
         temp_iter++;
@@ -481,7 +481,7 @@ namespace susidko
       temp_iter++;
       for (size_t i = 1; i < temp_size - 1; i++)
       {
-        if (p(temp_iter.iter_.node->data))
+        if (p(*temp_iter))
         {
           Node< T > * temp_node = temp_iter.iter_.node;
           temp_iter.iter_.node->prev->next = temp_iter.iter_.node->next;
@@ -495,7 +495,7 @@ namespace susidko
           temp_iter++;
         }
       }
-      if (p(temp_iter.iter_.node->data))
+      if (p(*temp_iter))
       {
         Node< T > * temp_node = temp_iter.iter_.node;
         temp_iter.iter_.node->prev->next = nullptr;
@@ -516,7 +516,7 @@ namespace susidko
     }
   }
   template< typename T >
-  bool List< T >::empty()
+  bool List< T >::empty() noexcept
   {
     return first_ == nullptr;
   }
@@ -526,14 +526,33 @@ namespace susidko
     return size_;
   }
   template< typename T >
-  typename List< T >::Iterator List< T >::begin()
+  typename List< T >::Iterator List< T >::begin() noexcept
   {
     return typename List< T >::Iterator(first_);
   }
   template< typename T >
-  typename List< T >::Iterator List< T >::end()
+  typename List< T >::Iterator List< T >::end() noexcept
   {
     return typename List< T >::Iterator(last_->next);
+  }
+  template< typename T >
+  typename List< T >::ConstIterator List< T >::begin() const noexcept
+  {
+    return typename List< T >::ConstIterator(first_);
+  }
+  template< typename T >
+  typename List< T >::ConstIterator List< T >::end() const noexcept
+  {
+    return typename List< T >::ConstIterator(last_->next);
+  }template< typename T >
+  typename List< T >::ConstIterator List< T >::cbegin() const noexcept
+  {
+    return typename List< T >::ConstIterator(first_);
+  }
+  template< typename T >
+  typename List< T >::ConstIterator List< T >::cend() const noexcept
+  {
+    return typename List< T >::ConstIterator(last_->next);
   }
   template< typename T >
   T List< T >::front()
@@ -555,7 +574,7 @@ namespace susidko
     else
     {
       Iterator val_iter(begin());
-      return (val_iter + index).node->data;
+      return *(val_iter + index);
     }
   }
   template< typename T >
@@ -565,11 +584,11 @@ namespace susidko
     T summ {};
     while (sum_iter.iter_.node != nullptr)
     {
-      if (sum_iter.iter_.node->data > std::numeric_limits< unsigned long long >::max() - summ)
+      if (*sum_iter > std::numeric_limits< unsigned long long >::max() - summ)
       {
         throw std::overflow_error("vjw");
       }
-      summ += sum_iter.iter_.node->data;
+      summ += *sum_iter;
       sum_iter++;
     }
     return summ;
@@ -584,10 +603,10 @@ namespace susidko
     Iterator printIter = begin();
     while (printIter.iter_.node->next)
     {
-      std::cout << printIter.iter_.node->data << ' ';
+      std::cout << *printIter << ' ';
       printIter++;
     }
-    std::cout << printIter.iter_.node->data << '\n';
+    std::cout << *printIter << '\n';
   }
   template< typename T >
   void List< T >::printne()
@@ -614,7 +633,7 @@ namespace susidko
     printIter.iter_.node = first_;
   }
   template< typename T >
-  void List< T >::swap(List< T > & other)
+  void List< T >::swap(List< T > & other) noexcept
   {
     std::swap(first_, other.first_);
     std::swap(last_, other.last_);
