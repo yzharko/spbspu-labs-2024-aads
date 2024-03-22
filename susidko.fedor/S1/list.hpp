@@ -156,7 +156,7 @@ namespace susidko
     return std::addressof(node->data);
   }
 
-  
+
   template< typename T >
   class List< T >::Iterator
   {
@@ -248,11 +248,11 @@ namespace susidko
     assert(iter_ != ConstIterator());
     return std::addressof(iter_.node.data);
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   template< typename T >
   List< T >::List(size_t count)
   {
@@ -620,8 +620,8 @@ namespace susidko
     std::swap(last_, other.last_);
     std::swap(size_, other.size_);
   }
-  
-  
+
+
 }
 
 #endif
