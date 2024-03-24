@@ -289,23 +289,23 @@ namespace susidko
     }
   }
   template< typename T >
-	List< T >::List(Iterator first, Iterator last)
-	{
-		while (first != last)
+  List< T >::List(Iterator first, Iterator last)
+  {
+    while (first != last)
     {
       pushBack(*first);
       first++;
     }
-	}
+  }
   template< typename T >
-	List< T >::List(ConstIterator first, ConstIterator last)
-	{
-		while (first != last)
+  List< T >::List(ConstIterator first, ConstIterator last)
+  {
+    while (first != last)
     {
       pushBack(*first);
       first++;
     }
-	}
+  }
   template< typename T >
   List< T >::List(List< T > & p)
   {
