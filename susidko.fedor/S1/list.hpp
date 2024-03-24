@@ -61,6 +61,7 @@ namespace susidko
       void printpr();
       void printne();
       void swap(List< T > & other) noexcept;
+      void reverse() noexcept;
     private:
       Node< T > * first_;
       Node< T > * last_;
@@ -725,7 +726,19 @@ namespace susidko
     std::swap(last_, other.last_);
     std::swap(size_, other.size_);
   }
-
+  template< typename T >
+  void List< T >::reverse() noexcept
+  {
+    List< T > temp_list = *this;
+    Iterator iter = this->begin();
+    Iterator temp_iter = temp_list.cbegin() + (size_ - 1);
+    while (temp_iter != end())
+    {
+      iter.iter_.node->data = *temp_iter;
+      temp_iter--;
+      iter++;
+    }
+  }
 
 }
 
