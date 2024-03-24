@@ -44,6 +44,7 @@ namespace susidko
       Iterator insert(Iterator pos, const T & data_);
       void remove(const T & value);
       void remove_if(bool (*p)(T));
+      void splice(Iterator pos, List< T > & other);
       void clear();
       bool empty() noexcept;
       size_t size();
@@ -162,8 +163,6 @@ namespace susidko
     assert(node != nullptr);
     return std::addressof(node->data);
   }
-
-
   template< typename T >
   class List< T >::Iterator
   {
@@ -256,10 +255,6 @@ namespace susidko
     assert(iter_ != ConstIterator());
     return std::addressof(iter_.node.data);
   }
-
-
-
-
 
   template< typename T >
   List< T >::List(size_t count)
@@ -593,6 +588,54 @@ namespace susidko
     }
   }
   template< typename T >
+  void List< T >::splice(Iterator pos, List< T > & other)
+  {
+    if (pos.iter_.node == first_)
+    {
+      Node < T > * temp = first_;
+      Node < T > * ya_temp = other.last_;
+      first_ = other.first_;
+      first_->next->prev = first_;
+      ya_temp->prev->next = ya_temp;
+      ya_temp->next = temp;
+      ya_temp->next->prev = ya_temp;
+      size_ += other.size_;
+      other.first_ = nullptr;
+      other.last_ = nullptr;
+      other.size_ = 0;
+    }
+    else if (pos.iter_.node == last_)
+    {
+      Node < T > * temp = last_;
+      Node < T > * ya_temp = other.first_;
+      last_ = other.last_;
+      last_->prev->next = last_;
+      ya_temp->next->prev = ya_temp;
+      ya_temp->prev = temp;
+      ya_temp->prev->next = ya_temp;
+      size_ += other.size_;
+      other.first_ = nullptr;
+      other.last_ = nullptr;
+      other.size_ = 0;
+    }
+    else
+    {
+      Node < T > * temp = pos.iter_.node;
+      Node < T > * ya_temp = other.last_;
+      pos.iter_.node = other.first_;
+      pos.iter_.node->prev = temp->prev;
+      temp->prev->next = pos.iter_.node;
+      pos.iter_.node->next->prev = pos.iter_.node;
+      ya_temp->prev->next = ya_temp;
+      ya_temp->next = temp;
+      temp->prev = ya_temp;
+      size_ += other.size_;
+      other.first_ = nullptr;
+      other.last_ = nullptr;
+      other.size_ = 0;
+    }
+  }
+  template< typename T >
   void List< T >::clear()
   {
     while(first_)
@@ -631,7 +674,8 @@ namespace susidko
   typename List< T >::ConstIterator List< T >::end() const noexcept
   {
     return typename List< T >::ConstIterator(last_->next);
-  }template< typename T >
+  }
+  template< typename T >
   typename List< T >::ConstIterator List< T >::cbegin() const noexcept
   {
     return typename List< T >::ConstIterator(first_);
@@ -739,7 +783,6 @@ namespace susidko
       iter++;
     }
   }
-
 }
 
 #endif
