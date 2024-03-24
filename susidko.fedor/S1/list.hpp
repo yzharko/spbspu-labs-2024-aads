@@ -23,6 +23,9 @@ namespace susidko
       {}
       List(size_t count);
       List(size_t count, const T & value);
+      List(std::initializer_list< T > list);
+      List(Iterator first, Iterator last);
+      List(ConstIterator first, ConstIterator last);
       List(List< T > & p);
       List(List< T > && moved) noexcept;
       List< T > & operator=(List< T > & p);
@@ -31,10 +34,14 @@ namespace susidko
       T & operator[](size_t index);
 
       void assign(T data_);
+      void assign(Iterator first, Iterator last);
+      void assign(std::initializer_list< T > list);
       void pushBack(T data_);
       void pushFront(T data_);
       void popBack();
       void popFront();
+      Iterator erase(Iterator pos);
+      Iterator insert(Iterator pos, const T & data_);
       void remove(const T & value);
       void remove_if(bool (*p)(T));
       void clear();
@@ -239,8 +246,8 @@ namespace susidko
   T List< T >::Iterator::operator*()
   {
     assert(iter_ != ConstIterator());
-	T temp = iter_.node->data;
-	return temp;
+    T temp = iter_.node->data;
+    return temp;
   }
   template< typename T >
   T *  List< T >::Iterator::operator->()
@@ -273,6 +280,36 @@ namespace susidko
       pushBack(value);
     }
   }
+  template< typename T >
+  List< T >::List(std::initializer_list< T > list)
+  {
+    first_ = nullptr;
+    size_ = 0;
+    auto temp = list.begin();
+    for (size_t i = 0; i < list.size(); i++)
+    {
+      pushBack(*temp);
+      temp++;
+    }
+  }
+  template< typename T >
+	List< T >::List(Iterator first, Iterator last)
+	{
+		while (first != last)
+    {
+      pushBack(*first);
+      first++;
+    }
+	}
+  template< typename T >
+	List< T >::List(ConstIterator first, ConstIterator last)
+	{
+		while (first != last)
+    {
+      pushBack(*first);
+      first++;
+    }
+	}
   template< typename T >
   List< T >::List(List< T > & p)
   {
@@ -345,6 +382,40 @@ namespace susidko
     }
   }
   template< typename T >
+  void List< T >::assign(Iterator first, Iterator last)
+  {
+    Iterator temp_iter = begin();
+    Iterator list_iter = first;
+    for (size_t i = 0; i < size_; i++)
+    {
+      temp_iter.iter_.node->data = *list_iter;
+      list_iter++;
+      temp_iter++;
+      if (list_iter == last)
+      {
+        temp_iter.iter_.node->data = *list_iter;
+        list_iter = first;
+        temp_iter++;
+      }
+    }
+  }
+  template< typename T >
+  void List< T >::assign(std::initializer_list< T > list)
+  {
+    Iterator temp_iter = begin();
+    auto list_iter = list.begin();
+    for (size_t i = 0; i < size_; i++)
+    {
+      temp_iter.iter_.node->data = *list_iter;
+      list_iter++;
+      temp_iter++;
+      if (list_iter == list.end())
+      {
+        list_iter = list.begin();
+      }
+    }
+  }
+  template< typename T >
   void List< T >::pushBack(T data_)
   {
     Node< T > * ptr = new Node < T >(data_);
@@ -387,6 +458,12 @@ namespace susidko
     {
       throw std::logic_error("List is empty");
     }
+    else if (size_ == 1)
+    {
+      size_ = 0;
+      first_ = nullptr;
+      last_ = nullptr;
+    }
     else
     {
       Node< T > * temp = new Node < T >(last_->prev->data, nullptr, last_->prev->prev);
@@ -404,6 +481,12 @@ namespace susidko
     {
       throw std::logic_error("List is empty");
     }
+    else if (size_ == 1)
+    {
+      size_ = 0;
+      first_ = nullptr;
+      last_ = nullptr;
+    }
     else
     {
       Node< T > * temp = new Node < T >(first_->next->data, first_->next->next, nullptr);
@@ -412,6 +495,55 @@ namespace susidko
       first_ = temp;
     }
     size_--;
+  }
+  template< typename T >
+  typename List< T >::Iterator List< T >::erase(Iterator pos)
+  {
+    if (pos.iter_.node == first_)
+    {
+      popFront();
+      pos = first_;
+    }
+    else if (pos.iter_.node == last_)
+    {
+      popBack();
+      pos = last_;
+    }
+    else
+    {
+      Node< T > * temp_node = pos.iter_.node;
+      pos.iter_.node->prev->next = pos.iter_.node->next;
+      pos.iter_.node->next->prev = pos.iter_.node->prev;
+      size_--;
+      pos++;
+      delete temp_node;
+    }
+    return pos;
+  }
+  template< typename T >
+  typename List< T >::Iterator List< T >::insert(Iterator pos, const T & data_)
+  {
+    if (pos.iter_.node == first_)
+    {
+      pushFront(data_);
+      pos = first_;
+    }
+    else if (pos.iter_.node == last_)
+    {
+      pushBack(data_);
+      pos = last_;
+    }
+    else
+    {
+      Node< T > * ptr = new Node < T >(data_);
+      Node< T > * temp = pos--.iter_.node;
+      ptr->prev = temp;
+      ptr->next = temp->next;
+      temp->next->prev = ptr;
+      temp->next = ptr;
+      pos++;
+    }
+    return pos;
   }
   template< typename T >
   void List< T >::remove(const T & value)
@@ -423,39 +555,16 @@ namespace susidko
     else
     {
       Iterator temp_iter = begin();
-      while (*temp_iter == value)
-      {
-        Node< T > * temp_node = temp_iter.iter_.node;
-        temp_iter++;
-        first_ = temp_iter.iter_.node;
-        delete temp_node;
-        size_--;
-      }
-      size_t temp_size = size_;
-      temp_iter++;
-      for (size_t i = 1; i < temp_size - 1; i++)
+      while (temp_iter != end())
       {
         if (*temp_iter == value)
         {
-          Node< T > * temp_node = temp_iter.iter_.node;
-          temp_iter.iter_.node->prev->next = temp_iter.iter_.node->next;
-          temp_iter.iter_.node->next->prev = temp_iter.iter_.node->prev;
-          temp_iter++;
-          delete temp_node;
-          size_--;
+          temp_iter = erase(temp_iter);
         }
         else
         {
           temp_iter++;
         }
-      }
-      if (*temp_iter == value)
-      {
-        Node< T > * temp_node = temp_iter.iter_.node;
-        temp_iter.iter_.node->prev->next = nullptr;
-        last_ = temp_iter.iter_.node->prev;
-        delete temp_node;
-        size_--;
       }
     }
   }
@@ -469,39 +578,16 @@ namespace susidko
     else
     {
       Iterator temp_iter = begin();
-      while (p(*temp_iter))
-      {
-        Node< T > * temp_node = temp_iter.iter_.node;
-        temp_iter++;
-        first_ = temp_iter.iter_.node;
-        delete temp_node;
-        size_--;
-      }
-      size_t temp_size = size_;
-      temp_iter++;
-      for (size_t i = 1; i < temp_size - 1; i++)
+      while (temp_iter != end())
       {
         if (p(*temp_iter))
         {
-          Node< T > * temp_node = temp_iter.iter_.node;
-          temp_iter.iter_.node->prev->next = temp_iter.iter_.node->next;
-          temp_iter.iter_.node->next->prev = temp_iter.iter_.node->prev;
-          temp_iter++;
-          delete temp_node;
-          size_--;
+          temp_iter = erase(temp_iter);
         }
         else
         {
           temp_iter++;
         }
-      }
-      if (p(*temp_iter))
-      {
-        Node< T > * temp_node = temp_iter.iter_.node;
-        temp_iter.iter_.node->prev->next = nullptr;
-        last_ = temp_iter.iter_.node->prev;
-        delete temp_node;
-        size_--;
       }
     }
   }
