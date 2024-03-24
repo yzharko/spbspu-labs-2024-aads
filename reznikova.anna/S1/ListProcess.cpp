@@ -16,7 +16,7 @@ void reznikova::inputList(std::istream & input, List< std::pair< std::string, Li
       try
       {
         size_t num = stoull(line);
-        list.back().second.pushBack(num);
+        list.getBack().second.pushBack(num);
       }
       catch (const std::exception& e)
       {
@@ -28,14 +28,18 @@ void reznikova::inputList(std::istream & input, List< std::pair< std::string, Li
 
 void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string, List< size_t > > > & list)
 {
-  ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
-  while (iterator.node)
+  List< std::pair< std::string, List< size_t > > >::Iterator iterator = list.begin();
+  while (iterator.getNode())
   {
-    if (iterator.node != list.head_)
+//    if (iterator.getNode() != list.head_)
+//    {
+//      output << " ";
+//    }
+    output << iterator.getNode()->data_.first;
+    if (iterator.getNode()->next_)
     {
       output << " ";
     }
-    output << iterator.node->data_.first;
     iterator++;
   }
   if (!list.empty())
@@ -46,11 +50,11 @@ void reznikova::namesOutput(std::ostream & output, List< std::pair< std::string,
 
 size_t reznikova::findMaxLenOfArgs(List< std::pair < std::string, List< size_t > > > & list)
 {
-  ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
+  List< std::pair< std::string, List< size_t > > >::Iterator iterator = list.begin();
   size_t max_size = 0;
-  while (iterator.node)
+  while (iterator.getNode())
   {
-    size_t size = iterator.node->data_.second.size_;
+    size_t size = iterator.getNode()->data_.second.getSize();
     max_size = (max_size > size ? max_size : size);
     iterator++;
   }
@@ -65,26 +69,26 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   for (size_t i = 0; i != max_size; i++)
   {
     size_t sum = 0;
-    ListIterator< std::pair< std::string, List< size_t > > > iterator = list.begin();
-    while (iterator.node)
+    List< std::pair< std::string, List< size_t > > >::Iterator iterator = list.begin();
+    while (iterator.getNode())
     {
-      ListIterator< size_t > args_iterator = iterator.node->data_.second.begin();
-      if (iterator.node->data_.second.size_ > i)
+      List< size_t >::Iterator args_iterator = iterator.getNode()->data_.second.begin();
+      if (iterator.getNode()->data_.second.getSize() > i)
       {
         args_iterator = args_iterator.moveForward(i);
         if (sum > 0)
         {
           output << " ";
         }
-        output <<  args_iterator.node->data_;
-        if (maximum - sum <= args_iterator.node->data_)
+        output <<  args_iterator.getNode()->data_;
+        if (maximum - sum <= args_iterator.getNode()->data_)
         {
           overflow = 1;
           output << " ";
         }
         else
         {
-          sum += args_iterator.node->data_;
+          sum += args_iterator.getNode()->data_;
         }
       }
       iterator++;
@@ -96,14 +100,18 @@ void reznikova::outputArgs(std::ostream & output, List< std::pair< std::string, 
   {
     throw std::logic_error("overflow");
   }
-  ListIterator< size_t > sum_iterator = sums.begin();
-  while (sum_iterator.node)
+  List< size_t >::Iterator sum_iterator = sums.begin();
+  while (sum_iterator.getNode())
   {
-    if (sum_iterator.node != sums.head_)
+//    if (sum_iterator.getNode() != sums.head_)
+//    {
+//      output << " ";
+//    }
+    output << sum_iterator.getNode()->data_;
+    if (sum_iterator.getNode()->next_)
     {
       output << " ";
     }
-    output << sum_iterator.node->data_;
     sum_iterator++;
   }
   if (sums.empty())

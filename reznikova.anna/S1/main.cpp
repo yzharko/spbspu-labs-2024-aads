@@ -1,8 +1,5 @@
-#include <iostream>
+k#include <iostream>
 #include <cstddef>
-#include "List.hpp"
-#include "ListIterator.hpp"
-#include "Node.hpp"
 #include "ListProcess.hpp"
 
 int main()
