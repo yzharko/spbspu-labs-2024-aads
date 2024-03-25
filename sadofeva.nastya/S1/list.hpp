@@ -1,6 +1,8 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <cstddef>
+#include <stdexcept>
+#include <cassert>
 
 namespace sadofeva
 {
@@ -10,105 +12,178 @@ namespace sadofeva
   public:
     struct Node
     {
-      Node(const Node& value) :
-      value(value),
-      next(0),
-      prev(0)
-      {}
-      ~Node() {delete next;}
+      Node(const T & value);
+      T value;
+      ~Node() = default;
       Node* next;
       Node* prev;
     };
-    class iterator
-    {
-      iterator() :
-      current(0),
-      next(0),
-      prev(0)
-      {}
-      Node* next;
-      Node* current;
-      Node* prev;
-      iterator begin() { return ++iterator(m_last); }
-      iterator end() { return iterator(m_last);}
-    };
-    Node* head;
-    Node* tail;
-    List(); 
+    class iterator;
+    class const_iterator;
+    List();
     ~List();
-    void push_back(const T& value); 
-    void push_front(const T& value); 
-    void pop_front(); 
-    void pop_back(); 
-    void clearList(); 
-    size_t siz;
-    Node* m_last;
+    List(const List & list);
+    List(List && list);
+    void push_back(const T & value);
+    void push_front(const T & value);
+    void pop_front();
+    void pop_back();
+    void clear();
+    iterator begin():
+    iterator end();
+    const_iterator begin() const;
+    const_iterator end() const;
+    T & front();
+    T & back();
+    private:
+      Node * head_;
+      Node * tail_;
     };
 }
 
 template< typename T>
-void sadofeva::List<T>::push_back(const T& value)
+void sadofeva::List<T>::push_back(const T & value)
 {
   Node* new_node = new done(value);
-  new_node->prev = m_last->prev;
-  new_node->next = m_last;
-  m_last->prev->next = new_node;
-  m_last->orev = new_node;
-  ++siz;
+  if (tail_)
+  {
+    tail_->next = new_node;
+    new_done->prev = tail_;
+  }
+  else
+  {
+    head_ = new_node;
+  }
+  tail_ = new_node;
 }
 
 template<typename T>
 void sadofeva::List<T>::push_front(const T& value)
 {
   Node* new_node = new Node(value);
-  new_node->prev = m_last;
-  new_node->next = m_last->next;
-  m_last->next->prev = new_node;
-  m_last->next = new_node;
-  ++siz;
+  new_node->next = head_;
+  if (head_)
+  {
+    head_->prev = new_node;
+  }
+  else
+  {
+    tail_ = new_node;
+  }
+  head_ = new_node;
 }
- 
+
 template<typename T>
 void sadofeva::List<T>::pop_front()
 {
-  Node* node_to_del = m_last->next;
-  m_last->next = node_to_del->next;
-  node_to_del->next->prec = m_last;
-
-  node_to_del->next = 0;
+  if (empty())
+  {
+    throw std::logic_error("List is empty");
+  }
+  Node * node_to_del = head_;
+  if (head_ == tail_)
+  {
+    head_ = nullptr;
+    tail_ = nullptr;
+  }
+  else
+  {
+    head_ = head_->next;
+    head_->prev = nullptr;
+  }
   delete node_to_del;
 }
 
 template<typename T>
 void sadofeva::List<T>::pop_back()
 {
-  Node* node_to_del = m_last->prev;
-  m_last->prev = node_to_del->prev;
-  node_to_del->prev->next = m_last;
-  node_to_del->next = 0;
+  if (empty())
+  {
+    throw std::logic_error("List is empty");
+  }
+  Node * node_to_del = tail_;
+  if (head_ == tail_)
+  {
+    head_ = nullptr;
+    tail_ = nullptr;
+  }
+  else
+  {
+    tail_ = tail_->prev;
+    tail_->next = nullptr;
+  }
   delete node_to_del;
 }
+
 template<typename T>
 sadofeva::List<T>::~List()
 {
-  m_last->prev->next = 0;
-  delete m_last;
+  clead();
 }
- 
-template<typename T>
-sadofeva::List<T>::List()
-{
-  m_last(new Node(value())), siz(0))
-  m_last->prev = m_last->next = m_last;
-}
-template<typename T>
-void sadofeva::List<T>::clearList()
-{
-  m_last->prev->next = 0;
-  delte m_last->next;
 
-  m_lat->prev = m_last->next = m_last;
-  siz = 0;
+template<typename T>
+sadofeva::List<T>::List():
+  head_(nullptr),
+  tail(nullptr)
+{}
+
+template<typename T>
+void sadofeva::List<T>::clear()
+{
+  while ( head_ != nullptr)
+  {
+    Node * node_to_del = head_;
+    head_ = head_->next;
+    delete node_to_del;
+  }
+  head_ = nullptr;
+  tail_ = nullptr;
 }
+
+template < typename T>
+sadofeva::List<T>::Node::Node(const T & value):
+  value(value),
+  next(nullptr),
+  prev(nullptr)
+{}
+
+template <typename T>
+sadofeva::List<T>::List(const List & list):
+  List()
+{
+  if (list.empty())
+  {
+    return;
+  }
+  try
+  {
+    Node * list_node = list.head->next;
+    head_ = new Node(list.head_->value);
+    Node * this_node = head_;
+    while (list_node)
+    {
+      this_node->next = new Node(list_node->value);
+      this_node->next->prev = this_node;
+      this_node = this_node->next;
+      this_node = list_node->next;
+    }
+    tail_ = this_node;
+  }
+  catch (...)
+  {
+    clear();
+    throw;
+  }
+}
+
+template <typename T>
+bool sadofeva::List<T>::empty() const
+{
+  return !head_;
+}
+
+
+
+
 
 #endif
