@@ -35,6 +35,10 @@ namespace sadofeva
     const_iterator end() const;
     T & front();
     T & back();
+    List & operator =(const List & list);
+    List & operator =(List && list) noexcept;
+    void swap(List & list) noexcept;
+    bool empty() const;
     private:
       Node * head_;
       Node * tail_;
@@ -44,7 +48,7 @@ namespace sadofeva
 template< typename T>
 void sadofeva::List<T>::push_back(const T & value)
 {
-  Node* new_node = new done(value);
+  Node* new_node = new None(value);
   if (tail_)
   {
     tail_->next = new_node;
@@ -182,8 +186,109 @@ bool sadofeva::List<T>::empty() const
   return !head_;
 }
 
+template <typename T>
+sadofeva::List<T>::List(List && list):
+  head_(list.head_),
+  tail_(list.tail_)
+{
+  list.head_ = nullptr;
+  list.tail_ = nullptr;
+}
+
+template <typename T>
+typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (const List & list)
+{
+  if (this != & list)
+  {
+    List<T> tmp(list);
+    swap(tmp);
+  }
+  return *this;
+}
+
+template <typename T>
+typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (List && list) noexcept;
+{
+  if (this != &list)
+  {
+    swap(list);
+  }
+  return *this;
+}
+
+
+template <typename T>
+void sadofeva::List<T>::swap(List && list) noexcept
+{
+  std::swap(head_,list.head_);
+  std::swap(tail_,list.tail_);
+}
+
+template <typename T>
+T & sadofeva::List<T>::front()
+{
+  if (empty())
+  {
+    throw std::logic_error("list is empty");
+  }
+  return *head_;
+}
 
 
 
+template <typename T>
+class sadofeva::List<T>::iterator
+{
+  public:
+    friend class List<T>;
+    iterator();
+    iterator(const iterator &) = default;
+    ~iterator() = default;
+    iterator & operator = (const iterator &) = default;
+    iterator & operator++();
+    iterator operator++(int);
+    iterator & operator--();
+    iterator operator--(int);
+    T & operator*();
+    T * operator ->();
+    const T & operator*() const;
+    const T * operator->() const;
+    bool operator != (const iterator &)const;
+    bool operator==(const iterator &)const;
+  private:
+    using Node = typename List<T>::Node;
+    Node * node_;
+    const List<T> * list_;
+    iterator(Node * node, const List<T> * list);
+}
+
+template <typename T>
+sadofeva::List<T>::iterator::iterator():
+  node_(nullptr),
+  list_(nullptr)
+{}
+
+template <typename T>
+sadofeva::List<T>::iterator::iterator(Node * node, const List<T> * list):
+  node_(node),
+  list_(list)
+{}
+
+template <typename T>
+typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator++()
+{
+  assert(node_);
+  node_ = node_->next;
+  return *this;
+}
+
+template<typename T>
+typename sadofeva::List<T>;;iterator sadofeva::List<T>::iterator::operator++(int)
+{
+  assert(node_);
+  iterator result(*this);
+  ++(*this);
+  return result;
+}
 
 #endif
