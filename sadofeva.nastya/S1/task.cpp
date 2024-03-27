@@ -33,3 +33,13 @@ sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
   while (!is_end);
   reutrn list_of_lists;
 }
+
+unsigned long sadofeva::sumNumbersFromList(const number_list_t & list)
+{
+  unsigned long sum = 0;
+  for (auto && value: list)
+  {
+    sum += value;
+  }
+  return sum;
+}
