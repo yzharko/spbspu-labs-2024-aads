@@ -94,7 +94,7 @@ class reznikova::List< T >::ConstIterator
 };
 
 template< typename T >
-reznikova::List< T >::ConstIterator & reznikova::List< T >::ConstIterator::operator++()
+typename reznikova::List< T >::ConstIterator & reznikova::List< T >::ConstIterator::operator++()
 {
   assert(node_ == nullptr);
   node_ = node_->next_;
@@ -102,7 +102,7 @@ reznikova::List< T >::ConstIterator & reznikova::List< T >::ConstIterator::opera
 }
 
 template< typename T >
-reznikova::List< T >::ConstIterator reznikova::List< T >::ConstIterator::operator++(int)
+typename reznikova::List< T >::ConstIterator reznikova::List< T >::ConstIterator::operator++(int)
 {
   assert(node_ == nullptr);
   Iterator result(*this);
@@ -111,7 +111,7 @@ reznikova::List< T >::ConstIterator reznikova::List< T >::ConstIterator::operato
 }
 
 template< typename T >
-reznikova::List< T >::ConstIterator& reznikova::List< T >::ConstIterator::operator--()
+typename reznikova::List< T >::ConstIterator& reznikova::List< T >::ConstIterator::operator--()
 {
   assert(node_ == nullptr);
   node_ = node_->prev_;
@@ -119,7 +119,7 @@ reznikova::List< T >::ConstIterator& reznikova::List< T >::ConstIterator::operat
 }
 
 template< typename T >
-reznikova::List< T >::ConstIterator reznikova::List< T >::ConstIterator::operator--(int)
+typename reznikova::List< T >::ConstIterator reznikova::List< T >::ConstIterator::operator--(int)
 {
   assert(node_ == nullptr);
   Iterator result(*this);
@@ -176,7 +176,7 @@ const T * reznikova::List< T >::ConstIterator::operator->() const
 //}
 
 template< typename T >
-reznikova::List< T >::Node * reznikova::List< T >::ConstIterator::getNode()
+typename reznikova::List< T >::Node * reznikova::List< T >::ConstIterator::getNode()
 {
   return node_;
 }
@@ -210,7 +210,7 @@ class reznikova::List< T >::Iterator
 };
 
 template< typename T >
-reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator++()
+typename reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator++()
 {
   assert(iter_.node_ == nullptr);
   iter_.node_ = iter_.node_->next_;
@@ -218,7 +218,7 @@ reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator++()
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::Iterator::operator++(int)
+typename reznikova::List< T >::Iterator reznikova::List< T >::Iterator::operator++(int)
 {
   assert(iter_.node_ == nullptr);
   Iterator result(*this);
@@ -227,7 +227,7 @@ reznikova::List< T >::Iterator reznikova::List< T >::Iterator::operator++(int)
 }
 
 template< typename T >
-reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator--()
+typename reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator--()
 {
   assert(iter_.node_ == nullptr);
   iter_.node_ = iter_.node_->prev_;
@@ -235,7 +235,7 @@ reznikova::List< T >::Iterator & reznikova::List< T >::Iterator::operator--()
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::Iterator::operator--(int)
+typename reznikova::List< T >::Iterator reznikova::List< T >::Iterator::operator--(int)
 {
   assert(iter_.node_ == nullptr);
   Iterator result(*this);
@@ -292,7 +292,7 @@ T * reznikova::List< T >::Iterator::operator->()
 //}
 
 template< typename T >
-reznikova::List< T >::Node * reznikova::List< T >::Iterator::getNode()
+typename reznikova::List< T >::Node * reznikova::List< T >::Iterator::getNode()
 {
   return iter_.node_;
 }
@@ -496,25 +496,25 @@ void reznikova::List<T>::swap(List & other)
 }
 
 template< typename T >
-reznikova::List< T >::ConstIterator reznikova::List< T >::begin() const
+typename reznikova::List< T >::ConstIterator reznikova::List< T >::begin() const
 {
   return ConstIterator(this->head_, this);
 }
 
 template< typename T >
-reznikova::List< T >::ConstIterator reznikova::List< T >::end() const
+typename reznikova::List< T >::ConstIterator reznikova::List< T >::end() const
 {
   return nullptr;
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::begin()
+typename reznikova::List< T >::Iterator reznikova::List< T >::begin()
 {
   return ConstIterator(this->head_, this);
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::end()
+typename reznikova::List< T >::Iterator reznikova::List< T >::end()
 {
   return nullptr;
 }
