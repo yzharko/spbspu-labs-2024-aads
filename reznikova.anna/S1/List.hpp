@@ -606,7 +606,7 @@ void reznikova::List< T >::assign(std::initializer_list<T> ilist)
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::insert(Iterator pos, const T& value)
+typename reznikova::List< T >::Iterator reznikova::List< T >::insert(Iterator pos, const T& value)
 {
   Iterator it;
   if (pos == head_)
@@ -625,7 +625,7 @@ reznikova::List< T >::Iterator reznikova::List< T >::insert(Iterator pos, const 
 }
 
 template< typename T >
-reznikova::List< T >::Iterator reznikova::List< T >::erase(Iterator pos)
+typename reznikova::List< T >::Iterator reznikova::List< T >::erase(Iterator pos)
 {
   Iterator it;
   if (pos == head_)
