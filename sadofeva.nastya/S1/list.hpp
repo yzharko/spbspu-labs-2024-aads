@@ -332,9 +332,9 @@ const T & sadofeva::List<T>::iterator::operator*() const
 }
 
 template<typename T>
-const T * sadofeva::List<T>::iterator::operator-> const
+const T * sadofeva::List<T>::iterator::operator->() const
 {
-  asset(node_);
+  assert(node_);
   return & node_->value;
 }
 
@@ -405,7 +405,7 @@ bool sadofeva::List<T>::const_iterator::operator==(const const_iterator & it) co
 template<typename T>
 bool sadofeva::List<T>::const_iterator::operator!=(const const_iterator & it) const
 {
-  return!(it == *this);
+  return !(it == *this);
 }
 
 template<typename T>
