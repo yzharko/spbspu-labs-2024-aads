@@ -39,9 +39,9 @@ namespace sadofeva
     List & operator=(List && list) noexcept;
     void swap(List & list) noexcept;
     bool empty() const;
-    private:
-      Node * head_;
-      Node * tail_;
+  private:
+    Node * head_;
+    Node * tail_;
   };
 }
 

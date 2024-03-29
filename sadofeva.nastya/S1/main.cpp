@@ -13,7 +13,7 @@ int main()
   }
   sadofeva::printNumes(input_list,std::cout);
   std:: cout << "\n";
-  sadofeva::list_lists_t list_of_lists = sadofeva::transfromList(input_list);
+  sadofeva::list_lists_t list_of_lists = sadofeva::transformList(input_list);
   for (auto && nlist: list_of_lists)
   {
     sadofeva::printNumberList(nlist,std::cout);
