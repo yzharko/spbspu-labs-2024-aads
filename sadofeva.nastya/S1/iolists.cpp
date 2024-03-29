@@ -11,7 +11,7 @@ sadofeva::input_list_t sadofeva::inputValues(std::istream & in)
     in >> name;
     if (name.empty())
     {
-      cotinue;
+      continue;
     }
     std::getline(in,value);
     input_list.push_back(std::make_pair(name,sadofeva::splitNumbers(value)));
