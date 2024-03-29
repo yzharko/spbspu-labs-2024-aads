@@ -42,7 +42,7 @@ namespace sadofeva
     private:
       Node * head_;
       Node * tail_;
-    };
+  };
 }
 
 template< typename T>
@@ -258,7 +258,7 @@ class sadofeva::List<T>::iterator
     Node * node_;
     const List<T> * list_;
     iterator(Node * node, const List<T> * list);
-}
+};
 
 template <typename T>
 sadofeva::List<T>::iterator::iterator():
@@ -358,7 +358,7 @@ class sadofeva::List<T>::const_iterator
     bool operator ==(const const_iterator &) const;
   private:
     iterator iterator_;
-}
+};
 
 template<typename T>
 void sadofeva::List<T>::const_iterator::const_iterator():
