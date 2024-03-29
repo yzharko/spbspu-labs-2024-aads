@@ -16,7 +16,7 @@ sadofeva::input_list_t sadofeva::inputValues(std::istream & in)
     std::getline(in,value);
     input_list.push_back(std::make_pair(name,sadofeva::splitNumbers(value)));
   }
-  while (!int.eof());
+  while (!in.eof());
   return input_list;
 }
 

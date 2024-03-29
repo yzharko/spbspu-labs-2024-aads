@@ -4,7 +4,7 @@ sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
 {
   using iter_t = numbers_list_t::const_iterator;
   sadofeva::List<std::pair<iter_t,iter_t>> iter_list;
-  for (auto && elem:: list)
+  for (auto && elem: list)
   {
     iter_list.push_back(std::make_pair(elem.second.begin(), elem.second.end()));
   }
@@ -31,7 +31,7 @@ sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
     }
   }
   while (!is_end);
-  reutrn list_of_lists;
+  return list_of_lists;
 }
 
 unsigned long sadofeva::sumNumbersFromList(const number_list_t & list)

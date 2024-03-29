@@ -20,7 +20,7 @@ sadofeva::List< unsigned long> sadofeva::splitNumbers(const std::string & str)
       {
         continue;
       }
-      value.push_back(std::stoul(str_value));
+      values.push_back(std::stoul(str_value));
       str_value.clear();
     }
     else

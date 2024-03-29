@@ -34,7 +34,7 @@ int main()
   }
   if (first)
   {
-    std::cerr << There is no sum of lists\n";
+    std::cerr << "There is no sum of lists\n";
     return 1;
   }
   std::cout << "\n";

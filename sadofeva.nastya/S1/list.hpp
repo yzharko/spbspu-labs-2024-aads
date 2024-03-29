@@ -162,7 +162,7 @@ sadofeva::List<T>::List(const List & list):
   }
   try
   {
-    Node * list_node = list.head->next;
+    Node * list_node = list.head_->next;
     head_ = new Node(list.head_->value);
     Node * this_node = head_;
     while (list_node)
