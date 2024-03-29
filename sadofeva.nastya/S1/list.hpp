@@ -35,8 +35,8 @@ namespace sadofeva
     const_iterator end() const;
     T & front();
     T & back();
-    List & operator =(const List & list);
-    List & operator =(List && list) noexcept;
+    List & operator=(const List & list);
+    List & operator=(List && list) noexcept;
     void swap(List & list) noexcept;
     bool empty() const;
     private:
@@ -119,6 +119,7 @@ void sadofeva::List<T>::pop_back()
   delete node_to_del;
 }
 
+
 template<typename T>
 sadofeva::List<T>::~List()
 {
@@ -128,7 +129,7 @@ sadofeva::List<T>::~List()
 template<typename T>
 sadofeva::List<T>::List():
   head_(nullptr),
-  tail(nullptr)
+  tail_(nullptr)
 {}
 
 template<typename T>
@@ -196,7 +197,7 @@ sadofeva::List<T>::List(List && list):
 }
 
 template <typename T>
-typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (const List & list)
+typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(const List & list)
 {
   if (this != & list)
   {
@@ -207,7 +208,7 @@ typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (const List & l
 }
 
 template <typename T>
-typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (List && list) noexcept;
+typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(List && list) noexcept
 {
   if (this != &list)
   {
@@ -215,7 +216,6 @@ typename sadofeva::List<T>::List & sadofeva::List<T>::operator = (List && list) 
   }
   return *this;
 }
-
 
 template <typename T>
 void sadofeva::List<T>::swap(List && list) noexcept
