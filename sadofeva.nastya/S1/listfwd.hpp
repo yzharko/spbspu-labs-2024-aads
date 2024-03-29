@@ -1,5 +1,5 @@
-#ifndef LISTS_FWD_HPP
-#define LISTS_FWD_HPP
+#ifndef LIST_FWD_HPP
+#define LIST_FWD_HPP
 #include <string>
 #include "list.hpp"
 

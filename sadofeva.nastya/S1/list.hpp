@@ -48,11 +48,11 @@ namespace sadofeva
 template< typename T>
 void sadofeva::List<T>::push_back(const T & value)
 {
-  Node* new_node = new None(value);
+  Node * new_node = new Node(value);
   if (tail_)
   {
     tail_->next = new_node;
-    new_done->prev = tail_;
+    new_node->prev = tail_;
   }
   else
   {
@@ -62,9 +62,9 @@ void sadofeva::List<T>::push_back(const T & value)
 }
 
 template<typename T>
-void sadofeva::List<T>::push_front(const T& value)
+void sadofeva::List<T>::push_front(const T & value)
 {
-  Node* new_node = new Node(value);
+  Node * new_node = new Node(value);
   new_node->next = head_;
   if (head_)
   {
@@ -122,7 +122,7 @@ void sadofeva::List<T>::pop_back()
 template<typename T>
 sadofeva::List<T>::~List()
 {
-  clead();
+  clear();
 }
 
 template<typename T>
@@ -234,8 +234,6 @@ T & sadofeva::List<T>::front()
   return *head_;
 }
 
-
-
 template <typename T>
 class sadofeva::List<T>::iterator
 {
@@ -283,7 +281,7 @@ typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator++()
 }
 
 template<typename T>
-typename sadofeva::List<T>;;iterator sadofeva::List<T>::iterator::operator++(int)
+typename sadofeva::List<T>::iterator sadofeva::List<T>::iterator::operator++(int)
 {
   assert(node_);
   iterator result(*this);
@@ -334,7 +332,7 @@ const T & sadofeva::List<T>::iterator::operator*() const
 }
 
 template<typename T>
-const T * sadofeva:List<T>::iterator::operator-> const
+const T * sadofeva::List<T>::iterator::operator-> const
 {
   asset(node_);
   return & node_->value;
