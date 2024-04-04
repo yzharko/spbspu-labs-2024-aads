@@ -37,7 +37,7 @@ void sadofeva::printNames(const input_list_t & list, std::ostream & out)
   }
 }
 
-void sadofeva::printNumberList(const numbers_list_t & list, std::ostream & out , char delimeter)
+void sadofeva::printNumberList(const numbers_list_t & list, std::ostream & out)
 {
   bool first = true;
   for (auto && value: list)
