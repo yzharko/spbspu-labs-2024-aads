@@ -251,8 +251,8 @@ class sadofeva::List<T>::iterator
     T * operator ->();
     const T & operator*() const;
     const T * operator->() const;
-    bool operator != (const iterator &)const;
-    bool operator==(const iterator &)const;
+    bool operator != (const iterator &) const;
+    bool operator==(const iterator &) const;
   private:
     using Node = typename List<T>::Node;
     Node * node_;
@@ -299,7 +299,7 @@ typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator--()
 }
 
 template<typename T>
-bool sadofeva::List<T>::iterator::operator==(const iterator && it) const
+bool sadofeva::List<T>::iterator::operator==(const iterator & it) const
 {
   return nose_ = it.node_ && list_ == it.list_;
 }
