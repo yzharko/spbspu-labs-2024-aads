@@ -29,7 +29,7 @@ namespace sadofeva
     void pop_front();
     void pop_back();
     void clear();
-    iterator begin():
+    iterator begin();
     iterator end();
     const_iterator begin() const;
     const_iterator end() const;
