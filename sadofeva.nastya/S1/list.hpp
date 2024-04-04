@@ -361,7 +361,7 @@ class sadofeva::List<T>::const_iterator
 };
 
 template<typename T>
-void sadofeva::List<T>::const_iterator::const_iterator():
+sadofeva::List<T>::const_iterator::const_iterator():
   iterator_()
 {}
 
@@ -386,7 +386,7 @@ typename sadofeva::List<T>::const_iterator sadofeva::List<T>::const_iterator::op
 template<typename T>
 typename sadofeva::List<T>::const_iterator sadofeva::List<T>::const_iterator::operator--()
 {
-  --iterator;
+  --iterator_;
   return *this;
 }
 
