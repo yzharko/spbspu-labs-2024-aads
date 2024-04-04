@@ -218,7 +218,7 @@ typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(List && list) no
 }
 
 template <typename T>
-void sadofeva::List<T>::swap(List && list) noexcept
+void sadofeva::List<T>::swap(List & list) noexcept
 {
   std::swap(head_,list.head_);
   std::swap(tail_,list.tail_);
