@@ -301,7 +301,7 @@ typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator--()
 template<typename T>
 bool sadofeva::List<T>::iterator::operator==(const iterator & it) const
 {
-  return nose_ = it.node_ && list_ == it.list_;
+  return node_ = it.node_ && list_ == it.list_;
 }
 
 template<typename T>
