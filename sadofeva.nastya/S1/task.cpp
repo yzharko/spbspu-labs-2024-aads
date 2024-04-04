@@ -34,7 +34,7 @@ sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
   return list_of_lists;
 }
 
-unsigned long sadofeva::sumNumbersFromList(const number_list_t & list)
+unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
 {
   unsigned long sum = 0;
   for (auto && value: list)

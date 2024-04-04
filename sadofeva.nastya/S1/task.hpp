@@ -1,6 +1,5 @@
 #ifndef TASK_HPP
 #define TASK_HPP
-
 #include <iosfwd>
 #include <string>
 #include "listfwd.hpp"
