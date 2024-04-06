@@ -33,7 +33,7 @@ int main()
     return 1;
   }
   bool first = true;
-  for (auto && nlist: list_of_lists)
+  for (auto && sum: sums)
   {
     if (first)
     {
