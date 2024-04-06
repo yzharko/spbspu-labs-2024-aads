@@ -29,7 +29,7 @@ int main()
   }
   catch (const std::overflow_error & e)
   {
-    std::cerr << e.what() >> "\n";
+    std::cerr << e.what() << "\n";
     return 1;
   }
   bool first = true;

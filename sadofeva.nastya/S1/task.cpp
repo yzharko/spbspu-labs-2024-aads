@@ -50,7 +50,7 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   unsigned long sum = 0;
   for (auto && value: list)
   {
-    sum = :: sum(sum,value);
+    sum = sadofeva::sum(sum,value);
   }
   return sum;
 }
