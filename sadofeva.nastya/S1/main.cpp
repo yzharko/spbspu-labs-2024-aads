@@ -43,7 +43,7 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sadofeva::sum;
+    std::cout << sum;
   }
   if (first)
   {
