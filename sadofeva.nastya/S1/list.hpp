@@ -170,7 +170,7 @@ sadofeva::List<T>::List(const List & list):
       this_node->next = new Node(list_node->value);
       this_node->next->prev = this_node;
       this_node = this_node->next;
-      this_node = list_node->next;
+      list_node = list_node->next;
     }
     tail_ = this_node;
   }

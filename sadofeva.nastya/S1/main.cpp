@@ -47,7 +47,7 @@ int main()
   }
   if (first)
   {
-    std::cerr << 0;
+    std::cout << 0;
   }
   std::cout << "\n";
   return 0;
