@@ -8,7 +8,7 @@ int main()
   sadofeva::input_list_t input_list = sadofeva::inputValues(std::cin);
   if (input_list.empty())
   {
-    std::cout << "0";
+    std::cout << "0\n";
     return 0;
   }
   sadofeva::printNames(input_list,std::cout);
@@ -18,6 +18,19 @@ int main()
   {
     sadofeva::printNumberList(nlist, std::cout);
     std::cout << "\n";
+  }
+  sadofeva::numbers_list_t sums{};
+  try
+  {
+    for (auto && nlist: list_of_lists)
+    {
+      sums.push_back(sadofeva::sumNumbersFromList(nlist));
+    }
+  }
+  catch (const std::overflow_error & e)
+  {
+    std::cerr << e.what() >> "\n";
+    return 1;
   }
   bool first = true;
   for (auto && nlist: list_of_lists)
@@ -30,12 +43,11 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sadofeva::sumNumbersFromList(nlist);
+    std::cout << sum;
   }
   if (first)
   {
-    std::cerr << "There is no sum of lists\n";
-    return 1;
+    std::cerr << 0;
   }
   std::cout << "\n";
   return 0;

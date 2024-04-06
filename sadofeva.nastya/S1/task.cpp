@@ -1,4 +1,15 @@
+#include <limits>
+#include <stdexcept>
 #include "task.hpp"
+
+unsigned long long sadofeva::sum(unsigned long long a, unsigned long long b)
+{
+  if ( a > std::numeric_limits<unsigned long long >::max() - b)
+  {
+    throw std::overflow_error("overflow");
+  }
+  return a + b;
+}
 
 sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
 {
@@ -39,7 +50,7 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   unsigned long sum = 0;
   for (auto && value: list)
   {
-    sum += value;
+    sum = :: sum(sum,value);
   }
   return sum;
 }
