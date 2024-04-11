@@ -12,8 +12,8 @@ namespace susidko
   class List
   {
     public:
-    class Iterator;
-    class ConstIterator;
+      class Iterator;
+      class ConstIterator;
 
       List():
         first_(nullptr),
@@ -26,11 +26,12 @@ namespace susidko
       List(std::initializer_list< T > list);
       List(Iterator first, Iterator last);
       List(ConstIterator first, ConstIterator last);
+      //~List();
       List(List< T > & p);
       List(List< T > && moved) noexcept;
+
       List< T > & operator=(List< T > & p);
       List< T > & operator=(List< T > && moved);
-
       T & operator[](size_t index);
 
       void assign(T data_);
@@ -48,21 +49,22 @@ namespace susidko
       void clear();
       bool empty() noexcept;
       size_t size();
-      Iterator begin() noexcept;
-      Iterator end() noexcept;
-      ConstIterator begin() const noexcept;
-      ConstIterator end() const noexcept;
-      ConstIterator cbegin() const noexcept;
-      ConstIterator cend() const noexcept;
       T front();
       T back();
-      T getValue(size_t);
+      T getValue(size_t index);
       T getSum();
       void print();
       void printpr();
       void printne();
       void swap(List< T > & other) noexcept;
       void reverse() noexcept;
+
+      Iterator begin() noexcept;
+      Iterator end() noexcept;
+      ConstIterator begin() const noexcept;
+      ConstIterator end() const noexcept;
+      ConstIterator cbegin() const noexcept;
+      ConstIterator cend() const noexcept;
     private:
       Node< T > * first_;
       Node< T > * last_;
@@ -95,7 +97,6 @@ namespace susidko
 
       bool operator!=(const this_t &) const;
       bool operator==(const this_t &) const;
-
     private:
       node_t node;
       ConstIterator(node_t*, const List< T >*);
@@ -464,7 +465,6 @@ namespace susidko
     {
       Node< T > * temp = new Node < T >(last_->prev->data, nullptr, last_->prev->prev);
       last_->prev->prev->next = temp;
-      //delete last_->prev;
       delete last_;
       last_ = temp;
     }
@@ -486,7 +486,6 @@ namespace susidko
     else
     {
       Node< T > * temp = new Node < T >(first_->next->data, first_->next->next, nullptr);
-      //delete last_->prev;
       delete first_;
       first_ = temp;
     }
