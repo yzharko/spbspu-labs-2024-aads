@@ -59,7 +59,7 @@ int main() {
       }
       curr_len = 0;
       pairs[count] = std::pair< std::string, storage_t > (input, storage_t());
-	  count++;
+      count++;
     }
   }
   if (isSeq == false)
