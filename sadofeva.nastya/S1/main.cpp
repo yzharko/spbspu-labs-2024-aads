@@ -33,7 +33,7 @@ int main()
     return 1;
   }
   bool first = true;
-  for (auto && sum: sums)
+  for (auto && sadofeva::sum: sums)
   {
     if (first)
     {

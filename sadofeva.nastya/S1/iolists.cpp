@@ -9,10 +9,6 @@ sadofeva::input_list_t sadofeva::inputValues(std::istream & in)
   {
     std::string name, value;
     in >> name;
-    if (name.empty())
-    {
-      continue;
-    }
     std::getline(in,value);
     input_list.push_back(std::make_pair(name,sadofeva::splitNumbers(value)));
   }

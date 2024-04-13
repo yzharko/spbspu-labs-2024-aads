@@ -1,8 +1,8 @@
-#include <limits>
 #include <stdexcept>
+#include <limits>
 #include "task.hpp"
 
-namespace
+namespace sadofeva
 {
   unsigned long long sum(unsigned long long a, unsigned long long b)
   {
@@ -53,7 +53,7 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   unsigned long sum = 0;
   for (auto && value: list)
   {
-    sum = ::sum(sum,value);
+    sum = sadofeva::sum(sum,value);
   }
   return sum;
 }

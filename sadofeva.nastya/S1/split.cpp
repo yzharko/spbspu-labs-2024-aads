@@ -1,6 +1,5 @@
-#include "split.hpp"
 #include <cctype>
-
+#include "split.hpp"
 sadofeva::List< unsigned long> sadofeva::splitNumbers(const std::string & str)
 {
   if (str.empty())
