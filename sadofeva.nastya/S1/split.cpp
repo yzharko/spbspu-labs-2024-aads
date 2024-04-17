@@ -6,7 +6,7 @@ sadofeva::List< unsigned long> sadofeva::splitNumbers(const std::string & str)
   {
     return {};
   }
-  sadofeva::List<unsigned long > values;
+  sadofeva::List< unsigned long > values;
   std::string str_value = "";
   auto iter = str.begin();
   while (iter!= str.end())

@@ -12,12 +12,16 @@ namespace sadofeva
   public:
     struct Node
     {
+    public:
       Node(const T & value);
       T value;
       ~Node() = default;
       Node* next;
       Node* prev;
     };
+    class iterator;
+    class const_iterator;
+
     List();
     ~List();
     List(const List & list);
@@ -35,9 +39,6 @@ namespace sadofeva
     void clear();
     bool empty() const;
     void swap(List & list) noexcept;
-
-    class iterator;
-    class const_iterator;
 
     iterator begin();
     iterator end();
