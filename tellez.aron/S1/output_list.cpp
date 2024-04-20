@@ -42,7 +42,6 @@ std::ostream & tellez::printList(std::ostream & output, const List< uint64_t > &
   }
   return output;
 }
- 
 
 void tellez::formOrderedNumLists(List < List< uint64_t > > & result, const List< named_list > & list)
 {
