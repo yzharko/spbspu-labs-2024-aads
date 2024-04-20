@@ -1,6 +1,5 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-
 #include <initializer_list>
 #include <stdexcept>
 #include "node.hpp"

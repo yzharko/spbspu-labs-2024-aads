@@ -1,6 +1,5 @@
 #ifndef INPUT_NAMED_LIST
 #define INPUT_NAMED_LIST
-
 #include <iosfwd>
 #include "list.hpp"
 

@@ -34,11 +34,10 @@ int main()
     std::cout << "\n";
     formOrderedNumLists(reformed_lines, lines);
     for (auto & cur_line: reformed_lines)
-      {
-        printList(std::cout, cur_line);
-        std::cout << "\n";
-
-  }
+    {
+      printList(std::cout, cur_line);
+      std::cout << "\n";
+    }
     formSumList(sums, reformed_lines);
   }
   catch (const std::overflow_error & e)
