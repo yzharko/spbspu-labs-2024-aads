@@ -83,7 +83,7 @@ int main()
   for (int j = 0; j != count + 1; j++)
   {
     std::cout << sum[j];
-    if (j != count + 1)
+    if (j != count)
     {
       std::cout << " ";
     }
