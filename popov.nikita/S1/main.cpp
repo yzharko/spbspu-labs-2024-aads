@@ -73,12 +73,12 @@ int main()
     {
       if (OList.iter.node->data.second.iter.node != nullptr)
       {
-        unsigned long long a = sum[count]
+        unsigned long long a = sum[count];
         if (a > std::numeric_limits<unsigned long long>::max() - OList.iter.node->data.second.iter.node->data)
         {
           throw std::overflow_error("overflow");
         }
-        sum[count] += OList.iter.node->data.second.iter.node->data
+        sum[count] += OList.iter.node->data.second.iter.node->data;
         if ((i != 0) and (flag != 1))
         {
           std::cout << " ";
@@ -95,7 +95,7 @@ int main()
     {
       std::cerr << "Error: " << e.what() << std::endl;
       delete[] sum;
-      retrun 1;
+      return 1;
     }
   }
   if (sizeAll != 0)
