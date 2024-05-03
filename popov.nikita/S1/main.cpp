@@ -53,6 +53,7 @@ int main()
   sizeAll = OList.size * sizeIn;
   unsigned long long* sum = new unsigned long long[OList.size]{0};
   int count = 0;
+  int flag = 0;
   for (size_t i = 0; i != sizeAll; i++)
   {
     if ((OList.iter.node != nullptr) and (i != 0))
@@ -64,13 +65,18 @@ int main()
       OList.iterBegin();
       count++;
       std::cout << "\n";
+      flag = 1;
     }
     if (OList.iter.node->data.second.iter.node != nullptr)
     {
       sum[count] += OList.iter.node->data.second.iter.node->data;
-      if (i != 0)
+      if ((i != 0) and (flag != 1))
       {
         std::cout << " ";
+      }
+      if (flag == 1)
+      {
+        flag = 0;
       }
       std::cout << OList.iter.node->data.second.iter.node->data;
       OList.iter.node->data.second.iter++;
