@@ -9,9 +9,8 @@ int main()
   size_t sizeAll = 0;
   size_t sizeIn = 0;
   std::string input = "";
-  while (!std::cin.eof())
+  while ((!std::cin.eof()) and (std::cin >> input))
   {
-    std::cin >> input;
     if (isdigit(input[0]))
     {
       OList.tail->data.second.pushBack(std::stoull(input));
