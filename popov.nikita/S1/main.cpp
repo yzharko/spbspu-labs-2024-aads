@@ -70,7 +70,7 @@ int main()
       sum[count] += OList.iter.node->data.second.iter.node->data;
       std::cout << OList.iter.node->data.second.iter.node->data;
       OList.iter.node->data.second.iter++;
-      if (OList.iter.node->data.second.iter.node != nullptr)
+      if !(OList.iter.node->tail)
       {
         std::cout << " ";
       }
