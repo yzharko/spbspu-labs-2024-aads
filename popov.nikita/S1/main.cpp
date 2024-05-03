@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <limits>
+#include <stdexpect>
 #include "list.hpp"
 
 int main()
@@ -67,19 +69,33 @@ int main()
       std::cout << "\n";
       flag = 1;
     }
-    if (OList.iter.node->data.second.iter.node != nullptr)
+    try
     {
-      sum[count] += OList.iter.node->data.second.iter.node->data;
-      if ((i != 0) and (flag != 1))
+      if (OList.iter.node->data.second.iter.node != nullptr)
       {
-        std::cout << " ";
+        unsigned long long a = sum[count]
+        if (a > std::numeric_limits<unsigned long long>::max() - OList.iter.node->data.second.iter.node->data)
+        {
+          throw std::overflow_error("overflow");
+        }
+        sum[count] += OList.iter.node->data.second.iter.node->data
+        if ((i != 0) and (flag != 1))
+        {
+          std::cout << " ";
+        }
+        if (flag == 1)
+        {
+          flag = 0;
+        }
+        std::cout << OList.iter.node->data.second.iter.node->data;
+        OList.iter.node->data.second.iter++;
       }
-      if (flag == 1)
-      {
-        flag = 0;
-      }
-      std::cout << OList.iter.node->data.second.iter.node->data;
-      OList.iter.node->data.second.iter++;
+    }
+    catch (const std::overflow_error& e)
+    {
+      std::cerr << "Error: " << e.what() << std::endl;
+      delete[] sum;
+      retrun 1;
     }
   }
   if (sizeAll != 0)
