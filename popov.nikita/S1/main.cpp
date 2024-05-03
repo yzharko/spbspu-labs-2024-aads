@@ -58,7 +58,6 @@ int main()
     if ((OList.iter.node != nullptr) and (i != 0))
     {
       OList.iter++;
-      std::cout << " ";
     }
     if (OList.iter.node == nullptr)
     {
@@ -71,6 +70,10 @@ int main()
       sum[count] += OList.iter.node->data.second.iter.node->data;
       std::cout << OList.iter.node->data.second.iter.node->data;
       OList.iter.node->data.second.iter++;
+      if (OList.iter.node->data.second.iter.node != nullptr)
+      {
+        std::cout << " ";
+      }
     }
   }
   if (sizeAll != 0)
