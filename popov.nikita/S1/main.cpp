@@ -82,7 +82,11 @@ int main()
   }
   for (int j = 0; j != count + 1; j++)
   {
-    std::cout << sum[j] << " ";
+    std::cout << sum[j];
+    if (j != count + 1)
+    {
+      std::cout << " ";
+    }
   }
   std::cout << "\n";
   delete[] sum;
