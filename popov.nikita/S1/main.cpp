@@ -23,6 +23,7 @@ int main()
   if (OList.head == nullptr)
   {
     std::cout << 0 << "\n";
+    return 0;
   }
   while (OList.iter.node != nullptr)
   {
