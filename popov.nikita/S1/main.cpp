@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <stdexpect>
+#include <stdexcept>
 #include "list.hpp"
 
 int main()
