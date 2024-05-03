@@ -68,12 +68,12 @@ int main()
     if (OList.iter.node->data.second.iter.node != nullptr)
     {
       sum[count] += OList.iter.node->data.second.iter.node->data;
-      std::cout << OList.iter.node->data.second.iter.node->data;
-      OList.iter.node->data.second.iter++;
-      if (OList.iter.node->next != nullptr)
+      if (i != 0)
       {
         std::cout << " ";
       }
+      std::cout << OList.iter.node->data.second.iter.node->data;
+      OList.iter.node->data.second.iter++;
     }
   }
   if (sizeAll != 0)
