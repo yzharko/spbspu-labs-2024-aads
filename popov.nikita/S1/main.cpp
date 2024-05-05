@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <stdexcept>
 #include "list.hpp"
 
 int main()
@@ -97,9 +96,9 @@ int main()
   {
     std::cout << "\n";
   }
-  if (flag2 = 1)
+  if (flag2 == 1)
   {
-    std::cerr << "Error: " << e.what() << std::endl;
+    std::cerr << "Error: overflow" << "\n";
     delete[] sum;
     return 1;
   }
