@@ -24,6 +24,13 @@ namespace popov
         pop_front();
       }
     }
+    void clear()
+    {
+      while (head)
+      {
+        pop_front();
+      }
+    }
     void pushBack(T data)
     {
       Node< T > * ptr = new Node< T >(data);
@@ -39,6 +46,11 @@ namespace popov
       }
       tail = ptr;
       ++size;
+    }
+    void swap(List<T> other)
+    {
+      std::swap(head, other.head);
+      std::swap(tail, other.tail);
     }
     void pop_front()
     {
