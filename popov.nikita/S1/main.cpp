@@ -56,6 +56,7 @@ int main()
   unsigned long long* sum = new unsigned long long[OList.size]{0};
   int count = 0;
   int flag = 0;
+  int flag2 = 0;
   for (size_t i = 0; i != sizeAll; i++)
   {
     if ((OList.iter.node != nullptr) and (i != 0))
@@ -69,38 +70,38 @@ int main()
       std::cout << "\n";
       flag = 1;
     }
-    try
+    if (OList.iter.node->data.second.iter.node != nullptr)
     {
-      if (OList.iter.node->data.second.iter.node != nullptr)
+      unsigned long long a = sum[count];
+      if (a <= std::numeric_limits<unsigned long long>::max() - OList.iter.node->data.second.iter.node->data)
       {
-        unsigned long long a = sum[count];
-        if (a > std::numeric_limits<unsigned long long>::max() - OList.iter.node->data.second.iter.node->data)
-        {
-          throw std::overflow_error("overflow");
-        }
         sum[count] += OList.iter.node->data.second.iter.node->data;
-        if ((i != 0) and (flag != 1))
-        {
-          std::cout << " ";
-        }
-        if (flag == 1)
-        {
-          flag = 0;
-        }
-        std::cout << OList.iter.node->data.second.iter.node->data;
-        OList.iter.node->data.second.iter++;
       }
-    }
-    catch (const std::overflow_error& e)
-    {
-      std::cerr << "Error: " << e.what() << std::endl;
-      delete[] sum;
-      return 1;
+      else
+      {
+        flag2 = 1;
+      }
+      if ((i != 0) and (flag != 1))
+      {
+        std::cout << " ";
+      }
+      if (flag == 1)
+      {
+        flag = 0;
+      }
+      std::cout << OList.iter.node->data.second.iter.node->data;
+      OList.iter.node->data.second.iter++;
     }
   }
   if (sizeAll != 0)
   {
     std::cout << "\n";
+  }
+  if (flag2 = 1)
+  {
+    std::cerr << "Error: " << e.what() << std::endl;
+    delete[] sum;
+    return 1;
   }
   for (int j = 0; j != count + 1; j++)
   {
