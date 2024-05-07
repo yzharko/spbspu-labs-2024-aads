@@ -33,7 +33,7 @@ int main()
     return 1;
   }
   bool first = true;
-  for (auto && sadofeva::sum : sums)
+  for (auto && sum : sums)
   {
     if (first)
     {
@@ -43,7 +43,7 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sadofeva::sum;
+    std::cout << sum;
   }
   if (first)
   {
