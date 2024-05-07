@@ -33,7 +33,7 @@ int main()
     return 1;
   }
   bool first = true;
-  for (auto && sum : sums)
+  for (auto && sum1 : sums)
   {
     if (first)
     {
@@ -43,7 +43,7 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sum;
+    std::cout << sum1;
   }
   if (first)
   {
