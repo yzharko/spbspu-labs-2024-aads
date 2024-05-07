@@ -33,7 +33,7 @@ int main()
     return 1;
   }
   bool first = true;
-  for (auto && sadofeva::sum : sums)
+  for (auto && nlist : list_of_lists)
   {
     if (first)
     {
@@ -43,11 +43,12 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sadofeva::sum;
+    std::cout << sadofeva::sumNumbersFromList(nlist);
   }
   if (first)
   {
-    std::cout << 0;
+    std::cerr << "There is no sum of lists\n;
+    return 1;
   }
   std::cout << "\n";
   return 0;
