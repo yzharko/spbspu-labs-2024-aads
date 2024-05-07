@@ -2,17 +2,17 @@
 #include <limits>
 #include "task.hpp"
 
-namespace sadofeva
+//namespace sadofeva
+//{
+unsigned long long sum(unsigned long long a, unsigned long long b)
 {
-  unsigned long long sum(unsigned long long a, unsigned long long b)
+  if ( a > std::numeric_limits< unsigned long long >::max() - b)
   {
-    if ( a > std::numeric_limits< unsigned long long >::max() - b)
-    {
-      throw std::overflow_error("overflow");
-    }
-    return a + b;
+    throw std::overflow_error("overflow");
   }
+  return a + b;
 }
+//}
 
 sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
 {
