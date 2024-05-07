@@ -4,7 +4,7 @@
 
 //namespace sadofeva
 //{
-unsigned long long sum(unsigned long long a, unsigned long long b)
+unsigned long long sum1(unsigned long long a, unsigned long long b)
 {
   if ( a > std::numeric_limits< unsigned long long >::max() - b)
   {
@@ -53,7 +53,7 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   unsigned long sum = 0;
   for (auto && value: list)
   {
-    sum = sum(sum,value);
+    sum = sum1(sum,value);
   }
   return sum;
 }
