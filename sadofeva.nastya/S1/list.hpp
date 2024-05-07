@@ -373,19 +373,26 @@ sadofeva::List< T >::List(const List & list):
   {
     return;
   }
-  Node * list_node = list.head_->next;
-  head_ = new Node(list.head_->value);
-  Node * this_node = head_;
-  while (list_node)
+  try
   {
-    this_node->next = new Node(list_node->value);
-    this_node->next->prev = this_node;
-    this_node = this_node->next;
-    list_node = list_node->next;
+    Node * list_node = list.head_->next;
+    head_ = new Node(list.head_->value);
+    Node * this_node = head_;
+    while (list_node)
+    {
+      this_node->next = new Node(list_node->value);
+      this_node->next->prev = this_node;
+      this_node = this_node->next;
+      list_node = list_node->next;
+    }
+    tail_ = this_node;
   }
-  tail_ = this_node;
+  catch (...)
+  {
+    clear();
+    throw;
+  }
 }
-
 
 template < typename T >
 bool sadofeva::List< T >::empty() const
