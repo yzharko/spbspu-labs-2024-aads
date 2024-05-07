@@ -6,7 +6,7 @@ namespace sadofeva
 {
   unsigned long long sum(unsigned long long a, unsigned long long b)
   {
-    if ( a > std::numeric_limits<unsigned long long >::max() - b)
+    if ( a > std::numeric_limits< unsigned long long >::max() - b)
     {
       throw std::overflow_error("overflow");
     }
@@ -17,7 +17,7 @@ namespace sadofeva
 sadofeva::list_lists_t sadofeva::transformList(const input_list_t & list)
 {
   using iter_t = numbers_list_t::const_iterator;
-  sadofeva::List<std::pair<iter_t,iter_t>> iter_list;
+  sadofeva::List< std::pair< iter_t,iter_t > > iter_list;
   for (auto && elem: list)
   {
     iter_list.push_back(std::make_pair(elem.second.begin(), elem.second.end()));

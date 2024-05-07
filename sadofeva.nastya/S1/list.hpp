@@ -6,7 +6,7 @@
 
 namespace sadofeva
 {
-  template < typename T>
+  template < typename T >
   class List
   {
   public:
@@ -50,11 +50,11 @@ namespace sadofeva
   };
 }
 
-template <typename T>
-class sadofeva::List<T>::iterator
+template < typename T >
+class sadofeva::List< T >::iterator: public std::iterator< std::bidirectional_iterator_tag, T>
 {
   public:
-    friend class List<T>;
+    friend class List< T >;
     iterator();
     iterator(const iterator &) = default;
     ~iterator() = default;
@@ -70,34 +70,34 @@ class sadofeva::List<T>::iterator
     bool operator != (const iterator &) const;
     bool operator==(const iterator &) const;
   private:
-    using Node = typename List<T>::Node;
+    using Node = typename List< T >::Node;
     Node * node_;
-    const List<T> * list_;
-    iterator(Node * node, const List<T> * list);
+    const List< T > * list_;
+    iterator(Node * node, const List< T > * list);
 };
 
-template <typename T>
-sadofeva::List<T>::iterator::iterator():
+template< typename T >
+sadofeva::List< T >::iterator::iterator():
   node_(nullptr),
   list_(nullptr)
 {}
 
-template <typename T>
-sadofeva::List<T>::iterator::iterator(Node * node, const List<T> * list):
+template< typename T >
+sadofeva::List< T >::iterator::iterator(Node * node, const List< T > * list):
   node_(node),
   list_(list)
 {}
 
-template <typename T>
-typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator++()
+template< typename T >
+typename sadofeva::List< T >::iterator & sadofeva::List< T >::iterator::operator++()
 {
   assert(node_);
   node_ = node_->next;
   return *this;
 }
 
-template<typename T>
-typename sadofeva::List<T>::iterator sadofeva::List<T>::iterator::operator++(int)
+template< typename T >
+typename sadofeva::List< T >::iterator sadofeva::List< T >::iterator::operator++(int)
 {
   assert(node_);
   iterator result(*this);
@@ -105,8 +105,8 @@ typename sadofeva::List<T>::iterator sadofeva::List<T>::iterator::operator++(int
   return result;
 }
 
-template<typename T>
-typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator--()
+template< typename T >
+typename sadofeva::List< T >::iterator & sadofeva::List< T >::iterator::operator--()
 {
   asset(node_);
   iterator result(*this);
@@ -114,50 +114,50 @@ typename sadofeva::List<T>::iterator & sadofeva::List<T>::iterator::operator--()
   return result;
 }
 
-template<typename T>
-bool sadofeva::List<T>::iterator::operator==(const iterator & it) const
+template< typename T >
+bool sadofeva::List< T >::iterator::operator==(const iterator & it) const
 {
   return node_ == it.node_ && list_ == it.list_;
 }
 
-template<typename T>
-bool sadofeva::List<T>::iterator::operator!=(const iterator & it) const
+template< typename T >
+bool sadofeva::List< T >::iterator::operator!=(const iterator & it) const
 {
   return !(it == *this);
 }
 
-template<typename T>
-T & sadofeva::List<T>::iterator::operator*()
+template< typename T >
+T & sadofeva::List< T >::iterator::operator*()
 {
   assert(node_);
   return node_->value;
 }
-template <typename T>
-T * sadofeva::List<T>::iterator::operator->()
+template < typename T >
+T * sadofeva::List< T >::iterator::operator->()
 {
   assert(node_);
   return std::addressof(node_->value);
 }
 
-template<typename T>
-const T & sadofeva::List<T>::iterator::operator*() const
+template< typename T >
+const T & sadofeva::List< T >::iterator::operator*() const
 {
   assert(node_);
   return node_->value;
 }
 
-template<typename T>
-const T * sadofeva::List<T>::iterator::operator->() const
+template< typename T >
+const T * sadofeva::List< T >::iterator::operator->() const
 {
   assert(node_);
   return & node_->value;
 }
 
-template <typename T>
-class sadofeva::List<T>::const_iterator
+template< typename T >
+class sadofeva::List< T >::const_iterator: public std::iterator< std::bidirectional_iterator_tag, T >
 {
   public:
-    friend class List<T>;
+    friend class List< T >;
     const_iterator();
     const_iterator(const const_iterator &) = default;
     const_iterator(iterator);
@@ -175,91 +175,91 @@ class sadofeva::List<T>::const_iterator
     iterator iterator_;
 };
 
-template<typename T>
-sadofeva::List<T>::const_iterator::const_iterator():
+template< typename T >
+sadofeva::List< T >::const_iterator::const_iterator():
   iterator_()
 {}
 
-template<typename T>
-sadofeva::List<T>::const_iterator::const_iterator(iterator iter):
+template< typename T >
+sadofeva::List< T >::const_iterator::const_iterator(iterator iter):
   iterator_(iter)
 {}
 
-template<typename T>
-typename sadofeva::List<T>::const_iterator & sadofeva::List<T>::const_iterator::operator++()
+template< typename T >
+typename sadofeva::List< T >::const_iterator & sadofeva::List< T >::const_iterator::operator++()
 {
   ++iterator_;
   return *this;
 }
 
-template<typename T>
-typename sadofeva::List<T>::const_iterator sadofeva::List<T>::const_iterator::operator++(int)
+template< typename T >
+typename sadofeva::List< T >::const_iterator sadofeva::List< T >::const_iterator::operator++(int)
 {
   return const_iterator(iterator_++);
 }
 
-template<typename T>
-typename sadofeva::List<T>::const_iterator & sadofeva::List<T>::const_iterator::operator--()
+template< typename T >
+typename sadofeva::List< T >::const_iterator & sadofeva::List< T >::const_iterator::operator--()
 {
   --iterator_;
   return *this;
 }
 
-template<typename T>
-typename sadofeva::List<T>::const_iterator sadofeva::List<T>::const_iterator::operator--(int)
+template< typename T >
+typename sadofeva::List< T >::const_iterator sadofeva::List< T >::const_iterator::operator--(int)
 {
   return iterator(iterator_--);
 }
-template<typename T>
-bool sadofeva::List<T>::const_iterator::operator==(const const_iterator & it) const
+template< typename T >
+bool sadofeva::List< T >::const_iterator::operator==(const const_iterator & it) const
 {
   return iterator_ == it.iterator_;
 }
 
-template<typename T>
-bool sadofeva::List<T>::const_iterator::operator!=(const const_iterator & it) const
+template< typename T >
+bool sadofeva::List< T >::const_iterator::operator!=(const const_iterator & it) const
 {
   return !(it == *this);
 }
 
-template<typename T>
-const T & sadofeva::List<T>::const_iterator::operator*() const
+template< typename T >
+const T & sadofeva::List< T >::const_iterator::operator*() const
 {
   return *iterator_;
 }
 
-template<typename T>
-const T * sadofeva::List<T>::const_iterator::operator->() const
+template< typename T >
+const T * sadofeva::List< T >::const_iterator::operator->() const
 {
   return &(*iterator_);
 }
 
-template <typename T>
-typename sadofeva::List<T>::iterator sadofeva::List<T>::begin()
+template < typename T >
+typename sadofeva::List< T >::iterator sadofeva::List< T >::begin()
 {
   return iterator(head_,this);
 }
 
-template<typename T>
-typename sadofeva::List<T>::iterator sadofeva::List<T>::end()
+template< typename T >
+typename sadofeva::List< T >::iterator sadofeva::List< T >::end()
 {
   return iterator(nullptr,this);
 }
 
-template <typename T>
-typename sadofeva::List<T>::const_iterator sadofeva::List<T>::begin() const
+template < typename T >
+typename sadofeva::List< T >::const_iterator sadofeva::List< T >::begin() const
 {
   return const_iterator(iterator(head_,this));
 }
 
-template <typename T>
-typename sadofeva::List<T>::const_iterator sadofeva::List<T>::end() const
+template < typename T >
+typename sadofeva::List< T >::const_iterator sadofeva::List< T >::end() const
 {
   return const_iterator(iterator(nullptr,this));
 }
 
-template< typename T>
-void sadofeva::List<T>::push_back(const T & value)
+template< typename T >
+void sadofeva::List< T >::push_back(const T & value)
 {
   Node * new_node = new Node(value);
   if (tail_)
@@ -274,8 +274,8 @@ void sadofeva::List<T>::push_back(const T & value)
   tail_ = new_node;
 }
 
-template<typename T>
-void sadofeva::List<T>::push_front(const T & value)
+template< typename T >
+void sadofeva::List< T >::push_front(const T & value)
 {
   Node * new_node = new Node(value);
   new_node->next = head_;
@@ -290,8 +290,8 @@ void sadofeva::List<T>::push_front(const T & value)
   head_ = new_node;
 }
 
-template<typename T>
-void sadofeva::List<T>::pop_front()
+template< typename T >
+void sadofeva::List< T >::pop_front()
 {
   if (empty())
   {
@@ -311,8 +311,8 @@ void sadofeva::List<T>::pop_front()
   delete node_to_del;
 }
 
-template<typename T>
-void sadofeva::List<T>::pop_back()
+template< typename T >
+void sadofeva::List< T >::pop_back()
 {
   if (empty())
   {
@@ -333,20 +333,20 @@ void sadofeva::List<T>::pop_back()
 }
 
 
-template<typename T>
-sadofeva::List<T>::~List()
+template< typename T >
+sadofeva::List< T >::~List()
 {
   clear();
 }
 
-template<typename T>
-sadofeva::List<T>::List():
+template< typename T >
+sadofeva::List< T >::List():
   head_(nullptr),
   tail_(nullptr)
 {}
 
-template<typename T>
-void sadofeva::List<T>::clear()
+template< typename T >
+void sadofeva::List< T >::clear()
 {
   while ( head_ != nullptr)
   {
@@ -358,50 +358,43 @@ void sadofeva::List<T>::clear()
   tail_ = nullptr;
 }
 
-template < typename T>
-sadofeva::List<T>::Node::Node(const T & value):
+template < typename T >
+sadofeva::List< T >::Node::Node(const T & value):
   value(value),
   next(nullptr),
   prev(nullptr)
 {}
 
-template <typename T>
-sadofeva::List<T>::List(const List & list):
+template < typename T >
+sadofeva::List< T >::List(const List & list):
   List()
 {
   if (list.empty())
   {
     return;
   }
-  try
+  Node * list_node = list.head_->next;
+  head_ = new Node(list.head_->value);
+  Node * this_node = head_;
+  while (list_node)
   {
-    Node * list_node = list.head_->next;
-    head_ = new Node(list.head_->value);
-    Node * this_node = head_;
-    while (list_node)
-    {
-      this_node->next = new Node(list_node->value);
-      this_node->next->prev = this_node;
-      this_node = this_node->next;
-      list_node = list_node->next;
-    }
-    tail_ = this_node;
+    this_node->next = new Node(list_node->value);
+    this_node->next->prev = this_node;
+    this_node = this_node->next;
+    list_node = list_node->next;
   }
-  catch (...)
-  {
-    clear();
-    throw;
-  }
+  tail_ = this_node;
 }
 
-template <typename T>
-bool sadofeva::List<T>::empty() const
+
+template < typename T >
+bool sadofeva::List< T >::empty() const
 {
   return !head_;
 }
 
-template <typename T>
-sadofeva::List<T>::List(List && list):
+template < typename T >
+sadofeva::List< T >::List(List && list):
   head_(list.head_),
   tail_(list.tail_)
 {
@@ -409,19 +402,19 @@ sadofeva::List<T>::List(List && list):
   list.tail_ = nullptr;
 }
 
-template <typename T>
-typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(const List & list)
+template < typename T >
+typename sadofeva::List< T >::List & sadofeva::List< T >::operator=(const List & list)
 {
   if (this != & list)
   {
-    List<T> tmp(list);
+    List< T > tmp(list);
     swap(tmp);
   }
   return *this;
 }
 
-template <typename T>
-typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(List && list) noexcept
+template < typename T >
+typename sadofeva::List< T >::List & sadofeva::List< T >::operator=(List && list) noexcept
 {
   if (this != &list)
   {
@@ -430,15 +423,15 @@ typename sadofeva::List<T>::List & sadofeva::List<T>::operator=(List && list) no
   return *this;
 }
 
-template <typename T>
-void sadofeva::List<T>::swap(List & list) noexcept
+template < typename T >
+void sadofeva::List< T >::swap(List & list) noexcept
 {
   std::swap(head_,list.head_);
   std::swap(tail_,list.tail_);
 }
 
-template <typename T>
-T & sadofeva::List<T>::front()
+template < typename T >
+T & sadofeva::List< T >::front()
 {
   if (empty())
   {
