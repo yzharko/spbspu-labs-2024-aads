@@ -1,6 +1,6 @@
 #include "queue.hpp"
 #include "stack.hpp"
-
+#include <iostream>
 int main(int argc, char* argv[])
 {
   using namespace jirkov;
@@ -20,7 +20,16 @@ int main(int argc, char* argv[])
   }
   else if (argc == 2)
   {
-    // input something
+    std::ifstream input(argv[]);
+    std::string operation;
+    while (!std::cin.eof())
+    {
+      std::getline(std::cin, operation);
+      if (!operation.empty())
+      {
+        someQueue.push(operation);
+      }
+    }
   }
   else
   {
@@ -31,7 +40,7 @@ int main(int argc, char* argv[])
   {
     //functions
   }
-  catch (std::exception const & e)
+  catch (std::exception & const e)
   {
     std::cout << e.what();
     return 1;

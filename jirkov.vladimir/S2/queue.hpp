@@ -1,6 +1,8 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 //#include "list.hpp"
+#include <utility>
+#include <cstddef>
 
 namespace jirkov
 {
@@ -18,7 +20,7 @@ namespace jirkov
     T& front();
     T& back();
     size_t size();
-    bool empty() const noexcept
+    bool empty() const noexcept;
 
   private:
     List< T > queue;
