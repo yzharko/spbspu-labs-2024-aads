@@ -1,16 +1,16 @@
 #ifndef LISTITERATOR_HPP
 #define LISTITERATOR_HPP
-#include "node.hpp"
 #include <iostream>
 #include <cassert>
+#include "node.hpp"
 
 namespace popov
 {
-  template<typename T>
+  template< typename T >
   struct ListIterator
   {
-    Node<T> * node;
-    using this_t = ListIterator<T>;
+    Node< T > * node;
+    using this_t = ListIterator< T >;
     ListIterator(): node(nullptr) {}
     ~ListIterator()= default;
     ListIterator(const this_t &) = default;

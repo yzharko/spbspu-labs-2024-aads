@@ -5,7 +5,7 @@
 
 int main()
 {
-  using OutList = popov::List<std::pair<std::string, popov::List<unsigned long long>>>;
+  using OutList = popov::List< std::pair < std::string, popov::List < unsigned long long > > >;
   OutList OList;
   size_t sizeAll = 0;
   size_t sizeIn = 0;
@@ -18,7 +18,7 @@ int main()
     }
     else
     {
-      OList.pushBack(std::pair<std::string,popov::List<unsigned long long>> (input, popov::List<unsigned long long>()));
+      OList.pushBack(std::pair< std::string,popov::List< unsigned long long > > (input, popov::List< unsigned long long >()));
     }
   }
   if (OList.head == nullptr)

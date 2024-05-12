@@ -10,7 +10,7 @@ namespace popov
   template< typename T >
   struct List
   {
-    ListIterator<T> iter;
+    ListIterator< T > iter;
     Node< T > * head, * tail;
     size_t size;
     List():
@@ -48,7 +48,7 @@ namespace popov
       tail = ptr;
       ++size;
     }
-    void swap(List<T> other)
+    void swap(List< T > other)
     {
       std::swap(head, other.head);
       std::swap(tail, other.tail);
@@ -59,7 +59,7 @@ namespace popov
       {
         return;
       }
-      Node<T> * ptr = head->next;
+      Node< T > * ptr = head->next;
       if (ptr != nullptr)
       {
         ptr->prev = nullptr;
