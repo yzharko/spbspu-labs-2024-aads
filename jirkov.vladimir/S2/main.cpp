@@ -6,10 +6,17 @@ int main(int argc, char* argv[])
   using namespace jirkov;
   Queue< std::string > someQueue;
   Stack< long long > someStack;
-
   if (argc == 1)
   {
-    //input function
+    std::string operation;
+    while (!std::cin.eof())
+    {
+      std::getline(std::cin, operation);
+      if (!operation.empty())
+      {
+        someQueue.push(operation);
+      }
+    }
   }
   else if (argc == 2)
   {
@@ -24,7 +31,7 @@ int main(int argc, char* argv[])
   {
     //functions
   }
-  catch (std::exception &e)
+  catch (std::exception const & e)
   {
     std::cout << e.what();
     return 1;
