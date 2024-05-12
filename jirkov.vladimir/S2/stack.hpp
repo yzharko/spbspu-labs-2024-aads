@@ -8,16 +8,16 @@ namespace jirkov
   class Stack
   {
   public:
-    Stack();
+    Stack() = default;
     Stack(const Stack < T > & newStack);
     Stack(Stack < T > && newStack);
-    ~Stack();
+    ~Stack() = default;
 
     void push(const T& data);
     void drop();
     T& front();
     T& back();
-    bool empty();
+    bool empty() const noexcept;
     size_t size();
 
   private:
@@ -62,7 +62,7 @@ T& jirkov::Stack< T >::back()
 }
 
 template< typename T >
-bool jirkov::Stack< T >::empty()
+bool jirkov::Stack< T >::empty() const noexcept
 {
   stack.empty();
 }

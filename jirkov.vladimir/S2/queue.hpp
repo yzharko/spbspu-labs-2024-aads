@@ -8,17 +8,17 @@ namespace jirkov
   class Queue
   {
   public:
-    Queue();
+    Queue() = default;
     Queue(const Queue < T > & newQueue);
     Queue(Queue < T > && newQueue);
-    ~Queue();
+    ~Queue() = default;
 
     void push(const T& data);
     void drop();
     T& front();
     T& back();
     size_t size();
-    bool empty()
+    bool empty() const noexcept
 
   private:
     List< T > queue;
@@ -62,7 +62,7 @@ T& jirkov::Queue< T >::back()
 }
 
 template< typename T >
-bool jirkov::Queue< T >::empty()
+bool jirkov::Queue< T >::empty() const noexcept
 {
   queue.empty();
 }
