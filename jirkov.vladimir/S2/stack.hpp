@@ -52,25 +52,25 @@ void jirkov::Stack< T >::drop()
 template< typename T >
 T& jirkov::Stack< T >::front()
 {
-  stack.front();
+  return stack.front();
 }
 
 template< typename T >
 T& jirkov::Stack< T >::back()
 {
-  stack.back();
+  return stack.back();
 }
 
 template< typename T >
 bool jirkov::Stack< T >::empty() const noexcept
 {
-  stack.empty();
+  return stack.empty();
 }
 
 template< typename T >
 size_t jirkov::Stack< T >::size()
 {
-  stack.size();
+  return stack.size();
 }
 
 #endif

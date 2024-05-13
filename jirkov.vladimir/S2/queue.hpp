@@ -54,25 +54,25 @@ void jirkov::Queue< T >::drop()
 template< typename T >
 T& jirkov::Queue< T >::front()
 {
-  queue.front();
+  return queue.front();
 }
 
 template< typename T >
 T& jirkov::Queue< T >::back()
 {
-  queue.back();
+  return queue.back();
 }
 
 template< typename T >
 bool jirkov::Queue< T >::empty() const noexcept
 {
-  queue.empty();
+  return queue.empty();
 }
 
 template< typename T >
 size_t jirkov::Queue< T >::size()
 {
-  queue.size();
+  return queue.size();
 }
 
 #endif
