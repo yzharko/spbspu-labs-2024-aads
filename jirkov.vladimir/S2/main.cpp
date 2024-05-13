@@ -39,7 +39,16 @@ int main(int argc, char* argv[])
   }
   try
   {
-    //functions
+    while (!someStack.empty())
+    {
+      std::cout << someStack.front();
+      if (someStack.front() != someStack.back())
+      {
+        std::cout << ' ';
+      }
+      someStack.drop();
+    }
+    std::cout << '\n';
   }
   catch (std::exception & const e)
   {
