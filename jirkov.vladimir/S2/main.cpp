@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
   }
   else if (argc == 2)
   {
-    std::ifstream input(argv[]);
+    std::ifstream std::cin(argv[]);
     std::string operation;
     while (!std::cin.eof())
     {
