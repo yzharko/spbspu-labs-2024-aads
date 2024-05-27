@@ -24,5 +24,6 @@ int main(int argc, char** argv)
         std::cout << err.what();
         return 1;
     }
+    std::cout << "\n";
     return 0;
 }
