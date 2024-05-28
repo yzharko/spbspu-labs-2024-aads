@@ -12,8 +12,6 @@ namespace zasulsky
       vertex_(nullptr)
     {}
 
-
-
     Stack(T data) :
       vertex_(new detail::Node < T >(data))
     {}
@@ -106,8 +104,8 @@ namespace zasulsky
 
   private:
 
-
     detail::Node< T >* vertex_;
+
   };
 }
 

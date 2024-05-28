@@ -49,15 +49,15 @@ namespace zasulsky
       }
     }
 
-    template <class T>
-    std::pair<std::unique_ptr<Node<T>>, std::unique_ptr<Node<T>>> copyList(Node<T>* other) {
+    template < class T >
+    std::pair< std::unique_ptr< Node< T > >, std::unique_ptr<Node<T>>> copyList(Node<T>* other) {
       if (other)
       {
-        std::unique_ptr<Node<T>> head = std::make_unique<Node<T>>(other->data);
-        Node<T>* temp1 = other->next;
-        Node<T>* temp2 = head.get();
+        std::unique_ptr< Node< T > > head = std::make_unique< Node< T > >(other->data);
+        Node< T >* temp1 = other->next;
+        Node< T >* temp2 = head.get();
         while (temp1 != nullptr) {
-          temp2->next = std::make_unique<Node<T>>(temp1->data);
+          temp2->next = std::make_unique< Node< T > >(temp1->data);
           temp2->next->prev = temp2;
           temp2 = temp2->next.get();
           temp1 = temp1->next;

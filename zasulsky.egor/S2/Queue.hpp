@@ -118,6 +118,7 @@ namespace zasulsky
 
     detail::Node < T >* head_;
     detail::Node < T >* tail_;
+
   };
 }
 

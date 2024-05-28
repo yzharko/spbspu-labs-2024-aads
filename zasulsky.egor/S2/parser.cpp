@@ -36,7 +36,7 @@ int zasulsky::getPriority(std::string s)
     return 3;
   }
 
-  else if (s == " * " || s == "/")
+  else if (s == "*" || s == "/")
   {
     return 2;
   }
