@@ -61,6 +61,7 @@ namespace zasulsky
       tail_ = obj.tail_;
       return *this;
     }
+
     Queue < T >& operator = (Queue < T >&& other)
     {
       if (!isEmpty())
@@ -78,6 +79,7 @@ namespace zasulsky
     {
       return head_ == nullptr;
     }
+
     void enqueue(T& data)
     {
       if (this->isEmpty())

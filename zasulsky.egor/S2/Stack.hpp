@@ -29,6 +29,14 @@ namespace zasulsky
       other.vertex_ = nullptr;
     }
 
+    ~Stack()
+    {
+      if (vertex_)
+      {
+        detail::freeList(vertex_);
+      }
+    }
+
     Stack < T >& operator = (Stack < T >& other)
     {
       if (!isEmpty())
@@ -48,14 +56,6 @@ namespace zasulsky
       vertex_ = other.vertex_;
       other.vertex_ = nullptr;
       return  *this;
-    }
-
-    ~Stack()
-    {
-      if (vertex_)
-      {
-        detail::freeList(vertex_);
-      }
     }
 
     void push(T data)
