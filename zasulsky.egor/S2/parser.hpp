@@ -19,16 +19,6 @@ namespace zasulsky
     std::string parsable_;
     size_t current_;
   };
-
-  int getPriority(std::string st);
-
-  bool isOperand(std::string  st);
-
-  Queue <std::string> convertToPostfix(Queue< std::string >& infix);
-
-  long long solvePostfixExpr(Queue< std::string >& q);
-
-  void outputResults(Stack< long long >& results);
 }
 
 #endif
