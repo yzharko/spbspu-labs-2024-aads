@@ -14,12 +14,12 @@ namespace zasulsky
       tail_(nullptr)
     {}
 
-    Queue(T& data) :
-      head_(new detail::bilateralNode < T >(data)),
+    explicit Queue(const T& data) :
+      head_(new detail::Node < T >(data)),
       tail_(head_)
     {}
 
-    Queue(Queue < T >& other) :
+    Queue(Queue< T >& other) :
       head_(nullptr),
       tail_(nullptr)
     {
@@ -42,15 +42,24 @@ namespace zasulsky
 
     Queue < T >& operator = (Queue < T >& other)
     {
+      Queue < T > obj;
+      try
+      {
+        obj.head_ = detail::copyList(other.head_).first;
+        obj.tail_ = detail::copyList(other.tail_).second;
+      }
+      catch (...)
+      {
+        return *this;
+      }
       if (!isEmpty())
       {
         detail::freeList(head_);
       }
-      head_ = detail::copyList(other.head_).first;
-      tail_ = detail::copyList(other.tail_).second;
-      return   *this;
+      head_ = obj.head_;
+      tail_ = obj.tail_;
+      return *this;
     }
-
     Queue < T >& operator = (Queue < T >&& other)
     {
       if (!isEmpty())
@@ -68,16 +77,16 @@ namespace zasulsky
     {
       return head_ == nullptr;
     }
-    void enqueue(T  data)
+    void enqueue(T& data)
     {
       if (this->isEmpty())
       {
-        tail_ = new detail::bilateralNode < T >(data);
+        tail_ = new detail::Node < T >(data);
         head_ = tail_;
       }
       else
       {
-        tail_ = new detail::bilateralNode < T >(data, tail_);
+        tail_ = new detail::Node < T >(data, tail_);
         tail_->prev->next = tail_;
       }
     }
@@ -99,7 +108,7 @@ namespace zasulsky
       }
       else
       {
-        detail::bilateralNode < T >* temp = head_->next;
+        detail::Node < T >* temp = head_->next;
         delete head_;
         head_ = temp;
       }
@@ -107,8 +116,8 @@ namespace zasulsky
 
   private:
 
-    detail::bilateralNode < T >* head_;
-    detail::bilateralNode < T >* tail_;
+    detail::Node < T >* head_;
+    detail::Node < T >* tail_;
   };
 }
 

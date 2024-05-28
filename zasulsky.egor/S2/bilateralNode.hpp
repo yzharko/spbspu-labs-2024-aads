@@ -2,71 +2,74 @@
 #define BILATERALNODE_HPP
 #include <utility>
 #include <stdexcept>
+#include <memory>
 
-namespace detail
+namespace zasulsky
 {
-  template < class T >
-  struct bilateralNode
+  namespace detail
   {
-    bilateralNode(T data, bilateralNode < T >* prev = nullptr, bilateralNode < T >* next = nullptr)
+    template < class T >
+    struct Node
     {
-      this->data = data;
-      this->next = next;
-      this->prev = prev;
-    }
-
-    T data;
-
-    bilateralNode < T >* prev;
-    bilateralNode < T >* next;
-  };
-
-  template < class T >
-  void deleteHead(bilateralNode < T >*& head)
-  {
-    bilateralNode < T >* temp = head->next;
-    delete head;
-    head = temp;
-  }
-
-  template < class T >
-  void deleteTail(bilateralNode < T >* tail)
-  {
-    bilateralNode < T >* temp = tail->prev;
-    delete tail;
-    tail = temp;
-  }
-
-  template < class T >
-  void freeList(bilateralNode < T >* head)
-  {
-    while (head)
-    {
-      deleteHead(head);
-    }
-  }
-
-  template < class T >
-  std::pair< bilateralNode < T >*, bilateralNode < T >* > copyList(bilateralNode < T >* other)
-  {
-    if (other)
-    {
-      bilateralNode < T >* head = new bilateralNode< T >(other->data);
-      bilateralNode < T >* temp1 = other;
-      bilateralNode < T >* temp2 = head;
-      while (temp1->next != nullptr)
+      Node(T data, Node < T >* prev = nullptr, Node < T >* next = nullptr)
       {
-        temp2->next = new bilateralNode< T >((temp1->next)->data);
-        temp2 = temp2->next;
-        temp1 = temp1->next;
+        this->data = data;
+        this->next = next;
+        this->prev = prev;
       }
-      return std::make_pair(head, temp2);
-    }
-    else
+
+      T data;
+
+      Node < T >* prev;
+      Node < T >* next;
+    };
+
+    template < class T >
+    void deleteHead(Node < T >*& head)
     {
-      throw std::logic_error("List is empty!\n");
+      Node < T >* temp = head->next;
+      delete head;
+      head = temp;
+    }
+
+    template < class T >
+    void deleteTail(Node < T >* tail)
+    {
+      Node < T >* temp = tail->prev;
+      delete tail;
+      tail = temp;
+    }
+
+    template < class T >
+    void freeList(Node < T >* head)
+    {
+      while (head)
+      {
+        deleteHead(head);
+      }
+    }
+
+    template <class T>
+    std::pair<std::unique_ptr<Node<T>>, std::unique_ptr<Node<T>>> copyList(Node<T>* other) {
+      if (other)
+      {
+        std::unique_ptr<Node<T>> head = std::make_unique<Node<T>>(other->data);
+        Node<T>* temp1 = other->next;
+        Node<T>* temp2 = head.get();
+        while (temp1 != nullptr) {
+          temp2->next = std::make_unique<Node<T>>(temp1->data);
+          temp2->next->prev = temp2;
+          temp2 = temp2->next.get();
+          temp1 = temp1->next;
+        }
+        return std::make_pair(std::move(head), std::unique_ptr<Node<T>>(temp2));
+      }
+      else
+      {
+        return std::make_pair(nullptr, nullptr);
+      }
     }
   }
-}
 
+}
 #endif

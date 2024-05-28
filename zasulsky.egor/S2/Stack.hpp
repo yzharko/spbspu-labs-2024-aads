@@ -1,6 +1,6 @@
-#ifndef STACK_HPP
+##ifndef STACK_HPP
 #define STACK_HPP
-#include "unilateralNode.hpp"
+#include "bilateralNode.hpp"
 
 namespace zasulsky
 {
@@ -11,6 +11,8 @@ namespace zasulsky
     Stack() :
       vertex_(nullptr)
     {}
+
+
 
     Stack(T data) :
       vertex_(new detail::Node < T >(data))
@@ -75,7 +77,7 @@ namespace zasulsky
       }
       else
       {
-        detail::Node < T >* temp = vertex_->next;
+        detail::Node < T >* temp = vertex_->prev;
         delete vertex_;
         vertex_ = temp;
       }
@@ -93,7 +95,7 @@ namespace zasulsky
       return count;
     }
 
-    T top()
+    T& top()
     {
       if (isEmpty())
       {
@@ -103,6 +105,7 @@ namespace zasulsky
     }
 
   private:
+
 
     detail::Node< T >* vertex_;
   };

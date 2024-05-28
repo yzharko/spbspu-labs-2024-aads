@@ -3,6 +3,11 @@
 #include <fstream>
 #include <string>
 #include <climits>
+#ifndef PARSER_HPP
+#define PARSER_HPP
+#include <fstream>
+#include <string>
+#include <climits>
 #include <stdexcept>
 #include "Queue.hpp"
 #include "Stack.hpp"
@@ -24,11 +29,11 @@ namespace zasulsky
 
   bool isOperand(std::string  st);
 
-  Queue <std::string> convertToPostfix(Queue <std::string>& infix);
+  Queue <std::string> convertToPostfix(Queue< std::string >& infix);
 
-  long long solvePostfixExpr(Queue <std::string>& q);
+  long long solvePostfixExpr(Queue< std::string >& q);
 
-  void outputResults(Stack <long long>& results);
+  void outputResults(Stack< long long >& results);
 }
 
 #endif
