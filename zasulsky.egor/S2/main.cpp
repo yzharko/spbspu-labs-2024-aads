@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include "functions.hpp"
 #include "parser.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
