@@ -3,11 +3,6 @@
 #include <fstream>
 #include <string>
 #include <climits>
-#ifndef PARSER_HPP
-#define PARSER_HPP
-#include <fstream>
-#include <string>
-#include <climits>
 #include <stdexcept>
 #include "Queue.hpp"
 #include "Stack.hpp"
