@@ -1,6 +1,7 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
 
+#include <iosttream>
 #include <string>
 #include <climits>
 #include <stdexcept>
