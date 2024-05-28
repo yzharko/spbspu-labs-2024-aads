@@ -1,5 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
+
 #include "bilateralNode.hpp"
 
 namespace zasulsky

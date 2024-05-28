@@ -1,5 +1,5 @@
-#include <iostream>
 #include "parser.hpp"
+#include <iostream>
 #include "Queue.hpp"
 #include "Stack.hpp"
 

@@ -1,5 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
+
 #include "bilateralNode.hpp"
 
 namespace zasulsky
