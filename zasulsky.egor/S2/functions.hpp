@@ -2,6 +2,7 @@
 #define FUNCTIONS_HPP
 
 #include <iostream>
+#include <climits>
 #include "Queue.hpp"
 #include "Stack.hpp"
 
