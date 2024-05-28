@@ -1,8 +1,9 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
 
-#include <iostream>
+#include <string>
 #include <climits>
+#include <stdexcept>
 #include "Queue.hpp"
 #include "Stack.hpp"
 
