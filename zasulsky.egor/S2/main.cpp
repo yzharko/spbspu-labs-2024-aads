@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
       {
         continue;
       }
-      zasulsky::Parser pars(str);
+      Parser pars(str);
       for (auto i = pars(); !i.empty(); i = pars())
       {
         expr.enqueue(i);
