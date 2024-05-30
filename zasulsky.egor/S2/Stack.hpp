@@ -34,7 +34,7 @@ namespace zasulsky
 
     int getSize()
     {
-      return fl.size()
+      return fl.size();
     }
 
     T& top()
