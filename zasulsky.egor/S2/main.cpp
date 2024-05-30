@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <parser.hpp>
 #include "functions.hpp"
-#include "parser.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
 

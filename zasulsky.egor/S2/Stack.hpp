@@ -1,7 +1,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include "bilateralNode.hpp"
+#include <ForwardList.hpp>
 
 namespace zasulsky
 {
@@ -9,63 +9,15 @@ namespace zasulsky
   class Stack
   {
   public:
-    Stack() :
-      vertex_(nullptr)
-    {}
-
-    Stack(T data) :
-      vertex_(new detail::Node < T >(data))
-    {}
-
-    Stack(const Stack < T >& other) :
-      vertex_(nullptr)
-    {
-      vertex_ = detail::copyList(other.vertex_);
-    }
-
-    Stack(Stack < T >&& other) :
-      vertex_(other.vertex)
-    {
-      other.vertex_ = nullptr;
-    }
-
-    ~Stack()
-    {
-      if (vertex_)
-      {
-        detail::freeList(vertex_);
-      }
-    }
-
-    Stack < T >& operator = (Stack < T >& other)
-    {
-      if (!isEmpty())
-      {
-        detail::freeList(vertex_);
-      }
-      vertex_ = detail::copyList(other.vertex_).first;
-      return  *this;
-    }
-
-    Stack < T >& operator = (Stack < T >&& other)
-    {
-      if (!isEmpty())
-      {
-        detail::freeList(vertex_);
-      }
-      vertex_ = other.vertex_;
-      other.vertex_ = nullptr;
-      return  *this;
-    }
 
     void push(T data)
     {
-      vertex_ = new detail::Node < T >(data, vertex_);
+      fl.insert_after(fl.cbeforeBegin(), data)
     }
 
     bool isEmpty()
     {
-      return vertex_ == nullptr;
+      return fl.empty();
     }
 
     void pop()
@@ -76,22 +28,13 @@ namespace zasulsky
       }
       else
       {
-        detail::Node < T >* temp = vertex_->prev;
-        delete vertex_;
-        vertex_ = temp;
+        fl.erase_after(fl.cbeforeBegin())
       }
     }
 
-    size_t getSize()
+    int getSize()
     {
-      size_t count = 0;
-      detail::Node < T >* temp = vertex_;
-      while (temp)
-      {
-        count++;
-        temp = temp->next;
-      }
-      return count;
+      return fl.size()
     }
 
     T& top()
@@ -100,12 +43,12 @@ namespace zasulsky
       {
         throw std::logic_error("no elements!");
       }
-      return vertex_->data;
+      return fl.head()->data;
     }
 
   private:
 
-    detail::Node< T >* vertex_;
+    ForwardList< T > fl;
 
   };
 }
