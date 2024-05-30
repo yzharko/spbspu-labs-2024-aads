@@ -19,7 +19,7 @@ namespace zasulsky
     {
       if (this->isEmpty())
       {
-        fl.insert_after(fl.cbeforeBegin(), data)
+        fl.insert_after(fl.cbeforeBegin(), data);
       }
       else
       {

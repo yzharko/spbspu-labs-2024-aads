@@ -12,7 +12,7 @@ namespace zasulsky
 
     void push(T data)
     {
-      fl.insert_after(fl.cbeforeBegin(), data)
+      fl.insert_after(fl.cbeforeBegin(), data);
     }
 
     bool isEmpty()
@@ -28,7 +28,7 @@ namespace zasulsky
       }
       else
       {
-        fl.erase_after(fl.cbeforeBegin())
+        fl.erase_after(fl.cbeforeBegin());
       }
     }
 
