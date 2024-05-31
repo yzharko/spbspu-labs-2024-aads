@@ -180,7 +180,7 @@ namespace zasulsky
       }
       else
       {
-        return false;
+        return true;
       }
     }
 
