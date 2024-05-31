@@ -174,7 +174,14 @@ namespace zasulsky
 
     bool empty() const
     {
-      return fakeNode_->next == nullptr;
+      if (fakeNode_ != nullptr)
+      {
+        return fakeNode_->next == nullptr;
+      }
+      else
+      {
+        return false;
+      }
     }
 
     void clear()
