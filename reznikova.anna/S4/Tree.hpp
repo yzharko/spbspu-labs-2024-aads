@@ -28,11 +28,14 @@ namespace reznikova
     Iterator end() noexcept;
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
-    void insert(const Key& key, const Value& value);
+    void insert(const Key & key, const Value & value);
     void clear(Node * node);
     void swap(Tree & otherTree);
     Value & at(const Key & key);
     Iterator find(const Key & key);
+    Value & operator[](const Key & key);
+    void erase(Iterator position);
+    size_t erase(const Key & key);
     
   private:
     Node * LLrotation(Node * turnNode);
@@ -40,6 +43,7 @@ namespace reznikova
     void updateHeight(Node * node);
     Node * balance(Node * node);
     Node * insert(Node * node, const Key & key, const Value & value);
+    Node * erase(Node * node, const Key & key);
     
     Node * root_;
     Comparator cmp_;
@@ -348,10 +352,17 @@ bool Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator & rhs) 
 }
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::Tree() : root_(nullptr), cmp_(Comparator()), size_(0) {}
+Tree< Key, Value, Comparator >::Tree():
+  root_(nullptr),
+  cmp_(Comparator()),
+  size_(0)
+{}
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::Tree(const Tree & otherTree) : root_(nullptr), cmp_(Comparator()), size_(0)
+Tree< Key, Value, Comparator >::Tree(const Tree & otherTree): 
+  root_(nullptr),
+  cmp_(Comparator()),
+  size_(0)
 {
   root_ = nullptr;
   cmp_ = otherTree.cmp_;
@@ -364,7 +375,10 @@ Tree< Key, Value, Comparator >::Tree(const Tree & otherTree) : root_(nullptr), c
 }
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::Tree(Tree && otherTree) : root_(otherTree.root_), cmp_(Comparator()), size_(otherTree.size_)
+Tree< Key, Value, Comparator >::Tree(Tree && otherTree):
+  root_(otherTree.root_),
+  cmp_(Comparator()),
+  size_(otherTree.size_)
 {
   otherTree.root_ = nullptr;
   otherTree.size_ = 0;
@@ -522,7 +536,6 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
     ++size_;
     return new Node(key, value);
   }
-  
   if (cmp_(key, node->value_pair_.first))
   {
     node->left_ = insert(node->left_, key, value);
@@ -572,6 +585,102 @@ typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >
    iter++;
   }
   return Iterator(root_, nullptr);
+}
+
+template< typename Key, typename Value, typename Comparator >
+Value &  Tree< Key, Value, Comparator >::operator[](const Key & key)
+{
+  Value val;
+  try
+  {
+    val = at(key);
+  }
+  catch (...)
+  {
+    throw std::out_of_range("no such key");
+  }
+  return val;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::erase(Node * node, const Key & key)
+{
+  if (node == nullptr)
+  {
+    return node;
+  }
+  if (cmp_(key, node->value_pair_.first))
+  {
+    node->left_ = erase(node->left_, key);
+  }
+  else if (cmp_(node->value_pair_.first, key))
+  {
+    node->right_ = erase(node->right_, key);
+  }
+  else
+  {
+    if (node->left_ == nullptr)
+    {
+      Node * right = node->right_;
+      delete node;
+      --size_;
+      return right;
+    }
+    else if (node->right_ == nullptr)
+    {
+      Node * left = node->left_;
+      delete node;
+      --size_;
+      return left;
+    }
+    else
+    {
+      Node * minNode = node->right_;
+      Node * minNodeParent = node;
+      while (minNode->left_ != nullptr)
+      {
+        minNodeParent = minNode;
+        minNode = minNode->left_;
+      }
+      if (minNodeParent != node)
+      {
+        minNodeParent->left_ = minNode->right_;
+        minNode->right_ = node->right_;
+      }
+      minNode->left_ = node->left_;
+      delete node;
+      node = minNode;
+    }
+  }
+  return balance(node);
+}
+
+template< typename Key, typename Value, typename Comparator >
+void Tree< Key, Value, Comparator >::erase(Iterator position)
+{
+  if (position != end()) 
+  {
+    root_ = erase(root_, position->first);
+  }
+  else
+  {
+    throw std::logic_error("nothing to delete\n");
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+size_t Tree< Key, Value, Comparator >::erase(const Key & key)
+{
+  size_t oldSize = size_;
+  try
+  {
+    root_ = erase(root_, key);
+  }
+  catch (...)
+  {
+    return 0;
+  }
+  return oldSize - size_;
 }
 
 #endif
