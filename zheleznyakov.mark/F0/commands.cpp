@@ -47,7 +47,7 @@ std::ostream & zheleznyakov::commands::list(strings_t & strings, std::istream & 
     throw std::logic_error(statusString("No additional args allowed\n", "warn"));
   }
 
-  out << "Total: " << strings.size() << "\n";
+  out << "Total: " << strings.getSize() << "\n";
   if (!strings.empty())
   {
     out << "\nNames:\n";
@@ -82,7 +82,7 @@ std::ostream & zheleznyakov::commands::create(strings_t & strings, std::istream 
     throw std::logic_error(statusString("Key is already in the list\n", "warn"));
   }
   string_t data;
-  strings.insert(std::make_pair(keyToCreate, data));
+  strings.insert(keyToCreate, data);
   return out;
 }
 
@@ -130,7 +130,7 @@ std::ostream & zheleznyakov::commands::cmp(strings_t & strings, std::istream & i
 
 bool zheleznyakov::hasWord(const wordpairs_t & ref, const std::string word)
 {
-  return ref.find(word) != ref.end();
+  return ref.find(word) != ref.cend();
 }
 
 std::ostream & zheleznyakov::commands::diff(strings_t & strings, std::istream & in, std::ostream & out)
@@ -195,7 +195,7 @@ std::ostream & zheleznyakov::commands::diff(strings_t & strings, std::istream & 
 
 bool zheleznyakov::hasNoWord(const wordpairs_t & ref, const std::string word)
 {
-  return ref.find(word) == ref.end();
+  return ref.find(word) == ref.cend();
 }
 
 std::ostream & zheleznyakov::commands::enter(strings_t & strings, std::string & active, std::istream & in, std::ostream & out)
@@ -277,8 +277,8 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
     std::ofstream fout(filename);
     const wordpairs_t pairs = strings.at(active).second;
     std::transform(
-      pairs.begin(),
-      pairs.end(),
+      pairs.cbegin(),
+      pairs.cend(),
       std::ostream_iterator < std::string > (fout, "\n"),
       wordEntryToString
     );
@@ -287,8 +287,8 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
   {
     const wordpairs_t pairs = strings.at(active).second;
     std::transform(
-      pairs.begin(),
-      pairs.end(),
+      pairs.cbegin(),
+      pairs.cend(),
       std::ostream_iterator < std::string > (out, "\n"),
       wordEntryToString
     );
@@ -326,7 +326,7 @@ std::ostream & zheleznyakov::commands::stats(strings_t & strings, std::string & 
     throw std::logic_error(statusString("No additional args allowed\n", "warn"));
   }
   string_t currentString = strings.at(active);
-  out << "Total words in dict: " << currentString.second.size() << '\n'
+  out << "Total words in dict: " << currentString.second.getSize() << '\n'
   << "Total chars: " << currentString.first.size() << "\n";
   return out;
 }

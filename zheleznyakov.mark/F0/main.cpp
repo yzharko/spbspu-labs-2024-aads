@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <tree.hpp>
 #include "commands.hpp"
 
 int main()
@@ -11,7 +12,7 @@ int main()
   std::string activeString = "";
   strings_t strings;
 
-  std::map< std::string, std::function< ostream &(strings_t &, std::string &, istream &, ostream &) > > cmds;
+  Tree< std::string, std::function< ostream &(strings_t &, std::string &, istream &, ostream &) > > cmds;
   {
     using namespace std::placeholders;
     cmds["help"] = std::bind(commands::help, _3, _4);
