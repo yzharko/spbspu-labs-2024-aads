@@ -8,7 +8,7 @@ void reznikova::outputInvalidCommand(std::ostream & out)
 
 void reznikova::outputEmptyError(std::ostream & out)
 {
-  out << "<ERROR>\n";
+  out << "<EMPTY>\n";
 }
 
 std::string reznikova::getValue(std::string & input, size_t & i)
