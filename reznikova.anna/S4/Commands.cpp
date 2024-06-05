@@ -134,6 +134,11 @@ void reznikova::intersectCommand(Tree< std::string, Tree< size_t, std::string > 
     outputInvalidCommand(std::cout);
     return;
   }
+  else if (firstIt->second.isEmpty() or secondIt->second.isEmpty())
+  {
+    outputEmptyError(std::cout);
+    return;
+  }
   Tree< size_t, std::string > dictionary;
   Tree< size_t, std::string >::ConstIterator firstSubIter = firstIt->second.cbegin();
   while (firstSubIter != firstIt->second.cend())
