@@ -58,7 +58,7 @@ void WorkerBST::Print(const std::string& str)
     if (findBst == nullptr || findBst->empty())
     {
         std::cout << "<EMPTY>\n";
-        break;
+        return;
     }
     auto it = findBst->begin();
     std::cout << str << ' ';
