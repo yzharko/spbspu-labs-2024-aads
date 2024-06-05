@@ -3,12 +3,12 @@
 
 void reznikova::outputInvalidCommand(std::ostream & out)
 {
-  out << "< INVALID COMMAND >\n";
+  out << "<INVALID COMMAND>\n";
 }
 
 void reznikova::outputError(std::ostream & out)
 {
-  out << "< ERROR >\n";
+  out << "<ERROR>\n";
 }
 
 std::string reznikova::getValue(std::string & input, size_t & i)
