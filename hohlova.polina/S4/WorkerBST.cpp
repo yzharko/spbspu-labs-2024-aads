@@ -27,7 +27,7 @@ void WorkerBST::Menu() {
         }
         else
         {
-            std::cout << "<INVALID COMMAND>" << '\n';
+            std::cout << "<INVALID COMMAND>\n";
         }
     }
 }
@@ -57,7 +57,7 @@ void WorkerBST::Print(const std::string& str)
 
     if (findBst == nullptr || findBst->empty())
     {
-        throw  std::runtime_error("<EMPTY>");
+        std::cout << "<EMPTY>\n";
     }
     auto it = findBst->begin();
     std::cout << str << ' ';
@@ -291,6 +291,6 @@ void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, s
         Union(stringList.begin() + 1, stringList.end());
     }
     else {
-        std::cout << "<INVALID COMMAND>" << '\n';
+        std::cout << "<INVALID COMMAND>\n";
     }
 }
