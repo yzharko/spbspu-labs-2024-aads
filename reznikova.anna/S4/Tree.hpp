@@ -626,8 +626,8 @@ void Tree< Key, Value, Comparator >::insert(InputIt first, InputIt last)
 template< typename Key, typename Value, typename Comparator >
 Value & Tree< Key, Value, Comparator >::at(const Key & key)
 {
-  ConstIterator iter = begin();
-  while (iter != end())
+  ConstIterator iter = cbegin();
+  while (iter != cend())
   {
    if (find(key).node_ != nullptr)
    {
