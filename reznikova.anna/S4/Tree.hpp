@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <utility>
 #include <algorithm>
+#include <cassert>
 
 namespace reznikova
 {
@@ -20,30 +21,46 @@ namespace reznikova
     Tree();
     Tree(const Tree & otherTree);
     Tree(Tree && otherTree);
+    template< class InputIt >
+    Tree(InputIt first, InputIt last);
+    Tree(std::initializer_list< std::pair< const Key, Value > > init);
     ~Tree();
     
-    ConstIterator begin() const noexcept;
-    ConstIterator end() const noexcept;
+    ConstIterator cbegin() const noexcept;
+    ConstIterator cend() const noexcept;
     Iterator begin() noexcept;
     Iterator end() noexcept;
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
     void insert(const Key & key, const Value & value);
+    template< class InputIt >
+    void insert(InputIt first, InputIt last);
     void clear(Node * node);
     void swap(Tree & otherTree);
     Value & at(const Key & key);
-    Iterator find(const Key & key);
+    ConstIterator find(const Key & key) const;
     Value & operator[](const Key & key);
     void erase(Iterator position);
     size_t erase(const Key & key);
+    template< class InputIt >
+    void erase(InputIt first, InputIt last);
+    size_t count(const Key & key);
+    std::pair< Iterator, Iterator > equal_range(const Key & key) const;
+    Iterator lower_bound(const Key & key);
+    Iterator upper_bound(const Key & key);
     
   private:
+    void updateHeight(Node * node);
     Node * LLrotation(Node * turnNode);
     Node * RRrotation(Node * turnNode);
-    void updateHeight(Node * node);
+    int height(Node * node);
+    int getBalance(Node * node);
     Node * balance(Node * node);
-    Node * insert(Node * node, const Key & key, const Value & value);
+    Node * insert(Node * node, const Key & key, const Value & value, Node* parent);
     Node * erase(Node * node, const Key & key);
+    Node * find(Node * node, const Key & key) const;
+    Node* lowerBoundNode(Node * node, const Key & key) const;
+    Node* upperBoundNode(Node * node, const Key & key) const;
     
     Node * root_;
     Comparator cmp_;
@@ -63,7 +80,7 @@ public:
     left_(nullptr),
     right_(nullptr),
     value_pair_(std::make_pair(key_, value_)),
-    height_(0)
+    height_(1)
   {}
 private:
   Node * parent_;
@@ -74,8 +91,9 @@ private:
 };
 
 template< typename Key, typename Value, typename Comparator >
-class Tree< Key, Value, Comparator >::ConstIterator
+struct Tree< Key, Value, Comparator >::ConstIterator
 {
+public:
   friend class Tree< Key, Value, Comparator >;
   using this_t = ConstIterator;
   using node_t = Node;
@@ -149,28 +167,28 @@ typename Tree< Key, Value, Comparator >::ConstIterator & Tree< Key, Value, Compa
   if (node_ == nullptr)
   {
     node_ = root_;
-    while (node_->right)
+    while (node_->right_)
     {
-      node_ = node_->right;
+      node_ = node_->right_;
     }
   }
   else
   {
-    if (node_->left)
+    if (node_->left_)
     {
-      node_ = node_->left;
-      while (node_->right)
+      node_ = node_->left_;
+      while (node_->right_)
       {
-        node_ = node_->right;
+        node_ = node_->right_;
       }
     }
     else
     {
-      Node * temp = node_->parent;
-      while (temp and (node_ == temp->left))
+      Node * temp = node_->parent_;
+      while (temp and (node_ == temp->left_))
       {
         node_ = temp;
-        temp = node_->parent;
+        temp = temp->parent_;
       }
       node_ = temp;
     }
@@ -203,18 +221,19 @@ const std::pair< const Key, Value > * Tree< Key, Value, Comparator >::ConstItera
 template< typename Key, typename Value, typename Comparator >
 bool Tree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator & rhs) const
 {
-  return !(*this == rhs);
+  return !(node_ == rhs.node_);
 }
 
 template< typename Key, typename Value, typename Comparator >
 bool Tree< Key, Value, Comparator >::ConstIterator::operator==(const ConstIterator & rhs) const
 {
-  return *this == rhs;
+  return node_ == rhs.node_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-class Tree< Key, Value, Comparator >::Iterator
+struct Tree< Key, Value, Comparator >::Iterator
 {
+public:
   friend class Tree< Key, Value, Comparator >;
   using this_t = Iterator;
   using node_t = Node;
@@ -288,28 +307,28 @@ typename Tree< Key, Value, Comparator >::Iterator & Tree< Key, Value, Comparator
   if (node_ == nullptr)
   {
     node_ = root_;
-    while (node_->right)
+    while (node_->right_)
     {
-      node_ = node_->right;
+      node_ = node_->right_;
     }
   }
   else
   {
-    if (node_->left)
+    if (node_->left_)
     {
-      node_ = node_->left;
-      while (node_->right)
+      node_ = node_->left_;
+      while (node_->right_)
       {
-        node_ = node_->right;
+        node_ = node_->right_;
       }
     }
     else
     {
-      Node * temp = node_->parent;
-      while (temp and (node_ == temp->left))
+      Node * temp = node_->parent_;
+      while (temp and (node_ == temp->left_))
       {
         node_ = temp;
-        temp = node_->parent;
+        temp = temp->parent_;
       }
       node_ = temp;
     }
@@ -342,13 +361,13 @@ const std::pair< const Key, Value > * Tree< Key, Value, Comparator >::Iterator::
 template< typename Key, typename Value, typename Comparator >
 bool Tree< Key, Value, Comparator >::Iterator::operator!=(const Iterator & rhs) const
 {
-  return !(*this == rhs);
+  return !(node_ == rhs.node_);
 }
 
 template< typename Key, typename Value, typename Comparator >
 bool Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator & rhs) const
 {
-  return *this == rhs;
+  return node_ == rhs.node_;
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -359,29 +378,54 @@ Tree< Key, Value, Comparator >::Tree():
 {}
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::Tree(const Tree & otherTree): 
+Tree< Key, Value, Comparator >::Tree(const Tree & otherTree):
   root_(nullptr),
-  cmp_(Comparator()),
+  cmp_(otherTree.cmp_),
   size_(0)
 {
-  root_ = nullptr;
-  cmp_ = otherTree.cmp_;
-  ConstIterator iter = otherTree.begin();
-  while (iter != end())
+  for (ConstIterator it = otherTree.cbegin(); it != otherTree.cend(); ++it)
   {
-   insert(iter.node_->value_pair_.first, iter.node_->value_pair_.second);
-   iter++;
+    insert(it->first, it->second);
   }
 }
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::Tree(Tree && otherTree):
+Tree< Key, Value, Comparator >::Tree(Tree && otherTree) :
   root_(otherTree.root_),
-  cmp_(Comparator()),
+  cmp_(std::move(otherTree.cmp_)),
   size_(otherTree.size_)
 {
   otherTree.root_ = nullptr;
   otherTree.size_ = 0;
+}
+
+
+template< typename Key, typename Value, typename Comparator >
+template< class InputIt >
+Tree< Key, Value, Comparator >::Tree(InputIt first, InputIt last):
+  root_(nullptr),
+  cmp_(Comparator()),
+  size_(0)
+{
+  while (first != last)
+  {
+    insert(*first);
+    first++;
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+Tree< Key, Value, Comparator >::Tree(std::initializer_list< std::pair< const Key, Value > > init):
+  root_(nullptr),
+  cmp_(Comparator()),
+  size_(0)
+{
+  std::pair< const Key, Value > * ptr = init.begin();
+  while (ptr)
+  {
+    insert(*ptr);
+    ptr++;
+  }
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -391,47 +435,43 @@ Tree< Key, Value, Comparator >::~Tree()
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Comparator >::begin() const noexcept
+typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Comparator >::cbegin() const noexcept
 {
-  ConstIterator temp = ConstIterator(root_, root_);
-  while (temp.node_->left_ != nullptr)
+  Node * node = root_;
+  if (node)
   {
-    temp--;
+    while (node->left_)
+    {
+      node = node->left_;
+    }
   }
-  return temp;
+  return ConstIterator(node, root_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Comparator >::end() const noexcept
+typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Comparator >::cend() const noexcept
 {
-  ConstIterator temp = ConstIterator(root_, root_);
-  while (temp.node_->right_ != nullptr)
-  {
-    temp++;
-  }
-  return temp;
+  return ConstIterator(nullptr, root_);
 }
 
 template< typename Key, typename Value, typename Comparator >
 typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >::begin() noexcept
 {
-  Iterator temp = Iterator(root_, root_);
-  while (temp.node_->left_ != nullptr)
+  Node * node = root_;
+  if (node)
   {
-    temp--;
+    while (node->left_)
+    {
+      node = node->left_;
+    }
   }
-  return temp;
+  return Iterator(node, root_);
 }
 
 template< typename Key, typename Value, typename Comparator >
 typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >::end() noexcept
 {
-  Iterator temp = Iterator(root_, root_);
-  while (temp.node_->right_ != nullptr)
-  {
-    temp++;
-  }
-  return temp;
+  return Iterator(nullptr, root_);
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -466,50 +506,69 @@ bool Tree< Key, Value, Comparator >::isEmpty() const noexcept
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::LLrotation(Node * prevRoot)
+void Tree< Key, Value, Comparator >::updateHeight(Node * node)
 {
-  Node * new_root = prevRoot->right_;
-  Node * left_subTree = new_root->left_;
-  new_root->left_ = prevRoot;
-  prevRoot->right_ = left_subTree;
-  updateHeight(prevRoot);
-  updateHeight(new_root);
-  return new_root;
-}
-
-template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::RRrotation(Node * prevRoot)
-{
-  Node * new_root = prevRoot->left_;
-  Node * left_subTree = new_root->right_;
-  new_root->right_ = prevRoot;
-  prevRoot->left_ = left_subTree;
-  updateHeight(prevRoot);
-  updateHeight(new_root);
-  return new_root;
-}
-template< typename Key, typename Value, typename Comparator >
-void Tree< Key, Value, Comparator >::updateHeight(Node* node)
-{
-  if (node == nullptr)
+  if (node)
   {
-    throw std::logic_error("Node is null");
+    node->height_ = std::max(height(node->left_), height(node->right_)) + 1;
   }
-  int leftHeight = (node->left_ != nullptr) ? node->left_->height_ : -1;
-  int rightHeight = (node->right_ != nullptr) ? node->right_->height_ : -1;
-  node->height_ = 1 + std::max(leftHeight, rightHeight);
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::balance(Node* node)
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::LLrotation(Node * turnNode)
+{
+  Node * newRoot = turnNode->right_;
+  turnNode->right_ = newRoot->left_;
+  if (newRoot->left_)
+  {
+    newRoot->left_->parent_ = turnNode;
+  }
+  newRoot->left_ = turnNode;
+  newRoot->parent_ = turnNode->parent_;
+  turnNode->parent_ = newRoot;
+  updateHeight(turnNode);
+  updateHeight(newRoot);
+  return newRoot;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::RRrotation(Node * turnNode)
+{
+  Node * newRoot = turnNode->left_;
+  turnNode->left_ = newRoot->right_;
+  if (newRoot->right_)
+  {
+    newRoot->right_->parent_ = turnNode;
+  }
+  newRoot->right_ = turnNode;
+  newRoot->parent_ = turnNode->parent_;
+  turnNode->parent_ = newRoot;
+  updateHeight(turnNode);
+  updateHeight(newRoot);
+  return newRoot;
+}
+
+template< typename Key, typename Value, typename Comparator >
+int Tree< Key, Value, Comparator >::height(Node * node)
+{
+    return node ? node->height_ : 0;
+}
+
+template< typename Key, typename Value, typename Comparator >
+int Tree< Key, Value, Comparator >::getBalance(Node * node) 
+{
+    return node ? height(node->left_) - height(node->right_) : 0;
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::balance(Node * node)
 {
   updateHeight(node);
-  int balanceFactor = (node->left_ ? node->left_->height_ : -1) -
-  (node->right_ ? node->right_->height_ : -1);
+  int balanceFactor = getBalance(node);
+
   if (balanceFactor > 1)
   {
-    if ((node->left_->right_ ? node->left_->right_->height_ : -1) >
-      (node->left_->left_ ? node->left_->left_->height_ : -1))
+    if (getBalance(node->left_) < 0)
     {
       node->left_ = LLrotation(node->left_);
     }
@@ -517,44 +576,52 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
   }
   if (balanceFactor < -1)
   {
-    if ((node->right_->left_ ? node->right_->left_->height_ : -1) >
-      (node->right_->right_ ? node->right_->right_->height_ : -1))
+    if (getBalance(node->right_) > 0)
     {
       node->right_ = RRrotation(node->right_);
     }
     return LLrotation(node);
   }
-  
   return node;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::insert(Node* node, const Key& key, const Value& value)
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::insert(Node * node, const Key & key, const Value & value, Node* parent)
 {
-  if (node == nullptr)
+  if (!node)
   {
     ++size_;
-    return new Node(key, value);
+    Node * newNode = new Node(key, value);
+    newNode->parent_ = parent;
+    return newNode;
   }
   if (cmp_(key, node->value_pair_.first))
   {
-    node->left_ = insert(node->left_, key, value);
+    node->left_ = insert(node->left_, key, value, node);
   }
   else if (cmp_(node->value_pair_.first, key))
   {
-    node->right_ = insert(node->right_, key, value);
-  }
-  else
-  {
-    throw std::logic_error("Duplicate key");
+    node->right_ = insert(node->right_, key, value, node);
   }
   return balance(node);
 }
 
+
 template< typename Key, typename Value, typename Comparator >
-void Tree< Key, Value, Comparator >::insert(const Key& key, const Value& value)
+void Tree< Key, Value, Comparator >::insert(const Key & key, const Value & value)
 {
-  root_ = insert(root_, key, value);
+  root_ = insert(root_, key, value, nullptr);
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< class InputIt >
+void Tree< Key, Value, Comparator >::insert(InputIt first, InputIt last)
+{
+  while (first != last)
+  {
+    insert(*first);
+    first++;
+  }
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -573,18 +640,31 @@ Value & Tree< Key, Value, Comparator >::at(const Key & key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >::find(const Key & key)
+typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Comparator >::find(const Key & key) const
 {
-  Iterator iter = begin();
-  while (iter != end())
+  Node * node = find(root_, key);
+  return ConstIterator(node, root_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::find(Node * node, const Key & key) const
+{
+  while (node != nullptr) 
   {
-   if (iter.node_->value_pair_.first == key)
-   {
-     return iter;
-   }
-   iter++;
+    if (cmp_(key, node->value_pair_.first)) 
+    {
+      node = node->left_;
+    } 
+    else if (cmp_(node->value_pair_.first, key))
+    {
+      node = node->right_;
+    } 
+    else
+    {
+      return node;
+    }
   }
-  return Iterator(root_, nullptr);
+  return nullptr;
 }
 
 template< typename Key, typename Value, typename Comparator >
@@ -658,13 +738,24 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
 template< typename Key, typename Value, typename Comparator >
 void Tree< Key, Value, Comparator >::erase(Iterator position)
 {
-  if (position != end()) 
+  if (position != end())
   {
     root_ = erase(root_, position->first);
   }
   else
   {
     throw std::logic_error("nothing to delete\n");
+  }
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< class InputIt >
+void Tree< Key, Value, Comparator >::erase(InputIt first, InputIt last)
+{
+  while (first != last)
+  {
+    erase(first);
+    first++;
   }
 }
 
@@ -681,6 +772,64 @@ size_t Tree< Key, Value, Comparator >::erase(const Key & key)
     return 0;
   }
   return oldSize - size_;
+}
+
+template< typename Key, typename Value, typename Comparator >
+size_t Tree< Key, Value, Comparator >::count(const Key & key)
+{
+  return (find(key) == Iterator()) ? 1 : 0;
+}
+
+template< typename Key, typename Value, typename Comparator >
+using iterPair = std::pair< typename Tree< Key, Value, Comparator >::Iterator, typename Tree< Key, Value, Comparator >::Iterator >;
+
+template< typename Key, typename Value, typename Comparator >
+iterPair< Key, Value, Comparator > Tree< Key, Value, Comparator >::equal_range(const Key & key) const
+{
+  Node * lb = lowerBoundNode(root_, key);
+  Node * ub = upperBoundNode(root_, key);
+  return std::make_pair(Iterator(lb), Iterator(ub));
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >::lower_bound(const Key & key)
+{
+  return Iterator(lowerBoundNode(root_, key));
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >::upper_bound(const Key & key)
+{
+  return Iterator(upperBoundNode(root_, key));
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::lowerBoundNode(Node * node, const Key & key) const
+{
+  if (node == nullptr)
+  {
+    return nullptr;
+  }
+  if (!cmp_(node->key_, key)) {
+    Node * left = lowerBoundNode(node->left_, key);
+    return (left != nullptr) ? left : node;
+  }
+  return lowerBoundNode(node->right_, key);
+}
+
+template< typename Key, typename Value, typename Comparator >
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::upperBoundNode(Node * node, const Key & key) const
+{
+  if (node == nullptr)
+  {
+    return nullptr;
+  }
+  if (cmp_(key, node->key_))
+  {
+    Node * left = upperBoundNode(node->left_, key);
+    return (left != nullptr) ? left : node;
+  }
+  return upperBoundNode(node->right_, key);
 }
 
 #endif
