@@ -10,7 +10,9 @@ namespace reznikova
   std::string getValue(std::string & input, size_t & i);
   size_t getKey(std::string & input, size_t & i);
   void readFromFile(std::ifstream & is, Tree< std::string, Tree< size_t, std::string > > & treeMap);
-  void print(Tree< std::string, Tree< size_t, std::string > > & treeMap);
-  void complement(Tree< std::string, Tree< size_t, std::string > > & treeMap);
+  void printCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap);
+  void complementCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap);
+  void intersectCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap);
+  void unionCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap);
 }
 #endif

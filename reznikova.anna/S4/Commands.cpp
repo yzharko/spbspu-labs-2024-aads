@@ -53,7 +53,7 @@ void reznikova::readFromFile(std::ifstream & is, Tree< std::string, Tree< size_t
   }
 }
 
-void reznikova::print(Tree< std::string, Tree< size_t, std::string > > & treeMap)
+void reznikova::printCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap)
 {
   std::string name;
   std::cin >> name;
@@ -78,7 +78,7 @@ void reznikova::print(Tree< std::string, Tree< size_t, std::string > > & treeMap
   std::cout << "\n";
 }
 
-void reznikova::complement(Tree< std::string, Tree< size_t, std::string > > & treeMap)
+void reznikova::complementCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap)
 {
   std::string newDict;
   std::string firstDict;
@@ -108,6 +108,70 @@ void reznikova::complement(Tree< std::string, Tree< size_t, std::string > > & tr
     {
       dictionary.insert(secondSubIter->first, secondSubIter->second);
     }
+    secondSubIter++;
+  }
+  treeMap.insert(newDict, dictionary);
+}
+
+void reznikova::intersectCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap)
+{
+  std::string newDict;
+  std::string firstDict;
+  std::string secondtDict;
+  std::cin >> newDict >> firstDict >> secondtDict;
+  Tree< std::string, Tree< size_t, std::string > >::ConstIterator firstIt = treeMap.find(firstDict);
+  Tree< std::string, Tree< size_t, std::string > >::ConstIterator secondIt = treeMap.find(secondtDict);
+  if (firstIt == treeMap.cend() or secondIt == treeMap.cend())
+  {
+    outputInvalidCommand(std::cout);
+    return;
+  }
+  Tree< size_t, std::string > dictionary;
+  Tree< size_t, std::string >::ConstIterator firstSubIter = firstIt->second.cbegin();
+  while (firstSubIter != firstIt->second.cend())
+  {
+    if (secondIt->second.find(firstSubIter->first) != secondIt->second.cend())
+    {
+      dictionary.insert(firstSubIter->first, firstSubIter->second);
+    }
+    firstSubIter++;
+  }
+  Tree< size_t, std::string >::ConstIterator secondSubIter = secondIt->second.cbegin();
+  while (secondSubIter != secondIt->second.cend())
+  {
+    if (firstIt->second.find(secondSubIter->first) != firstIt->second.cend())
+    {
+      dictionary.insert(secondSubIter->first, secondSubIter->second);
+    }
+    secondSubIter++;
+  }
+  treeMap.insert(newDict, dictionary);
+}
+
+void reznikova::unionCommand(Tree< std::string, Tree< size_t, std::string > > & treeMap)
+{
+  std::string newDict;
+  std::string firstDict;
+  std::string secondtDict;
+  std::cin >> newDict >> firstDict >> secondtDict;
+  Tree< std::string, Tree< size_t, std::string > >::ConstIterator firstIt = treeMap.find(firstDict);
+  Tree< std::string, Tree< size_t, std::string > >::ConstIterator secondIt = treeMap.find(secondtDict);
+  if (firstIt == treeMap.cend() or secondIt == treeMap.cend())
+  {
+    outputInvalidCommand(std::cout);
+    return;
+  }
+  Tree< size_t, std::string > dictionary;
+  Tree< size_t, std::string >::ConstIterator firstSubIter = firstIt->second.cbegin();
+  while (firstSubIter != firstIt->second.cend())
+  {
+    dictionary.insert(firstSubIter->first, firstSubIter->second);
+    firstSubIter++;
+  }
+  Tree< size_t, std::string >::ConstIterator secondSubIter = secondIt->second.cbegin();
+  while (secondSubIter != secondIt->second.cend())
+  {
+    dictionary.insert(secondSubIter->first, secondSubIter->second);
     secondSubIter++;
   }
   treeMap.insert(newDict, dictionary);
