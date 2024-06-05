@@ -586,7 +586,8 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::insert(Node * node, const Key & key, const Value & value, Node* parent)
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::insert(Node * node, const Key & key,
+  const Value & value, Node* parent)
 {
   if (!node)
   {
@@ -647,7 +648,8 @@ typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Compara
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::find(Node * node, const Key & key) const
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::find(Node * node, 
+  const Key & key) const
 {
   while (node != nullptr) 
   {
@@ -781,7 +783,8 @@ size_t Tree< Key, Value, Comparator >::count(const Key & key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-using iterPair = std::pair< typename Tree< Key, Value, Comparator >::Iterator, typename Tree< Key, Value, Comparator >::Iterator >;
+using iterPair = std::pair< typename Tree< Key, Value, Comparator >::Iterator, 
+  typename Tree< Key, Value, Comparator >::Iterator >;
 
 template< typename Key, typename Value, typename Comparator >
 iterPair< Key, Value, Comparator > Tree< Key, Value, Comparator >::equal_range(const Key & key) const
@@ -804,7 +807,8 @@ typename Tree< Key, Value, Comparator >::Iterator Tree< Key, Value, Comparator >
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::lowerBoundNode(Node * node, const Key & key) const
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::lowerBoundNode(Node * node,
+  const Key & key) const
 {
   if (node == nullptr)
   {
@@ -818,7 +822,8 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::upperBoundNode(Node * node, const Key & key) const
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::upperBoundNode(Node * node,
+  const Key & key) const
 {
   if (node == nullptr)
   {
@@ -833,4 +838,3 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
 }
 
 #endif
-
