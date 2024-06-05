@@ -399,7 +399,6 @@ Tree< Key, Value, Comparator >::Tree(Tree && otherTree) :
   otherTree.size_ = 0;
 }
 
-
 template< typename Key, typename Value, typename Comparator >
 template< class InputIt >
 Tree< Key, Value, Comparator >::Tree(InputIt first, InputIt last):
@@ -555,7 +554,7 @@ int Tree< Key, Value, Comparator >::height(Node * node)
 }
 
 template< typename Key, typename Value, typename Comparator >
-int Tree< Key, Value, Comparator >::getBalance(Node * node) 
+int Tree< Key, Value, Comparator >::getBalance(Node * node)
 {
     return node ? height(node->left_) - height(node->right_) : 0;
 }
@@ -607,7 +606,6 @@ typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::
   return balance(node);
 }
 
-
 template< typename Key, typename Value, typename Comparator >
 void Tree< Key, Value, Comparator >::insert(const Key & key, const Value & value)
 {
@@ -648,19 +646,19 @@ typename Tree< Key, Value, Comparator >::ConstIterator Tree< Key, Value, Compara
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::find(Node * node, 
+typename Tree< Key, Value, Comparator >::Node * Tree< Key, Value, Comparator >::find(Node * node,
   const Key & key) const
 {
-  while (node != nullptr) 
+  while (node != nullptr)
   {
-    if (cmp_(key, node->value_pair_.first)) 
+    if (cmp_(key, node->value_pair_.first))
     {
       node = node->left_;
-    } 
+    }
     else if (cmp_(node->value_pair_.first, key))
     {
       node = node->right_;
-    } 
+    }
     else
     {
       return node;
@@ -783,7 +781,7 @@ size_t Tree< Key, Value, Comparator >::count(const Key & key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-using iterPair = std::pair< typename Tree< Key, Value, Comparator >::Iterator, 
+using iterPair = std::pair< typename Tree< Key, Value, Comparator >::Iterator,
   typename Tree< Key, Value, Comparator >::Iterator >;
 
 template< typename Key, typename Value, typename Comparator >
