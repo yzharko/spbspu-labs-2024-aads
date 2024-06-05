@@ -17,7 +17,7 @@ namespace reznikova
     class ConstIterator;
     class Iterator;
     using pair_type = std::pair< const Key, Value >;
-    
+
     Tree();
     Tree(const Tree & otherTree);
     Tree(Tree && otherTree);
@@ -25,7 +25,7 @@ namespace reznikova
     Tree(InputIt first, InputIt last);
     Tree(std::initializer_list< std::pair< const Key, Value > > init);
     ~Tree();
-    
+
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
     Iterator begin() noexcept;
@@ -48,7 +48,7 @@ namespace reznikova
     std::pair< Iterator, Iterator > equal_range(const Key & key) const;
     Iterator lower_bound(const Key & key);
     Iterator upper_bound(const Key & key);
-    
+
   private:
     void updateHeight(Node * node);
     Node * LLrotation(Node * turnNode);
@@ -61,7 +61,7 @@ namespace reznikova
     Node * find(Node * node, const Key & key) const;
     Node* lowerBoundNode(Node * node, const Key & key) const;
     Node* upperBoundNode(Node * node, const Key & key) const;
-    
+
     Node * root_;
     Comparator cmp_;
     size_t size_;
