@@ -1,6 +1,5 @@
 #include "WorkerBST.hpp"
 #include <fstream>
-#include <vector>
 #include <string>
 WorkerBST::WorkerBST(const std::string& path) {
     ReadFile(path);
@@ -26,6 +25,10 @@ void WorkerBST::Menu() {
         if (!line.empty()) {
             ParseArguments(line);
         }
+        else
+        {
+            std::cout << "<INVALID COMMAND>" << '\n';
+        }
     }
 }
 void WorkerBST::ReadFile(const std::string& path) {
@@ -46,68 +49,57 @@ void WorkerBST::ReadFile(const std::string& path) {
     }
 }
 
-void WorkerBST::Print(const std::string& str, size_t& pos)
+void WorkerBST::Print(const std::string& str)
 {
-    std::string word;
+    ///   std::string word;
     BinarySearchTree<int, std::string>* findBst = nullptr;
-    while (pos <= str.size()) {
-        if (pos == str.size() || str[pos] == ' ') {
-            findBst = bst.get(word);
-            //print word = "";
-            break;
-        }
-        else {
-            word += str[pos];
-            ++pos;
-        }
-    }
+    findBst = bst.get(str);
 
     if (findBst == nullptr || findBst->empty())
     {
-        std::cout << "EMPTY" << std::endl;
-        return;
+        throw  std::runtime_error("<EMPTY>");
     }
-
     auto it = findBst->begin();
-    std::cout << word << ' ';
+    std::cout << str << ' ';
     while (it != findBst->end())
     {
         std::cout << (*it).first << ' ' << (*it).second << ' ';
         ++it;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
-void WorkerBST::Complement(const std::string& str, size_t& pos)
+void WorkerBST::Complement(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end)
 {
-    std::string word;
+
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
     BinarySearchTree<int, std::string>* result = nullptr;
 
-    while (pos <= str.size()) {
-        if (str[pos] == ' ' || pos == str.size()) {
-            if (!result)
-            {
-                result = new BinarySearchTree<int, std::string>;
-                bst.push(std::move(word), result);
+    while (begin != end) {
 
-            }
-            else if (!first)
-                first = bst.get(std::move(word));
-            else if (!second)
-                second = bst.get(std::move(word));
+        if (!result)
+        {
+            result = new BinarySearchTree<int, std::string>;
+            bst.push(std::move(*begin), result);
 
-            word = "";
         }
-        else {
-            word += str[pos];
+        else if (!first) {
+            first = bst.get(std::move(*begin));
         }
-        ++pos;
+        else if (!second)
+        {
+            second = bst.get(std::move(*begin));
+        }
+
+        if (result && first && second)
+            break;
+        ++begin;
     }
 
+
     if (!second || !first || !result)
-        throw std::runtime_error("Ivalid Argument");
+        throw std::runtime_error("Invalid Argument");
 
     auto itF = first->begin();
 
@@ -164,8 +156,6 @@ void WorkerBST::ReadDataSet(const std::string& dataSet) {
 
     size_t i = 1;
 
-
-
     BinarySearchTree<int, std::string>* newTree = new BinarySearchTree<int, std::string>;
     bst.push(stringList[0], newTree);
 
@@ -174,42 +164,34 @@ void WorkerBST::ReadDataSet(const std::string& dataSet) {
         newTree->push(ParseNum(stringList[i]), stringList[i + 1]);
         i += 2;
     }
-
 }
 
 
 
-void WorkerBST::Intersect(const std::string& str, size_t& pos)
+void WorkerBST::Intersect(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end)
 {
-
-    std::string word;
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
     BinarySearchTree<int, std::string>* result = nullptr;
-    while (pos <= str.size()) {
-        if (str[pos] == ' ' || pos == str.size()) {
-            if (!result)
-            {
-                result = new BinarySearchTree<int, std::string>;
-                bst.push(std::move(word), result);
 
-            }
-            else if (!first)
-                first = bst.get(std::move(word));
-            else if (!second)
-                second = bst.get(std::move(word));
+    while (begin != end) {
 
-            word = "";
+        if (!result)
+        {
+            result = new BinarySearchTree<int, std::string>;
+            bst.push(std::move(*begin), result);
+
         }
-        else {
-            word += str[pos];
-        }
-        ++pos;
+        else if (!first)
+            first = bst.get(std::move(*begin));
+        else if (!second)
+            second = bst.get(std::move(*begin));
+
+        ++begin;
     }
 
-
     if (!second || !first || !result)
-        throw std::runtime_error("Ivalid Argument");
+        throw std::runtime_error("Invalid Argument");
 
     auto itF = first->begin();
 
@@ -225,35 +207,30 @@ void WorkerBST::Intersect(const std::string& str, size_t& pos)
 
 }
 
-void WorkerBST::Union(const std::string& str, size_t& pos)
+void WorkerBST::Union(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end)
 {
-    std::string word;
+
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
     BinarySearchTree<int, std::string>* result = nullptr;
-    while (pos <= str.size()) {
-        if (str[pos] == ' ' || pos == str.size()) {
-            if (!result)
-            {
-                result = new BinarySearchTree<int, std::string>;
-                bst.push(std::move(word), result);
 
-            }
-            else if (!first)
-                first = bst.get(std::move(word));
-            else if (!second)
-                second = bst.get(std::move(word));
+    while (begin != end) {
 
-            word = "";
+        if (!result)
+        {
+            result = new BinarySearchTree<int, std::string>;
+            bst.push(std::move(*begin), result);
         }
-        else {
-            word += str[pos];
-        }
-        ++pos;
+        else if (!first)
+            first = bst.get(std::move(*begin));
+        else if (!second)
+            second = bst.get(std::move(*begin));
+
+        ++begin;
     }
 
     if (!second || !first || !result)
-        throw std::runtime_error("Ivalid Argument");
+        throw std::runtime_error("Invalid Argument");
 
     auto itF = first->begin();
     auto itS = second->begin();
@@ -277,37 +254,43 @@ void WorkerBST::Union(const std::string& str, size_t& pos)
             }
             ++itS;
         }
-
-
     }
 }
 
 void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, std::string> bst*/) {
 
+    size_t pos = 0;
     std::string word;
+    word.reserve(10);
+    std::vector<std::string> stringList;
+    stringList.reserve(10);
 
-    for (size_t i = 0; i < str.size(); ++i) {
-        if (str[i] == ' ') {
-            if (word == "print") {
-                Print(str, ++i);
-            }
-            else if (word == "intersect") {
-                Intersect(str, ++i);
-            }
-            else if (word == "complement") {
-                Complement(str, ++i);
-            }
-            else if (word == "union") {
-                Union(str, ++i);
-            }
-            else {
-                std::cout << "IVALID COMMAND" << std::endl;
-            }
+    while (pos <= str.size()) {
+        if (std::isspace(str[pos]) || pos == str.size()) {
+            stringList.push_back(word);
             word = "";
         }
         else {
-            word += str[i];
+            word += str[pos];
         }
+        ++pos;
     }
 
+    word = stringList.front();
+
+    if (word == "print") {
+        Print(*(stringList.begin() + 1));
+    }
+    else if (word == "intersect") {
+        Intersect(stringList.begin() + 1, stringList.end());
+    }
+    else if (word == "complement") {
+        Complement(stringList.begin() + 1, stringList.end());
+    }
+    else if (word == "union") {
+        Union(stringList.begin() + 1, stringList.end());
+    }
+    else {
+        std::cout << "<INVALID COMMAND>" << '\n';
+    }
 }
