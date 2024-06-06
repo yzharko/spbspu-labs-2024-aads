@@ -5,12 +5,13 @@
 #include <iterator>
 #include <vector>
 #include <stack>
-#include <utility>
 
 namespace reznikova
 {
   template< typename Iterator, typename Comparator >
   void qsort(Iterator first, Iterator last, Comparator cmp);
+  template< typename Iterator, typename Compare >
+  Iterator partition(Iterator left, Iterator right, Compare comparator);
   template< typename Iterator, typename Comparator >
   void shaker(Iterator first, Iterator last, Comparator cmp);
 }
@@ -18,88 +19,60 @@ namespace reznikova
 template<typename Iterator, typename Comparator>
 void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
 {
-  if (first == last || Iterator(++first) == last)
+  if (first == last)
   {
     return;
   }
-  std::stack<std::pair<Iterator, Iterator>> stack;
-  stack.push({first, last});
-  while (!stack.empty())
+  Iterator pivot = first;
+  Iterator left = first;
+  Iterator right = std::next(first);
+  while (right != last)
   {
-    Iterator left = stack.top().first;
-    Iterator right = stack.top().second;
-    stack.pop();
-    Iterator pivot = Iterator(right--);
-    Iterator i = left;
-    Iterator j = left;
-    while (j != pivot)
+    if (cmp(*right, *pivot))
     {
-      if (cmp(*j, *pivot))
-      {
-        std::iter_swap(i, j);
-        ++i;
-      }
-      ++j;
+      std::swap(*left, *right);
+      ++left;
     }
-    std::iter_swap(i, pivot);
-    if (i != left)
-      stack.push({left, i});
-    if (Iterator(i++) != right)
-      stack.push({Iterator(i++), right});
+    ++right;
   }
+  std::swap(*left, *pivot);
+  qsort(first, left, cmp);
+  qsort(std::next(left), last, cmp);
 }
 
-template<typename Iterator, typename Comparator>
-void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
+template< typename Iterator, typename Compare >
+void reznikova::shaker(Iterator begin, Iterator end, Compare comp)
 {
-  bool swapped = true;
-  while (swapped)
+  if (std::next(begin) == end) {
+    return;
+  }
+  bool isSwapped = false;
+  do
   {
-    swapped = false;
-    auto current = first;
-    auto next = current;
-    if (next != last)
+    for (Iterator i = begin; std::next(i, 1) != end; i++)
     {
-      ++next;
-    }
-    if (next == last)
-    {
-      return;
-    }
-    auto prev = current;
-    ++current;
-    while (next != last)
-    {
-      if (cmp(*next, *prev))
+      if (!comp(*i, *(std::next(i, 1))))
       {
-        std::swap(*next, *prev);
-        swapped = true;
+        std::swap(*i, *(std::next(i, 1)));
+        isSwapped = true;
       }
-      ++prev;
-      ++current;
-      ++next;
     }
-    if (!swapped)
+    end--;
+    if (!isSwapped)
     {
       break;
     }
-    swapped = false;
-    next = prev;
-    current = first;
-    prev = current;
-    ++current;
-    while (current != next)
+    isSwapped = false;
+    for (Iterator i = end; i != begin; i--)
     {
-      if (cmp(*current, *prev))
+      if (comp(*i, *(std::next(i, -1))))
       {
-        std::swap(*current, *prev);
-        swapped = true;
+        std::swap(*i, *(std::next(i, -1)));
+        isSwapped = true;
       }
-      ++prev;
-      ++current;
     }
-  }
+    begin++;
+  } while (isSwapped && begin != end);
 }
 
 #endif
-
