@@ -36,6 +36,7 @@ namespace taskaev
       auto temp = static_cast<T>(dis(gen));
       queue.push_back(temp);
       list.pushFront(temp);
+    }
   }
 
   template< typename T, typename Comparator >
