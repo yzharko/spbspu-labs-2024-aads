@@ -650,14 +650,16 @@ sobolevsky::MyMultiMap< Key, Value >::ConstIterator::ConstIterator(const ConstIt
 }
 
 template< typename Key, typename Value >
-typename sobolevsky::MyMultiMap< Key, Value >::ConstIterator &sobolevsky::MyMultiMap< Key, Value >::ConstIterator::operator=(const ConstIterator &iter)
+typename sobolevsky::MyMultiMap< Key, Value >::ConstIterator &sobolevsky::MyMultiMap< Key, Value >::ConstIterator::operator=
+(const ConstIterator &iter)
 {
   node_ = iter.node_;
   return *this;
 }
 
 template< typename Key, typename Value >
-typename sobolevsky::MyMultiMap< Key, Value >::ConstIterator &sobolevsky::MyMultiMap< Key, Value >::ConstIterator::operator=(ConstIterator &&rhs)
+typename sobolevsky::MyMultiMap< Key, Value >::ConstIterator &sobolevsky::MyMultiMap< Key, Value >::ConstIterator::operator=
+(ConstIterator &&rhs)
 {
   node_(rhs.node_);
   return *this;

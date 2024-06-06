@@ -363,7 +363,8 @@ size_t sobolevsky::MyMap< Key, Value >::count(const Key &key)
 }
 
 template< typename Key, typename Value >
-std::pair< typename sobolevsky::MyMap< Key, Value >::Iterator, typename sobolevsky::MyMap< Key, Value >::Iterator > sobolevsky::MyMap< Key, Value >::equal_range(const Key &key)
+std::pair< typename sobolevsky::MyMap< Key, Value >::Iterator, typename sobolevsky::MyMap< Key, Value >::Iterator >
+sobolevsky::MyMap< Key, Value >::equal_range(const Key &key)
 {
   if (find(key) == end())
   {
