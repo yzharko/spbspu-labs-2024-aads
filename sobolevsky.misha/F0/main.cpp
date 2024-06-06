@@ -14,8 +14,8 @@
 int main()
 {
   std::cout << "To view the available commands, type \"commands\"\n";
-  std::shared_ptr< sobolevsky::List< std::pair< std::string, sobolevsky::MyMultiMap< size_t, std::string > > > >
-  myContainer(new sobolevsky::List< std::pair<std::string, sobolevsky::MyMultiMap< size_t, std::string > > >());
+  std::shared_ptr< sobolevsky::List< std::pair< std::string, sobolevsky::MyMultiMap< size_t, std::string > > > > myContainer
+  (new sobolevsky::List< std::pair<std::string, sobolevsky::MyMultiMap< size_t, std::string > > >());
 
   sobolevsky::MyMap< std::string, std::function< void(std::istream & in, std::ostream & out) > > cmds;
 
