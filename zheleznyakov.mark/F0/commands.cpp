@@ -286,13 +286,16 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
     const wordpairs_t pairs = strings.at(active).second;
     for (auto it = pairs.cbegin(); it != pairs.cend(); ++it)
     {
-      std::cout << it->first << ':' << std::to_string(it->second.getSize()) << '\n';
+      fout << it->first << ':' << std::to_string(it->second.getSize()) << '\n';
     }
   }
   else
   {
     const wordpairs_t pairs = strings.at(active).second;
-    std::transform(pairs.cbegin(), pairs.cend(), std::ostream_iterator < std::string >(out, "\n"), wordEntryToString);
+    for (auto it = pairs.cbegin(); it != pairs.cend(); ++it)
+    {
+      out << it->first << ':' << std::to_string(it->second.getSize()) << '\n';
+    }
   }
   return out;
 }
