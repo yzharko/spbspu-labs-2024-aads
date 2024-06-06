@@ -25,17 +25,13 @@ void WorkerBST::Menu() {
         std::getline(std::cin, line);
         if (!line.empty()) {
             ParseArguments(line);
-        }else{
-            break;
         }
     }
 }
 void WorkerBST::ReadFile(const std::string &path) {
 
-    if (path.empty()) {
+    if(path.empty())
         std::runtime_error("Path is empty");
-    }
-
 
     std::ifstream file(path);
 
@@ -48,6 +44,8 @@ void WorkerBST::ReadFile(const std::string &path) {
         std::getline(file, line);
         ReadDataSet(line);
     }
+
+    file.close();
 }
 
 void WorkerBST::Print(  const std::string& str)
@@ -87,7 +85,7 @@ void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vecto
         }
         else if(!second)
         {
-            second  = bst.get(std::move(*begin));
+            second  = bst.get( *begin);
         }
 
         if(first && second)
@@ -185,9 +183,9 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
     while( begin != end){
 
        if(!first)
-            first =  bst.get(std::move(*begin));
+            first =  bst.get(*begin);
         else if(!second)
-            second  = bst.get(std::move(*begin));
+            second  = bst.get(*begin);
 
         ++begin;
     }
@@ -209,8 +207,7 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
 
     if(bst.contains(key))
     {
-        delete bst.get(key);
-        bst.drop(key);
+        delete bst.drop(key);
     }
 
     bst.push(key,result);
@@ -229,9 +226,9 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
     while( begin != end){
 
          if(!first)
-            first =  bst.get(std::move(*begin));
+            first =  bst.get(*begin);
         else if(!second)
-            second  = bst.get(std::move(*begin));
+            second  = bst.get(*begin);
 
         ++begin;
     }
@@ -265,7 +262,6 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
 
     if(bst.contains(key))
     {
-        delete bst.get(key);
         bst.drop(key);
     }
 
@@ -301,6 +297,6 @@ void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, s
     }else if(word == "union"){
         Union(stringList.begin() + 1,  stringList.end() );
     }else if(word != ""){
-        std::cout << "<INVALID COMMAND>\n";
+        std::cout << "<INVALID COMMAND>" << '\n';
     }
 }
