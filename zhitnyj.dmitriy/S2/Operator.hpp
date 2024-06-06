@@ -4,9 +4,10 @@
 #include <stdexcept>
 #include "ExpressionItem.hpp"
 
-class Operator : public ExpressionItem
-{
-public:
+namespace zhitnyj {
+  class Operator : public ExpressionItem
+  {
+  public:
     explicit Operator(char op);
     ~Operator() = default;
 
@@ -20,8 +21,9 @@ public:
     bool isOperator() override;
     bool isOperand() override;
 
-private:
+  private:
     char operator_;
-};
+  };
+}
 
 #endif

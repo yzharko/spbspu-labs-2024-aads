@@ -3,7 +3,7 @@
 
 #include <string>
 #include "elementOfExpression.hpp"
-#include "queue.hpp"
+#include <queue.hpp>
 #include "operation.hpp"
 
 namespace anikanov {

@@ -1,15 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Queue.hpp"
-#include "Stack.hpp"
+#include <Queue.hpp>
+#include <Stack.hpp>
 #include "ExpressionItem.hpp"
 #include "ExpressionEvaluator.hpp"
 
 int main(int argc, char* argv[])
 {
-  Queue< std::shared_ptr< ExpressionItem > > expressionQueue;
-  Stack< long long > results;
+  zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > expressionQueue;
+  zhitnyj::Stack< long long > results;
 
   try
   {
@@ -26,9 +26,9 @@ int main(int argc, char* argv[])
       {
         if (!line.empty())
         {
-          ExpressionEvaluator::parseExpression(expressionQueue, line);
-          Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
-          results.push(ExpressionEvaluator::evaluateExpression(postfixQueue));
+          zhitnyj::ExpressionEvaluator::parseExpression(expressionQueue, line);
+          zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > postfixQueue = zhitnyj::ExpressionEvaluator::toPostfix(expressionQueue);
+          results.push(zhitnyj::ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
       }
@@ -39,9 +39,9 @@ int main(int argc, char* argv[])
       {
         if (!line.empty())
         {
-          ExpressionEvaluator::parseExpression(expressionQueue, line);
-          Queue< std::shared_ptr< ExpressionItem>> postfixQueue = ExpressionEvaluator::toPostfix(expressionQueue);
-          results.push(ExpressionEvaluator::evaluateExpression(postfixQueue));
+          zhitnyj::ExpressionEvaluator::parseExpression(expressionQueue, line);
+          zhitnyj::Queue< std::shared_ptr< zhitnyj::ExpressionItem > > postfixQueue = zhitnyj::ExpressionEvaluator::toPostfix(expressionQueue);
+          results.push(zhitnyj::ExpressionEvaluator::evaluateExpression(postfixQueue));
           expressionQueue.clear();
         }
       }

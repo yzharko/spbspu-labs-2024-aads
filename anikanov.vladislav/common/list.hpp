@@ -372,7 +372,14 @@ bool anikanov::List< T >::Iterator::operator==(const this_t &other) const
 template< typename T >
 anikanov::List< T > &anikanov::List< T >::operator=(const List< T > &other)
 {
-  swap(other);
+  if (this == &other) {
+    return *this;
+  }
+
+  clear();
+  for (auto elem: other) {
+    push_back(elem);
+  }
   return *this;
 }
 

@@ -1,6 +1,6 @@
 #ifndef DATATYPES_HPP
 #define DATATYPES_HPP
-#include "tree.hpp"
+#include <tree.hpp>
 
 namespace zheleznyakov
 {

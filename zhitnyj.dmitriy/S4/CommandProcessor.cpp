@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "CommandProcessor.hpp"
 
-void processLineToTree(const std::string &line, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::processLineToTree(const std::string &line, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   if (line.empty()) {
     return;
   }
@@ -46,29 +46,29 @@ void processLineToTree(const std::string &line, BSTree <std::string, BSTree< lon
     }
   }
 
-  dicts.push(dataset, tree);
+  dict.push(dataset, tree);
 }
 
-void loadTreeFromFile(const std::string &filename, BSTree <std::string, BSTree< long long, std::string >> &dicts) {
-  std::ifstream file(filename);
+void zhitnyj::loadTreeFromFile(const std::string &file_, zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
+  std::ifstream file(file_);
   if (!file) {
     throw std::runtime_error("Unable to open file");
   }
 
   std::string line;
   while (std::getline(file, line)) {
-    processLineToTree(line, dicts);
+    processLineToTree(line, dict);
   }
   file.close();
 }
 
-void handleIntersect(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleIntersect(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -82,17 +82,17 @@ void handleIntersect(BSTree <std::string, BSTree< long long, std::string >> &dic
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void handleComplement(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleComplement(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -106,17 +106,17 @@ void handleComplement(BSTree <std::string, BSTree< long long, std::string >> &di
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void handleUnion(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handleUnion(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string newDataset, dataset1, dataset2;
   std::cin >> newDataset >> dataset1 >> dataset2;
 
-  auto it1 = dicts.find(dataset1);
-  auto it2 = dicts.find(dataset2);
-  if (it1 == dicts.end() || it2 == dicts.end()) {
+  auto it1 = dict.find(dataset1);
+  auto it2 = dict.find(dataset2);
+  if (it1 == dict.end() || it2 == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else {
@@ -134,17 +134,17 @@ void handleUnion(BSTree <std::string, BSTree< long long, std::string >> &dicts) 
       }
     }
 
-    dicts.push(newDataset, result);
+    dict.push(newDataset, result);
   }
 }
 
-void handlePrint(BSTree <std::string, BSTree< long long, std::string >> &dicts) {
+void zhitnyj::handlePrint(zhitnyj::BSTree< std::string, zhitnyj::BSTree< long long, std::string > > &dict) {
   std::string dataset;
   std::cin >> dataset;
 
-  auto it = dicts.find(dataset);
+  auto it = dict.find(dataset);
   const auto &tree = it->second;
-  if (it == dicts.end()) {
+  if (it == dict.end()) {
     invalidCommandWarning(std::cout);
   }
   else if (tree.empty()) {
@@ -159,10 +159,10 @@ void handlePrint(BSTree <std::string, BSTree< long long, std::string >> &dicts) 
   }
 }
 
-void emptyCommandWarning(std::ostream &out) {
+void zhitnyj::emptyCommandWarning(std::ostream &out) {
   out << "<EMPTY>\n";
 }
 
-void invalidCommandWarning(std::ostream &out) {
+void zhitnyj::invalidCommandWarning(std::ostream &out) {
   out << "<INVALID COMMAND>\n";
 }

@@ -1,19 +1,19 @@
 #include "Operand.hpp"
 
-Operand::Operand(long long val) : value(val)
+zhitnyj::Operand::Operand(long long val) : value(val)
 {}
 
-long long Operand::getValue()
+long long zhitnyj::Operand::getValue()
 {
   return value;
 }
 
-bool Operand::isOperator()
+bool zhitnyj::Operand::isOperator()
 {
   return false;
 }
 
-bool Operand::isOperand()
+bool zhitnyj::Operand::isOperand()
 {
   return true;
 }

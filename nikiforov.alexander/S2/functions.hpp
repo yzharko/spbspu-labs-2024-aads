@@ -6,7 +6,7 @@
 
 namespace nikiforov
 {
-  std::string cutElem(std::string& str);
+  std::string cutElements(std::string& str);
 
   void convertToPostfix(std::string str, Queue< Initialization >& Queue);
 

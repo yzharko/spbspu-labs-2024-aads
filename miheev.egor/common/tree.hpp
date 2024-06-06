@@ -15,11 +15,10 @@ namespace miheev
   {
   public:
     using kv_pair = std::pair< Key, Value >;
-    class Iterator;
-    class ConstIterator;
-
     class LnRIterator;
     class RnLIterator;
+    class Iterator;
+    class ConstIterator;
 
     using iter_pair = std::pair< Iterator, Iterator >;
     using const_iter_pair = std::pair< ConstIterator, ConstIterator >;
@@ -1024,7 +1023,7 @@ void miheev::Tree< Key, Value, Comparator>::rawDeleteSelf()
   }
   else
   {
-    Tree temp = *left_->getMaxNode();
+    Tree temp = *right_->getMinNode();
     rawDelete(temp.pair_->first);
     replacePair(*temp.pair_);
   }

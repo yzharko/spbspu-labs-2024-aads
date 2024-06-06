@@ -2,7 +2,7 @@
 #define COMMANDS_HPP
 #include <istream>
 #include "datatypes.hpp"
-#include "tree.hpp"
+#include <tree.hpp>
 
 namespace zheleznyakov
 {

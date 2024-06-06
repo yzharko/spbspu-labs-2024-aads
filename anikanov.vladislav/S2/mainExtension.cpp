@@ -4,7 +4,7 @@
 #include <limits>
 #include <algorithm>
 #include <cctype>
-#include "stack.hpp"
+#include <stack.hpp>
 #include "elementOfExpression.hpp"
 #include "bracket.hpp"
 #include "operand.hpp"

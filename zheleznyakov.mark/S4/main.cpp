@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
-#include "tree.hpp"
+#include <tree.hpp>
 #include "input.hpp"
 #include "commands.hpp"
 
