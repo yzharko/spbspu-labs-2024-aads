@@ -22,37 +22,20 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
   }
   auto pivot = *first;
   Iterator left = first;
-  Iterator right = last;
-  --right;
-  while (true)
+  Iterator right = first;
+  ++right;
+  for (Iterator it = right; it != last; ++it)
   {
-    while (left != right && cmp(*left, pivot))
+    if (cmp(*it, pivot))
     {
+      std::iter_swap(left, it);
       ++left;
     }
-    while (left != right && !cmp(*right, pivot))
-    {
-      --right;
-    }
-    if (left == right)
-    {
-      break;
-    }
-    auto temp = *left;
-    *left = *right;
-    *right = temp;
   }
-  Iterator mid = left;
-  if (!cmp(*first, pivot))
-  {
-    auto temp = *first;
-    *first = *mid;
-    *mid = temp;
-  }
-  Iterator mid_next = mid;
-  ++mid_next;
-  qsort(first, mid, cmp);
-  qsort(mid_next, last, cmp);
+  std::iter_swap(first, left);
+  qsort(first, left, cmp);
+  ++left;
+  qsort(left, last, cmp);
 }
 
 template<typename Iterator, typename Comparator>
