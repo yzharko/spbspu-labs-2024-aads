@@ -58,7 +58,7 @@ void reznikova::getRandVals(size_t size, std::string type, List< T > & biList, s
 }
 
 template< typename T >
-void reznikova::outputVals(std::ostream & out, T & conteiner)
+void rezniova::outputVals(std::ostream & out, T & conteiner)
 {
   auto it = conteiner.begin();
   out << *it;
@@ -86,7 +86,7 @@ void reznikova::sortData(std::ostream & out, std::string type, size_t size, Comp
 
   qsort(biList.begin(), biList.end(), cmp);
   shaker(second_biList.begin(), second_biList.end(), cmp);
-  qsort(fList.begin(), fList.end(), cmp);
+  shaker(fList.begin(), fList.end(), cmp);
   qsort(queue.begin(), queue.end(), cmp);
   shaker(second_queue.begin(), second_queue.end(), cmp);
   std::sort(second_queue.begin(), third_queue.end(), cmp);

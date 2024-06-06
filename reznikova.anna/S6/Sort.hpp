@@ -15,80 +15,91 @@ namespace reznikova
 
 
 template<typename Iterator, typename Comparator>
-void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
-{
-  if (first == last || (++Iterator(first)) == last)
+void reznikova::qsort(Iterator first, Iterator last, Comparator cmp) {
+  if (first == last || (first != last && ++Iterator(first) == last))
   {
     return;
   }
-  Iterator pivot = first;
-  Iterator i = first;
-  Iterator j = last;
-  while (++i != j)
+  auto pivot = *first;
+  Iterator left = first;
+  Iterator right = last;
+  --right;
+  while (left != right)
   {
-    while (i != j && !cmp(*pivot, *i)) ++i;
-    while (i != j && cmp(*pivot, *--j));
-    if (i != j) std::iter_swap(i, j);
+    while (left != right && !cmp(*right, pivot))
+    {
+      --right;
+      if (left != right)
+      {
+        std::iter_swap(left, right);
+        ++left;
+      }
+    }
+    while (left != right && cmp(*left, pivot))
+    {
+      ++left;
+      if (left != right)
+      {
+        std::iter_swap(left, right);
+        --right;
+      }
+    }
   }
-  Iterator middle = i;
-  if (cmp(*pivot, *middle))
-  {
-    --middle;
-  }
-  std::iter_swap(pivot, middle);
-  qsort(first, middle, cmp);
-  ++middle;
-  qsort(middle, last, cmp);
+  qsort(first, left, cmp);
+  qsort(++left, last, cmp);
 }
+
+
 
 template<typename Iterator, typename Comparator>
 void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
 {
-  if (first == last)
-  {
-    return;
-  }
   bool swapped = true;
   while (swapped)
   {
     swapped = false;
-    for (Iterator it = first; it != last; ++it)
+    auto current = first;
+    auto next = current;
+    if (next != last)
     {
-      Iterator next_it = it;
-      ++next_it;
-      if (next_it == last)
+      ++next;
+    }
+    if (next == last)
+    {
+      return;
+    }
+    auto prev = current;
+    ++current;
+    while (next != last)
+    {
+      if (cmp(*next, *prev))
       {
-        break;
-      }
-      if (!cmp(*it, *next_it))
-      {
-        auto temp = *it;
-        *it = *next_it;
-        *next_it = temp;
+        std::swap(*next, *prev);
         swapped = true;
       }
+      ++prev;
+      ++current;
+      ++next;
     }
     if (!swapped)
     {
       break;
     }
     swapped = false;
-    Iterator last_it = last;
-    --last_it;
-    for (Iterator it = last_it; it != first; --it)
+    next = prev;
+    current = first;
+    prev = current;
+    ++current;
+    while (current != next) 
     {
-      Iterator prev_it = it;
-      --prev_it;
-      if (cmp(*it, *prev_it))
+      if (cmp(*current, *prev)) 
       {
-        auto temp = *it;
-        *it = *prev_it;
-        *prev_it = temp;
+        std::swap(*current, *prev);
         swapped = true;
       }
+      ++prev;
+      ++current;
     }
-    ++first;
-    --last;
   }
 }
 
