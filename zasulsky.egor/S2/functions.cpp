@@ -1,4 +1,8 @@
 #include "functions.hpp"
+#include <iostream>
+#include <string>
+#include <climits>
+#include <stdexcept>
 
 int zasulsky::getPriority(std::string s)
 {
