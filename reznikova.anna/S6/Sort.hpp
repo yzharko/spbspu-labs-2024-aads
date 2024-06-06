@@ -2,8 +2,8 @@
 #define SORT_HPP
 
 #include <algorithm>
-#include <vector>
 #include <iterator>
+#include <vector>
 
 namespace reznikova
 {
@@ -13,42 +13,46 @@ namespace reznikova
   void shaker(Iterator first, Iterator last, Comparator cmp);
 }
 
-template< typename Iterator, typename Comparator >
-void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
+template<typename Iterator, typename Comparator>
+void qsort(Iterator first, Iterator last, Comparator cmp)
 {
-  if (first == last || std::next(first) == last)
+  if (first == last)
   {
     return;
   }
   auto pivot = *first;
-  std::vector<typename std::iterator_traits<Iterator>::value_type> less;
-  std::vector<typename std::iterator_traits<Iterator>::value_type> greater;
-  for (Iterator it = std::next(first); it != last; ++it)
+  Iterator left = first;
+  Iterator right = last;
+  --right;
+  while (true)
   {
-    if (cmp(*it, pivot))
+    while (left != right && cmp(*left, pivot))
     {
-      less.push_back(*it);
+      ++left;
     }
-    else
+    while (left != right && !cmp(*right, pivot))
     {
-      greater.push_back(*it);
+      --right;
     }
+    if (left == right)
+    {
+      break;
+    }
+    auto temp = *left;
+    *left = *right;
+    *right = temp;
   }
-  Iterator it = first;
-  for (const auto & elem : less)
+  Iterator mid = left;
+  if (!cmp(*first, pivot))
   {
-    *it = elem;
-    ++it;
+    auto temp = *first;
+    *first = *mid;
+    *mid = temp;
   }
-  *it = pivot;
-  ++it;
-  for (const auto & elem : greater)
-  {
-    *it = elem;
-    ++it;
-  }
-  qsort(first, std::next(first, less.size()), cmp);
-  qsort(std::next(first, less.size() + 1), last, cmp);
+  Iterator mid_next = mid;
+  ++mid_next;
+  qsort(first, mid, cmp);
+  qsort(mid_next, last, cmp);
 }
 
 template<typename Iterator, typename Comparator>
@@ -62,12 +66,19 @@ void shaker(Iterator first, Iterator last, Comparator cmp)
   while (swapped)
   {
     swapped = false;
-    for (Iterator it = first; it != std::prev(last); ++it)
+    for (Iterator it = first; it != last; ++it)
     {
-      Iterator next_it = std::next(it);
+      Iterator next_it = it;
+      ++next_it;
+      if (next_it == last)
+      {
+        break;
+      }
       if (!cmp(*it, *next_it))
       {
-        std::iter_swap(it, next_it);
+        auto temp = *it;
+        *it = *next_it;
+        *next_it = temp;
         swapped = true;
       }
     }
@@ -76,19 +87,23 @@ void shaker(Iterator first, Iterator last, Comparator cmp)
       break;
     }
     swapped = false;
-    last = std::prev(last);
-    for (Iterator it = std::prev(last); it != first; --it)
+    Iterator last_it = last;
+    --last_it;
+    for (Iterator it = last_it; it != first; --it)
     {
-      Iterator prev_it = std::prev(it);
+      Iterator prev_it = it;
+      --prev_it;
       if (cmp(*it, *prev_it))
       {
-        std::iter_swap(it, prev_it);
+        auto temp = *it;
+        *it = *prev_it;
+        *prev_it = temp;
         swapped = true;
       }
     }
-    first = std::next(first);
+    ++first;
+    --last;
   }
 }
 
 #endif
-
