@@ -27,11 +27,6 @@ int main(int argc, char* argv[])
   zasulsky::Queue < std::string > expr;
   try
   {
-    if (input.eof())
-    {
-      std::cout << '\n';
-      return 0;
-    }
     while (getline(input, str))
     {
       if (str.find_first_not_of(" ") == std::string::npos || str.empty())
@@ -46,6 +41,11 @@ int main(int argc, char* argv[])
       zasulsky::Queue <std::string > postfix = convertToPostfix(expr);
       long long answer = solvePostfixExpr(postfix);
       results.push(answer);
+    }
+    if (input.eof())
+    {
+      std::cout << '\n';
+      return 0;
     }
     outputResults(results);
   }
