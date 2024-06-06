@@ -311,13 +311,10 @@ std::ostream & zheleznyakov::commands::info(strings_t & strings, std::string & a
   out << word << '\n'
   << "Repeats: " << currentWord.getSize() << '\n'
   << "Coords:\n";
-  std::ostream_iterator<std::string> out_iter(out, "\n");
-  std::transform(
-    currentWord.begin(),
-    currentWord.end(),
-    out_iter,
-    coordsToPairs
-  );
+  for (auto it = currentWord.begin(); it != currentWord.end(); ++it)
+  {
+    out << coordsToPairs(*it) << '\n';
+  }
   return out;
 }
 
@@ -363,4 +360,9 @@ std::string zheleznyakov::extractKeyFromWordpair(const std::pair< std::string, w
 std::string zheleznyakov::coordsToPairs(const wordcoord_t & wordCoord)
 {
   return std::to_string(wordCoord.first) + ';' + std::to_string(wordCoord.second);
+}
+
+std::string zheleznyakov::wordEntryToString(const std::pair< std::string, wordpair_t >& pair)
+{
+  return pair.first + ':' + std::to_string(pair.second.getSize());
 }

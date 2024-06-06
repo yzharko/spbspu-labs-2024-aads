@@ -35,6 +35,7 @@ namespace zheleznyakov
   std::string extractKeyFromStringsPair(const std::pair< std::string, string_t > & pair);
   std::string extractKeyFromWordpair(const std::pair< std::string, wordpair_t > & pair);
   std::string coordsToPairs(const wordcoord_t & wordCoord);
+  std::string wordEntryToString(const std::pair< std::string, wordpair_t >& pair);
   bool hasWord(const wordpairs_t & ref, const std::string word);
   bool hasNoWord(const wordpairs_t & ref, const std::string word);
 }
