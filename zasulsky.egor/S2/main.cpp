@@ -27,27 +27,20 @@ int main(int argc, char* argv[])
   zasulsky::Queue < std::string > expr;
   try
   {
-    if (argc == 1)
+    if (argc == 2)
     {
-      if (input.eof())
+      input.seekg(0, std::ios::end);
+      if (input.tellg() == 0)
       {
         std::cout << '\n';
         return 0;
+      }
+      else
+      {
+        file.seekg(0, std::ios::beg);
       }
     }
-    else
-    {
-      if (!input.good())
-      {
-        std::cout << '\n';
-        return 0;
-      }
-      if (input.eof())
-      {
-        std::cout << '\n';
-        return 0;
-      }
-    }
+
     while (getline(input, str))
     {
       if (str.find_first_not_of(" ") == std::string::npos || str.empty())
