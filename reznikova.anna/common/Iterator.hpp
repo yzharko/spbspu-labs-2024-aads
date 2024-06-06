@@ -1,6 +1,7 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 #include <memory>
+#include <iterator>
 #include "Node.hpp"
 
 namespace reznikova
@@ -8,7 +9,7 @@ namespace reznikova
   namespace details
   {
     template< typename T >
-    class Iterator
+    class Iterator : public std::iterator<std::bidirectional_iterator_tag, T>
     {
     public:
       using this_t = Iterator;
