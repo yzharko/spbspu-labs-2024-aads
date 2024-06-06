@@ -15,7 +15,7 @@ namespace zasulsky
       fL.insert_after(fL.cbeforeBegin(), data);
     }
 
-    bool isEmpty()
+    bool isEmpty() noexcept
     {
       return fL.empty();
     }
