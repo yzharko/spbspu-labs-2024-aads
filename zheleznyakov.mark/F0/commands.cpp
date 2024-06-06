@@ -45,12 +45,10 @@ std::ostream & zheleznyakov::commands::list(strings_t & strings, std::istream & 
   if (!strings.empty())
   {
     out << "\nNames:\n";
-    std::transform(
-      strings.begin(),
-      strings.end(),
-      std::ostream_iterator<std::string>(out, "\n"),
-      extractKeyFromStringsPair
-    );
+    for (auto it = strings.begin(); it != strings.end(); ++it)
+    {
+      out << it->first << '\n';
+    }
   }
   return out;
 }
