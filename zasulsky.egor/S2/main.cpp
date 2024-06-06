@@ -37,9 +37,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-      input.seekg(0, std::ios::end);
-      std::streampos fileSize = input.tellg();
-      if (fileSize == 0)
+      if (!input.good))
       {
         std::cout << '\n';
         return 0;
