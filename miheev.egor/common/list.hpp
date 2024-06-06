@@ -11,6 +11,7 @@ namespace miheev
   class List
   {
   public:
+    using value_type = T;
     struct ConstIterator;
     struct Iterator;
 
@@ -28,11 +29,14 @@ namespace miheev
     const T& front() const;
 
     size_t size() const;
+    bool contains(const T&) const;
 
     void assign (size_t n, const T& val);
     void pushFront(const T& data);
+    void push_front(const T& data);
     void popFront();
     void pushBack(const T& data);
+    void push_back(const T& data);
     void popBack();
     void eraseAfter(Iterator iter);
     void swap(List& aList);
@@ -46,8 +50,8 @@ namespace miheev
 
     Iterator begin();
     Iterator end();
-    ConstIterator cBegin() const;
-    ConstIterator cEnd() const;
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
   private:
     T data_;
@@ -112,13 +116,13 @@ private:
 };
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cBegin() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cbegin() const
 {
   return this;
 }
 
 template< typename T >
-typename miheev::List< T >::ConstIterator miheev::List< T >::cEnd() const
+typename miheev::List< T >::ConstIterator miheev::List< T >::cend() const
 {
   return nullptr;
 }
@@ -164,7 +168,7 @@ const T& miheev::List< T >::ConstIterator::operator*() const
 template< typename T >
 const T* miheev::List< T >::ConstIterator::operator->() const
 {
-  return std::addressof(cur_->data);
+  return std::addressof(cur_->data_);
 }
 
 template< typename T >
@@ -310,7 +314,7 @@ miheev::List< T >::List(List&& rhs):
   next_{nullptr},
   isEmpty_{true}
 {
-  ConstIterator rhsIter(rhs.cBegin());
+  ConstIterator rhsIter(rhs.cbegin());
   List< T >* node = this;
   while (node != nullptr && rhsIter != nullptr)
   {
@@ -461,6 +465,12 @@ void miheev::List< T >::pushFront(const T& data)
 }
 
 template < typename T >
+void miheev::List< T >::push_front(const T& data)
+{
+  pushFront(data);
+}
+
+template < typename T >
 void miheev::List< T >::popFront()
 {
   if (!next_)
@@ -500,6 +510,12 @@ void miheev::List< T >::pushBack(const T& data)
 }
 
 template < typename T >
+void miheev::List< T >::push_back(const T& data)
+{
+  pushBack(data);
+}
+
+template < typename T >
 void miheev::List< T >::eraseAfter(miheev::List< T >::Iterator iter)
 {
   iter.eraseAfter();
@@ -509,9 +525,9 @@ template < typename T >
 void miheev::List< T >::remove(T data)
 {
   Iterator iter(begin());
-  while(iter)
+  while(iter != nullptr)
   {
-    if (*(iter.next()) == data)
+    if (iter.next() != nullptr && *(iter.next()) == data)
     {
       iter.eraseAfter();
     }
@@ -586,6 +602,20 @@ void miheev::List< T >::popBack()
     }
     eraseAfter(iter);
   }
+}
+
+template < typename T >
+bool miheev::List< T >::contains(const T& value) const
+{
+  if (data_ == value)
+  {
+    return true;
+  }
+  if (next_)
+  {
+    return next_->contains(value);
+  }
+  return false;
 }
 
 #endif

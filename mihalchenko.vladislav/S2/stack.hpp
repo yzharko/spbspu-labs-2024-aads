@@ -9,10 +9,11 @@ namespace mihalchenko
   {
   public:
     Stack() = default;
-    ~Stack() = default;
     Stack(const Stack< T > &copy);
+    ~Stack() = default;
     void push(const T &data);
-    T pop();
+    void pop();
+    const T getT();
     T &operator[](const size_t ind);
     void clear();
     size_t getSize();
@@ -36,10 +37,15 @@ void mihalchenko::Stack< T >::push(const T &data)
 }
 
 template < typename T >
-T mihalchenko::Stack< T >::pop()
+void mihalchenko::Stack< T >::pop()
+{
+  containStack.pop_front();
+}
+
+template < typename T >
+const T mihalchenko::Stack< T >::getT()
 {
   T res = containStack.getT();
-  containStack.pop_front();
   return res;
 }
 

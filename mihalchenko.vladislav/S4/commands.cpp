@@ -23,131 +23,139 @@ std::string mihalchenko::resiveString(std::string &inputStr, size_t &pos, bool f
   return result;
 }
 
-void mihalchenko::print(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+void mihalchenko::printInvalidCommand(std::ostream &out)
+{
+  out << "<INVALID COMMAND>\n";
+}
+
+void mihalchenko::printEmptyMessage(std::ostream &out)
+{
+  out << "<EMPTY>\n";
+}
+
+void mihalchenko::print(typeParam &AVLTree)
 {
   std::string name;
   std::cin >> name;
-  auto dataset = AVLTree.find(name);
-  if (dataset == AVLTree.end())
+  auto iterList = AVLTree.find(name);
+  if (iterList == AVLTree.end())
   {
+    printInvalidCommand(std::cout);
     return;
   }
-  else if ((*dataset).second.empty())
+  else if ((*iterList).second.empty())
   {
+    printEmptyMessage(std::cout);
     return;
   }
 
-  std::cout << (*dataset).first << " ";
-  for (auto it = (*dataset).second.begin(); it != (*dataset).second.end(); ++it)
+  std::cout << (*iterList).first << " ";
+  for (auto it = (*iterList).second.begin(); it != (*iterList).second.end(); ++it)
   {
     std::cout << (*it).first << " " << (*it).second;
-    ((++it) == (*dataset).second.end()) ? std::cout << "\n" : std::cout << ' ';
+    if ((++it) == (*iterList).second.end())
+    {
+      std::cout << "\n";
+    }
+    else
+    {
+      std::cout << ' ';
+    }
     it--;
   }
 }
 
-void mihalchenko::complement(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+void mihalchenko::complement(typeParam &AVLTree)
 {
-  std::string name, nameFirst, nameSecond;
-  std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = AVLTree.find(nameFirst);
-  auto secondData = AVLTree.find(nameSecond);
-  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  std::string nameNewGlossary, nameOneGlossary, nameTwoGlossary;
+  std::cin >> nameNewGlossary >> nameOneGlossary >> nameTwoGlossary;
+
+  if (AVLTree.find(nameOneGlossary) == AVLTree.end())
   {
+    printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> datasets{};
-  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  mihalchenko::AVLTree< long long, std::string > compTree{};
+  for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
-    auto inSecondData = (*AVLTree.find(nameSecond)).second.find((*it).first);
-    if (inSecondData == (*AVLTree.find(nameSecond)).second.end())
+    auto inSecondData = (*AVLTree.find(nameTwoGlossary)).second.find((*it).first);
+    if (inSecondData == (*AVLTree.find(nameTwoGlossary)).second.end())
     {
-      datasets.insert(*it);
+      compTree.insert(*it);
     }
   }
-  if (nameFirst == name)
+  if (nameOneGlossary == nameNewGlossary)
   {
-    AVLTree.erase(nameFirst);
-    AVLTree.insert(name, datasets);
+    AVLTree.erase(nameOneGlossary);
+    AVLTree.insert(nameNewGlossary, compTree);
   }
   else
   {
-    AVLTree.insert(name, datasets);
+    AVLTree.insert(nameNewGlossary, compTree);
   }
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
+  {
+    AVLTree.erase(nameNewGlossary);
+  }
+  AVLTree.insert(nameNewGlossary, compTree);
 }
 
-void mihalchenko::intersect(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+void mihalchenko::intersect(typeParam &AVLTree)
 {
-  std::string name, nameFirst, nameSecond;
-  std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = AVLTree.find(nameFirst);
-  auto secondData = AVLTree.find(nameSecond);
-  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  std::string nameNewGlossary, nameOneGlossary, nameTwoGlossary;
+  std::cin >> nameNewGlossary >> nameOneGlossary >> nameTwoGlossary;
+  if (AVLTree.find(nameOneGlossary) == AVLTree.end() || AVLTree.find(nameTwoGlossary) == AVLTree.end())
   {
+    printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> datasets{};
-  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  mihalchenko::AVLTree< long long, std::string > dicts{};
+  for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
-    auto inSecondData = (*AVLTree.find(nameSecond)).second.find((*it).first);
-    if (inSecondData != (*AVLTree.find(nameSecond)).second.end())
+    auto inSecondData = (*AVLTree.find(nameTwoGlossary)).second.find((*it).first);
+    if (inSecondData != (*AVLTree.find(nameTwoGlossary)).second.end())
     {
-      datasets.insert(*it);
+      dicts.insert(*it);
     }
   }
-  if (nameFirst == name)
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(nameFirst);
-    AVLTree.insert(name, datasets);
+    AVLTree.erase(nameNewGlossary);
   }
-  else
-  {
-    AVLTree.insert(name, datasets);
-  }
+  AVLTree.insert(nameNewGlossary, dicts);
 }
 
-void mihalchenko::unionAVL(mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<long long, std::string>> &AVLTree)
+void mihalchenko::unionAVL(typeParam &AVLTree)
 {
-  std::string name, nameFirst, nameSecond;
-  std::cin >> name >> nameFirst >> nameSecond;
-  auto firstData = AVLTree.find(nameFirst);
-  auto secondData = AVLTree.find(nameSecond);
-  if (firstData == AVLTree.end() || secondData == AVLTree.end())
+  std::string nameNewGlossary, nameOneGlossary, nameTwoGlossary;
+  std::cin >> nameNewGlossary >> nameOneGlossary >> nameTwoGlossary;
+  if (AVLTree.find(nameOneGlossary) == AVLTree.end() || AVLTree.find(nameTwoGlossary) == AVLTree.end())
   {
+    printInvalidCommand(std::cout);
     return;
   }
-  mihalchenko::AVLTree<long long, std::string> datasets{};
-  for (auto it = (*firstData).second.begin(); it != (*firstData).second.end(); it++)
+  mihalchenko::AVLTree< long long, std::string > dicts{};
+  for (auto it = (*AVLTree.find(nameOneGlossary)).second.begin(); it != (*AVLTree.find(nameOneGlossary)).second.end(); it++)
   {
-    datasets.insert(*it);
+    dicts.insert(*it);
   }
-  for (auto it = (*secondData).second.begin(); it != (*secondData).second.end(); it++)
+  for (auto it = (*AVLTree.find(nameTwoGlossary)).second.begin(); it != (*AVLTree.find(nameTwoGlossary)).second.end(); it++)
   {
-    auto inSet = datasets.find((*it).first);
-    if (inSet == datasets.end())
+    if (dicts.find((*it).first) == dicts.end())
     {
-      datasets.insert(*it);
+      dicts.insert(*it);
     }
   }
-  if (nameFirst == name)
+  if (AVLTree.find(nameNewGlossary) != AVLTree.end())
   {
-    AVLTree.erase(nameFirst);
-    AVLTree.insert(name, datasets);
+    AVLTree.erase(nameNewGlossary);
   }
-  else if (nameSecond == name)
-  {
-    AVLTree.erase(nameSecond);
-    AVLTree.insert(name, datasets);
-  }
-  else
-  {
-    AVLTree.insert(name, datasets);
-  }
+  AVLTree.insert(nameNewGlossary, dicts);
 }
 
-void mihalchenko::insertDataToTree(std::ifstream &input, typeParam &TreeAndLeaves, std::string &inputStr)
+void mihalchenko::insertDataToTree(typeParam &TreeAndLeaves, std::string &inputStr)
 {
-  AVLTree<long long, std::string> branchAndLeaves{};
+  AVLTree< long long, std::string > branchAndLeaves{};
   size_t pos = 0;
   std::string nameGlossary = resiveString(inputStr, pos, true);
   while (pos < inputStr.length())
@@ -157,19 +165,4 @@ void mihalchenko::insertDataToTree(std::ifstream &input, typeParam &TreeAndLeave
     branchAndLeaves.insert(key, value);
   }
   TreeAndLeaves.insert(nameGlossary, branchAndLeaves);
-}
-
-/*void mihalchenko::printErrorMessage(std::ostream & out)
-{
-  out << "ERROR\n";
-}*/
-
-void mihalchenko::printInvalidCommand(std::ostream &out)
-{
-  out << "<INVALID COMMAND>\n";
-}
-
-void mihalchenko::printEmptyMessage(std::ostream &out)
-{
-  out << "EMPTY\n";
 }

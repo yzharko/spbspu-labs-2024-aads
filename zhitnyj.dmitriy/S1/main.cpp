@@ -4,7 +4,7 @@
 
 int main() {
   try {
-    SequenceHandler handler;
+    zhitnyj::SequenceHandler handler;
     std::string line;
 
     while (std::getline(std::cin, line)) {
@@ -13,7 +13,7 @@ int main() {
       std::string name = line.substr(0, firstSpace);
       std::string numbers = line.substr(firstSpace + 1);
 
-      List< unsigned long long > sequence;
+      zhitnyj::List< unsigned long long > sequence;
       size_t pos = 0;
 
       if (firstSpace == std::string::npos) {

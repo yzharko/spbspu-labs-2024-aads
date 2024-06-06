@@ -1,61 +1,93 @@
 #include "types.hpp"
 #include <limits>
 #include <cmath>
+#include "list.hpp"
+#include "processing.hpp"
 
-mihalchenko::CalcRez::CalcRez(long long value)
+mihalchenko::Operand::Operand(long long data)
 {
-  resultCalc = value;
+  data_ = data;
 }
 
-mihalchenko::CalcRez mihalchenko::CalcRez::operator+(const CalcRez &rhs)
+mihalchenko::Operand mihalchenko::Operand::operator+(const Operand &rhs)
 {
-  CalcRez result;
-  result.resultCalc = resultCalc + rhs.resultCalc;
-  return result;
-}
-
-mihalchenko::CalcRez mihalchenko::CalcRez::operator-(const CalcRez &rhs)
-{
-  CalcRez result;
-  result.resultCalc = resultCalc - rhs.resultCalc;
-  return result;
-}
-
-mihalchenko::CalcRez mihalchenko::CalcRez::operator*(const CalcRez &rhs)
-{
-  CalcRez result;
-  result.resultCalc = resultCalc * rhs.resultCalc;
-  return result;
-}
-
-mihalchenko::CalcRez mihalchenko::CalcRez::operator/(const CalcRez &rhs)
-{
-  CalcRez result;
-  result.resultCalc = resultCalc / rhs.resultCalc;
-  return result;
-}
-
-mihalchenko::CalcRez mihalchenko::CalcRez::operator%(const CalcRez &rhs)
-{
-  CalcRez result;
-  if (resultCalc < 0)
+  Operand result;
+  long long llMax = std::numeric_limits< long long >::max();
+  if ((llMax - data_) < rhs.data_)
   {
-    result.resultCalc = abs((resultCalc / rhs.resultCalc - 1) * rhs.resultCalc - resultCalc);
+    throw std::logic_error("Error: overflow!");
+    std::cerr << "Overflow!\n";
+    return result;
+  }
+  result.data_ = data_ + rhs.data_;
+  return result;
+}
+
+mihalchenko::Operand mihalchenko::Operand::operator-(const Operand &rhs)
+{
+  Operand result;
+  result.data_ = data_ - rhs.data_;
+  return result;
+}
+
+mihalchenko::Operand mihalchenko::Operand::operator*(const Operand &rhs)
+{
+  Operand result;
+  long long llMax = std::numeric_limits<long long>::max();
+  if (llMax / data_ < rhs.data_)
+  {
+    throw std::logic_error("Error: overflow!");
+    std::cerr << "Overflow!\n";
+    return result;
+  }
+  result.data_ = data_ * rhs.data_;
+  return result;
+}
+
+mihalchenko::Operand mihalchenko::Operand::operator/(const Operand &rhs)
+{
+  Operand result;
+  if (rhs.data_ == 0)
+  {
+    throw std::logic_error("Error: division by zero!");
+    std::cerr << "Division by zero!\n";
+    return result;
+  }
+  result.data_ = data_ / rhs.data_;
+  return result;
+}
+
+mihalchenko::Operand mihalchenko::Operand::operator%(const Operand &rhs)
+{
+  Operand result;
+  if (data_ < 0)
+  {
+    result.data_ = abs((data_ / rhs.data_ - 1) * rhs.data_ - data_);
   }
   else
-    result.resultCalc = resultCalc % rhs.resultCalc;
+    result.data_ = data_ % rhs.data_;
 
   return result;
+}
+
+char mihalchenko::Operation::getOperation() const
+{
+  return command_;
+}
+
+void mihalchenko::Operation::setOperation(const char command)
+{
+  command_ = command;
+  weightOfCommand_ = 0;
 }
 
 bool mihalchenko::FinalTransform::calculate()
 {
-  std::set< char > controlSet{'(', ')', '+', '-', '*', '/', '%'};
-  long long llMax = std::numeric_limits< long long >::max();
+  mihalchenko::List< char > list = mihalchenko::getListFromString("()+-*/%");
   char codOperation;
-  CalcRez wremSave;
-  CalcRez firstVal;
-  CalcRez secondVal;
+  Operand wremSave;
+  Operand firstVal;
+  Operand secondVal;
 
   if (calcRezult.getSize() == 1)
   {
@@ -66,19 +98,32 @@ bool mihalchenko::FinalTransform::calculate()
     return true;
   }
 
+  const size_t restrictionOfFormation = 4;
   while (commands.getSize() > 0)
   {
     size_t stepCounter = 0;
     codOperation = '.';
-    while (!controlSet.count(codOperation))
+    bool flag = false;
+    while (!flag)
     {
-      codOperation = commands.pop();
-      stepCounter++;
+      for (size_t i = 0; i < list.getSize(); i++)
+      {
+        if (list[i] == codOperation)
+        {
+          flag = true;
+        }
+      }
+      if (!flag)
+      {
+        codOperation = commands.getT();
+        commands.pop();
+        stepCounter++;
+      }
     }
-
-    if (stepCounter == 4)
+    if (stepCounter == restrictionOfFormation)
     {
-      wremSave = calcRezult.pop();
+      wremSave = calcRezult.getT();
+      calcRezult.pop();
     }
 
     if (calcRezult.getSize() < 2)
@@ -88,17 +133,13 @@ bool mihalchenko::FinalTransform::calculate()
     }
     else
     {
-      firstVal = calcRezult.pop();
-      secondVal = calcRezult.pop();
+      firstVal = calcRezult.getT();
+      calcRezult.pop();
+      secondVal = calcRezult.getT();
+      calcRezult.pop();
     }
     if (codOperation == '+')
     {
-      if ((llMax - firstVal.resultCalc) < secondVal.resultCalc)
-      {
-        throw std::logic_error("Error: overflow!");
-        std::cerr << "Overflow!\n";
-        return false;
-      }
       calcRezult.push(firstVal + secondVal);
     }
     if (codOperation == '-')
@@ -107,12 +148,6 @@ bool mihalchenko::FinalTransform::calculate()
     }
     if (codOperation == '*')
     {
-      if (llMax / firstVal.resultCalc < secondVal.resultCalc)
-      {
-        throw std::logic_error("Error: overflow!");
-        std::cerr << "Overflow!\n";
-        return false;
-      }
       calcRezult.push(firstVal * secondVal);
     }
     if (codOperation == '/')
@@ -123,11 +158,15 @@ bool mihalchenko::FinalTransform::calculate()
     {
       calcRezult.push(firstVal % secondVal);
     }
+    if (codOperation == '(' || codOperation == ')')
+    {
+      calcRezult.push(codOperation);
+    }
     if (commands.getSize() != 0)
     {
       commands.push('.');
     }
-    if (stepCounter == 4)
+    if (stepCounter == restrictionOfFormation)
     {
       calcRezult.push(wremSave);
       commands.push('.');

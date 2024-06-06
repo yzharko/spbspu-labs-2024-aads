@@ -1,14 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include <set>
 #include <limits>
 #include <cctype>
-#include "func.hpp"
-
-using namespace mihalchenko;
+#include "processing.hpp"
 
 int main(int argc, char *argv[])
 {
+  using namespace mihalchenko;
   Queue< std::string > resiveDigit;
   Stack< std::string > resiveControl;
   Stack< long long > calculateResult;

@@ -2,20 +2,22 @@
 #define SEQUENCEHANDLER_H
 
 #include <string>
-#include "List.hpp"
+#include <List.hpp>
 
-class SequenceHandler {
-public:
-  SequenceHandler() = default;
+namespace zhitnyj {
+  class SequenceHandler {
+  public:
+    SequenceHandler() = default;
 
-  void addSequence(const std::string &name, const List< unsigned long long > &sequence);
-  void calculateSums();
-  void printSequences();
-  void printSequencesNames();
+    void addSequence(const std::string &name, const List< unsigned long long > &sequence);
+    void calculateSums();
+    void printSequences();
+    void printSequencesNames();
 
-private:
-  List< std::string > names;
-  List< List< unsigned long long > > sequences;
-};
+  private:
+    List< std::string > names;
+    List< List< unsigned long long > > sequences;
+  };
+}
 
 #endif

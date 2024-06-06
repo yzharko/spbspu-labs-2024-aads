@@ -2,12 +2,12 @@
 #include <limits>
 #include "SequenceHandler.hpp"
 
-void SequenceHandler::addSequence(const std::string &name, const List< unsigned long long > &sequence) {
+void zhitnyj::SequenceHandler::addSequence(const std::string &name, const zhitnyj::List< unsigned long long > &sequence) {
   names.push_back(name);
   sequences.push_back(sequence);
 }
 
-void SequenceHandler::printSequencesNames() {
+void zhitnyj::SequenceHandler::printSequencesNames() {
   for (auto it = names.begin(); it != names.end(); ++it) {
     std::cout << *it << (it + 1 == names.end() ? "" : " ");
   }
@@ -16,7 +16,7 @@ void SequenceHandler::printSequencesNames() {
   }
 }
 
-void SequenceHandler::calculateSums() {
+void zhitnyj::SequenceHandler::calculateSums() {
   size_t maxLen = 0;
   for (auto &seq: sequences) {
     maxLen = std::max(maxLen, seq.size());
@@ -51,7 +51,7 @@ void SequenceHandler::calculateSums() {
   delete[] sums;
 }
 
-void SequenceHandler::printSequences() {
+void zhitnyj::SequenceHandler::printSequences() {
   size_t maxLen = 0;
   for (auto &seq: sequences) {
     maxLen = std::max(maxLen, seq.size());

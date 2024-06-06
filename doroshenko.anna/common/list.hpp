@@ -87,12 +87,12 @@ private:
 };
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator():
+doroshenko::List< T >::ConstIterator::ConstIterator() :
   node(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer):
+doroshenko::List< T >::ConstIterator::ConstIterator(Node* pointer) :
   node(pointer)
 {}
 
@@ -164,12 +164,12 @@ private:
 };
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator():
+doroshenko::List< T >::Iterator::Iterator() :
   iterator(nullptr)
 {}
 
 template< typename T >
-doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator):
+doroshenko::List< T >::Iterator::Iterator(ConstIterator someIterator) :
   iterator(someIterator)
 {}
 
@@ -178,7 +178,7 @@ typename doroshenko::List< T >::Iterator& doroshenko::List< T >::Iterator::opera
 {
   assert(iterator != nullptr);
   iterator++;
-  return iterator;
+  return *this;
 }
 
 template< typename T >
@@ -216,7 +216,7 @@ bool doroshenko::List< T >::Iterator::operator==(const Iterator& rhs) const
 }
 
 template< typename T >
-doroshenko::List< T >::List():
+doroshenko::List< T >::List() :
   head_(nullptr),
   tail_(nullptr)
 {}
