@@ -23,7 +23,7 @@ namespace taskaev
         }
       }
       ends = std::prev(ends);
-      for (auto i = ends; i != begin; i--)
+      for (auto i = ends; i != begin; --i)
       {
         auto prevs = std::prev(i);
         if (!comp(*i, *prevs))
