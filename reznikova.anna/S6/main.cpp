@@ -39,7 +39,7 @@ int main(int argc, char ** argv)
     wrongInputOutput(std::cerr);
     return 1;
   }
-  
+
   std::map< std::string, std::map< std::string, std::function<void(std::ostream &, std::string, size_t) > > > sorts{};
   {
     using namespace std::placeholders;

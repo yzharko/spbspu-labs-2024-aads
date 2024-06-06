@@ -81,9 +81,9 @@ void reznikova::sortData(std::ostream & out, std::string type, size_t size, Comp
   List< T > second_biList(biList);
   std::deque< T > second_queue(queue);
   std::deque< T > third_queue(queue);
-  
+
   outputVals(std::cout, biList);
-  
+
   qsort(biList.begin(), biList.end(), cmp);
   shaker(second_biList.begin(), second_biList.end(), cmp);
   qsort(fList.begin(), fList.end(), cmp);

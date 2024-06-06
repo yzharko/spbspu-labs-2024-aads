@@ -21,7 +21,7 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
   auto pivot = *first;
   std::vector<typename std::iterator_traits<Iterator>::value_type> less;
   std::vector<typename std::iterator_traits<Iterator>::value_type> greater;
-  for (Iterator it = std::next(first); it != last; ++it) 
+  for (Iterator it = std::next(first); it != last; ++it)
   {
     if (cmp(*it, pivot))
     {
@@ -50,14 +50,14 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
 }
 
 template< typename Iterator, typename Comparator >
-void reznikova::shaker(Iterator first, Iterator last, Comparator cmp) 
+void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
 {
   if (first == last)
   {
     return;
   }
   bool swapped = true;
-  while (swapped) 
+  while (swapped)
   {
     swapped = false;
     for (Iterator it = first; it != last - 1; ++it)
