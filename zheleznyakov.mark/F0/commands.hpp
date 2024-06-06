@@ -3,10 +3,15 @@
 #include <map>
 #include <ios>
 #include <functional>
+#include <tree.hpp>
+#include <list.hpp>
 #include "dict.hpp"
 
 namespace zheleznyakov
 {
+  using string_t = std::pair< std::string, wordpairs_t >;
+  using strings_t = Tree< std::string, string_t >;
+
   namespace commands
   {
     std::ostream & help(std::istream & in, std::ostream & out);

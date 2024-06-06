@@ -7,11 +7,9 @@
 
 namespace zheleznyakov
 {
-  using wordcoord_t = std::pair < size_t, size_t >;
-  using wordpair_t = List < wordcoord_t >;
+  using wordcoord_t = std::pair< size_t, size_t >;
+  using wordpair_t = List< wordcoord_t >;
   using wordpairs_t = Tree< std::string, wordpair_t >;
-  using string_t = std::pair< std::string, wordpairs_t >;
-  using strings_t = Tree< std::string, string_t >;
 
   size_t getWordsCount(std::string);
   size_t getLinesCount(std::string);

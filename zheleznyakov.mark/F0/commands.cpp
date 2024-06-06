@@ -16,12 +16,8 @@ std::string zheleznyakov::prompt(std::string active)
 
 std::ostream & zheleznyakov::commands::help(std::istream & in, std::ostream & out)
 {
-  if (in.peek() != '\n')
-  {
-    out << statusString("No additional args allowed\n", "warn");
-    throw std::logic_error("");
-  }
-
+  in.clear();
+  in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   return out << "F0 - Cross-references\n"
   << "\n"
   << "Available menu commands:\n"
@@ -43,12 +39,8 @@ std::ostream & zheleznyakov::commands::help(std::istream & in, std::ostream & ou
 
 std::ostream & zheleznyakov::commands::list(strings_t & strings, std::istream & in, std::ostream & out)
 {
-  if (in.peek() != '\n')
-  {
-    out << statusString("No additional args allowed\n", "warn");
-    throw std::logic_error("");
-  }
-
+  in.clear();
+  in.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   out << "Total: " << strings.getSize() << "\n";
   if (!strings.empty())
   {
@@ -231,7 +223,11 @@ std::ostream & zheleznyakov::commands::read(strings_t & strings, std::string & a
     out << statusString("Not in string mode\n", "error");
     throw std::logic_error("");
   }
-  if (in.peek() != '\n')
+
+  std::string line;
+  std::getline(in, line);
+
+  if (line.empty())
   {
     std::string flag = "";
     in >> flag;
@@ -255,8 +251,7 @@ std::ostream & zheleznyakov::commands::read(strings_t & strings, std::string & a
   }
   else
   {
-    std::string contents;
-    std::string line;
+    std::string contents = line + '\n';
     while (std::getline(in, line)) {
       if (line == "end")
       {
