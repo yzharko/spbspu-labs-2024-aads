@@ -33,6 +33,7 @@ namespace sukacheva
     Iterator erase(Iterator& pos) noexcept;
     void erase(const Key& k) noexcept;
     size_t count(const Key& k) const noexcept;
+    void clear() noexcept;
     void clear(TreeNode* node);
     std::pair< Iterator, Iterator > equalRange(const Key& key) const noexcept;
     Iterator lowerBound(const Key& key) const noexcept;
@@ -44,7 +45,7 @@ namespace sukacheva
     ConstIterator cbegin() const;
     ConstIterator cend() const;
 
-    Value operator[](Key k);
+    Value& operator[](Key k);
     BST& operator=(const BST& other);
     BST& operator=(BST&& other) noexcept;
 
@@ -128,6 +129,12 @@ namespace sukacheva
 
   template< typename Key, typename Value, typename Compare >
   using iteratorsPair = std::pair< iterator< Key, Value, Compare >, iterator< Key, Value, Compare > >;
+
+  template< typename Key, typename Value, typename Compare >
+  void BST< Key, Value, Compare >::clear() noexcept
+  {
+    clear(root);
+  }
 
   template< typename Key, typename Value, typename Compare >
   template< typename F >
@@ -376,7 +383,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  Value BST< Key, Value, Compare >::operator[](Key k)
+  Value& BST< Key, Value, Compare >::operator[](Key k)
   {
     return at(k);
   }
