@@ -8,35 +8,31 @@ namespace taskaev
   template <typename Iterator, typename Comparator >
   void Shaker(Iterator begin, Iterator end, Comparator comp)
   {
-    Iterator left = begin;
-    Iterator right = end;
-    right--;
-    bool sortFlag = true;
-
-    while (sortFlag)
+    auto ends = std::prev(end);
+    bool flag = true;
+    while (flag)
     {
-      sortFlag = false;
-
-      for (auto it = left; it != right; it++)
+      flag = false;
+      for (auto i = begin; i != ends; i++)
       {
-        if (comp(*std::next(it), *it))
+        auto nexts = std::next(i);
+        if (!comp(*i, *nexts))
         {
-          std::iter_swap(it, std::next(it));
-          sortFlag = true;
+          std::swap(*i, *nexts);
+          flag = true;
         }
       }
-
-      for (auto it = right; it != left; it--)
+      ends = std::prev(ends);
+      for (auto i = ends; i != begin; i--)
       {
-        if (comp(*it, *std::prev(it)))
+        auto prevs = std::prev(i);
+        if (!comp(*i, *prevs))
         {
-          std::iter_swap(it, std::prev(it));
-          sortFlag = true;
+          std::swap(*i, *prevs);
+          flag = true;
         }
       }
-
-      left++;
-      right--;
+      begin = std::next(begin);
     }
   }
 
