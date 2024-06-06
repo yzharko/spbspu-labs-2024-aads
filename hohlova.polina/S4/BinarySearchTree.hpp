@@ -29,7 +29,8 @@ public:
     {
         return root == nullptr ? true : false;
     }
-    Value get(const Key& k) {
+    Value get(const Key& k)
+    {
         Node* node = find(root, k);
         if (node) {
             return node->value;
