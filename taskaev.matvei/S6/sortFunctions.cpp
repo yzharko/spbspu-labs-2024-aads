@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-
 #include "sortFunctions.hpp"
 
 namespace taskaev
@@ -15,22 +14,22 @@ namespace taskaev
       flag = false;
       for (auto i = begin; i != ends; i++)
       {
-	auto next = std::next(i);
-	if (!comp(*i, next))
-	{
-	  std::swap(*i, *next);
-	  flag = true;
+        auto next = std::next(i);
+        if (!comp(*i, next))
+        {
+          std::swap(*i, *next);
+          flag = true;
         }
       }
       ends = std::prev(ends);
       for (auto i = ends; i != begin; i--)
       {
-	auto prevs = std::prev(i);
-	if (!comp(*i, next))
-	{
+        auto prevs = std::prev(i);
+        if (!comp(*i, next))
+        {
           std::swap(*i, *next);
           flag = true;
-	}
+        }
       }
       begin = std::next(begin);
     }
@@ -51,9 +50,9 @@ namespace taskaev
       for (; next != end; next++)
       {
         if (comp(*next, *min))
-	{
+        {
           min = next;
-	}
+        }
       }
       if (*min != *current)
       {
