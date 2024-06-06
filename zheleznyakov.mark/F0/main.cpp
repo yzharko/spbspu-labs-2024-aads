@@ -42,9 +42,8 @@ int main()
       }
       cmds.at(currentCommand)(strings, activeString, std::cin, std::cout);
     }
-    catch (const std::exception & e)
+    catch (const std::exception &)
     {
-      std::cout << e.what();
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
     }

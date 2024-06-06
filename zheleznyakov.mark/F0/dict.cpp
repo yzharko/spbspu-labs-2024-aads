@@ -41,7 +41,7 @@ zheleznyakov::wordpairs_t zheleznyakov::getDict(const std::string & str)
     {
       if (!word.empty())
       {
-        wordMap[word].push_back(std::make_pair(line, position));
+        wordMap[word].pushBack(std::make_pair(line, position));
         word.clear();
       }
       position++;
@@ -57,7 +57,7 @@ zheleznyakov::wordpairs_t zheleznyakov::getDict(const std::string & str)
 
   if (!word.empty())
   {
-    wordMap[word].push_back(std::make_pair(line, position));
+    wordMap[word].pushBack(std::make_pair(line, position));
   }
 
   return wordMap;

@@ -452,7 +452,8 @@ Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key)
 
   current = new Node(parent, nullptr, nullptr);
   current->data.first = key;
-  current->data.second = Value();
+  Value val;
+  current->data.second = val;
   if (parent == nullptr)
   {
       root_ = current;

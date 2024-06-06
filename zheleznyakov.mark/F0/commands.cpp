@@ -18,7 +18,8 @@ std::ostream & zheleznyakov::commands::help(std::istream & in, std::ostream & ou
 {
   if (in.peek() != '\n')
   {
-    throw std::logic_error(statusString("No additional args allowed\n", "warn"));
+    out << statusString("No additional args allowed\n", "warn");
+    throw std::logic_error("");
   }
 
   return out << "F0 - Cross-references\n"
@@ -44,7 +45,8 @@ std::ostream & zheleznyakov::commands::list(strings_t & strings, std::istream & 
 {
   if (in.peek() != '\n')
   {
-    throw std::logic_error(statusString("No additional args allowed\n", "warn"));
+    out << statusString("No additional args allowed\n", "warn");
+    throw std::logic_error("");
   }
 
   out << "Total: " << strings.getSize() << "\n";
@@ -67,7 +69,8 @@ std::ostream & zheleznyakov::commands::rm(strings_t & strings, std::istream & in
   in >> keyToDelete;
   if (strings.find(keyToDelete) == strings.end())
   {
-    throw std::logic_error(statusString("Key not found\n", "warn"));
+    out << statusString("Key not found\n", "warn");
+    throw std::logic_error("");
   }
   strings.erase(keyToDelete);
   return out;
@@ -79,7 +82,8 @@ std::ostream & zheleznyakov::commands::create(strings_t & strings, std::istream 
   in >> keyToCreate;
   if (strings.find(keyToCreate) != strings.end())
   {
-    throw std::logic_error(statusString("Key is already in the list\n", "warn"));
+    out << statusString("Key is already in the list\n", "warn");
+    throw std::logic_error("");
   }
   string_t data;
   strings.insert(keyToCreate, data);
@@ -96,7 +100,8 @@ std::ostream & zheleznyakov::commands::cmp(strings_t & strings, std::istream & i
   }
   if (strings.find(l1) == strings.end())
   {
-    throw std::logic_error(statusString("Key 1 is not found\n", "error"));
+    out << statusString("Key 1 is not found\n", "error");
+    throw std::logic_error("");
   }
   std::string l2 = "";
   in >> l2;
@@ -106,7 +111,8 @@ std::ostream & zheleznyakov::commands::cmp(strings_t & strings, std::istream & i
   }
   if (strings.find(l2) == strings.end())
   {
-    throw std::logic_error(statusString("Key 2 is not found\n", "error"));
+    out << statusString("Key 2 is not found\n", "error");
+    throw std::logic_error("");
   }
   wordpairs_t s1 = strings.at(l1).second;
   wordpairs_t s2 = strings.at(l2).second;
@@ -143,7 +149,8 @@ std::ostream & zheleznyakov::commands::diff(strings_t & strings, std::istream & 
   }
   if (strings.find(l1) == strings.end())
   {
-    throw std::logic_error(statusString("Key 1 is not found\n", "error"));
+    out << statusString("Key 1 is not found\n", "error");
+    throw std::logic_error("");
   }
   std::string l2 = "";
   in >> l2;
@@ -153,7 +160,8 @@ std::ostream & zheleznyakov::commands::diff(strings_t & strings, std::istream & 
   }
   if (strings.find(l2) == strings.end())
   {
-    throw std::logic_error(statusString("Key 2 is not found\n", "error"));
+    out << statusString("Key 2 is not found\n", "error");
+    throw std::logic_error("");
   }
   wordpairs_t s1 = strings.at(l1).second;
   wordpairs_t s2 = strings.at(l2).second;
@@ -202,13 +210,15 @@ std::ostream & zheleznyakov::commands::enter(strings_t & strings, std::string & 
 {
   if (active != "")
   {
-    throw std::logic_error(statusString("Already in string mode\n", "error"));
+    out << statusString("Already in string mode\n", "error");
+    throw std::logic_error("");
   }
   std::string toEnter = "";
   in >> toEnter;
   if (strings.find(toEnter) == strings.end())
   {
-    throw std::logic_error(statusString("Key is not in the list\n", "error"));
+    out << statusString("Key is not in the list\n", "error");
+    throw std::logic_error("");
   }
   active = toEnter;
   return out;
@@ -218,7 +228,8 @@ std::ostream & zheleznyakov::commands::read(strings_t & strings, std::string & a
 {
   if (active == "")
   {
-    throw std::logic_error(statusString("Not in string mode\n", "error"));
+    out << statusString("Not in string mode\n", "error");
+    throw std::logic_error("");
   }
   if (in.peek() != '\n')
   {
@@ -226,14 +237,16 @@ std::ostream & zheleznyakov::commands::read(strings_t & strings, std::string & a
     in >> flag;
     if (flag != "-f")
     {
-      throw std::logic_error(statusString("No known flag is passed\n", "error"));
+      out << statusString("No known flag is passed\n", "error");
+      throw std::logic_error("");
     }
     std::string filename = "";
     in >> filename;
     std::ifstream fin(filename);
     if (!fin)
     {
-      throw std::logic_error(statusString("Unable to read the file\n", "error"));
+      out << statusString("Unable to read the file\n", "error");
+      throw std::logic_error("");
     }
     std::string contents((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
     wordpairs_t pairs = getDict(contents);
@@ -262,7 +275,8 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
 {
   if (active == "")
   {
-    throw std::logic_error(statusString("Not in string mode\n", "error"));
+    out << statusString("Not in string mode\n", "error");
+    throw std::logic_error("");
   }
   if (in.peek() != '\n')
   {
@@ -270,7 +284,8 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
     in >> flag;
     if (flag != "-f")
     {
-      throw std::logic_error(statusString("No known flag is passed\n", "error"));
+      out << statusString("No known flag is passed\n", "error");
+      throw std::logic_error("");
     }
     std::string filename = "";
     in >> filename;
@@ -286,12 +301,7 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
   else
   {
     const wordpairs_t pairs = strings.at(active).second;
-    std::transform(
-      pairs.cbegin(),
-      pairs.cend(),
-      std::ostream_iterator < std::string > (out, "\n"),
-      wordEntryToString
-    );
+    std::transform(pairs.cbegin(), pairs.cend(), std::ostream_iterator < std::string >(out, "\n"), wordEntryToString);
   }
   return out;
 }
@@ -303,11 +313,12 @@ std::ostream & zheleznyakov::commands::info(strings_t & strings, std::string & a
   string_t currentString = strings.at(active);
   if (currentString.second.find(word) == currentString.second.end())
   {
-    throw std::logic_error(statusString("Word is not found\n", "error"));
+    out << statusString("Word is not found\n", "error");
+    throw std::logic_error("");
   }
   wordpair_t currentWord = currentString.second[word];
   out << word << '\n'
-  << "Repeats: " << currentWord.size() << '\n'
+  << "Repeats: " << currentWord.getSize() << '\n'
   << "Coords:\n";
   std::ostream_iterator<std::string> out_iter(out, "\n");
   std::transform(
@@ -323,7 +334,8 @@ std::ostream & zheleznyakov::commands::stats(strings_t & strings, std::string & 
 {
   if (in.peek() != '\n')
   {
-    throw std::logic_error(statusString("No additional args allowed\n", "warn"));
+    out << statusString("No additional args allowed\n", "warn");
+    throw std::logic_error("");
   }
   string_t currentString = strings.at(active);
   out << "Total words in dict: " << currentString.second.getSize() << '\n'
@@ -335,11 +347,13 @@ std::ostream & zheleznyakov::commands::quit(std::string & active, std::istream &
 {
   if (in.peek() != '\n')
   {
-    throw std::logic_error(statusString("No additional args allowed\n", "warn"));
+    out << statusString("No additional args allowed\n", "warn");
+    throw std::logic_error("");
   }
   if (active == "")
   {
-    throw std::logic_error(statusString("Already in menu\n", "error"));
+    out << statusString("Already in menu\n", "warn");
+    throw std::logic_error("");
   }
   active = "";
   return out;
@@ -362,5 +376,5 @@ std::string zheleznyakov::coordsToPairs(const wordcoord_t & wordCoord)
 
 std::string zheleznyakov::wordEntryToString(const std::pair< std::string, wordpair_t >& pair)
 {
-    return pair.first + ':' + std::to_string(pair.second.size());
+    return pair.first + ':' + std::to_string(pair.second.getSize());
 }
