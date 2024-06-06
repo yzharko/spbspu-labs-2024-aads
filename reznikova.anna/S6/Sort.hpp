@@ -2,6 +2,8 @@
 #define SORT_HPP
 
 #include <algorithm>
+#include <vector>
+#include <iterator>
 
 namespace reznikova
 {
@@ -49,8 +51,8 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
   qsort(std::next(first, less.size() + 1), last, cmp);
 }
 
-template< typename Iterator, typename Comparator >
-void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
+template<typename Iterator, typename Comparator>
+void shaker(Iterator first, Iterator last, Comparator cmp)
 {
   if (first == last)
   {
@@ -60,11 +62,12 @@ void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
   while (swapped)
   {
     swapped = false;
-    for (Iterator it = first; it != last - 1; ++it)
+    for (Iterator it = first; it != std::prev(last); ++it)
     {
-      if (!cmp(*it, *(it + 1)))
+      Iterator next_it = std::next(it);
+      if (!cmp(*it, *next_it))
       {
-        std::iter_swap(it, it + 1);
+        std::iter_swap(it, next_it);
         swapped = true;
       }
     }
@@ -73,17 +76,19 @@ void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
       break;
     }
     swapped = false;
-    --last;
-    for (Iterator it = last - 1; it != first; --it)
+    last = std::prev(last);
+    for (Iterator it = std::prev(last); it != first; --it)
     {
-      if (cmp(*it, *(it - 1)))
+      Iterator prev_it = std::prev(it);
+      if (cmp(*it, *prev_it))
       {
-        std::iter_swap(it, it - 1);
+        std::iter_swap(it, prev_it);
         swapped = true;
       }
     }
-    ++first;
+    first = std::next(first);
   }
 }
 
 #endif
+
