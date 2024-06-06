@@ -13,7 +13,6 @@ namespace reznikova
   void shaker(Iterator first, Iterator last, Comparator cmp);
 }
 
-
 template<typename Iterator, typename Comparator>
 void reznikova::qsort(Iterator first, Iterator last, Comparator cmp) {
   if (first == last || (first != last && ++Iterator(first) == last))
@@ -48,8 +47,6 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp) {
   qsort(first, left, cmp);
   qsort(++left, last, cmp);
 }
-
-
 
 template<typename Iterator, typename Comparator>
 void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
@@ -90,9 +87,9 @@ void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
     current = first;
     prev = current;
     ++current;
-    while (current != next) 
+    while (current != next)
     {
-      if (cmp(*current, *prev)) 
+      if (cmp(*current, *prev))
       {
         std::swap(*current, *prev);
         swapped = true;
