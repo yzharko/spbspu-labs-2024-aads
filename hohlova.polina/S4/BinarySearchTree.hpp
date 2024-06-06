@@ -36,6 +36,7 @@ public:
             return node->value;
         }
         //throw std::out_of_range("key not found");
+        return nullptr;
     }
 
     bool contains(const Key& k)
