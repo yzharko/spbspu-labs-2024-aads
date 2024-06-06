@@ -31,12 +31,12 @@ void WorkerBST::Menu() {
 void WorkerBST::ReadFile(const std::string &path) {
 
     if(path.empty())
-        std::runtime_error("Path is empty");
+        std::runtime_error("Path is empty\n");
 
     std::ifstream file(path);
 
     if(!file.is_open())
-        std::runtime_error("File not open");
+        std::runtime_error("File not open\n");
 
 
     std::string line;
@@ -73,7 +73,7 @@ void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vecto
 
     BinarySearchTree<int,std::string>*  first = nullptr;
     BinarySearchTree<int,std::string>*  second = nullptr;
-    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
+
 
     std::string key = *begin;
     ++begin;
@@ -95,8 +95,9 @@ void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vecto
 
 
     if(!second || !first )
-        throw std::runtime_error("Invalid Argument");
+        throw std::runtime_error("<INVALID COMMAND>\n");
 
+    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
     auto itF = first->begin();
     auto itE = first->end();
 
@@ -175,7 +176,6 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
 {
     BinarySearchTree<int,std::string>*  first = nullptr;
     BinarySearchTree<int,std::string>*  second = nullptr;
-    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
 
     std::string key = *begin;
     ++begin;
@@ -184,14 +184,16 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
 
        if(!first)
             first =  bst.get(*begin);
-        else if(!second)
+       else if(!second)
             second  = bst.get(*begin);
 
         ++begin;
     }
 
     if(!second || !first )
-        throw std::runtime_error("Invalid Argument");
+        throw std::runtime_error("<INVALID COMMAND>\n");
+
+    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
 
     auto itF = first->begin();
 
@@ -207,7 +209,8 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
 
     if(bst.contains(key))
     {
-        delete bst.drop(key);
+        delete bst.get(key);
+        bst.drop(key);
     }
 
     bst.push(key,result);
@@ -218,7 +221,6 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
 
     BinarySearchTree<int,std::string>*  first = nullptr;
     BinarySearchTree<int,std::string>*  second = nullptr;
-    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
 
     std::string key = *begin;
     ++begin;
@@ -234,7 +236,10 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
     }
 
     if(!second || !first )
-        throw std::runtime_error("Invalid Argument");
+        throw std::runtime_error("<INVALID COMMAND>\n");
+
+
+    BinarySearchTree<int,std::string>*  result = new BinarySearchTree<int,std::string>;
 
     auto itF = first->begin();
     auto itS = second->begin();
@@ -262,6 +267,7 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
 
     if(bst.contains(key))
     {
+        delete bst.get(key);
         bst.drop(key);
     }
 

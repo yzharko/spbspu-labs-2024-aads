@@ -34,7 +34,7 @@ public:
         if (node) {
             return node->value;
         }
-        throw std::out_of_range("key not found");
+        //throw std::out_of_range("key not found");
     }
 
     bool contains(const Key& k)
@@ -50,7 +50,7 @@ public:
         Node* node = remove(root, k);
         if (node) {
             Value val = node->value;
-            delete node;
+            //delete node;
             return val;
         }
         throw std::out_of_range("Key not found");
