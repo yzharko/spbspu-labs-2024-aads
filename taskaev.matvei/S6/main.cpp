@@ -23,10 +23,10 @@ int main(int argc, char **argv)
     return 1;
   }
   std::map < std::pair < std::string, std::string >, std::function< void(std::ostream&, size_t) > > cmds;
-  cmds[std::make_pair("ints", "ascending")] = workSortings< int, std::less< int > >;
-  cmds[std::make_pair("floats","ascending")] = workSortings< float, std::less< float > >;
-  cmds[std::make_pair("ints", "descending")] = workSortings< int, std::greater< int > >;
-  cmds[std::make_pair("floats", "descending")] = workSortings< float, std::greater< float > >;
+  cmds[std::make_pair("ascending", "ints")] = workSortings< int, std::less< int > >;
+  cmds[std::make_pair("ascending", "floats")] = workSortings< float, std::less< float > >;
+  cmds[std::make_pair("descending", "ints")] = workSortings< int, std::greater< int > >;
+  cmds[std::make_pair("descending", "floats")] = workSortings< float, std::greater< float > >;
 
   try
   {
