@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-      if (!input.good))
+      if (!input.good())
       {
         std::cout << '\n';
         return 0;
