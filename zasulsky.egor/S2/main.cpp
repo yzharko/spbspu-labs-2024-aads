@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
     outputResults(results);
   }
 
-  catch (std::runtime_error& e)
+  catch (const std::runtime_error& e)
   {
     std::cerr << e.what() << '\n';
     return 1;
