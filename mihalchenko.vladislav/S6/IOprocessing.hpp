@@ -6,19 +6,20 @@
 #include <list>
 #include <list.hpp>
 #include <algorithm>
-// #include "sorts.hpp"
-// #include "details.hpp"
-#include "IOprocessing.hpp"
+#include "sorts.hpp"
 
 namespace mihalchenko
 {
-  void fillContainerWithRandomNumbers(int size, std::deque<int> &deque, std::list<int> &bidirect_list, List<int> forward_list);
-  void fillContainerWithRandomNumbers(int size, std::deque<double> &deque, std::list<double> &bidirect_list, List<double> forward_list);
+  void fillContainerWithRandomNumbers(int size, std::deque<int> &deque, List<int> forward_list, std::list<int> &bidirect_list);
+  void fillContainerWithRandomNumbers(int size, std::deque<double> &deque, List<double> forward_list, std::list<double> &bidirect_list);
   template <typename T>
   void printContainer(std::ostream &, const T &container);
+
+  template <typename T, typename Compare>
+  void makeSorted(std::ostream &out, size_t size, Compare compare);
 }
 
-void fillRandIntsContainer(int size, std::deque<int> &deque, std::list<int> &bidirect_list, List<int> forward_list)
+void fillRandIntsContainer(int size, std::deque<int> &deque, List<int> forward_list, std::list<int> &bidirect_list)
 {
   for (int i = 0; i < size; i++)
   {
@@ -28,7 +29,7 @@ void fillRandIntsContainer(int size, std::deque<int> &deque, std::list<int> &bid
   std::copy(deque.begin(), deque.end(), std::back_inserter(bidirect_list));
 }
 
-void fillRandDoublesContainer(int size, std::deque<double> &deque, std::list<double> &bidirect_list, List<double> forward_list)
+void fillRandDoublesContainer(int size, std::deque<double> &deque, List<double> forward_list, std::list<double> &bidirect_list)
 {
   for (auto i = 0; i < size; i++)
   {
@@ -53,6 +54,32 @@ void mihalchenko::printContainer(std::ostream &out, const T &container)
       out << " ";
     }
   }
+}
+
+template <typename T, typename Compare>
+void mihalchenko::makeSorted(std::ostream &out, size_t size, Compare compare)
+{
+  List<T> forward_list;
+  std::list<T> bidirect_list;
+  std::deque<T> deque;
+
+  fillRandDoublesContainer(size, deque, bidirect_list, forward_list);
+
+  printContainer(out, bidirect_list);
+  quickSort(bidirect_list.begin(), bidirect_list.end(), compare);
+  printContainer(out, bidirect_list);
+
+  quickSort(forward_list.begin(), forward_list.end(), compare);
+  printContainer(out, forward_list);
+  mergeSort(forward_list.begin(), forward_list.end(), compare);
+  printContainer(out, forward_list);
+
+  quickSort(deque.begin(), deque.end(), compare);
+  printContainer(out, deque);
+  mergeSort(deque.begin(), deque.end(), compare);
+  printContainer(out, deque);
+  std::sort(deque.begin(), deque.end(), compare);
+  printContainer(out, deque);
 }
 
 #endif

@@ -1,6 +1,18 @@
 #ifndef SORTS_HPP
 #define SORTS_HPP
 
+namespace mihalchenko
+{
+  template <typename Iter, typename Compare>
+  void quickSort(Iter begin, Iter end, Compare compare);
+
+  template <typename Iter, typename Compare>
+  Iter partOfQuickSort(Iter begin, Iter end, Compare compare);
+
+  template <typename Iter, typename Compare>
+  void mergeSort(Iter begin, Iter end, Compare compare);
+}
+
 template <typename Iter, typename Compare>
 void quickSort(Iter begin, Iter end, Compare compare)
 {

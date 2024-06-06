@@ -1,7 +1,9 @@
 #include <map>
 #include <functional>
 #include <string>
-#include "funcsOfSorting.hpp"
+#include <AVLtree.hpp>
+#include "IOprocessing.hpp"
+#include "details.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -25,25 +27,27 @@ int main(int argc, char *argv[])
     mihalchenko::printWrongSize(std::cout);
     return 1;
   }
-
-  std::map<std::string, std::map<std::string, std::function<void(std::ostream &, int)>>> functions{};
+  mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, size_t)>>> cmds;
   {
     using namespace std::placeholders;
-    functions["ints"]["ascending"] = std::bind(mihalchenko::sortData<int, std::less<int>>, _1, _2, std::less<int>());
-    functions["ints"]["descending"] = std::bind(mihalchenko::sortData<int, std::greater<int>>, _1, _2, std::greater<int>());
-    functions["floats"]["ascending"] = std::bind(mihalchenko::sortData<double, std::less<double>>, _1, _2, std::less<double>());
-    functions["floats"]["descending"] = std::bind(mihalchenko::sortData<double, std::greater<double>>, _1, _2, std::greater<double>());
+    cmds["floats"]["ascending"] = std::bind(mihalchenko::testSorts<double, std::less<double>>, _1, _2, std::less<double>{});
+    cmds["floats"]["descending"] = std::bind(mihalchenko::testSorts<double, std::greater<double>>, _1, _2, std::greater<double>{});
+    cmds["ints"]["ascending"] = std::bind(mihalchenko::testSorts<int, std::less<int>>, _1, _2, std::less<int>{});
+    cmds["ints"]["descending"] = std::bind(mihalchenko::testSorts<int, std::greater<int>>, _1, _2, std::greater<int>{});
   }
-
+  if (cmds.find(argv[2]) == cmds.end())
+  {
+    mihalchenko::printWrongInput(std::cout);
+    return 1;
+  }
   try
   {
-    functions.at(argv[2]).at(argv[1])(std::cout, size);
+    cmds.at(argv[2]).at(argv[1])(std::cout, size);
   }
   catch (const std::out_of_range &)
   {
-    std::cerr << "Error: wrong parameter\n";
+    mihalchenko::printWrongInput(std::cout);
     return 1;
   }
-
   return 0;
 }
