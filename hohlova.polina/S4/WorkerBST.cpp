@@ -1,6 +1,7 @@
 #include "WorkerBST.hpp"
 #include <fstream>
 #include <string>
+
 WorkerBST::WorkerBST(const std::string &path) {
     ReadFile(path);
 }
@@ -24,13 +25,17 @@ void WorkerBST::Menu() {
         std::getline(std::cin, line);
         if (!line.empty()) {
             ParseArguments(line);
+        }else{
+            break;
         }
     }
 }
 void WorkerBST::ReadFile(const std::string &path) {
 
-    if(path.empty())
+    if (path.empty()) {
         std::runtime_error("Path is empty");
+    }
+
 
     std::ifstream file(path);
 
@@ -78,7 +83,7 @@ void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vecto
     while(begin != end ){
 
         if(!first) {
-            first = bst.get(std::move(*begin));
+            first = bst.get( *begin);
         }
         else if(!second)
         {
@@ -110,7 +115,8 @@ void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vecto
 
     if(bst.contains(key))
     {
-        delete bst.drop(key);
+        delete bst.get(key);
+        bst.drop(key);
     }
 
     bst.push(key,result);
@@ -203,7 +209,8 @@ void WorkerBST::Intersect(  std::vector<std::string>::iterator begin, std::vecto
 
     if(bst.contains(key))
     {
-        delete bst.drop(key);
+        delete bst.get(key);
+        bst.drop(key);
     }
 
     bst.push(key,result);
@@ -258,7 +265,8 @@ void WorkerBST::Union(  std::vector<std::string>::iterator begin, std::vector<st
 
     if(bst.contains(key))
     {
-        delete bst.drop(key);
+        delete bst.get(key);
+        bst.drop(key);
     }
 
     bst.push(key,result);
