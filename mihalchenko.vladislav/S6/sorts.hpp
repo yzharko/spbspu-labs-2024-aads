@@ -47,4 +47,48 @@ Iter partOfQuickSort(Iter begin, Iter end, Compare compare)
   return begin;
 }
 
+template <typename Iter, typename Compare>
+void merge(Iter begin, Iter center, Iter end, Compare compare)
+{
+  std::list<typename Iter::typeOfValue> vector;
+  Iter first = begin;
+  Iter second = mid;
+
+  while (first != center && second != end)
+  {
+    if (compare(*first, *second))
+    {
+      tempVec.push_back(*first);
+      left++;
+    }
+    else
+    {
+      tempVec.push_back(*second);
+      second++;
+    }
+  }
+  vector.insert(vector.end(), first, center);
+  vector.insert(vector.end(), second, end);
+  std::copy(vector.begin(), vector.end(), begin);
+}
+
+template <typename Iter, typename Compare>
+void mergeSort(Iter begin, Iter end, Compare compare)
+{
+  int size = std::distance(begin, end);
+
+  if (size <= 1)
+  {
+    return;
+  }
+  Iter center = begin;
+  for (int i = 0; i < (size / 2); i++)
+  {
+    mid++;
+  }
+  mergeSort(begin, center, compare);
+  mergeSort(center, end, compare);
+  merge(begin, center, end, compare);
+}
+
 #endif
