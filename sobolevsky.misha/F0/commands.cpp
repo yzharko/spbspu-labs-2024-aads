@@ -341,7 +341,7 @@ void sobolevsky::uniqeWords(mypair &myPair, std::istream & in, std::ostream & ou
   {
     if (iter->size() == 1)
     {
-      std::cout << (*iter)[0] << "\n";
+      out << (*iter)[0] << "\n";
     }
     else
     {
