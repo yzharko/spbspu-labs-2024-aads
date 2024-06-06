@@ -11,20 +11,20 @@
 
 namespace taskaev
 {
-  template< typename Iterator >
-  void print(Iterator bagin, Iterator end, std::ostream& out)
+  template < typename Iterators >
+  void print(Iterators& iter, std::ostream& out)
   {
-    out << *begin;
-    begin++;
-    while (begin != end)
+    out << *iter.begin();;
+    ++iter.begin();
+    while (iter.begin() != iter.end())
     {
-      out << " " << *begin;
-      begin++;
+      out << " " << *iter.begin();
+      ++iter.begin();
     }
     out << "\n";
   }
 
-  template <typename T, typename Comparator>
+  template <typename T >
   void generateData(size_t size, std::deque< T >& queue, List< T >& list)
   {
     std::random_device rd;
@@ -54,25 +54,25 @@ namespace taskaev
     std::deque< T > shakerS(queue.begin(), queue.end());
     std::deque< T > selectionS(queue.begin(), queue.end());
 
-    print(queue.begin(), queue.end(), out);
+    print(queue, out);
 
     Shaker(shakerSort.begin(), shakerSort.end(), Comparator());
-    print(shakerSort.begin(),shakerSort.end(), out);
+    print(shakerSort, out);
 
     Selection(selectionSort.begin(), selectionSort.end(), Comparator());
-    print(selectionSort.begin(),selectionSort.end(), out);
+    print(selectionSort, out);
 
     std::sort(sorts.begin(), sorts.end(), Comparator());
-    print(sorts.begin(),sorts.end(), out);
+    print(sorts, out);
 
     Shaker(shakerS.begin(), shakerS.end(), Comparator());
-    print(shakerS.begin(),shakerS.end(), out);
+    print(shakerS, out);
 
     Selection(selectionS.begin(), selectionS.end(), Comparator());
-    print(selectionS.begin(), selectionS.end(), out);
+    print(selectionS, out);
 
     Shaker(list.begin(), list.end(), Comparator());
-    print(list.begin(),list.end(), out);
+    print(list, out);
   }
 }
 
