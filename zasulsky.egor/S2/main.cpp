@@ -27,6 +27,24 @@ int main(int argc, char* argv[])
   zasulsky::Queue < std::string > expr;
   try
   {
+    if (argc == 1)
+    {
+      if (input.eof())
+      {
+        std::cout << '\n';
+        return 0;
+      }
+    }
+    else
+    {
+      input.seekg(0, std::ios::end);
+      std::streampos fileSize = file.tellg();
+      if (fileSize == 0) 
+      {
+        std::cout << '\n';
+        return 0;
+      }
+    }
     while (getline(input, str))
     {
       if (str.find_first_not_of(" ") == std::string::npos || str.empty())
@@ -41,11 +59,6 @@ int main(int argc, char* argv[])
       zasulsky::Queue <std::string > postfix = convertToPostfix(expr);
       long long answer = solvePostfixExpr(postfix);
       results.push(answer);
-    }
-    if (input.eof())
-    {
-      std::cout << '\n';
-      return 0;
     }
     outputResults(results);
   }
