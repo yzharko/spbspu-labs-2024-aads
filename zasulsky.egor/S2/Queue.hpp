@@ -10,7 +10,7 @@ namespace zasulsky
   {
   public:
 
-    bool isEmpty()
+    bool isEmpty() noexcept
     {
       return fL.empty();
     }
