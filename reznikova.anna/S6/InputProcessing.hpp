@@ -82,7 +82,7 @@ void reznikova::sortData(std::ostream & out, std::string type, size_t size, Comp
   std::deque< T > second_queue(queue);
   std::deque< T > third_queue(queue);
 
-  outputVals(std::cout, biList);
+  outputVals(out, biList);
 
   qsort(biList.begin(), biList.end(), cmp);
   shaker(second_biList.begin(), second_biList.end(), cmp);
@@ -90,12 +90,12 @@ void reznikova::sortData(std::ostream & out, std::string type, size_t size, Comp
   qsort(queue.begin(), queue.end(), cmp);
   shaker(second_queue.begin(), second_queue.end(), cmp);
   std::sort(second_queue.begin(), third_queue.end(), cmp);
-  outputVals(std::cout, biList);
-  outputVals(std::cout, second_biList);
-  outputVals(std::cout, fList);
-  outputVals(std::cout, queue);
-  outputVals(std::cout, second_queue);
-  outputVals(std::cout, third_queue);
+  outputVals(out, biList);
+  outputVals(out, second_biList);
+  outputVals(out, fList);
+  outputVals(out, queue);
+  outputVals(out, second_queue);
+  outputVals(out, third_queue);
 }
 
 #endif
