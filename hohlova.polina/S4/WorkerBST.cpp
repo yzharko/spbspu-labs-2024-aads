@@ -65,7 +65,7 @@ void WorkerBST::Print(  const std::string& str)
         std::cout << (*it).first << ' ' << (*it).second << ' ';
         ++it;
     }
-    std::cout << '\n';
+//    std::cout << '\n';
 }
 
 void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end )
