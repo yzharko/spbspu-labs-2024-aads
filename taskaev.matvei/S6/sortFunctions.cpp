@@ -14,10 +14,10 @@ namespace taskaev
       flag = false;
       for (auto i = begin; i != ends; i++)
       {
-        auto next = std::next(i);
-        if (!comp(*i, next))
+        auto nexts = std::next(i);
+        if (!comp(*i, nexts))
         {
-          std::swap(*i, *next);
+          std::swap(*i, *nexts);
           flag = true;
         }
       }
@@ -25,9 +25,9 @@ namespace taskaev
       for (auto i = ends; i != begin; i--)
       {
         auto prevs = std::prev(i);
-        if (!comp(*i, next))
+        if (!comp(*i, prevs))
         {
-          std::swap(*i, *next);
+          std::swap(*i, *prevs);
           flag = true;
         }
       }
@@ -38,7 +38,7 @@ namespace taskaev
   template <typename Iterator, typename Comparator >
   void Selection(Iterator begin, Iterator end, Comparator comp)
   {
-    for (Iterator current = begin; curent != end; current++)
+    for (Iterator current = begin; current != end; current++)
     {
       Iterator next = current;
       next++;

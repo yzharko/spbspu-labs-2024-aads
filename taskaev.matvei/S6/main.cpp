@@ -4,8 +4,8 @@
 #include <string>
 #include <functional>
 #include <utility>
-#include "sortFunctions.h"
-#include "workSort.h"
+#include "sortFunctions.hpp"
+#include "workSort.hpp"
 
 int main(int argc, char **argv)
 {

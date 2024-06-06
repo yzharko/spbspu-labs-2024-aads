@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <random>
 #include "sortFunctions.hpp"
-#include <List.h>
+#include <List.hpp>
 
 namespace taskaev
 {
