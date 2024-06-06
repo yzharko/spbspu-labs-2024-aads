@@ -58,7 +58,7 @@ void reznikova::getRandVals(size_t size, std::string type, List< T > & biList, s
 }
 
 template< typename T >
-void rezniova::outputVals(std::ostream & out, T & conteiner)
+void reznikova::outputVals(std::ostream & out, T & conteiner)
 {
   auto it = conteiner.begin();
   out << *it;
