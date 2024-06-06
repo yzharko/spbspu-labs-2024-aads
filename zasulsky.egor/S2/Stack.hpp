@@ -12,12 +12,12 @@ namespace zasulsky
 
     void push(T data)
     {
-      fl.insert_after(fl.cbeforeBegin(), data);
+      fL.insert_after(fL.cbeforeBegin(), data);
     }
 
     bool isEmpty()
     {
-      return fl.empty();
+      return fL.empty();
     }
 
     void pop()
@@ -28,13 +28,13 @@ namespace zasulsky
       }
       else
       {
-        fl.erase_after(fl.cbeforeBegin());
+        fL.erase_after(fL.cbeforeBegin());
       }
     }
 
     int getSize()
     {
-      return fl.size();
+      return fL.size();
     }
 
     T& top()
@@ -43,12 +43,12 @@ namespace zasulsky
       {
         throw std::logic_error("no elements!");
       }
-      return fl.head()->data;
+      return fL.head()->data;
     }
 
   private:
 
-    ForwardList< T > fl;
+    ForwardList< T > fL;
 
   };
 }
