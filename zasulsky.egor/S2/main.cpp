@@ -42,6 +42,11 @@ int main(int argc, char* argv[])
         std::cout << '\n';
         return 0;
       }
+      if (input.eof())
+      {
+        std::cout << '\n';
+        return 0;
+      }
     }
     while (getline(input, str))
     {
