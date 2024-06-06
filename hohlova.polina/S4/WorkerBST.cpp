@@ -59,7 +59,7 @@ void WorkerBST::Print(  const std::string& str)
         throw  std::runtime_error("<EMPTY>\n");
     }
     auto it = findBst->begin();
-    std::cout << str;
+    std::cout << str << ' ';
     while(it != findBst->end())
     {
         std::cout << (*it).first << ' ' << (*it).second << ' ';
