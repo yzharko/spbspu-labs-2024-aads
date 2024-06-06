@@ -18,7 +18,7 @@ namespace taskaev
   void generateData(size_t size, std::deque< T >& queue, List< T >& list);
 
   template< typename T, typename Comparator >
-  void workSortings(std::ostream& out, size_t size);
+  void workSortings(size_t size, std::ostream& out);
 }
 
 #endif

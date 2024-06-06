@@ -38,7 +38,7 @@ namespace taskaev
   }
 
   template< typename T, typename Comparator >
-  void workSortings(std::ostream& out, size_t size)
+  void workSortings(size_t size, std::ostream& out)
   {
     std::deque < T > queue;
     List< T > list;

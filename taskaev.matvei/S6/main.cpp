@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     std::cerr << "Error: size zero!\n";
     return 1;
   }
-  std::map < std::pair < std::string, std::string >, std::function< void(std::ostream&, size_t) > > cmds;
+  std::map < std::pair < std::string, std::string >, std::function< void(size_t, std::ostream&) > > cmds;
   cmds[std::make_pair("ascending", "ints")] = workSortings< int, std::less< int > >;
   cmds[std::make_pair("ascending", "floats")] = workSortings< float, std::less< float > >;
   cmds[std::make_pair("descending", "ints")] = workSortings< int, std::greater< int > >;
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
   try
   {
-    cmds.at(std::make_pair(std::string(argv[1]),std::string(argv[2])))(std::cout, size);
+    cmds.at(std::make_pair(std::string(argv[1]),std::string(argv[2])))(size, std::cout);
   }
   catch (const std::exception& e)
   {
