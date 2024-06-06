@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
   zasulsky::Queue < std::string > expr;
   try
   {
-    if (input.peek() == std::ifstream::traits_type::eof())
+    if (input.eof())
     {
       std::cout << '\n';
       return 0;
