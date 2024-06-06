@@ -6,7 +6,7 @@
 #include <random>
 #include <forward_list>
 #include <deque>
-#include <List.hpp>
+#include "List.hpp"
 #include "Sort.hpp"
 
 namespace reznikova
@@ -43,7 +43,7 @@ void reznikova::getRandVals(size_t size, std::string type, List< T > & biList, s
       std::uniform_int_distribution< int > dis(-1000, 1000);
       int value = dis(dev);
       biList.pushBack(value);
-      fList.push_back(value);
+      fList.push_front(value);
       queue.push_back(value);
     }
     else if (type == "floats")
@@ -51,7 +51,7 @@ void reznikova::getRandVals(size_t size, std::string type, List< T > & biList, s
       std::uniform_real_distribution< float > dis(0.0f, 99.9f);
       float value = dis(dev);
       biList.pushBack(value);
-      fList.push_back(value);
+      fList.push_front(value);
       queue.push_back(value);
     }
   }
