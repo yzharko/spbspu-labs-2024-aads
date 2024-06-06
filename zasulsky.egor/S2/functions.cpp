@@ -35,7 +35,7 @@ bool zasulsky::isOperand(std::string st)
   return true;
 }
 
-zasulsky::Queue <std::string> zasulsky::convertToPostfix(zasulsky::Queue <std::string>& infix)
+zasulsky::Queue < std::string > zasulsky::convertToPostfix(zasulsky::Queue < std::string >& infix)
 {
   zasulsky::Queue <std::string> postfix;
   zasulsky::Stack <std::string> st;
