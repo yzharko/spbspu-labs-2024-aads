@@ -1,9 +1,11 @@
-#ifndef SORT_HPP
+k#ifndef SORT_HPP
 #define SORT_HPP
 
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include <stack>
+#include <pair>
 
 namespace reznikova
 {
@@ -14,38 +16,37 @@ namespace reznikova
 }
 
 template<typename Iterator, typename Comparator>
-void reznikova::qsort(Iterator first, Iterator last, Comparator cmp) {
-  if (first == last || (first != last && ++Iterator(first) == last))
+void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
+{
+  if (first == last || Iterator(++first) == last)
   {
     return;
   }
-  auto pivot = *first;
-  Iterator left = first;
-  Iterator right = last;
-  --right;
-  while (left != right)
+  std::stack<std::pair<Iterator, Iterator>> stack;
+  stack.push({first, last});
+  while (!stack.empty())
   {
-    while (left != right && !cmp(*right, pivot))
+    Iterator left = stack.top().first;
+    Iterator right = stack.top().second;
+    stack.pop();
+    Iterator pivot = Iterator(right--);
+    Iterator i = left;
+    Iterator j = left;
+    while (j != pivot)
     {
-      --right;
-      if (left != right)
+      if (cmp(*j, *pivot))
       {
-        std::iter_swap(left, right);
-        ++left;
+        std::iter_swap(i, j);
+        ++i;
       }
+      ++j;
     }
-    while (left != right && cmp(*left, pivot))
-    {
-      ++left;
-      if (left != right)
-      {
-        std::iter_swap(left, right);
-        --right;
-      }
-    }
+    std::iter_swap(i, pivot);
+    if (i != left)
+      stack.push({left, i});
+    if (Iterator(i++) != right)
+      stack.push({Iterator(i++), right});
   }
-  qsort(first, left, cmp);
-  qsort(++left, last, cmp);
 }
 
 template<typename Iterator, typename Comparator>
@@ -101,3 +102,4 @@ void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
 }
 
 #endif
+
