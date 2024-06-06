@@ -6,6 +6,7 @@
 #include <list>
 #include <list.hpp>
 #include <algorithm>
+// #include <random>
 #include "sorts.hpp"
 
 namespace mihalchenko
@@ -16,7 +17,7 @@ namespace mihalchenko
   void printContainer(std::ostream &, const T &container);
 
   template <typename T, typename Compare>
-  void makeSorted(std::ostream &out, size_t size, Compare compare);
+  void testSorts(std::ostream &out, size_t size, Compare compare);
 }
 
 void fillRandIntsContainer(int size, std::deque<int> &deque, List<int> forward_list, std::list<int> &bidirect_list)
@@ -57,7 +58,7 @@ void mihalchenko::printContainer(std::ostream &out, const T &container)
 }
 
 template <typename T, typename Compare>
-void mihalchenko::makeSorted(std::ostream &out, size_t size, Compare compare)
+void mihalchenko::testSorts(std::ostream &out, size_t size, Compare compare)
 {
   List<T> forward_list;
   std::list<T> bidirect_list;
