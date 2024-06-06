@@ -38,7 +38,8 @@ int main()
     {
       if (cmds.find(currentCommand) == cmds.end())
       {
-        throw std::logic_error(statusString("Command not found\n", "error"));
+        std::cout << statusString("Command not found\n", "error");
+        throw std::logic_error("");
       }
       cmds.at(currentCommand)(strings, activeString, std::cin, std::cout);
     }
