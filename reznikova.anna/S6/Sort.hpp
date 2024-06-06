@@ -14,7 +14,7 @@ namespace reznikova
 }
 
 template<typename Iterator, typename Comparator>
-void qsort(Iterator first, Iterator last, Comparator cmp)
+void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
 {
   if (first == last)
   {
@@ -56,7 +56,7 @@ void qsort(Iterator first, Iterator last, Comparator cmp)
 }
 
 template<typename Iterator, typename Comparator>
-void shaker(Iterator first, Iterator last, Comparator cmp)
+void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
 {
   if (first == last)
   {
