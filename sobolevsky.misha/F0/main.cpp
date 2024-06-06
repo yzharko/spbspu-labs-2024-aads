@@ -38,7 +38,9 @@ int main()
       sobolevsky::error(std::cerr);
       std::cin.clear();
       std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      cmds.clear();
     }
   }
+  cmds.clear();
   return 0;
 }
