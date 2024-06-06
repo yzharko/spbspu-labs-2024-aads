@@ -172,7 +172,7 @@ namespace zasulsky
       erase_after(cbeforeBegin());
     }
 
-    bool empty() const
+    bool empty() const noexcept
     {
       if (fakeNode_ != nullptr)
       {
