@@ -7,35 +7,51 @@
 
 namespace reznikova
 {
+  template<typename Iterator, typename Comparator>
+  Iterator partition(Iterator first, Iterator last, Comparator cmp);
   template< typename Iterator, typename Comparator >
   void qsort(Iterator first, Iterator last, Comparator cmp);
   template< typename Iterator, typename Comparator >
   void shaker(Iterator first, Iterator last, Comparator cmp);
 }
 
+
 template<typename Iterator, typename Comparator>
-void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
+Iterator partition(Iterator first, Iterator last, Comparator cmp)
 {
+  Iterator pivot = first;
+  Iterator i = first;
+  Iterator j = first;
+  std::advance(j, 1);
+  while (j != last)
+  {
+    if (cmp(*j, *pivot))
+    {
+      ++i;
+      std::iter_swap(i, j);
+    }
+    ++j;
+  }
+  std::iter_swap(first, i);
+  return i;
+}
+
+template<typename Iterator, typename Comparator>
+void qsort(Iterator first, Iterator last, Comparator cmp) {
   if (first == last)
   {
     return;
   }
-  auto pivot = *first;
-  Iterator left = first;
-  Iterator right = first;
-  ++right;
-  for (Iterator it = right; it != last; ++it)
+  Iterator next_first = first;
+  std::advance(next_first, 1);
+  if (next_first == last)
   {
-    if (cmp(*it, pivot))
-    {
-      std::iter_swap(left, it);
-      ++left;
-    }
+    return;
   }
-  std::iter_swap(first, left);
-  qsort(first, left, cmp);
-  ++left;
-  qsort(left, last, cmp);
+  Iterator pivot = partition(first, last, cmp);
+  qsort(first, pivot, cmp);
+  std::advance(pivot, 1);
+  qsort(pivot, last, cmp);
 }
 
 template<typename Iterator, typename Comparator>
