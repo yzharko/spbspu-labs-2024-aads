@@ -284,12 +284,10 @@ std::ostream & zheleznyakov::commands::table(strings_t & strings, std::string & 
     in >> filename;
     std::ofstream fout(filename);
     const wordpairs_t pairs = strings.at(active).second;
-    std::transform(
-      pairs.cbegin(),
-      pairs.cend(),
-      std::ostream_iterator < std::string > (fout, "\n"),
-      wordEntryToString
-    );
+    for (auto it = pairs.cbegin(); it != pairs.cend(); ++it)
+    {
+      std::cout << it->first << ':' << std::to_string(it->second.getSize()) << '\n';
+    }
   }
   else
   {
@@ -365,9 +363,4 @@ std::string zheleznyakov::extractKeyFromWordpair(const std::pair< std::string, w
 std::string zheleznyakov::coordsToPairs(const wordcoord_t & wordCoord)
 {
   return std::to_string(wordCoord.first) + ';' + std::to_string(wordCoord.second);
-}
-
-std::string zheleznyakov::wordEntryToString(const std::pair< std::string, wordpair_t >& pair)
-{
-    return pair.first + ':' + std::to_string(pair.second.getSize());
 }
