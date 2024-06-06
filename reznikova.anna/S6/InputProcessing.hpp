@@ -6,7 +6,7 @@
 #include <random>
 #include <forward_list>
 #include <deque>
-#include "List.hpp"
+#include <List.hpp>
 #include "Sort.hpp"
 
 namespace reznikova
