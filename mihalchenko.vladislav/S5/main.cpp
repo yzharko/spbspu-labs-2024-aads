@@ -13,7 +13,6 @@ int main(int argc, char **argv)
     mihalchenko::printErrorMessage(std::cout);
     return 1;
   }
-
   std::ifstream input(argv[2]);
   if (!input)
   {
@@ -43,12 +42,11 @@ int main(int argc, char **argv)
     allTree.clear();
     return 1;
   }
-  if (allTree.isEmpty())
+  if (allTree.empty())
   {
     mihalchenko::printEmptyAVLTree(std::cout);
     return 0;
   }
-
   using commandsTree = mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, AVLtree &)>, long long>;
   commandsTree commands;
   {
@@ -56,10 +54,6 @@ int main(int argc, char **argv)
     commands.insert("descending", mihalchenko::descending);
     commands.insert("breadth", mihalchenko::breadth);
   }
-  // std::string inputCommand;
-  // while (!std::cin.eof())
-  //{
-  // std::cin >> inputCommand;
   std::string direction = argv[1];
   try
   {
@@ -68,12 +62,9 @@ int main(int argc, char **argv)
   catch (const std::out_of_range &)
   {
     mihalchenko::printInvalidCommandMessage(std::cout);
-    // allTree.clear();
-    // commands.clear();
     clearTree(allTree, commands);
     return 1;
   }
-  //}
   clearTree(allTree, commands);
   return 0;
 }
