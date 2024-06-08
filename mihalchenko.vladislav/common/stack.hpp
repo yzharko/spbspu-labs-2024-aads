@@ -18,6 +18,8 @@ namespace mihalchenko
     void clear();
     size_t getSize();
     void setSize(const size_t size);
+    bool isEmpty() noexcept;
+    T & getElem() noexcept;
 
   private:
     List< T > containStack;
@@ -71,6 +73,18 @@ template < typename T >
 void mihalchenko::Stack< T >::setSize(const size_t size)
 {
   containStack.setSize(size);
+}
+
+template < typename T >
+bool mihalchenko::Stack< T >::isEmpty() noexcept
+{
+  return containStack.isEmpty();
+}
+
+template < typename T >
+T & mihalchenko::Stack< T >::getElem() noexcept
+{
+  return containStack.front();
 }
 
 #endif

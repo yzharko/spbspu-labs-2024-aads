@@ -18,6 +18,8 @@ namespace mihalchenko
     void clear();
     size_t getSize();
     void setSize(const size_t size);
+    bool isEmpty() noexcept;
+    T & getElem() noexcept;
 
   private:
     List< T > containQueue;
@@ -71,6 +73,18 @@ template < typename T >
 void mihalchenko::Queue< T >::setSize(const size_t size)
 {
   containQueue.setSize(size);
+}
+
+template < typename T >
+bool mihalchenko::Queue< T >::isEmpty() noexcept
+{
+  return containQueue.isEmpty();
+}
+
+template < typename T >
+T & mihalchenko::Queue< T >::getElem() noexcept
+{
+  return containQueue.front();
 }
 
 #endif
