@@ -175,7 +175,6 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
     size_++;
     return root_;
   }
-  Compare compare;
   if ((node) && (key == node->pairOfKeyVal_.first))
   {
     delete newNode;
@@ -870,7 +869,6 @@ template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   mihalchenko::AVLTree< Key, Value, Compare >::findNode(const Key &key, Node *node)
 {
-  Compare compFunc;
   if (node == nullptr)
   {
     return Iterator(ConstIterator(nullptr, root_));
