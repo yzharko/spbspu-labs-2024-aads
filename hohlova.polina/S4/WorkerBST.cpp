@@ -99,7 +99,10 @@ void WorkerBST::Complement(std::vector<std::string>::iterator begin, std::vector
 
 
     if (!second || !first)
-        throw std::runtime_error("<INVALID COMMAND>\n");
+    {
+      std::cout << "<INVALID COMMAND>\n";
+      return;
+    }
 
     BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
     auto itF = first->begin();
@@ -197,7 +200,10 @@ void WorkerBST::Intersect(std::vector<std::string>::iterator begin, std::vector<
     }
 
     if (!second || !first)
-        throw std::runtime_error("<INVALID COMMAND>\n");
+    {
+      std::cout << "<INVALID COMMAND>\n";
+      return;
+    }
 
     BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
 
@@ -243,8 +249,10 @@ void WorkerBST::Union(std::vector<std::string>::iterator begin, std::vector<std:
     }
 
     if (!second || !first)
-        throw std::runtime_error("<INVALID COMMAND>\n");
-
+    {
+      std::cout << "<INVALID COMMAND>\n";
+      return;
+    }
 
     BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
 
