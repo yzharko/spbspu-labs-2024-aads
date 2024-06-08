@@ -295,8 +295,8 @@ void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, s
     else if (word == "union") {
         Union(stringList.begin() + 1, stringList.end());
     }
-    else {
-        hohlova::printInvCom(std::cout);
-        return;
-    }
+    //else {
+    //    hohlova::printInvCom(std::cout);
+    //    return;
+    //}
 }
