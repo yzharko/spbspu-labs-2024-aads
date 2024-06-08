@@ -5,6 +5,8 @@
 #include <initializer_list>
 #include <functional>
 #include <iostream>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace mihalchenko
 {
@@ -1012,7 +1014,7 @@ template < typename Key, typename Value, typename Compare >
 template< typename F >
 F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseBreadth(F queueFunc) const
 {
-  if (isEmpty())
+  if (empty())
   {
     return queueFunc;
   }
@@ -1040,7 +1042,7 @@ template < typename Key, typename Value, typename Compare >
 template< typename F >
 F mihalchenko::AVLTree< Key, Value, Compare >::traverseBreadth(F queueFunc)
 {
-  if (isEmpty())
+  if (empty())
   {
     return queueFunc;
   }

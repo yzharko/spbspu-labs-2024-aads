@@ -78,7 +78,7 @@ void mihalchenko::Stack< T >::setSize(const size_t size)
 template < typename T >
 bool mihalchenko::Stack< T >::isEmpty() noexcept
 {
-  return containStack.isEmpty();
+  return containStack.empty();
 }
 
 template < typename T >

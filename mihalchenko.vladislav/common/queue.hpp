@@ -78,7 +78,7 @@ void mihalchenko::Queue< T >::setSize(const size_t size)
 template < typename T >
 bool mihalchenko::Queue< T >::isEmpty() noexcept
 {
-  return containQueue.isEmpty();
+  return containQueue.empty();
 }
 
 template < typename T >
