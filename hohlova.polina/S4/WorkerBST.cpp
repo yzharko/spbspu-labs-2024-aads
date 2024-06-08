@@ -1,7 +1,7 @@
 #include "WorkerBST.hpp"
-#include "printErrors.hpp"
 #include <fstream>
 #include <string>
+
 WorkerBST::WorkerBST(const std::string& path) {
     ReadFile(path);
 }
@@ -26,21 +26,17 @@ void WorkerBST::Menu() {
         if (!line.empty()) {
             ParseArguments(line);
         }
-        else
-        {
-            std::cout << "<INVALID COMMAND>" << '\n';
-        }
     }
 }
 void WorkerBST::ReadFile(const std::string& path) {
 
     if (path.empty())
-        std::runtime_error("Path is empty");
+        std::runtime_error("Path is empty\n");
 
     std::ifstream file(path);
 
     if (!file.is_open())
-        std::runtime_error("File not open");
+        std::runtime_error("File not open\n");
 
 
     std::string line;
@@ -48,6 +44,8 @@ void WorkerBST::ReadFile(const std::string& path) {
         std::getline(file, line);
         ReadDataSet(line);
     }
+
+    file.close();
 }
 
 void WorkerBST::Print(const std::string& str)
@@ -58,8 +56,7 @@ void WorkerBST::Print(const std::string& str)
 
     if (findBst == nullptr || findBst->empty())
     {
-        hohlova::printEmpty(std::cout);
-        return;
+        throw  std::runtime_error("<EMPTY>\n");
     }
     auto it = findBst->begin();
     std::cout << str << ' ';
@@ -79,37 +76,36 @@ void WorkerBST::Complement(std::vector<std::string>::iterator begin, std::vector
 
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
-    BinarySearchTree<int, std::string>* result = nullptr;
+
+
+    std::string key = *begin;
+    ++begin;
 
     while (begin != end) {
 
-        if (!result)
-        {
-            result = new BinarySearchTree<int, std::string>;
-            bst.push(std::move(*begin), result);
-
-        }
-        else if (!first) {
-            first = bst.get(std::move(*begin));
+        if (!first) {
+            first = bst.get(*begin);
         }
         else if (!second)
         {
-            second = bst.get(std::move(*begin));
+            second = bst.get(*begin);
         }
 
-        if (result && first && second)
+        if (first && second)
             break;
         ++begin;
     }
 
 
-    if (!second || !first || !result)
-        throw std::runtime_error("Invalid Argument");
+    if (!second || !first)
+        throw std::runtime_error("<INVALID COMMAND>\n");
 
+    BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
     auto itF = first->begin();
+    auto itE = first->end();
 
 
-    while (itF != first->end())
+    while (itF != itE)
     {
         auto res = second->contains((*itF).first);
         if (!res)
@@ -119,6 +115,13 @@ void WorkerBST::Complement(std::vector<std::string>::iterator begin, std::vector
         ++itF;
     }
 
+    if (bst.contains(key))
+    {
+        delete bst.get(key);
+        bst.drop(key);
+    }
+
+    bst.push(key, result);
 }
 
 int WorkerBST::ParseNum(const std::string& num) {
@@ -177,26 +180,25 @@ void WorkerBST::Intersect(std::vector<std::string>::iterator begin, std::vector<
 {
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
-    BinarySearchTree<int, std::string>* result = nullptr;
+
+
+    std::string key = *begin;
+    ++begin;
 
     while (begin != end) {
 
-        if (!result)
-        {
-            result = new BinarySearchTree<int, std::string>;
-            bst.push(std::move(*begin), result);
-
-        }
-        else if (!first)
-            first = bst.get(std::move(*begin));
+        if (!first)
+            first = bst.get(*begin);
         else if (!second)
-            second = bst.get(std::move(*begin));
+            second = bst.get(*begin);
 
         ++begin;
     }
 
-    if (!second || !first || !result)
-        throw std::runtime_error("Invalid Argument");
+    if (!second || !first)
+        throw std::runtime_error("<INVALID COMMAND>\n");
+
+    BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
 
     auto itF = first->begin();
 
@@ -210,6 +212,13 @@ void WorkerBST::Intersect(std::vector<std::string>::iterator begin, std::vector<
         ++itF;
     }
 
+    if (bst.contains(key))
+    {
+        delete bst.get(key);
+        bst.drop(key);
+    }
+
+    bst.push(key, result);
 }
 
 void WorkerBST::Union(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end)
@@ -217,25 +226,26 @@ void WorkerBST::Union(std::vector<std::string>::iterator begin, std::vector<std:
 
     BinarySearchTree<int, std::string>* first = nullptr;
     BinarySearchTree<int, std::string>* second = nullptr;
-    BinarySearchTree<int, std::string>* result = nullptr;
+
+
+    std::string key = *begin;
+    ++begin;
 
     while (begin != end) {
 
-        if (!result)
-        {
-            result = new BinarySearchTree<int, std::string>;
-            bst.push(std::move(*begin), result);
-        }
-        else if (!first)
-            first = bst.get(std::move(*begin));
+        if (!first)
+            first = bst.get(*begin);
         else if (!second)
-            second = bst.get(std::move(*begin));
+            second = bst.get(*begin);
 
         ++begin;
     }
 
-    if (!second || !first || !result)
-        throw std::runtime_error("Invalid Argument");
+    if (!second || !first)
+        throw std::runtime_error("<INVALID COMMAND>\n");
+
+
+    BinarySearchTree<int, std::string>* result = new BinarySearchTree<int, std::string>;
 
     auto itF = first->begin();
     auto itS = second->begin();
@@ -260,6 +270,14 @@ void WorkerBST::Union(std::vector<std::string>::iterator begin, std::vector<std:
             ++itS;
         }
     }
+
+    if (bst.contains(key))
+    {
+        delete bst.get(key);
+        bst.drop(key);
+    }
+
+    bst.push(key, result);
 }
 
 void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, std::string> bst*/) {
@@ -295,8 +313,7 @@ void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, s
     else if (word == "union") {
         Union(stringList.begin() + 1, stringList.end());
     }
-    //else {
-    //    hohlova::printInvCom(std::cout);
-    //    return;
-    //}
+    else if (word != "") {
+        std::cout << "<INVALID COMMAND>" << '\n';
+    }
 }

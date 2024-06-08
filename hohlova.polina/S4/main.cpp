@@ -5,7 +5,6 @@
 #include <map>
 #include <unordered_map>
 #include "WorkerBST.hpp"
-#include "printErrors.hpp"
 
 int main(int argc, char** argv)
 {
@@ -22,9 +21,8 @@ int main(int argc, char** argv)
     }
     catch (const std::exception& err)
     {
-        hohlova::printInvCom(std::cout);
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << err.what();
+        return 1;
     }
     return 0;
 }
