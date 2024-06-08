@@ -48,6 +48,19 @@ namespace mihalchenko
     Iterator begin() noexcept;
     Iterator end() noexcept;
 
+    template< typename F >
+    F constTraverseLR(F stackFunc) const;
+    template< typename F >
+    F traverseLR(F stackFunc);
+    template< typename F >
+    F constTraverseRL(F stackFunc) const;
+    template< typename F >
+    F traverseRL(F stackFunc);
+    template< typename F >
+    F constTraverseBreadth(F stackFunc) const;
+    template< typename F >
+    F traverseBreadth(F stackFunc);
+
   private:
     class Node
     {
@@ -909,6 +922,146 @@ void mihalchenko::AVLTree< Key, Value, Compare >::clear(Node *node)
   clear(node->left_);
   clear(node->right_);
   delete node;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseLR(F stackFunc) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left_;
+    }
+    temp = stack.getElem();
+    stack.pop();
+    stackFunc(temp->elem_);
+    temp = temp->right_;
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseLR(F stackFunc)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left_;
+    }
+    temp = stack.getElem();
+    stack.pop();
+    stackFunc(temp->pairOfKeyVal_);
+    temp = temp->right_;
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseRL(F stackFunc) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right_;
+    }
+    temp = stack.getElem();
+    stack.pop();
+    stackFunc(temp->data_);
+    temp = temp->left_;
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseRL(F stackFunc)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right_;
+    }
+    temp = stack.getElem();
+    stack.pop();
+    stackFunc(temp->pairOfKeyVal_);
+    temp = temp->left_;
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseBreadth(F queueFunc) const
+{
+  if (isEmpty())
+  {
+    return queueFunc;
+  }
+  Queue< Node * > queueBreadfh;
+  queueBreadfh.push(root_);
+
+  while (!queueBreadfh.isEmpty())
+  {
+    Node * node = queueBreadfh.getElem();
+    queueFunc(node->data);
+    queueBreadfh.pop();
+    if (node->left != nullptr)
+    {
+      queueBreadfh.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queueBreadfh.push(node->right);
+    }
+  }
+  return queueFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseBreadth(F queueFunc)
+{
+  if (isEmpty())
+  {
+    return queueFunc;
+  }
+  Queue< Node * > queueBreadfh;
+  queueBreadfh.push(root_);
+
+  while (!queueBreadfh.isEmpty())
+  {
+    Node * node = queueBreadfh.getElem();
+    queueFunc(node->pairOfKeyVal_);
+    queueBreadfh.pop();
+    if (node->left_ != nullptr)
+    {
+      queueBreadfh.push(node->left_);
+    }
+    if (node->right_ != nullptr)
+    {
+      queueBreadfh.push(node->right_);
+    }
+  }
+  return queueFunc;
 }
 
 #endif
