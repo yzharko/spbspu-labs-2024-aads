@@ -34,7 +34,6 @@ public:
         if (node) {
             return node->value;
         }
-        std::cout << "<INVALID COMMAND>\n";
         return nullptr;
     }
 
