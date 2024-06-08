@@ -297,5 +297,6 @@ void WorkerBST::ParseArguments(const std::string& str/*, BinarySearchTree<int, s
     }
     else {
         hohlova::printInvCom(std::cout);
+        return;
     }
 }
