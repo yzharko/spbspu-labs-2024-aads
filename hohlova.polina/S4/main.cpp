@@ -5,13 +5,15 @@
 #include <map>
 #include <unordered_map>
 #include "WorkerBST.hpp"
+#include "printErrors.hpp"
 
 int main(int argc, char** argv)
 {
+    std::ifstream input(argv[1]);
     if (argc < 1)
     {
         std::cerr << "Error! Empty list";
-        return 0;
+        return 1;
     }
     try
     {
@@ -20,8 +22,9 @@ int main(int argc, char** argv)
     }
     catch (const std::exception& err)
     {
-        std::cout << err.what();
-        return 1;
+        hohlova::printInvCom(std::cout);
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     return 0;
 }
