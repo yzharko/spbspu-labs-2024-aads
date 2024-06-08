@@ -60,12 +60,15 @@ void WorkerBST::Print(  const std::string& str)
     }
     auto it = findBst->begin();
     std::cout << str << ' ';
-    while(it != findBst->end())
+    for (; it != findBst->end();)
     {
-        std::cout << (*it).first << ' ' << (*it).second << ' ';
-        ++it;
+        std::cout << (*it).first << ' ' << (*it).second;
+        if (++it != findBst->end())
+        {
+          std::cout << ' ';
+        }
     }
-//    std::cout << '\n';
+    std::cout << '\n';
 }
 
 void WorkerBST::Complement( std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end )
