@@ -27,11 +27,7 @@ public:
     Value get(const Key& k);
     bool contains(const Key& k);
     Value drop(const Key& k);
-    void clear(Node* node);
-    Node* insert(Node* node, const Key& k, const Value& v);
-    Node* find(Node* node, const Key& k);
-    Node* remove(Node*& node, const Key& k);
-    Node* findMin(Node* node);
+
 
     class iterator {
     private:
@@ -72,6 +68,13 @@ public:
 
     iterator begin();
     iterator end();
+
+private:
+    void clear(Node* node);
+    Node* insert(Node* node, const Key& k, const Value& v);
+    Node* find(Node* node, const Key& k);
+    Node* remove(Node*& node, const Key& k);
+    Node* findMin(Node* node);
 };
 
 template <typename Key, typename Value, typename Compare>
