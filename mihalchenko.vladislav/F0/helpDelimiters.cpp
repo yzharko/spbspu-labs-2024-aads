@@ -15,7 +15,7 @@ std::istream &mihalchenko::operator>>(std::istream &is, dict_t &dict)
     auto pointer = dict.find(pair.first);
     if (pointer == dict.end())
     {
-      dict.emplace(pair.first, pair.second);
+      dict.insert(pair.first, pair.second);
     }
   }
   return is;

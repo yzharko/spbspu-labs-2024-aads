@@ -2,7 +2,6 @@
 #include <fstream>
 #include <functional>
 #include <limits>
-
 #include "commands.hpp"
 #include "details.hpp"
 

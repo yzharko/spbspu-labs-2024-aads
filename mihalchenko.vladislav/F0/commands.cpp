@@ -65,9 +65,9 @@ void mihalchenko::create(mapOfDicts_t &mapOfDictionaries, std::istream &is)
     {
       dictElement_t elem;
       inputFile >> elem;
-      dict.emplace(elem.first, elem.second);
+      dict.insert(elem.first, elem.second);
     }
-    mapOfDictionaries.emplace(nameOfDict, dict);
+    mapOfDictionaries.insert(nameOfDict, dict);
     std::cout << "The dictionary was created successfully from the file\n";
   }
   inputFile.close();
@@ -75,7 +75,7 @@ void mihalchenko::create(mapOfDicts_t &mapOfDictionaries, std::istream &is)
 
 void mihalchenko::save(mapOfDicts_t &mapOfDictionaries, std::ostream &out)
 {
-  for (const auto &iterOfDicts : mapOfDictionaries)
+  for (auto &iterOfDicts : mapOfDictionaries)
   {
     std::ofstream outputFile;
     if (!outputFile)
@@ -105,14 +105,21 @@ void mihalchenko::size(mapOfDicts_t &mapOfDictionaries, std::istream &is, std::o
     printWrongInput(out);
     return;
   }
-  out << mapOfDictionaries.find(nameOfDictionary)->second.size() << "\n";
+  size_t count = 0;
+  auto &iter = mapOfDictionaries.find(nameOfDictionary)->second;
+  for (auto iterOfElem = iter.begin(); iterOfElem != iter.end(); iterOfElem++)
+  {
+    count++;
+  }
+  // out << mapOfDictionaries.find(nameOfDictionary)->second.getSize() << "\n";
+  out << count << "\n";
 }
 
 void mihalchenko::view(mapOfDicts_t &mapOfDictionaries, std::ostream &out)
 {
   size_t num = 0;
   out << "List of created dictionaries and their sizes:\n";
-  for (const auto &iter : mapOfDictionaries)
+  for (auto &iter : mapOfDictionaries)
   {
     num++;
     out << num << ". " << iter.first << ", size = ";
@@ -122,7 +129,13 @@ void mihalchenko::view(mapOfDicts_t &mapOfDictionaries, std::ostream &out)
     }
     else
     {
-      out << iter.second.size() << "\n";
+      size_t count = 0;
+      for (auto iterOfElem = iter.second.begin(); iterOfElem != iter.second.end(); iterOfElem++)
+      {
+        count++;
+      }
+      // out << iter.second.getSize() << "\n";
+      out << count << "\n";
     }
   }
 }
@@ -136,7 +149,7 @@ void mihalchenko::find(mapOfDicts_t &mapOfDictionaries, std::istream &is, std::o
     return;
   }
   size_t freq = 0;
-  const auto &iterOfDict = mapOfDictionaries.find(name)->second;
+  auto &iterOfDict = mapOfDictionaries.find(name)->second;
   if (is >> freq)
   {
     for (auto iterOfElem = iterOfDict.begin(); iterOfElem != iterOfDict.end(); iterOfElem++)
@@ -174,7 +187,7 @@ void mihalchenko::rename(mapOfDicts_t &mapOfDictionaries, std::istream &is, std:
     auto iterOfNewDictName = mapOfDictionaries.find(newnameOfDict);
     if (iterOfNewDictName == mapOfDictionaries.end())
     {
-      mapOfDictionaries.emplace(newnameOfDict, iterOfDictName->second);
+      mapOfDictionaries.insert(newnameOfDict, iterOfDictName->second);
       mapOfDictionaries.erase(iterOfDictName);
       out << "The dictionary has been successfully renamed\n";
     }
@@ -252,7 +265,7 @@ void mihalchenko::insert(mapOfDicts_t &mapOfDictionaries, std::istream &is, std:
     is >> dictElem;
     if (iterOfElem.find(word) != iterOfElem.end())
     {
-      iterOfDicts->second.emplace(dictElem);
+      iterOfDicts->second.insert(dictElem);
       out << "The item was successfully added to the dictionary\n";
     }
     else
@@ -278,7 +291,7 @@ void mihalchenko::remove(mapOfDicts_t &mapOfDictionaries, std::istream &is, std:
   auto iterOfDicts = mapOfDictionaries.find(nameOfDict);
   if (iterOfDicts != mapOfDictionaries.end())
   {
-    auto iterOfElem = iterOfDicts->second;
+    auto &iterOfElem = iterOfDicts->second;
     if (!(is >> word))
     {
       printWrongInput(out);
@@ -383,9 +396,9 @@ void mihalchenko::count(mapOfDicts_t &mapOfDictionaries, std::istream &is, std::
     printWrongInput(out);
     return;
   }
-  auto iterOfDicts = mapOfDictionaries.find(nameOfDict)->second;
+  auto &iterOfDicts = mapOfDictionaries.find(nameOfDict)->second;
   size_t count = 0;
-  for (auto it : iterOfDicts)
+  for (const auto &it : iterOfDicts)
   {
     if (it.second == freq)
     {
@@ -410,15 +423,15 @@ void mihalchenko::merge(mapOfDicts_t &mapOfDictionaries, std::istream &is, std::
   if (iterOfDict1 != mapOfDictionaries.end() && iterOfDict2 != mapOfDictionaries.end())
   {
     dict_t newDict;
-    for (auto iterOfElem : iterOfDict1->second)
+    for (const auto &iterOfElem : iterOfDict1->second)
     {
-      newDict.emplace(iterOfElem.first, iterOfElem.second);
+      newDict.insert(iterOfElem.first, iterOfElem.second);
     }
-    for (auto iterOfElem : iterOfDict2->second)
+    for (const auto &iterOfElem : iterOfDict2->second)
     {
-      newDict.emplace(iterOfElem.first, iterOfElem.second);
+      newDict.insert(iterOfElem.first, iterOfElem.second);
     }
-    mapOfDictionaries.emplace(newname, newDict);
+    mapOfDictionaries.insert(newname, newDict);
     out << "The elements from these dictionaries has been successfully merged into a new file\n";
   }
   else
@@ -440,7 +453,7 @@ void mihalchenko::unique(mapOfDicts_t &mapOfDictionaries, std::istream &is, std:
   dict_t newDict;
   findUnique(mapOfDictionaries, newDict, nameOfDict1, nameOfDict2, out);
   findUnique(mapOfDictionaries, newDict, nameOfDict2, nameOfDict1, out);
-  mapOfDictionaries.emplace(newname, newDict);
+  mapOfDictionaries.insert(newname, newDict);
   out << "The unique elements from these dictionaries has been successfully merged into a new file\n";
 }
 
@@ -453,6 +466,7 @@ void mihalchenko::swap(mapOfDicts_t &mapOfDictionaries, std::istream &is, std::o
     printWrongInput(out);
     return;
   }
-  std::swap(mapOfDictionaries.find(nameOfDict1)->second, mapOfDictionaries.find(nameOfDict2)->second);
+  // std::swap(mapOfDictionaries.find(nameOfDict1)->second, mapOfDictionaries.find(nameOfDict2)->second);
+  mapOfDictionaries.find(nameOfDict1)->second.swap(mapOfDictionaries.find(nameOfDict2)->second);
   out << "These dictionaries have successfully exchanged elements\n";
 }

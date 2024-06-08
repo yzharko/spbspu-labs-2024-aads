@@ -31,7 +31,7 @@ void mihalchenko::sortByFreq(mapOfDicts_t &mapOfDictionaries, const std::string 
   }
 }
 
-bool mihalchenko::compareElemByFreq(const pair_t &iterOfElem1, const pair_t &iterOfElem2)
+bool mihalchenko::compareElemByFreq(const dictElement_t &iterOfElem1, const dictElement_t &iterOfElem2)
 {
   return iterOfElem1.second < iterOfElem2.second;
 }
@@ -57,7 +57,7 @@ void mihalchenko::sortByAlph(mapOfDicts_t &mapOfDictionaries, const std::string 
   }
 }
 
-bool mihalchenko::compareElemByAlph(const pair_t &iterOfElem1, const pair_t &iterOfElem2)
+bool mihalchenko::compareElemByAlph(const dictElement_t &iterOfElem1, const dictElement_t &iterOfElem2)
 {
   return iterOfElem1.first < iterOfElem2.first;
 }
@@ -100,7 +100,7 @@ void mihalchenko::findUnique(mapOfDicts_t &mapOfDictionaries, dict_t &newDict,
       }
       if (flag == false)
       {
-        newDict.emplace(iterOfElem1.first, iterOfElem1.second);
+        newDict.insert(iterOfElem1.first, iterOfElem1.second);
       }
     }
   }
