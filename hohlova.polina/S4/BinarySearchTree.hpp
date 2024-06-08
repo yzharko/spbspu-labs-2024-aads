@@ -34,8 +34,6 @@ public:
         if (node) {
             return node->value;
         }
-        std::cout << "<INVALID COMMAND>\n";
-        return;
     }
 
     bool contains(const Key& k)
