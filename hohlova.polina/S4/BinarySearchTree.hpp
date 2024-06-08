@@ -34,7 +34,8 @@ public:
         if (node) {
             return node->value;
         }
-        throw std::out_of_range("<INVALID COMMAND>");
+        std::cout << "<INVALID COMMAND>\n";
+        return;
     }
 
     bool contains(const Key& k)
