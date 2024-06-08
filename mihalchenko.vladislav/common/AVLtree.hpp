@@ -176,7 +176,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
     return root_;
   }
   Compare compare;
-  if ((node) && !compare(key, node->pairOfKeyVal_.first) && !compare(node->pairOfKeyVal_.first, key))
+  if ((node) && (key == node->pairOfKeyVal_.first))
   {
     delete newNode;
     return nullptr;
@@ -184,7 +184,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
   bool existNode = true;
   while (existNode)
   {
-    if (compare(key, node->pairOfKeyVal_.first))
+    if (key < node->pairOfKeyVal_.first)
     {
       if (!node->left_)
       {
@@ -879,11 +879,11 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   {
     return Iterator(ConstIterator(node, root_));
   }
-  if (compFunc(key, node->pairOfKeyVal_.first))
+  if (key < node->pairOfKeyVal_.first)
   {
     return findNode(key, node->left_);
   }
-  if (!compFunc(key, node->pairOfKeyVal_.first))
+  if (!(key < node->pairOfKeyVal_.first))
   {
     return findNode(key, node->right_);
   }
