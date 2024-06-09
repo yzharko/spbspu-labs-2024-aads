@@ -47,8 +47,7 @@ int main(int argc, char **argv)
     mihalchenko::printEmptyAVLTree(std::cout);
     return 0;
   }
-  using commandsTree = mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, AVLtree &)>, long long>;
-  commandsTree commands;
+  mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, AVLtree &)>, long long> commands;
   {
     commands.insert("ascending", mihalchenko::ascending);
     commands.insert("descending", mihalchenko::descending);

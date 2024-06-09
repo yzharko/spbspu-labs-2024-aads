@@ -921,6 +921,13 @@ void mihalchenko::AVLTree< Key, Value, Compare >::clear(Node *node)
   }
   clear(node->left_);
   clear(node->right_);
+  node->left_ = nullptr;
+  node->right_ = nullptr;
+  node->previous_ = nullptr;
+  if (node == root_)
+  {
+    root_ = nullptr;
+  }
   delete node;
 }
 
@@ -938,9 +945,10 @@ F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseLR(F stackFunc) cons
       temp = temp->left_;
     }
     temp = stack.getElem();
-    stack.pop();
+    // stack.pop();
     stackFunc(temp->elem_);
     temp = temp->right_;
+    stack.pop();
   }
   return stackFunc;
 }
@@ -959,9 +967,10 @@ F mihalchenko::AVLTree< Key, Value, Compare >::traverseLR(F stackFunc)
       temp = temp->left_;
     }
     temp = stack.getElem();
-    stack.pop();
+    // stack.pop();
     stackFunc(temp->pairOfKeyVal_);
     temp = temp->right_;
+    stack.pop();
   }
   return stackFunc;
 }
@@ -980,9 +989,10 @@ F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseRL(F stackFunc) cons
       temp = temp->right_;
     }
     temp = stack.getElem();
-    stack.pop();
+    // stack.pop();
     stackFunc(temp->data_);
     temp = temp->left_;
+    stack.pop();
   }
   return stackFunc;
 }
@@ -1001,9 +1011,10 @@ F mihalchenko::AVLTree< Key, Value, Compare >::traverseRL(F stackFunc)
       temp = temp->right_;
     }
     temp = stack.getElem();
-    stack.pop();
+    // stack.pop();
     stackFunc(temp->pairOfKeyVal_);
     temp = temp->left_;
+    stack.pop();
   }
   return stackFunc;
 }
