@@ -417,12 +417,9 @@ Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key)
 {
   if (find(key) == end())
   {
-    throw std::out_of_range("The element does not exist\n");
+    throw std::out_of_range("This element doesn't exist\n");
   }
-  else
-  {
-    return (*find(key)).second;
-  }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -430,39 +427,29 @@ const Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key) con
 {
   if (find(key) == end())
   {
-    throw std::out_of_range("The element does not exist\n");
+    throw std::out_of_range("This element doesn't exist\n");
   }
-  else
-  {
-    return (*find(key)).second;
-  }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
 Value &mihalchenko::AVLTree< Key, Value, Compare >::operator[](const Key &key)
 {
-  try
-  {
-    find(key);
-  }
-  catch (const std::out_of_range &)
+  if (find(key) == end())
   {
     insert(key, Value());
-    return (*find(key)).second;
   }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
 const Value &mihalchenko::AVLTree< Key, Value, Compare >::operator[](const Key &key) const
 {
-  try
+  if (find(key) == end())
   {
-    find(key);
+    insert(key, Value());
   }
-  catch (const std::out_of_range &)
-  {
-    return (*find(key)).second;
-  }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -895,18 +882,18 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   {
     return findNode(key, node->left_);
   }
-  if (!(key < node->pairOfKeyVal_.first))
+  if (key > node->pairOfKeyVal_.first)
   {
     return findNode(key, node->right_);
   }
-  throw std::out_of_range("There is no such node\n");
+  return end();
 }
 
 template < typename Key, typename Value, typename Compare >
 typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
   mihalchenko::AVLTree< Key, Value, Compare >::findNode(const Key &key, Node *node) const
 {
-  Compare compFunc;
+  Compare compare;
   if (node == nullptr)
   {
     return end();
@@ -915,15 +902,15 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
   {
     return ConstIterator(node, root_);
   }
-  else if (compFunc(key, node->pairOfKeyVal_.first))
+  else if (compare(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->left_);
   }
-  else if (!compFunc(key, node->pairOfKeyVal_.first))
+  else if (!compare(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->right_);
   }
-  throw std::out_of_range("There is no such node\n");
+  return end();
 }
 
 template < typename Key, typename Value, typename Compare >

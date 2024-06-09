@@ -395,12 +395,10 @@ void mihalchenko::List< T >::pop_front()
     return;
   }
   Node *temp = begin_;
-  // T res = begin_->data_;
   begin_ = begin_->pNext_;
   temp->pNext_ = nullptr;
   delete temp;
   size_--;
-  // return res;
 }
 
 template < typename T >
@@ -614,20 +612,23 @@ template < typename T >
 void mihalchenko::List< T >::reverse(Iterator first, Iterator last)
 {
   List< T > temp;
-  Node *actual = first;
   Iterator iterator = first;
-  while (actual != last)
+  while (iterator != last)
   {
     if (front(iterator) != last && front(iterator).node_.pNext_ == last)
     {
       temp.push_back(*front(iterator));
       erase_after(iterator);
+      if(front(iterator) != last)
+      {
+        iterator = first;
+      }
     }
-    else if (front(iterator) != last && front(iterator).node_ == last)
+    if (front(iterator) == last)
     {
       temp.push_back(*first);
     }
-    else
+    if (front(iterator) != last && front(iterator).node_.pNext_ != last)
     {
       iterator++;
     }

@@ -24,10 +24,6 @@ int main(int argc, char **argv)
   {
     while (!input.eof())
     {
-      if (input.fail())
-      {
-        input.clear();
-      }
       long long key = 0;
       std::string value = "";
       if (input >> key >> value)
