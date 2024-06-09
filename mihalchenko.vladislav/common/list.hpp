@@ -391,10 +391,13 @@ void mihalchenko::List< T >::pop_front()
   if (begin_ == nullptr)
   {
     std::cerr << "StackEmptyException!\n";
+    size_ = 0;
+    return;
   }
   Node *temp = begin_;
   // T res = begin_->data_;
   begin_ = begin_->pNext_;
+  temp->pNext_ = nullptr;
   delete temp;
   size_--;
   // return res;
