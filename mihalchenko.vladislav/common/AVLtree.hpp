@@ -415,13 +415,27 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
 template < typename Key, typename Value, typename Compare >
 Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key)
 {
-  return (*find(key)).second;
+  if (find(key) == end())
+  {
+    throw std::out_of_range("The element does not exist\n");
+  }
+  else
+  {
+    return (*find(key)).second;
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
 const Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key) const
 {
-  return (*find(key)).second;
+  if (find(key) == end())
+  {
+    throw std::out_of_range("The element does not exist\n");
+  }
+  else
+  {
+    return (*find(key)).second;
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -871,7 +885,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
 {
   if (node == nullptr)
   {
-    return Iterator(ConstIterator(nullptr, root_));
+    return end();
   }
   if (node->pairOfKeyVal_.first == key)
   {
@@ -895,7 +909,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
   Compare compFunc;
   if (node == nullptr)
   {
-    return ConstIterator(nullptr, root_);
+    return end();
   }
   if (node->pairOfKeyVal_.first == key)
   {
