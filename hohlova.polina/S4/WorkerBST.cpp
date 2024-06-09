@@ -54,7 +54,7 @@ void WorkerBST::Print(const std::string& str)
     BinarySearchTree<int, std::string>* findBst = nullptr;
     findBst = bst.get(str);
 
-    if (findBst == nullptr || findBst->empty())
+    if (findBst == nullptr)
     {
         std::cout << "<EMPTY>\n";
         return;
