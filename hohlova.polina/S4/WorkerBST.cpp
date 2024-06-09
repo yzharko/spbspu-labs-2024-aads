@@ -56,7 +56,7 @@ void WorkerBST::Print(const std::string& str)
 
     if (findBst == nullptr || findBst->empty())
     {
-        std::cout << "<EMPTY>\n";
+        std::cout << "<INVALID COMMAND>\n";
         return;
     }
     auto it = findBst->begin();
