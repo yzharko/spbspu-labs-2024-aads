@@ -6,7 +6,7 @@
 
 template <typename Key, typename Value, typename Compare = std::less<Key>>
 class BinarySearchTree {
-private:
+public:
     struct Node {
         Key key;
         Value value;
