@@ -39,6 +39,7 @@ namespace taskaev
 
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
+
   private:
     struct Node
     {
@@ -46,6 +47,7 @@ namespace taskaev
       Node* next;
       explicit Node(T value) : data(value), next(nullptr) {}
     };
+  public:
     Node* head_;
   };
 }
