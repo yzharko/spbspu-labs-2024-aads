@@ -109,19 +109,18 @@ template< typename T >
 typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--()
 {
   assert(node != nullptr);
-  if (node == head_)
+  if (node == nullptr)
   {
-    node = nullptr;
+    return *this;
   }
-  else
+  Node* prev = nullptr;
+  Node* curr = head_;
+  while (curr != nullptr && curr != node)
   {
-    ConstIterator temp = begin();
-    while (temp.node->next != node)
-    {
-      ++temp;
-    }
-    node = temp.node;
+   prev = curr
+   curr = curr->next;
   }
+  node = prev;
   return *this;
 }
 
