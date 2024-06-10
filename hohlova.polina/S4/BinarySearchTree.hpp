@@ -10,6 +10,7 @@ class BinarySearchTree
 public:
     class Node;
     class Iterator;
+    class ConstIterator;
 
     BinarySearchTree() : root(nullptr) {}
     ~BinarySearchTree();
@@ -28,6 +29,17 @@ public:
     {
         return Iterator();
     }
+
+    ConstIterator cbegin()
+    {
+        return ConstIterator(root);
+    }
+
+    ConstIterator cend()
+    {
+        return ConstIterator();
+    }
+
 
 private:
     Node* root;
@@ -54,6 +66,56 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
+class BinarySearchTree< Key, Value, Compare >::ConstIterator
+{
+public:
+    friend class BinarySearchTree< Key, Value, Compare >;
+    ConstIterator() {}
+    ConstIterator(Node* node);
+
+    bool operator!=(const ConstIterator& other) const;
+    ConstIterator& operator++();
+    std::pair<const Key&, const Value&> operator*() const;
+private:
+    std::stack<Node*> stack;
+};
+
+template< typename Key, typename Value, typename Compare >
+BinarySearchTree< Key, Value, Compare >::ConstIterator::ConstIterator(Node* node)
+{
+    if (node)
+    {
+        pushLeftBranch(node);
+    }
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BinarySearchTree< Key, Value, Compare >::ConstIterator::operator!=(const ConstIterator& other) const
+{
+    return !stack.empty() || !other.stack.empty();
+}
+
+template< typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::ConstIterator& BinarySearchTree< Key, Value, Compare >::ConstIterator::operator++()
+{
+    Node* current = stack.top();
+    stack.pop();
+    pushLeftBranch(current->right);
+    return *this;
+}
+
+template< typename Key, typename Value, typename Compare >
+std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::ConstIterator::operator*() const
+{
+    if (stack.empty())
+    {
+        throw std::runtime_error("Dereferencing end iterator");
+    }
+    return std::make_pair(std::cref(stack.top()->key), std::cref(stack.top()->value));
+}
+
+
+template< typename Key, typename Value, typename Compare >
 class BinarySearchTree< Key, Value, Compare >::Iterator
 {
 public:
@@ -61,9 +123,9 @@ public:
     Iterator() {}
     Iterator(Node* node);
 
-    bool operator!=(const Iterator& other) const;
+    bool operator!=(const Iterator& other);
     Iterator& operator++();
-    std::pair<const Key&, const Value&> operator*() const;
+    std::pair<const Key&, const Value&> operator*();
 private:
     void pushLeftBranch(Node* node);
     std::stack<Node*> stack;
@@ -79,7 +141,7 @@ BinarySearchTree< Key, Value, Compare >::Iterator::Iterator(Node* node)
 }
 
 template< typename Key, typename Value, typename Compare >
-bool BinarySearchTree< Key, Value, Compare >::Iterator::operator!=(const Iterator& other) const
+bool BinarySearchTree< Key, Value, Compare >::Iterator::operator!=(const Iterator& other)
 {
     return !stack.empty() || !other.stack.empty();
 }
@@ -94,7 +156,7 @@ typename BinarySearchTree< Key, Value, Compare >::Iterator& BinarySearchTree< Ke
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::Iterator::operator*() const
+std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::Iterator::operator*()
 {
     if (stack.empty())
     {
@@ -181,8 +243,7 @@ void BinarySearchTree< Key, Value, Compare >::clear(Node* node)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BinarySearchTree< Key, Value, Compare >::Node*
-  BinarySearchTree< Key, Value, Compare >::insert(Node* node, const Key& k, const Value& v)
+typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::insert(Node* node, const Key& k, const Value& v)
 {
     if (!node)
     {
