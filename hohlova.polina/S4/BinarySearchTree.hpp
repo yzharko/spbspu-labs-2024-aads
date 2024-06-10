@@ -12,18 +12,9 @@ public:
     class iterator;
 
     BinarySearchTree() : root(nullptr) {}
-    ~BinarySearchTree()
-    {
-        clear(root);
-    }
-    void push(const Key& k, const Value& v)
-    {
-        root = insert(root, k, v);
-    }
-    bool empty()
-    {
-        return root == nullptr ? true : false;
-    }
+    ~BinarySearchTree();
+    void push(const Key& k, const Value& v);
+    bool empty();
     Value get(const Key& k)
     {
         Node* node = find(root, k);
@@ -246,4 +237,23 @@ void  BinarySearchTree< Key, Value, Compare >::iterator::pushLeftBranch(Node* no
         node = node->left;
     }
 }
+
+template< typename Key, typename Value, typename Compare >
+BinarySearchTree< Key, Value, Compare >::~BinarySearchTree()
+{
+    clear(root);
+}
+
+template< typename Key, typename Value, typename Compare >
+void BinarySearchTree< Key, Value, Compare >::push(const Key& k, const Value& v)
+{
+    root = insert(root, k, v);
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BinarySearchTree< Key, Value, Compare >::empty()
+{
+    return root == nullptr ? true : false;
+}
+
 #endif
