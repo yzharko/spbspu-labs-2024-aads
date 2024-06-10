@@ -1,7 +1,7 @@
 #ifndef BINARYSEARCHTREE_HPP
 #define BINARYSEARCHTREE_HPP
 #include <iostream>
-#include "stack.hpp"
+#include <stack>
 #include <functional>
 
 template < typename Key, typename Value, typename Compare = std::less< Key > >
@@ -20,27 +20,11 @@ public:
     bool contains(const Key& k);
     Value drop(const Key& k);
 
-    Iterator begin()
-    {
-        return Iterator(root);
-    }
+    Iterator begin();
+    Iterator end();
 
-    Iterator end()
-    {
-        return Iterator();
-    }
-
-    ConstIterator cbegin()
-    {
-        return ConstIterator(root);
-    }
-
-    ConstIterator cend()
-    {
-        return ConstIterator();
-    }
-
-
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 private:
     Node* root;
     Compare comp;
@@ -77,7 +61,7 @@ public:
     ConstIterator& operator++();
     std::pair<const Key&, const Value&> operator*() const;
 private:
-    hohlova::Stack< Node* > stack;
+    std::stack<Node*> stack;
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -128,7 +112,7 @@ public:
     std::pair<const Key&, const Value&> operator*();
 private:
     void pushLeftBranch(Node* node);
-    hohlova::Stack< Node* > stack;
+    std::stack<Node*> stack;
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -337,6 +321,30 @@ typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, V
         node = node->left;
     }
     return node;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::ConstIterator BinarySearchTree< Key, Value, Compare >::cbegin() const
+{
+    return ConstIterator(root);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::ConstIterator BinarySearchTree< Key, Value, Compare >::cend() const
+{
+    return ConstIterator();
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key, Value, Compare >::begin()
+{
+    return Iterator(root);
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key, Value, Compare >::end()
+{
+    return Iterator();
 }
 
 #endif
