@@ -38,24 +38,24 @@ namespace hohlova
 
   template< typename T >
   Stack< T >::Stack(const Stack& other) :
-    _list(other.container_)
+    _list(other._list)
   {}
 
   template< typename T >
   Stack< T >::Stack(Stack&& other) :
-    _list(std::move(other.container_))
+    _list(std::move(other._list))
   {}
 
   template< typename T >
   Stack< T >& Stack< T >::operator=(const Stack& other)
   {
-    _list = other.container_;
+    _list = other._list;
   }
 
   template< typename T >
   Stack< T >& Stack< T >::operator=(Stack&& other)
   {
-    _list = std::move(other.container_);
+    _list = std::move(other._list);
   }
 
   template< typename T >
@@ -110,7 +110,7 @@ namespace hohlova
   template< typename T >
   void Stack< T >::swap(Stack& other) noexcept
   {
-    _list.swap(other.container);
+    _list.swap(other._list);
   }
 }
 
