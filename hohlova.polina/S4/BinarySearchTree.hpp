@@ -9,7 +9,7 @@ class BinarySearchTree
 {
 public:
     class Node;
-    class iterator;
+    class Iterator;
 
     BinarySearchTree() : root(nullptr) {}
     ~BinarySearchTree();
@@ -19,14 +19,14 @@ public:
     bool contains(const Key& k);
     Value drop(const Key& k);
 
-    iterator begin()
+    Iterator begin()
     {
-        return iterator(root);
+        return Iterator(root);
     }
 
-    iterator end()
+    Iterator end()
     {
-        return iterator();
+        return Iterator();
     }
 
 private:
@@ -34,96 +34,10 @@ private:
     Compare comp;
 
     void clear(Node* node);
-    Node* insert(Node* node, const Key& k, const Value& v)
-    {
-        if (!node)
-        {
-            return new Node(k, v);
-        }
-
-        if (comp(k, node->key))
-        {
-            node->left = insert(node->left, k, v);
-        }
-        else if (comp(node->key, k))
-        {
-            node->right = insert(node->right, k, v);
-        }
-        else
-        {
-            node->value = v;
-        }
-        return node;
-    }
-
-    Node* find(Node* node, const Key& k)
-    {
-        if (!node)
-        {
-            return nullptr;
-        }
-
-        if (comp(k, node->key))
-        {
-            return find(node->left, k);
-        }
-        else if (comp(node->key, k))
-        {
-            return find(node->right, k);
-        }
-        else
-        {
-            return node;
-        }
-    }
-
-    Node* remove(Node*& node, const Key& k)
-    {
-        if (!node)
-        {
-            return nullptr;
-        }
-
-        if (comp(k, node->key))
-        {
-            node->left = remove(node->left, k);
-        }
-        else if (comp(node->key, k))
-        {
-            node->right = remove(node->right, k);
-        }
-        else
-        {
-            if (!node->left)
-            {
-                Node* temp = node->right;
-                delete node;
-                node = nullptr;
-                return temp;
-            }
-            else if (!node->right)
-            {
-                Node* temp = node->left;
-                delete node;
-                node = nullptr;
-                return temp;
-            }
-
-            Node* minRight = findMin(node->right);
-            node->key = minRight->key;
-            node->value = minRight->value;
-            node->right = remove(node->right, minRight->key);
-        }
-        return node;
-    }
-    Node* findMin(Node* node)
-    {
-        while (node->left)
-        {
-            node = node->left;
-        }
-        return node;
-    }
+    Node* insert(Node* node, const Key& k, const Value& v);
+    Node* find(Node* node, const Key& k);
+    Node* remove(Node*& node, const Key& k);
+    Node* findMin(Node* node);
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -140,15 +54,15 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-class BinarySearchTree< Key, Value, Compare >::iterator
+class BinarySearchTree< Key, Value, Compare >::Iterator
 {
 public:
     friend class BinarySearchTree< Key, Value, Compare >;
-    iterator() {}
-    iterator(Node* node);
+    Iterator() {}
+    Iterator(Node* node);
 
-    bool operator!=(const iterator& other) const;
-    iterator& operator++();
+    bool operator!=(const Iterator& other) const;
+    Iterator& operator++();
     std::pair<const Key&, const Value&> operator*() const;
 private:
     void pushLeftBranch(Node* node);
@@ -156,7 +70,7 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-BinarySearchTree< Key, Value, Compare >::iterator::iterator(Node* node)
+BinarySearchTree< Key, Value, Compare >::Iterator::Iterator(Node* node)
 {
     if (node)
     {
@@ -165,13 +79,13 @@ BinarySearchTree< Key, Value, Compare >::iterator::iterator(Node* node)
 }
 
 template< typename Key, typename Value, typename Compare >
-bool BinarySearchTree< Key, Value, Compare >::iterator::operator!=(const iterator& other) const
+bool BinarySearchTree< Key, Value, Compare >::Iterator::operator!=(const Iterator& other) const
 {
     return !stack.empty() || !other.stack.empty();
 }
 
 template< typename Key, typename Value, typename Compare >
-typename BinarySearchTree< Key, Value, Compare >::iterator& BinarySearchTree< Key, Value, Compare >::iterator::operator++()
+typename BinarySearchTree< Key, Value, Compare >::Iterator& BinarySearchTree< Key, Value, Compare >::Iterator::operator++()
 {
     Node* current = stack.top();
     stack.pop();
@@ -180,7 +94,7 @@ typename BinarySearchTree< Key, Value, Compare >::iterator& BinarySearchTree< Ke
 }
 
 template< typename Key, typename Value, typename Compare >
-std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::iterator::operator*() const
+std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::Iterator::operator*() const
 {
     if (stack.empty())
     {
@@ -190,7 +104,7 @@ std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::i
 }
 
 template< typename Key, typename Value, typename Compare >
-void  BinarySearchTree< Key, Value, Compare >::iterator::pushLeftBranch(Node* node)
+void  BinarySearchTree< Key, Value, Compare >::Iterator::pushLeftBranch(Node* node)
 {
     while (node)
     {
@@ -264,6 +178,102 @@ void BinarySearchTree< Key, Value, Compare >::clear(Node* node)
         clear(node->right);
         delete node;
     }
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::insert(Node* node, const Key& k, const Value& v)
+{
+    if (!node)
+    {
+        return new Node(k, v);
+    }
+
+    if (comp(k, node->key))
+    {
+        node->left = insert(node->left, k, v);
+    }
+    else if (comp(node->key, k))
+    {
+        node->right = insert(node->right, k, v);
+    }
+    else
+    {
+        node->value = v;
+    }
+    return node;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::find(Node* node, const Key& k)
+{
+    if (!node)
+    {
+        return nullptr;
+    }
+
+    if (comp(k, node->key))
+    {
+        return find(node->left, k);
+    }
+    else if (comp(node->key, k))
+    {
+        return find(node->right, k);
+    }
+    else
+    {
+        return node;
+    }
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::remove(Node*& node, const Key& k)
+{
+    if (!node)
+    {
+        return nullptr;
+    }
+
+    if (comp(k, node->key))
+    {
+        node->left = remove(node->left, k);
+    }
+    else if (comp(node->key, k))
+    {
+        node->right = remove(node->right, k);
+    }
+    else
+    {
+        if (!node->left)
+        {
+            Node* temp = node->right;
+            delete node;
+            node = nullptr;
+            return temp;
+        }
+        else if (!node->right)
+        {
+            Node* temp = node->left;
+            delete node;
+            node = nullptr;
+            return temp;
+        }
+
+        Node* minRight = findMin(node->right);
+        node->key = minRight->key;
+        node->value = minRight->value;
+        node->right = remove(node->right, minRight->key);
+    }
+    return node;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::findMin(Node* node)
+{
+    while (node->left)
+    {
+        node = node->left;
+    }
+    return node;
 }
 
 #endif
