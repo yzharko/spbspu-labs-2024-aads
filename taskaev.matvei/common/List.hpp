@@ -66,6 +66,9 @@ public:
   this_t& operator++();
   this_t operator++(int);
 
+  this_t operator--();
+  this_t operator--(int);
+
   const T& operator*() const;
   const T* operator->() const;
 
@@ -101,6 +104,36 @@ typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::op
   ++(*this);
   return result;
 }
+
+template< typename T >
+typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--()
+{
+  assert(node != nullptr);
+  if (node == head_)
+  {
+    node = nullptr;
+  }
+  else
+  {
+    ConstIterator temp = begin();
+    while (temp.node->next != node)
+    {
+      ++temp;
+    }
+    node = temp.node;
+  }
+  return *this;
+}
+
+template< typename T >
+typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--(int)
+{
+  assert(node != nullptr);
+  ConstIterator result(*this);
+  --(*this);
+  return result;
+}
+
 template< typename T >
 const T& taskaev::List< T >::ConstIterator::operator*() const
 {
@@ -141,6 +174,9 @@ public:
   this_t& operator++();
   this_t operator++(int);
 
+  this_t operator--();
+  this_t operator--(int);
+
   T& operator*();
   T* operator->();
 
@@ -168,6 +204,7 @@ typename taskaev::List< T >::Iterator& taskaev::List< T >::Iterator::operator++(
   iter++;
   return *this;
 }
+
 template< typename T >
 typename taskaev::List< T >::Iterator taskaev::List< T >::Iterator::operator++(int)
 {
@@ -175,6 +212,23 @@ typename taskaev::List< T >::Iterator taskaev::List< T >::Iterator::operator++(i
   iter++;
   return *this;
 }
+
+template< typename T >
+typename taskaev::List< T >::Iterator taskaev::List< T >::Iterator::operator--()
+{
+  assert(iter != nullptr);
+  iter--;
+  return *this;
+}
+
+template< typename T >
+typename taskaev::List< T >::Iterator taskaev::List< T >::Iterator::operator--(int)
+{
+  assert(iter != nullptr);
+  iter--;
+  return *this;
+}
+
 template< typename T >
 T& taskaev::List< T >::Iterator::operator*()
 {
