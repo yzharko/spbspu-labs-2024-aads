@@ -31,9 +31,9 @@ int main(int argc, char **argv)
   {
     size = std::stoll(argv[3]);
   }
-  catch
+  catch(...)
   {
-    std::cer << "eror\n";
+    std::cerr << "eror\n";
     return 1;
   }
   if (size == 0)
