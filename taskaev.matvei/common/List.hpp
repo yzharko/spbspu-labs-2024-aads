@@ -110,7 +110,7 @@ template< typename T >
 typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--()
 {
   assert(node != nullptr);
-  Node* curr = head_;
+  Node* curr = node;
   while (curr->next != node)
   {
    curr = curr->next;
