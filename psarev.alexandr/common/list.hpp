@@ -22,6 +22,8 @@ namespace psarev
     List(std::initializer_list< T > ilThat);
     ~List();
 
+    T& operator[](const size_t index);
+
     void popFront();
     void popBack();
     void pushFront(T& data);
@@ -35,10 +37,13 @@ namespace psarev
     void assign(iter beginThat, iter endThat);
     void assign(std::initializer_list< T > ilThat);
 
+    iter insert(iter pos, iter beginThat, iter endThat);
+
     iter insert(iter& pos, T& data);
     iter insert(iter& pos, T&& data);
     iter insert(iter& pos, size_t& amount, T& data);
     iter insert(iter& pos, size_t& amount, T&& data);
+
     iter erase(iter& pos);
     iter erase(iter& first, iter& last);
 
@@ -111,6 +116,7 @@ public:
 
   bool operator==(const this_t&) const;
   bool operator!=(const this_t&) const;
+  bool operator>=(const this_t&) const;
 
 private:
   Unit* unit;
@@ -193,6 +199,19 @@ bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
 }
 
 template< typename T >
+bool psarev::List< T >::ConstIterator::operator>=(const this_t& that) const
+{
+  Unit* cur = unit;
+  while (cur) {
+    if (cur == that.unit) {
+      return true;
+    }
+    cur = cur->next;
+  }
+  return false;
+}
+
+template< typename T >
 class psarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
@@ -218,6 +237,7 @@ public:
 
   bool operator==(const this_t&) const;
   bool operator!=(const this_t&) const;
+  bool operator>=(const this_t&) const;
 
 private:
   ConstIterator iter_;
@@ -241,24 +261,23 @@ psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
 {
-  assert(iter_ != ConstIterator());
-  iter_++;
-  return iter_;
+  ++iter_;
+  return *this;
 };
 
 template < typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
 {
+  this_t result = iter_;
   ++iter_;
-  return iter_;
+  return result;
 }
 
 template < typename T >
 typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
 {
-  assert(iter_ != nullptr);
-  iter_--;
-  return iter_;
+  --iter_;
+  return *this;
 }
 
 template < typename T >
@@ -312,6 +331,29 @@ template< typename T >
 bool psarev::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
+}
+
+template< typename T >
+bool psarev::List< T >::Iterator::operator>=(const this_t& that) const
+{
+  return iter_ >= that.iter_;
+}
+
+template< typename T >
+T& psarev::List< T >::operator[](const size_t index)
+{
+  size_t counter = 0;
+  Unit* current = this->head;
+  while (current != nullptr)
+  {
+    if (counter == index)
+    {
+      return current->data;
+    }
+    current = current->next;
+    counter++;
+  }
+  throw std::out_of_range("Error: Index out of range!");
 }
 
 template< typename T >
@@ -500,6 +542,18 @@ void psarev::List<T>::assign(std::initializer_list<T> ilThat)
   {
     pushBack(data);
   }
+}
+
+template<typename T>
+typename psarev::List< T >::Iterator psarev::List<T>::insert(iter pos, iter beginThat, iter endThat)
+{
+  while (beginThat != endThat)
+  {
+    insert(pos, *beginThat);
+    ++beginThat;
+    ++pos;
+  }
+  return pos;
 }
 
 template<typename T>
@@ -768,7 +822,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::cbegin() const noex
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::cend() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -780,7 +834,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::begin() const noexc
 template< typename T >
 typename psarev::List< T >::ConstIterator psarev::List< T >::end() const noexcept
 {
-  return ConstIterator(tail->next);
+  return nullptr;
 }
 
 template < typename T >
@@ -792,7 +846,7 @@ typename psarev::List< T >::Iterator psarev::List< T >::begin() noexcept
 template< typename T >
 typename psarev::List< T >::Iterator psarev::List< T >::end() noexcept
 {
-  return Iterator(tail->next);
+  return nullptr;
 }
 
 #endif

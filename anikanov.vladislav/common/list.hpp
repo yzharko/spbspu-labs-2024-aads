@@ -33,6 +33,7 @@ namespace anikanov {
     void splice(Iterator position, List< T > &other, Iterator first, Iterator last);
     Iterator insert(Iterator pos, const T &value);
     Iterator erase(Iterator pos);
+    Iterator erase(Iterator begin, Iterator end);
     void assign(size_t count, const T &value);
     void assign(Iterator first, Iterator last);
     void assign(std::initializer_list< T > ilist);
@@ -47,8 +48,14 @@ namespace anikanov {
     ConstIterator begin() const;
     Iterator end() noexcept;
     ConstIterator end() const noexcept;
+    template<typename Compare = std::less<T> >
+    void sort(Compare comp = Compare());
 
   private:
+    template<typename Compare >
+    Iterator merge(Iterator first, Iterator second, Compare comp);
+    template<typename Compare >
+    Iterator mergeSort(Iterator start, Iterator end, Compare comp);
     std::shared_ptr< List::Node > head, tail;
     size_t list_size;
   };
@@ -75,6 +82,12 @@ public:
   using node_t = Node;
   using this_t = Iterator;
 
+  using value_type = T;
+  using difference_type = std::ptrdiff_t;
+  using pointer = T*;
+  using reference = T&;
+  using iterator_category = std::bidirectional_iterator_tag;
+
   Iterator();
   explicit Iterator(std::shared_ptr< node_t > node_ptr) : node(node_ptr)
   {
@@ -88,6 +101,7 @@ public:
   this_t &operator=(const this_t &);
   Iterator operator+(int n) const;
   Iterator operator-(int n) const;
+  std::ptrdiff_t operator-(const this_t &other) const;
   Iterator &operator+=(int n);
   Iterator &operator-=(int n);
   this_t &operator++();
@@ -100,6 +114,9 @@ public:
   const T *operator->() const;
   bool operator!=(const this_t &other) const;
   bool operator==(const this_t &other) const;
+  bool operator<(const this_t &other) const {
+    return node->data < other.node->data;
+  }
 
 private:
   std::shared_ptr< node_t > node;
@@ -141,6 +158,66 @@ private:
   std::shared_ptr< Node > get_node() const;
   iterator_t itr;
 };
+
+template<typename T>
+template<typename Compare >
+typename anikanov::List< T >::Iterator anikanov::List< T >::merge(Iterator first, Iterator second, Compare comp) {
+  List< T > result;
+  Iterator it1 = first;
+  Iterator it2 = second;
+
+  while (it1 != end() && it2 != end()) {
+    if (comp(*it1, *it2)) {
+      result.push_back(*it1);
+      ++it1;
+    } else {
+      result.push_back(*it2);
+      ++it2;
+    }
+  }
+
+  while (it1 != end()) {
+    result.push_back(*it1);
+    ++it1;
+  }
+
+  while (it2 != end()) {
+    result.push_back(*it2);
+    ++it2;
+  }
+
+  return result.begin();
+}
+
+template< typename T >
+template<typename Compare >
+typename anikanov::List< T >::Iterator anikanov::List< T >::mergeSort(Iterator start, Iterator end, Compare comp) {
+  if (start == end || std::next(start) == end) {
+    return start;
+  }
+
+  Iterator middle = start;
+  Iterator temp = start;
+  while (temp != end && std::next(temp) != end) {
+    ++middle;
+    ++temp;
+    ++temp;
+  }
+
+  Iterator left = mergeSort(start, middle, comp);
+  Iterator right = mergeSort(middle, end, comp);
+
+  return merge(left, right, comp);
+}
+
+template< typename T >
+template< typename Compare >
+void anikanov::List<T>::sort(Compare comp) {
+  if (!empty()) {
+    mergeSort(begin(), end(), comp);
+  }
+}
+
 
 template< typename T >
 bool anikanov::List< T >::ConstIterator::operator==(const List< T >::ConstIterator &other) const
@@ -282,6 +359,18 @@ typename anikanov::List< T >::Iterator anikanov::List< T >::Iterator::operator-(
 }
 
 template< typename T >
+typename std::ptrdiff_t anikanov::List< T >::Iterator::operator-(const this_t &other) const
+{
+  std::ptrdiff_t count = 0;
+  auto current = other.node;
+  while (current != node) {
+    current = current->next;
+    ++count;
+  }
+  return count;
+}
+
+template< typename T >
 typename anikanov::List< T >::Iterator &anikanov::List< T >::Iterator::operator+=(int n)
 {
   for (int i = 0; i < n && this->node != nullptr; ++i) {
@@ -372,7 +461,14 @@ bool anikanov::List< T >::Iterator::operator==(const this_t &other) const
 template< typename T >
 anikanov::List< T > &anikanov::List< T >::operator=(const List< T > &other)
 {
-  swap(other);
+  if (this == &other) {
+    return *this;
+  }
+
+  clear();
+  for (auto elem: other) {
+    push_back(elem);
+  }
   return *this;
 }
 
@@ -642,6 +738,33 @@ typename anikanov::List< T >::Iterator anikanov::List< T >::erase(List::Iterator
     posNode->next->prev = posNode->prev;
   }
   return Iterator(posNode->next);
+}
+
+template< typename T >
+typename anikanov::List< T >::Iterator anikanov::List< T >::erase(List::Iterator begin, List::Iterator end)
+{
+  Iterator it = begin;
+
+  while (it != end) {
+    Iterator next = it;
+    ++next;
+    auto current_node = it.get_node();
+    if (current_node->prev != nullptr) {
+      current_node->prev->next = current_node->next;
+    } else {
+      head = current_node->next;
+    }
+
+    if (current_node->next != nullptr) {
+      current_node->next->prev = current_node->prev;
+    } else {
+      tail = current_node->prev;
+    }
+
+    it = next;
+  }
+
+  return end;
 }
 
 template< typename T >

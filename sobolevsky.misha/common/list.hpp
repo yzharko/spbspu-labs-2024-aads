@@ -1,6 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include "node.hpp"
+#include <node.hpp>
 #include <cstddef>
 
 namespace sobolevsky

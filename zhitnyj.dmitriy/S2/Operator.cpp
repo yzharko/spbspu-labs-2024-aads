@@ -1,6 +1,6 @@
 #include "Operator.hpp"
 
-Operator::Operator(char op) : operator_(op)
+zhitnyj::Operator::Operator(char op) : operator_(op)
 {
   if (!isOperator(op))
   {
@@ -8,22 +8,22 @@ Operator::Operator(char op) : operator_(op)
   }
 }
 
-bool Operator::isLeftParenthesis() const
+bool zhitnyj::Operator::isLeftParenthesis() const
 {
   return operator_ == '(';
 }
 
-bool Operator::isRightParenthesis() const
+bool zhitnyj::Operator::isRightParenthesis() const
 {
   return operator_ == ')';
 }
 
-char Operator::getOperator() const
+char zhitnyj::Operator::getOperator() const
 {
   return operator_;
 }
 
-int Operator::precedence() const
+int zhitnyj::Operator::precedence() const
 {
   if (operator_ == '+' || operator_ == '-')
   {
@@ -43,7 +43,7 @@ int Operator::precedence() const
   }
 }
 
-long long Operator::applyOp(long long a, long long b) const
+long long zhitnyj::Operator::applyOp(long long a, long long b) const
 {
   if (operator_ == '+')
   {
@@ -83,17 +83,17 @@ long long Operator::applyOp(long long a, long long b) const
   }
 }
 
-bool Operator::isOperator()
+bool zhitnyj::Operator::isOperator()
 {
   return true;
 }
 
-bool Operator::isOperand()
+bool zhitnyj::Operator::isOperand()
 {
   return false;
 }
 
-bool Operator::isOperator(char c)
+bool zhitnyj::Operator::isOperator(char c)
 {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '(' || c == ')';
 }

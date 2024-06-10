@@ -3,9 +3,10 @@
 
 #include "ExpressionItem.hpp"
 
-class Operand : public ExpressionItem
-{
-public:
+namespace zhitnyj {
+  class Operand : public ExpressionItem
+  {
+  public:
     explicit Operand(long long val);
     ~Operand() = default;
 
@@ -13,8 +14,9 @@ public:
     bool isOperator() override;
     bool isOperand() override;
 
-private:
+  private:
     long long value;
-};
+  };
+}
 
 #endif
