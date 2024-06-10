@@ -47,9 +47,9 @@ void reznikova::qsort(Iterator first, Iterator last, Comparator cmp)
   qsort(std::next(pivotPos), last, cmp);
 }
 
-
 template<typename Iterator, typename Comparator>
-void reznikova::shaker(Iterator first, Iterator last, Comparator cmp) {
+void reznikova::shaker(Iterator first, Iterator last, Comparator cmp)
+{
   if (first == last || std::next(first) == last)
   {
     return;
@@ -60,7 +60,7 @@ void reznikova::shaker(Iterator first, Iterator last, Comparator cmp) {
   {
     ++end;
   }
-  while (true) 
+  while (true)
   {
     bool swapped = false;
     for (Iterator it = begin; it != end; ++it)
