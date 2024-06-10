@@ -20,8 +20,8 @@ int main(int argc, char **argv)
     std::cerr << "Error:   AAA\n";
     return 1;
   }
-  std::string names = argv[2];
-  if (names != "ints" && names != "floats")
+  std::string typ = argv[2];
+  if (typ != "ints" && typ != "floats")
   {
     std::cerr << "Error:   typess errror\n";
     return 1;
