@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "BinarySearchTree.hpp"
 #include <string>
 #include <map>
 #include <unordered_map>
 #include "WorkerBST.hpp"
+#include "BinarySearchTree.hpp"
 
 int main(int argc, char** argv)
 {
