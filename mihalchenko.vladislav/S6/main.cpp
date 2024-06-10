@@ -4,7 +4,7 @@
 #include <AVLtree.hpp>
 #include "IOprocessing.hpp"
 #include "details.hpp"
- 
+
 int main(int argc, char *argv[])
 {
   if (argc != 4)
