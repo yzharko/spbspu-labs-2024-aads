@@ -92,7 +92,7 @@ namespace hohlova
   template< typename T >
   void Stack< T >::push(const T& value)
   {
-    _list.pushFront(value);
+    _list.push_front(value);
   }
 
   template< typename T >
