@@ -77,7 +77,7 @@ public:
     ConstIterator& operator++();
     std::pair<const Key&, const Value&> operator*() const;
 private:
-    Stack< Node* > stack;
+    hohlova::Stack< Node* > stack;
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -128,7 +128,7 @@ public:
     std::pair<const Key&, const Value&> operator*();
 private:
     void pushLeftBranch(Node* node);
-    Stack< Node* > stack;
+    hohlova::Stack< Node* > stack;
 };
 
 template< typename Key, typename Value, typename Compare >
