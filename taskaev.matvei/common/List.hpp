@@ -31,7 +31,6 @@ namespace taskaev
     void remove(const T& value) noexcept;
     template< typename predicate >
     void remove_if(predicate p) noexcept;
-    void getHead();
 
     T& front() const;
 
@@ -110,12 +109,14 @@ template< typename T >
 typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--()
 {
   assert(node != nullptr);
+  Node* prev = nullptr;
   Node* curr = node;
   while (curr->next != node)
   {
+   prev = curr;
    curr = curr->next;
   }
-  node = curr;
+  node = prev ? prev : curr;
   return *this;
 }
 
