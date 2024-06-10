@@ -75,7 +75,7 @@ public:
         {
             return node->value;
         }
-        std::cout << "<INVALID COMMAND>\n";
+        //std::cout << "<INVALID COMMAND>\n";
         return nullptr;
     }
 
