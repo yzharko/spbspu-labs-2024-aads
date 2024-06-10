@@ -31,6 +31,7 @@ namespace taskaev
     void remove(const T& value) noexcept;
     template< typename predicate >
     void remove_if(predicate p) noexcept;
+    void getHead();
 
     T& front() const;
 
@@ -47,7 +48,6 @@ namespace taskaev
       Node* next;
       explicit Node(T value) : data(value), next(nullptr) {}
     };
-  public:
     Node* head_;
   };
 }
@@ -77,7 +77,6 @@ public:
   bool operator!=(const this_t&) const;
   bool operator==(const this_t&) const;
 
-private:
   Node* node;
 };
 
@@ -116,7 +115,7 @@ typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::op
     return *this;
   }
   Node* prev = nullptr;
-  Node* curr = head_;
+  Node* curr = ;
   while (curr != nullptr && curr != node)
   {
    prev = curr;
