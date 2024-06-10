@@ -9,52 +9,8 @@ class BinarySearchTree
 {
 public:
     class Node;
-    class iterator
-    {
-    private:
-        std::stack<Node*> stack;
+    class iterator;
 
-    public:
-        iterator() {}
-
-        iterator(Node* node)
-        {
-            if (node)
-                pushLeftBranch(node);
-        }
-
-        bool operator!=(const iterator& other) const
-        {
-            return !stack.empty() || !other.stack.empty();
-        }
-
-        iterator& operator++()
-        {
-            Node* current = stack.top();
-            stack.pop();
-            pushLeftBranch(current->right);
-            return *this;
-        }
-
-        std::pair<const Key&, const Value&> operator*() const
-        {
-            if (stack.empty())
-            {
-                throw std::runtime_error("Dereferencing end iterator");
-            }
-            return std::make_pair(std::cref(stack.top()->key), std::cref(stack.top()->value));
-        }
-
-    private:
-        void pushLeftBranch(Node* node)
-        {
-            while (node)
-            {
-                stack.push(node);
-                node = node->left;
-            }
-        }
-    };
     BinarySearchTree() : root(nullptr) {}
     ~BinarySearchTree()
     {
@@ -75,7 +31,6 @@ public:
         {
             return node->value;
         }
-        //std::cout << "<INVALID COMMAND>\n";
         return nullptr;
     }
 
@@ -232,4 +187,49 @@ private:
     Node* right;
 };
 
+template< typename Key, typename Value, typename Compare >
+class BinarySearchTree< Key, Value, Compare >::iterator
+{
+public:
+    friend class BinarySearchTree< Key, Value, Compare >;
+    iterator() {}
+
+    iterator(Node* node)
+    {
+        if (node)
+            pushLeftBranch(node);
+    }
+
+    bool operator!=(const iterator& other) const
+    {
+        return !stack.empty() || !other.stack.empty();
+    }
+
+    iterator& operator++()
+    {
+        Node* current = stack.top();
+        stack.pop();
+        pushLeftBranch(current->right);
+        return *this;
+    }
+
+    std::pair<const Key&, const Value&> operator*() const
+    {
+        if (stack.empty())
+        {
+            throw std::runtime_error("Dereferencing end iterator");
+        }
+        return std::make_pair(std::cref(stack.top()->key), std::cref(stack.top()->value));
+    }
+private:
+    void pushLeftBranch(Node* node)
+    {
+        while (node)
+        {
+            stack.push(node);
+            node = node->left;
+        }
+    }
+    std::stack<Node*> stack;
+};
 #endif
