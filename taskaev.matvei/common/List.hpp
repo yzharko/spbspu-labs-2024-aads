@@ -48,7 +48,7 @@ namespace taskaev
       Node* next;
       explicit Node(T value) : data(value), next(nullptr) {}
     };
-    Node* head_;
+   static Node* head_;
   };
 }
 
