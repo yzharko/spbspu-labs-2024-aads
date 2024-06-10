@@ -25,7 +25,7 @@ namespace taskaev
   }
 
   template <typename T >
-  void generateData(size_t size, std::deque< T >& queue, List< T >& list)
+  void generateData(size_t size, std::deque< T >& queue) // List< T >& list)
   {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -35,7 +35,7 @@ namespace taskaev
     {
       auto temp = static_cast<T>(dis(gen));
       queue.push_back(temp);
-      list.pushFront(temp);
+      //list.pushFront(temp);
     }
   }
 
@@ -43,9 +43,9 @@ namespace taskaev
   void workSortings(std::ostream& out, size_t size)
   {
     std::deque < T > queue;
-    List< T > list;
+    //List< T > list;
 
-    generateData(size, queue, list);
+    generateData(size, queue);
 
     std::list< T > shakerSort(queue.begin(), queue.end());
     std::list< T > selectionSort(queue.begin(), queue.end());
@@ -71,8 +71,8 @@ namespace taskaev
     Selection(selectionS.begin(), selectionS.end(), Comparator());
     print(selectionS, out);
 
-    Shaker(list.begin(), list.end(), Comparator());
-    print(list, out);
+    //Shaker(list.begin(), list.end(), Comparator());
+    //print(list, out);
   }
 }
 
