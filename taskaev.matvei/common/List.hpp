@@ -48,7 +48,7 @@ namespace taskaev
       Node* next;
       explicit Node(T value) : data(value), next(nullptr) {}
     };
-   static Node* head_;
+   Node* head_;
   };
 }
 
@@ -76,7 +76,7 @@ public:
 
   bool operator!=(const this_t&) const;
   bool operator==(const this_t&) const;
-
+private:
   Node* node;
 };
 
@@ -110,18 +110,12 @@ template< typename T >
 typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::operator--()
 {
   assert(node != nullptr);
-  if (node == nullptr)
-  {
-    return *this;
-  }
-  Node* prev = nullptr;
   Node* curr = head_;
-  while (curr != nullptr && curr != node)
+  while (curr->next != node)
   {
-   prev = curr;
    curr = curr->next;
   }
-  node = prev;
+  node = curr;
   return *this;
 }
 
