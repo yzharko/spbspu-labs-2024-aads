@@ -16,29 +16,8 @@ public:
     void push(const Key& k, const Value& v);
     bool empty();
     Value get(const Key& k);
-    bool contains(const Key& k)
-    {
-        Node* node = find(root, k);
-        if (node)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    Value drop(const Key& k)
-    {
-        Node* node = remove(root, k);
-        if (node) {
-            if (root == nullptr)
-            {
-                root = node;
-            }
-            Value val = node->value;
-            return val;
-        }
-        throw std::out_of_range("Key not found");
-    }
+    bool contains(const Key& k);
+    Value drop(const Key& k);
 
     iterator begin()
     {
@@ -54,16 +33,7 @@ private:
     Node* root;
     Compare comp;
 
-    void clear(Node* node)
-    {
-        if (node)
-        {
-            clear(node->left);
-            clear(node->right);
-            delete node;
-        }
-    }
-
+    void clear(Node* node);
     Node* insert(Node* node, const Key& k, const Value& v)
     {
         if (!node)
@@ -256,6 +226,44 @@ Value BinarySearchTree< Key, Value, Compare >::get(const Key& k)
         return node->value;
     }
     return nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BinarySearchTree< Key, Value, Compare >::contains(const Key& k)
+{
+    Node* node = find(root, k);
+    if (node)
+    {
+        return true;
+    }
+    return false;
+}
+
+template< typename Key, typename Value, typename Compare >
+Value BinarySearchTree< Key, Value, Compare >::drop(const Key& k)
+{
+    Node* node = remove(root, k);
+    if (node)
+    {
+        if (root == nullptr)
+        {
+            root = node;
+        }
+        Value val = node->value;
+        return val;
+    }
+    throw std::out_of_range("Key not found");
+}
+
+template< typename Key, typename Value, typename Compare >
+void BinarySearchTree< Key, Value, Compare >::clear(Node* node)
+{
+    if (node)
+    {
+        clear(node->left);
+        clear(node->right);
+        delete node;
+    }
 }
 
 #endif
