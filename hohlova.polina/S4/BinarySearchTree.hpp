@@ -128,7 +128,7 @@ public:
     std::pair<const Key&, const Value&> operator*();
 private:
     void pushLeftBranch(Node* node);
-    std::stack<Node*> stack;
+    Stack< Node* > stack;
 };
 
 template< typename Key, typename Value, typename Compare >
