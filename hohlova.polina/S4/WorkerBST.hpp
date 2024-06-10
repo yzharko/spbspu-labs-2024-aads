@@ -6,19 +6,19 @@
 class WorkerBST
 {
   BinarySearchTree<std::string, BinarySearchTree<int, std::string>* > bst;
+
 public:
   WorkerBST(const std::string& path);
   ~WorkerBST();
   void Menu();
 private:
-  void ReadFile(const std::string& path);
-  void Print(const std::string&);
-  void Complement(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
-  void Intersect(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
-  void Union(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
-  void ParseArguments(const std::string& str);
-  int ParseNum(const std::string& num);
-  void ReadDataSet(const std::string& dataSet);
+  void readFile(const std::string& path);
+  void print(const std::string&);
+  void complement(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
+  void intersect(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
+  void unify(std::vector<std::string>::iterator begin, std::vector<std::string>::iterator end);
+  void parseArguments(const std::string& str);
+  int parseNum(const std::string& num);
+  void readDataSet(const std::string& dataSet);
 };
-
 #endif
