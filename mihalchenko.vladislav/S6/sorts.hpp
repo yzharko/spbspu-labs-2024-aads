@@ -18,15 +18,15 @@ void quickSort(Iter begin, Iter end, Compare compare)
 {
   if (std::distance(begin, end) > 1)
   {
-    Iter split = partOfQuickSort(begin, end, comp);
-    quickSort(first, split, comp);
-    if (split == first)
+    Iter split = partOfQuickSort(begin, end, compare);
+    quickSort(begin, split, compare);
+    if (split == begin)
     {
-      quickSort(++first, last, comp);
+      quickSort(++begin, end, compare);
     }
     else
     {
-      quickSort(split, last, comp);
+      quickSort(split, end, compare);
     }
   }
 }
@@ -39,7 +39,7 @@ Iter partOfQuickSort(Iter begin, Iter end, Compare compare)
   {
     if (compare(*begin, *end))
     {
-      --last;
+      --end;
     }
     else
     {
@@ -64,18 +64,18 @@ void merge(Iter begin, Iter center, Iter end, Compare compare)
 {
   std::list<typename Iter::typeOfValue> vector;
   Iter first = begin;
-  Iter second = mid;
+  Iter second = center;
 
   while (first != center && second != end)
   {
     if (compare(*first, *second))
     {
-      tempVec.push_back(*first);
-      left++;
+      vector.push_back(*first);
+      first++;
     }
     else
     {
-      tempVec.push_back(*second);
+      vector.push_back(*second);
       second++;
     }
   }
@@ -96,7 +96,7 @@ void mergeSort(Iter begin, Iter end, Compare compare)
   Iter center = begin;
   for (int i = 0; i < (size / 2); i++)
   {
-    mid++;
+    center++;
   }
   mergeSort(begin, center, compare);
   mergeSort(center, end, compare);

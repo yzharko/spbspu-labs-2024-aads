@@ -29,6 +29,8 @@ namespace mihalchenko
     AVLTree(AVLTree &&move);
     ~AVLTree();
 
+    AVLTree &operator=(AVLTree other);
+
     void insert(const Key &key, const Value &value);
     void insert(const pair_t &pairKeyVal);
     bool empty() const noexcept;
@@ -363,6 +365,15 @@ mihalchenko::AVLTree< Key, Value, Compare >::~AVLTree()
 {
   clear();
   root_ = nullptr;
+}
+
+template< typename Key, typename Value, typename Compare >
+typename mihalchenko::AVLTree< Key, Value, Compare >::AVLTree
+  &mihalchenko::AVLTree< Key, Value, Compare >::operator=(AVLTree other)
+{
+  clear();
+  swap(other);
+  return *this;
 }
 
 template < typename Key, typename Value, typename Compare >
