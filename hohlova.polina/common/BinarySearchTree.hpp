@@ -1,7 +1,7 @@
 #ifndef BINARYSEARCHTREE_HPP
 #define BINARYSEARCHTREE_HPP
 #include <iostream>
-#include <stack>
+#include "stack.hpp"
 #include <functional>
 
 template < typename Key, typename Value, typename Compare = std::less< Key > >
@@ -61,7 +61,7 @@ public:
     ConstIterator& operator++();
     std::pair<const Key&, const Value&> operator*() const;
 private:
-    std::stack<Node*> stack;
+    hohlova::Stack<Node*> stack;
 };
 
 template< typename Key, typename Value, typename Compare >
@@ -112,7 +112,7 @@ public:
     std::pair<const Key&, const Value&> operator*();
 private:
     void pushLeftBranch(Node* node);
-    std::stack<Node*> stack;
+    hohlova::Stack<Node*> stack;
 };
 
 template< typename Key, typename Value, typename Compare >
