@@ -117,7 +117,7 @@ typename taskaev::List< T >::ConstIterator taskaev::List< T >::ConstIterator::op
   Node* curr = head_;
   while (curr != nullptr && curr != node)
   {
-   prev = curr
+   prev = curr;
    curr = curr->next;
   }
   node = prev;
