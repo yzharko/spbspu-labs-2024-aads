@@ -15,16 +15,7 @@ public:
     ~BinarySearchTree();
     void push(const Key& k, const Value& v);
     bool empty();
-    Value get(const Key& k)
-    {
-        Node* node = find(root, k);
-        if (node)
-        {
-            return node->value;
-        }
-        return nullptr;
-    }
-
+    Value get(const Key& k);
     bool contains(const Key& k)
     {
         Node* node = find(root, k);
@@ -254,6 +245,17 @@ template< typename Key, typename Value, typename Compare >
 bool BinarySearchTree< Key, Value, Compare >::empty()
 {
     return root == nullptr ? true : false;
+}
+
+template< typename Key, typename Value, typename Compare >
+Value BinarySearchTree< Key, Value, Compare >::get(const Key& k)
+{
+    Node* node = find(root, k);
+    if (node)
+    {
+        return node->value;
+    }
+    return nullptr;
 }
 
 #endif
