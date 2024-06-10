@@ -193,17 +193,9 @@ class BinarySearchTree< Key, Value, Compare >::iterator
 public:
     friend class BinarySearchTree< Key, Value, Compare >;
     iterator() {}
+    iterator(Node* node);
 
-    iterator(Node* node)
-    {
-        if (node)
-            pushLeftBranch(node);
-    }
-
-    bool operator!=(const iterator& other) const
-    {
-        return !stack.empty() || !other.stack.empty();
-    }
+    bool operator!=(const iterator& other) const;
 
     iterator& operator++()
     {
@@ -232,4 +224,19 @@ private:
     }
     std::stack<Node*> stack;
 };
+
+template< typename Key, typename Value, typename Compare >
+BinarySearchTree< Key, Value, Compare >::iterator::iterator(Node* node)
+{
+    if (node)
+    {
+        pushLeftBranch(node);
+    }
+}
+
+template< typename Key, typename Value, typename Compare >
+bool BinarySearchTree< Key, Value, Compare >::iterator::operator!=(const iterator& other) const
+{
+    return !stack.empty() || !other.stack.empty();
+}
 #endif
