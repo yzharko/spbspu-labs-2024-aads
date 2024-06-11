@@ -46,15 +46,12 @@ void mihalchenko::printContainer(std::ostream &out, const T &container)
   for (auto iter = container.cbegin(); iter != container.cend(); iter++)
   {
     out << std::fixed << std::setprecision(1) << *iter;
-    if (++iter == container.cend())
-    {
-      out << "\n";
-    }
-    else
+    if (++iter != container.cend())
     {
       out << " ";
     }
   }
+  out << "\n";
 }
 
 template <typename T, typename Compare>
@@ -79,7 +76,6 @@ void mihalchenko::testSorts(std::ostream &out, size_t size, Compare compare)
   printContainer(out, deque);
   quickSort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
-  // std::sort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
 }
 

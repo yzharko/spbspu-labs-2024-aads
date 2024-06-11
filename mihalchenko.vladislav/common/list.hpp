@@ -74,8 +74,9 @@ namespace mihalchenko
     public:
       T data_;
       Node *pNext_;
-      Node(T value) : data_(value), pNext_(nullptr) {}
-      Node(T value, Node *pointer) : data_(value), pNext_(pointer) {}
+      // Node(T value) : data_(value), pNext_(nullptr) {}
+      // Node(T value, Node *pointer) : data_(value), pNext_(pointer) {}
+      Node(T value = T(), Node * pNext = nullptr) : data_(value), pNext_(pNext) {}
     };
     Node *begin_;
     size_t size_ = 0;
@@ -88,7 +89,7 @@ class mihalchenko::List< T >::ConstIterator : public std::iterator< std::forward
 public:
   friend class List< T >;
   ConstIterator();
-  ConstIterator(Node *ind);
+  // ConstIterator(Node *ind);
   ConstIterator(const ConstIterator &) = default;
   ~ConstIterator() = default;
 
@@ -103,6 +104,7 @@ public:
 
 private:
   Node *node_;
+  ConstIterator(Node * node);
 };
 
 template < typename T >
@@ -622,7 +624,7 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
   }
   while (iterator != last)
   {
-    if (++iterator != last && (++iterator).node_->pNext_ == last)
+    if (++iterator != last)
     {
       temp.push_back(*(++iterator));
       erase_after(iterator);
@@ -640,7 +642,7 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
       iterator++;
     }
   }
-  assign(temp.begin(), temp.end());
+  assign(temp.cbegin(), temp.cend());
 }
 
 template < typename T >
