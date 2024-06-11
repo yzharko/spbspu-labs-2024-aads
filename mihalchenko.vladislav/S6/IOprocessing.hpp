@@ -20,7 +20,7 @@ namespace mihalchenko
   void testSorts(std::ostream &out, size_t size, Compare compare);
 }
 
-void fillRandContainer(size_t size, mihalchenko::List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque)
+void mihalchenko::fillRandContainer(size_t size, mihalchenko::List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque)
 {
   for (size_t i = 0; i < size; ++i)
   {
@@ -30,7 +30,7 @@ void fillRandContainer(size_t size, mihalchenko::List<int> forward_list, std::li
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(deque));
 }
 
-void fillRandContainer(size_t size, mihalchenko::List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque)
+void mihalchenko::fillRandContainer(size_t size, mihalchenko::List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque)
 {
   for (size_t i = 0; i < size; ++i)
   {

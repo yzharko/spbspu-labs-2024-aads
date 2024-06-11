@@ -569,13 +569,13 @@ typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::insert_after(I
 template < typename T >
 typename mihalchenko::List< T >::Iterator mihalchenko::List< T >::erase_after(Iterator position)
 {
-  if (position.constIter_.node_ != end())
+  if (position.constIter_.node_->pNext_)
   {
-    Node *delElem = position.constIter_.node_->pNext_;
-    Node *pointer = delElem->pNext_;
+    Node * delElem = position.constIter_.node_->pNext_;
+    position.constIter_.node_->pNext_ = position.constIter_.node_->pNext_->pNext_;
     delete delElem;
     size_--;
-    return pointer;
+    return Iterator(position.constIter_.node_->pNext_);
   }
   return end();
 }
@@ -624,7 +624,7 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
   }
   while (iterator != last)
   {
-    if (++iterator != last)
+    if (++iterator != last && Iterator((++iterator).node_->pNext_) == nullptr)
     {
       temp.push_back(*(++iterator));
       erase_after(iterator);
@@ -659,7 +659,7 @@ void mihalchenko::List< T >::eraseAfter(Iterator iterator)
 template < typename T >
 void mihalchenko::List< T >::remove(const T &iterValue)
 {
-  for (Node iterator = begin(); iterator != end(); ++iterator)
+  for (auto iterator = begin(); iterator != end(); ++iterator)
   {
     if (iterator->pNext_ == iterValue && iterator->pNext_ != this->end_)
     {
@@ -677,7 +677,7 @@ template < typename T >
 template < typename F >
 void mihalchenko::List< T >::remove_if(F functor)
 {
-  for (Node iterator = begin(); iterator != end(); ++iterator)
+  for (auto iterator = begin(); iterator != end(); ++iterator)
   {
     if (functor(*(iterator)))
     {
