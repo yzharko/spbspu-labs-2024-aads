@@ -60,7 +60,7 @@ namespace zasulsky
         clear();
         insert_after(rhs.cbegin(), rhs.cend(), cbeforeBegin());
       }
-      catch (std::bad_alloc&)
+      catch (const std::bad_alloc&)
       {
         clear();
         throw;
