@@ -90,8 +90,9 @@ public:
   ConstIterator();
   ConstIterator(Node *ind);
   ConstIterator(const ConstIterator &) = default;
-
   ~ConstIterator() = default;
+
+  ConstIterator & operator=(const ConstIterator &) = default;
 
   ConstIterator &operator++();
   ConstIterator operator++(int);
@@ -113,6 +114,8 @@ public:
   Iterator(ConstIterator value);
   Iterator(const Iterator &) = default;
   ~Iterator() = default;
+
+  Iterator & operator=(const Iterator &) = default;
 
   Iterator &operator++();
   Iterator operator++(int);
@@ -613,26 +616,31 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
 {
   List< T > temp;
   ConstIterator iterator = first;
+  if (last != cend())
+  {
+    last = std::next(last);
+  }
   while (iterator != last)
   {
     if (++iterator != last && (++iterator).node_->pNext_ == last)
     {
       temp.push_back(*(++iterator));
       erase_after(iterator);
-      if(++iterator != last)
+      if(first != std::prev(last))
       {
         iterator = first;
       }
     }
-    if (++iterator == last)
+    if (first == std::prev(last))
     {
       temp.push_back(*first);
     }
-    if (++iterator != last && (++iterator).node_->pNext_ != last)
+    if (std::next(first) != std::prev(last))
     {
       iterator++;
     }
   }
+  last = std::prev(last);
   assign(temp.first, temp.last);
 }
 
