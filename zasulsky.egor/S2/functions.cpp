@@ -128,7 +128,7 @@ long long zasulsky::solvePostfixExpr(Queue <std::string>& postfix)
         auto np = stoll(p);
         st.push(np);
       }
-      catch (std::out_of_range& e)
+      catch (const std::out_of_range& e)
       {
         throw std::runtime_error("overflow or underflow detected!");
       }
