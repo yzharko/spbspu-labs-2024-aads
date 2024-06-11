@@ -624,7 +624,7 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
   }
   while (iterator != last)
   {
-    if (++iterator != last && Iterator((++iterator).node_->pNext_) == nullptr)
+    if (++iterator != last && Iterator((++iterator).node_->pNext_) == last)
     {
       temp.push_back(*(++iterator));
       erase_after(iterator);
