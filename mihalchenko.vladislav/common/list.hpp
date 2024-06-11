@@ -46,7 +46,7 @@ namespace mihalchenko
     T getT();
 
     void assign(size_t count, const T &value);
-    void assign(Iterator first, Iterator last);
+    void assign(ConstIterator first, ConstIterator last);
     void assign(std::initializer_list< T > ilist);
 
     Iterator insert_after(Iterator position, const T &value);
@@ -55,7 +55,7 @@ namespace mihalchenko
     Iterator erase_after(Iterator first, Iterator last);
 
     void splice(Iterator pos, List< T > &other);
-    void reverse(Iterator first, Iterator last);
+    void reverse(ConstIterator first, ConstIterator last);
 
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
@@ -508,7 +508,7 @@ void mihalchenko::List< T >::assign(size_t count, const T &value)
 }
 
 template < typename T >
-void mihalchenko::List< T >::assign(Iterator first, Iterator last)
+void mihalchenko::List< T >::assign(ConstIterator first, ConstIterator last)
 {
   clear();
   while (first != last)
@@ -609,26 +609,26 @@ void mihalchenko::List< T >::splice(Iterator position, List &other)
 }
 
 template < typename T >
-void mihalchenko::List< T >::reverse(Iterator first, Iterator last)
+void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
 {
   List< T > temp;
-  Iterator iterator = first;
+  ConstIterator iterator = first;
   while (iterator != last)
   {
-    if (front(iterator) != last && front(iterator).node_.pNext_ == last)
+    if (++iterator != last && (++iterator).node_->pNext_ == last)
     {
-      temp.push_back(*front(iterator));
+      temp.push_back(*(++iterator));
       erase_after(iterator);
-      if(front(iterator) != last)
+      if(++iterator != last)
       {
         iterator = first;
       }
     }
-    if (front(iterator) == last)
+    if (++iterator == last)
     {
       temp.push_back(*first);
     }
-    if (front(iterator) != last && front(iterator).node_.pNext_ != last)
+    if (++iterator != last && (++iterator).node_->pNext_ != last)
     {
       iterator++;
     }

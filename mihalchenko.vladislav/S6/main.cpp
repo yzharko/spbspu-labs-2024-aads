@@ -1,12 +1,15 @@
 // #include <map>
 #include <functional>
 #include <string>
+#include <cstdlib>
+#include <time.h>
 #include <AVLtree.hpp>
 #include "IOprocessing.hpp"
 #include "details.hpp"
 
 int main(int argc, char *argv[])
 {
+  srand(time(0));
   if (argc != 4)
   {
     mihalchenko::printWrongInput(std::cout);

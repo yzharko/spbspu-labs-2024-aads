@@ -11,8 +11,8 @@
 
 namespace mihalchenko
 {
-  void fillContainerWithRandomNumbers(size_t size, List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque);
-  void fillContainerWithRandomNumbers(size_t size, List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque);
+  void fillRandContainer(size_t size, List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque);
+  void fillRandContainer(size_t size, List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque);
   template <typename T>
   void printContainer(std::ostream &, const T &container);
 
@@ -20,9 +20,9 @@ namespace mihalchenko
   void testSorts(std::ostream &out, size_t size, Compare compare);
 }
 
-void fillRandIntsContainer(size_t size, mihalchenko::List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque)
+void fillRandContainer(size_t size, mihalchenko::List<int> forward_list, std::list<int> &bidirect_list, std::deque<int> &deque)
 {
-  for (size_t i = 0; i < size; i++)
+  for (size_t i = 0; i < size; ++i)
   {
     forward_list.push_back(rand() % 100);
   }
@@ -30,11 +30,11 @@ void fillRandIntsContainer(size_t size, mihalchenko::List<int> forward_list, std
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(deque));
 }
 
-void fillRandDoublesContainer(size_t size, mihalchenko::List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque)
+void fillRandContainer(size_t size, mihalchenko::List<double> forward_list, std::list<double> &bidirect_list, std::deque<double> &deque)
 {
-  for (size_t i = 0; i < size; i++)
+  for (size_t i = 0; i < size; ++i)
   {
-    forward_list.push_back(double(rand() % 1000) / double(rand() % 100));
+    forward_list.push_back(static_cast<double>(rand() % 1000) / (rand() % 10));
   }
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(bidirect_list));
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(deque));
@@ -43,10 +43,10 @@ void fillRandDoublesContainer(size_t size, mihalchenko::List<double> forward_lis
 template <typename T>
 void mihalchenko::printContainer(std::ostream &out, const T &container)
 {
-  for (auto iter = container.begin(); iter != container.end(); iter++)
+  for (auto iter = container.cbegin(); iter != container.cend(); iter++)
   {
     out << std::fixed << std::setprecision(1) << *iter;
-    if (++iter == container.end())
+    if (++iter == container.cend())
     {
       out << "\n";
     }
@@ -64,7 +64,7 @@ void mihalchenko::testSorts(std::ostream &out, size_t size, Compare compare)
   std::list<T> bidirect_list;
   std::deque<T> deque;
 
-  fillRandDoublesContainer(size, forward_list, bidirect_list, deque);
+  fillRandContainer(size, forward_list, bidirect_list, deque);
 
   printContainer(out, forward_list);
   quickSort(forward_list.begin(), forward_list.end(), compare);
