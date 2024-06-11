@@ -640,8 +640,7 @@ void mihalchenko::List< T >::reverse(ConstIterator first, ConstIterator last)
       iterator++;
     }
   }
-  last = std::prev(last);
-  assign(temp.first, temp.last);
+  assign(temp.begin(), temp.end());
 }
 
 template < typename T >

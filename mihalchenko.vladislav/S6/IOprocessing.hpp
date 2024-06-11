@@ -67,19 +67,19 @@ void mihalchenko::testSorts(std::ostream &out, size_t size, Compare compare)
   fillRandContainer(size, forward_list, bidirect_list, deque);
 
   printContainer(out, forward_list);
-  quickSort(forward_list.begin(), forward_list.end(), compare);
+  mergeSort(forward_list.begin(), forward_list.end(), compare);
   printContainer(out, forward_list);
 
-  quickSort(bidirect_list.begin(), bidirect_list.end(), compare);
-  printContainer(out, bidirect_list);
   mergeSort(bidirect_list.begin(), bidirect_list.end(), compare);
   printContainer(out, bidirect_list);
+  quickSort(bidirect_list.begin(), bidirect_list.end(), compare);
+  printContainer(out, bidirect_list);
 
-  quickSort(deque.begin(), deque.end(), compare);
-  printContainer(out, deque);
   mergeSort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
-  std::sort(deque.begin(), deque.end(), compare);
+  quickSort(deque.begin(), deque.end(), compare);
+  printContainer(out, deque);
+  // std::sort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
 }
 
