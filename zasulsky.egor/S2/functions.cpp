@@ -39,10 +39,10 @@ bool zasulsky::isOperand(std::string st)
   return true;
 }
 
-zasulsky::Queue < std::string > zasulsky::convertToPostfix(zasulsky::Queue < std::string >& infix)
+zasulsky::Queue< std::string > zasulsky::convertToPostfix(zasulsky::Queue< std::string >& infix)
 {
-  zasulsky::Queue <std::string> postfix;
-  zasulsky::Stack <std::string> st;
+  zasulsky::Queue< std::string > postfix;
+  zasulsky::Stack< std::string > st;
 
   while (!infix.isEmpty())
   {
@@ -115,9 +115,9 @@ zasulsky::Queue < std::string > zasulsky::convertToPostfix(zasulsky::Queue < std
   return postfix;
 }
 
-long long zasulsky::solvePostfixExpr(Queue <std::string>& postfix)
+long long zasulsky::solvePostfixExpr(Queue< std::string >& postfix)
 {
-  Stack <long long> st;
+  Stack < long long > st;
   while (!postfix.isEmpty())
   {
     std::string p = postfix.peek();
@@ -227,7 +227,7 @@ long long zasulsky::solvePostfixExpr(Queue <std::string>& postfix)
   }
 }
 
-void zasulsky::outputResults(Stack<long long>& results)
+void zasulsky::outputResults(Stack< long long >& results)
 {
   while (!results.isEmpty())
   {

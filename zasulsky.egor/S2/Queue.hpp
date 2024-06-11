@@ -23,7 +23,7 @@ namespace zasulsky
       }
       else
       {
-        detail::Node < T >* temp = fL.head();
+        detail::Node< T >* temp = fL.head();
         while (temp->next != nullptr)
         {
           temp = temp->next;

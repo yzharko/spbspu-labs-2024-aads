@@ -10,7 +10,7 @@ namespace zasulsky
 
   bool isOperand(std::string  st);
 
-  Queue <std::string> convertToPostfix(Queue< std::string >& infix);
+  Queue< std::string > convertToPostfix(Queue< std::string >& infix);
 
   long long solvePostfixExpr(Queue< std::string >& q);
 

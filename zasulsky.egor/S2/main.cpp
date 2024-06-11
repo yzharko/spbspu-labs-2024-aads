@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
       {
         expr.enqueue(i);
       }
-      zasulsky::Queue <std::string > postfix = convertToPostfix(expr);
+      zasulsky::Queue< std::string > postfix = convertToPostfix(expr);
       long long answer = solvePostfixExpr(postfix);
       results.push(answer);
     }
