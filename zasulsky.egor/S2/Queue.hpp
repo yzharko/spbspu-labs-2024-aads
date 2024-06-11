@@ -12,24 +12,24 @@ namespace zasulsky
 
     bool isEmpty() noexcept
     {
-      return fL.empty();
+      return forwardList.empty();
     }
 
     void enqueue(T& data)
     {
       if (this->isEmpty())
       {
-        fL.insert_after(fL.cbeforeBegin(), data);
+        forwardList.insert_after(forwardList.cbeforeBegin(), data);
       }
       else
       {
-        detail::Node< T >* temp = fL.head();
+        detail::Node< T >* temp = forwardList.head();
         while (temp->next != nullptr)
         {
           temp = temp->next;
         }
         constIterator< T > it(temp);
-        fL.insert_after(it, data);
+        forwardList.insert_after(it, data);
       }
     }
 
@@ -39,7 +39,7 @@ namespace zasulsky
       {
         throw std::logic_error("no elements!");
       }
-      return fL.head()->data;
+      return forwardList.head()->data;
     }
 
     void dequeue()
@@ -50,13 +50,13 @@ namespace zasulsky
       }
       else
       {
-        fL.erase_after(fL.cbeforeBegin());
+        forwardList.erase_after(forwardList.cbeforeBegin());
       }
     }
 
   private:
 
-    ForwardList< T > fL;
+    ForwardList< T > forwardList;
 
   };
 }
