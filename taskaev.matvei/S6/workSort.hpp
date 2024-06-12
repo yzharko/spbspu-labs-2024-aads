@@ -41,7 +41,7 @@ namespace taskaev
       }
       else if (types == "floats")
       {
-        std::uniform_int_distribution< float > dis(0.0f, 99.9f);
+        std::uniform_real_distribution< float > dis(0.0f, 99.9f);
         float val = dis(gen);
         myList.pushBack(val);
         list.push_front(val);
