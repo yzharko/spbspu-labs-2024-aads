@@ -2,9 +2,9 @@
 #define WORKSORT_HPP
 #include <iostream>
 #include <deque>
-#include <list>
-#include <deque>
+#include <forward_list>
 #include <iomanip>
+#include <std::string>
 #include <random>
 #include "sortFunctions.hpp"
 #include <List.hpp>
@@ -54,7 +54,7 @@ namespace taskaev
   void workSortings(std::ostream& out, std::string types, size_t size, Comparator comp)
   {
     List< T > myList;
-    std::forward_list< T > lits;
+    std::forward_list< T > list;
     std::deque< T > queue;
     generateData(size, types, myList, list, queue);
   }
