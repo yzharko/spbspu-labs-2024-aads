@@ -57,6 +57,8 @@ namespace taskaev
     std::forward_list< T > list;
     std::deque< T > queue;
     generateData(size, types, myList, list, queue);
+    (void)out;
+    (void)comp;
   }
 }
 
