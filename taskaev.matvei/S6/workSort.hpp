@@ -4,7 +4,7 @@
 #include <deque>
 #include <forward_list>
 #include <iomanip>
-#include <std::string>
+#include <string>
 #include <random>
 #include "sortFunctions.hpp"
 #include <List.hpp>
