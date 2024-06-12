@@ -36,7 +36,7 @@ namespace taskaev
         std::uniform_int_distribution< int > dis(-10000, 10000);
         int val = dis(gen);
         myList.pushBack(val);
-        list.push_back(val);
+        list.push_front(val);
         queue.push_back(val);
       }
       else if (types == "floats")
@@ -44,7 +44,7 @@ namespace taskaev
         std::uniform_int_distribution< float > dis(0.0f, 99.9f);
         float val = dis(gen);
         myList.pushBack(val);
-        list.push_back(val);
+        list.push_front(val);
         queue.push_back(val);
       }
     }
