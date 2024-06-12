@@ -20,8 +20,8 @@ int main(int argc, char **argv)
     std::cerr << "Error:   AAA\n";
     return 1;
   }
-  std::string typ = argv[2];
-  if (typ != "ints" && typ != "floats")
+  std::string types = argv[2];
+  if (types != "ints" && types != "floats")
   {
     std::cerr << "Error:   typess errror\n";
     return 1;
@@ -41,19 +41,20 @@ int main(int argc, char **argv)
     std::cerr << "Error: size zero!\n";
     return 1;
   }
-  //std::map < std::pair < std::string, std::string >, std::function< void(std::ostream&, size_t) > > cmds;
-  //cmds[std::make_pair("ascending", "ints")] = taskaev::workSortings< int, std::less< int > >;
-  //cmds[std::make_pair("ascending", "floats")] = taskaev::workSortings< float, std::less< float > >;
-  //cmds[std::make_pair("descending", "ints")] = taskaev::workSortings< int, std::greater< int > >;
- // cmds[std::make_pair("descending", "floats")] = taskaev::workSortings< float, std::greater< float > >;
- // try
- // {
-   // cmds.at(std::make_pair(std::string(argv[1]), std::string(argv[2])))(std::cout, size);
- // }
- // catch (const std::exception& e)
- // {
-   // std::cerr << e.what();
-   // return 1;
- // }
- // return 0;
+  std::map< std::string, std::map< std::string, std::function< void(std::ostream&, std::string, size_t) > > > cmds{};
+  using namespace std::placeholders;
+  cmds["ascending"]["ints"] = std::bind(workSortings< int, std::less< int > >, _1, _2 _3, std::less< int >{});
+  cmds["ascending"]["floats"] = std::bind(workSortings< float, std::less< float > >, _1, _2 _3, std::less< float >{});
+  cmds["descending"]["ints"] = std::bind(workSortings< int, std::less< int > >, _1, _2 _3, std::less< int >{});
+  cmds["desscending"]["floats"] = std::bind(workSortings< float, std::greater< float > >, _1, _2 _3, std::greater< float >{});
+  try
+  {
+    cmds.at(names).at(types)(std::cout, type, size);
+  }
+  catch(const std::exception&)
+  {
+    std::cerr << "ERROR: SOSSS!\n";
+    return 1;
+  }
+  return 0;
 }

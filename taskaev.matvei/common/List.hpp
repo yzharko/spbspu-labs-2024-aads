@@ -2,6 +2,7 @@
 #define LIST_HPP
 #include <cstddef>
 #include <memory>
+#include <iterator>
 #include <cassert>
 
 namespace taskaev
