@@ -6,7 +6,6 @@
 #include <list>
 #include <list.hpp>
 #include <algorithm>
-// #include <random>
 #include "sorts.hpp"
 
 namespace mihalchenko
@@ -47,13 +46,15 @@ void mihalchenko::fillRandContainer(size_t size, List<double> &forward_list,
 template <typename T>
 void mihalchenko::printContainer(std::ostream &out, const T &container)
 {
-  auto begin = container.cbegin();
-  auto end = container.cend();
-  while (begin != end)
+  for (auto iter = container.cbegin(); iter != container.cend(); iter++)
   {
-    out << *begin;
-    out << (++begin == end ? '\n' : ' ');
+    out << std::fixed << std::setprecision(1) << *iter;
+    if (std::next(iter) != container.cend())
+    {
+      out << " ";
+    }
   }
+  out << "\n";
 }
 
 template <typename T, typename Compare>

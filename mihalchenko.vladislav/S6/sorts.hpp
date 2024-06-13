@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <list.hpp>
 #include <iterator>
+#include <forward_list>
 
 namespace mihalchenko
 {
@@ -23,7 +24,7 @@ namespace mihalchenko
 template <typename Iter, typename Compare>
 void mihalchenko::quickSort(Iter begin, Iter end, Compare compare)
 {
-  if (begin == end || std::next(begin) == end)
+  if (std::distance(begin, end) <= 1)
   {
     return;
   }
@@ -52,9 +53,28 @@ Iter mihalchenko::partOfQuickSort(Iter begin, Iter end, Compare compare)
 }
 
 template <typename Iter, typename Compare>
+void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
+{
+  long long size = std::distance(begin, end);
+  if (size < 2)
+  {
+    return;
+  }
+  Iter center = begin;
+  for (long long i = 0; i < (size / 2); i++)
+  {
+    center++;
+  }
+  mergeSort(begin, center, compare);
+  mergeSort(center, end, compare);
+  merge(begin, center, end, compare);
+}
+
+template <typename Iter, typename Compare>
 void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
 {
-  mihalchenko::List<typename std::iterator_traits< Iter >::value_type> vector;
+  // mihalchenko::List<typename std::iterator_traits< Iter >::value_type> vector;
+  std::forward_list<typename Iter::value_type> vector;
   Iter first = begin;
   Iter second = center;
   while (first != center && second != end)
@@ -87,24 +107,6 @@ void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
     *it = std::move(*temp_iter);
     temp_iter = std::next(temp_iter);
   }
-}
-
-template <typename Iter, typename Compare>
-void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
-{
-  long long size = std::distance(begin, end);
-  if (size < 2)
-  {
-    return;
-  }
-  Iter center = begin;
-  for (long long i = 0; i < (size / 2); i++)
-  {
-    center++;
-  }
-  mergeSort(begin, center, compare);
-  mergeSort(center, end, compare);
-  merge(begin, center, end, compare);
 }
 
 #endif

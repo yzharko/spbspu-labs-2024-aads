@@ -68,6 +68,9 @@ namespace mihalchenko
     template < typename F >
     void remove_if(F functor);
 
+    void advance(Iterator& pos, size_t count);
+    void advance(Iterator& first, Iterator last);
+
   private:
     class Node
     {
@@ -393,11 +396,9 @@ void mihalchenko::List< T >::push_back(const T &data)
 template < typename T >
 void mihalchenko::List< T >::pop_front()
 {
-  if (begin_ == nullptr)
+  if (empty())
   {
-    std::cerr << "StackEmptyException!\n";
-    size_ = 0;
-    return;
+    throw std::logic_error("Empty list!");
   }
   Node *temp = begin_;
   begin_ = begin_->pNext_;
@@ -616,7 +617,7 @@ void mihalchenko::List< T >::splice(Iterator position, List &other)
 template < typename T >
 void mihalchenko::List< T >::reverse()
 {
-  if (!empty() && begin_->pNext_->pNext_ != nullptr)
+  if (empty() && begin_->pNext_->pNext_ == nullptr)
   {
     Node * prevNode = begin_->pNext_;
     Node * tempNode = begin_->pNext_->pNext_;
@@ -681,6 +682,34 @@ void mihalchenko::List< T >::remove_if(F functor)
       remove(*iterator);
       iterator = begin_;
     }
+  }
+}
+
+template< typename T >
+void mihalchenko::List< T >::advance(Iterator& pos, size_t count)
+{
+  for (size_t i = 0; i < count; i++)
+  {
+    if (pos == end())
+    {
+      pos = end();
+      break;
+    }
+    pos++;
+  }
+}
+
+template< typename T >
+void mihalchenko::List<T>::advance(Iterator& first, Iterator last)
+{
+  for (Iterator iter = first; iter != last; ++iter)
+  {
+    if (iter == end())
+    {
+      first = end();
+      break;
+    }
+    first++;
   }
 }
 
