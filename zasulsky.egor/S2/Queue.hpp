@@ -2,6 +2,7 @@
 #define QUEUE_HPP
 
 #include <ForwardList.hpp>
+#include <Node.hpp>
 
 namespace zasulsky
 {
@@ -9,6 +10,40 @@ namespace zasulsky
   class Queue
   {
   public:
+    
+    Queue() :
+      forwardList(ForwardList< T >())
+    {}
+
+    Queue(const Queue& other) : 
+      forwardList(other.forwardList) 
+    {}
+
+    Queue(Queue&& other) :
+      forwardList(std::move(other.forwardList))
+    {}
+
+    ~Queue() = default;
+
+    Queue& operator=(const Queue& rhs) 
+    {
+      if (this == std::addressof(rhs)) 
+      {
+        return *this;
+      }
+      forwardList = rhs.forwardList;
+      return *this;
+    }
+
+    Queue& operator=(Queue&& rhs) 
+    {
+      if (this == std::addressof(rhs)) 
+      {
+        return *this;
+      }
+      forwardList = std::move(rhs.forwardList);
+      return *this;
+    }
 
     bool isEmpty() noexcept
     {
