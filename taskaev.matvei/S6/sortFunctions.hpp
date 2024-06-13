@@ -39,26 +39,20 @@ namespace taskaev
   template <typename Iterator, typename Comparator >
   void Selection(Iterator begin, Iterator end, Comparator comp)
   {
-   for (Iterator current = begin; current != end; current++)
+    while (begin != end)
     {
-      Iterator next = current;
-      next++;
-      if (next == end)
+      Iterator one = begin;
+      Iterator two = begin;
+      while (two != end)
       {
-        return;
-      }
-      Iterator min = current;
-      for (; next != end; next++)
-      {
-        if (comp(*next, *min))
+        if(comp(*two, *one))
         {
-          min = next;
+          one = two;
         }
+        two++;
       }
-      if (*min != *current)
-      {
-        std::swap(*min, *current);
-      }
+      std::swap(*one, *begin);
+      begin++;
     }
   }
 }
