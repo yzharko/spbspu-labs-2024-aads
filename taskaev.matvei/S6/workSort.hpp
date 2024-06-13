@@ -74,8 +74,8 @@ namespace taskaev
     //Shaker(listOne.begin(), listOne.end(), comp);
     //print(listOne, out);
 
-    Selection(queueTwo.begin(), queueTwo.end(), comp);
-    out << "f\n";
+   // Selection(queueTwo.begin(), queueTwo.end(), comp);
+   // out << "f\n";
     print(queueTwo, out);
 
     //Selection(listTwo.begin(), listTwo.end(), comp);
