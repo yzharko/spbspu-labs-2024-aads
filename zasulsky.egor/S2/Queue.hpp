@@ -35,11 +35,7 @@ namespace zasulsky
 
     T peek()
     {
-      if (this->isEmpty())
-      {
-        throw std::logic_error("no elements!");
-      }
-      return forwardList.head()->data;
+      return forwardList.getHead();
     }
 
     void dequeue()

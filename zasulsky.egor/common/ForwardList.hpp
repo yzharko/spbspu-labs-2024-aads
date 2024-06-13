@@ -228,6 +228,17 @@ namespace zasulsky
       return fakeNode_->next;
     }
 
+    T& getHead()
+    {
+      if (fakeNode->next != nullptr)
+      {
+        return fakeNode_->next->data;
+      }
+      else
+      {
+        throw std::logic_error("you can't got data from empty list")
+      }
+    }
     int size()
     {
       int count = 0;
