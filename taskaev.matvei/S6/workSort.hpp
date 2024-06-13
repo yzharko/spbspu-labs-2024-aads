@@ -16,12 +16,14 @@ namespace taskaev
   template < typename Iterators >
   void print(Iterators& iter, std::ostream& out)
   {
-    out << *iter.begin();;
-    ++iter.begin();
-    while (iter.begin() != iter.end())
+    auto it = iter.begin();
+    out << *it;
+    it++;
+    while (it != iter.end())
     {
-      out << " " << *iter.begin();
-      ++iter.begin();
+      out << " ";
+      out << *it;
+      it++;
     }
     out << "\n";
   }
@@ -55,7 +57,7 @@ namespace taskaev
     out << "flag1\n";
     generateData(size, types, myList);
     out << myList.empty() << "\n";
-   // print(myList, out);
+    print(myList, out);
     out << "flag!!\n";
     //std::deque< T > queueOne;
     std::deque< T > queueTwo;
