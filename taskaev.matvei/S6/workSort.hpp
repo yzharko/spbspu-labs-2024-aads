@@ -62,7 +62,7 @@ namespace taskaev
     List< T > myListTwo;
     print(queue, out);
 
-    Shaker(myListTwo.begin(), myListTwo.end(), ccomp);
+    Shaker(myListTwo.begin(), myListTwo.end(), comp);
     print(myListTwo, out);
 
     Selection(myList.begin(), myList.end(), comp);
