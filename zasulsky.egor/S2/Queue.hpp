@@ -10,7 +10,7 @@ namespace zasulsky
   class Queue
   {
   public:
-    
+ 
     Queue() :
       forwardList(ForwardList< T >())
     {}
@@ -37,7 +37,7 @@ namespace zasulsky
 
     Queue& operator=(Queue&& rhs)
     {
-      if (this == std::addressof(rhs)) 
+      if (this == std::addressof(rhs))
       {
         return *this;
       }
