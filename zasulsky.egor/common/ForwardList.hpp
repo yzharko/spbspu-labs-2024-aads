@@ -236,7 +236,7 @@ namespace zasulsky
       }
       else
       {
-        throw std::logic_error("you can't got data from empty list")
+        throw std::logic_error("you can't got data from empty list");
       }
     }
     int size()
