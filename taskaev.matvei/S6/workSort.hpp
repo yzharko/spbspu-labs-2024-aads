@@ -58,10 +58,10 @@ namespace taskaev
     std::list< T > listOne;
     std::list< T > listTwo;
 
-    std::copy(mylist.begin(), mylist.end(), std::back_inserter(queueOne));
-    std::copy(mylist.begin(), mylist.end(), std::back_inserter(queueTwo));
-    std::copy(mylist.begin(), mylist.end(), std::back_inserter(listOne));
-    std::copy(mylist.begin(), mylist.end(), std::back_inserter(listTwo));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
 
     Shaker(queueOne.begin(), queueOne.end(), comp);
     print(queueOne, out);

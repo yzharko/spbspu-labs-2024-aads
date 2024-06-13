@@ -21,7 +21,7 @@ namespace taskaev
     while (true)
     {
       bool flag = false;
-      Iterator iter = begin;
+      Iterator iter = one;
       while (iter != two)
       {
         Iterator next = std::next(iter);
@@ -42,7 +42,7 @@ namespace taskaev
       }
       --two;
       flag = false;
-      Iterator iter = end;
+      Iterator iter = two;
       while (iter != begin)
       {
         Iterator prev = std::prev(iter);
