@@ -42,16 +42,16 @@ namespace taskaev
       }
       --two;
       flag = false;
-      Iterator iter = two;
-      while (iter != begin)
+      Iterator it = two;
+      while (it != begin)
       {
-        Iterator prev = std::prev(iter);
-        if (comp(*iter, *prev))
+        Iterator prev = std::prev(it);
+        if (comp(*it, *prev))
         {
-          std::iter_swap(iter, prev);
+          std::iter_swap(it, prev);
           flag = true;
         }
-        iter--;
+        it--;
       }
       if (!flag)
       {
