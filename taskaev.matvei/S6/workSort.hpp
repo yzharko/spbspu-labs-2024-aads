@@ -55,7 +55,7 @@ namespace taskaev
     out << "flag1\n";
     generateData(size, types, myList);
     out << "flag2\n";
-    print(myList, out);
+   // print(myList, out);
     out << "flag!!\n";
     //std::deque< T > queueOne;
     std::deque< T > queueTwo;
@@ -63,7 +63,7 @@ namespace taskaev
     //std::list< T > listTwo;
     (void)comp;
     //std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
-    std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
+   // std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
     out << "flagCOPY\n";
     //std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
     //std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
@@ -76,7 +76,7 @@ namespace taskaev
 
    // Selection(queueTwo.begin(), queueTwo.end(), comp);
    // out << "f\n";
-    print(queueTwo, out);
+   // print(queueTwo, out);
 
     //Selection(listTwo.begin(), listTwo.end(), comp);
     //print(listTwo, out);
