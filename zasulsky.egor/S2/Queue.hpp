@@ -16,7 +16,7 @@ namespace zasulsky
     {}
 
     Queue(const Queue& other) :
-      forwardList(other.forwardList) 
+      forwardList(other.forwardList)
     {}
 
     Queue(Queue&& other) :
