@@ -4,6 +4,7 @@
 #include <deque>
 #include <forward_list>
 #include <iomanip>
+#include <list>
 #include <string>
 #include <random>
 #include "sortFunctions.hpp"
@@ -59,7 +60,7 @@ namespace taskaev
     generateData(size, types, myList, list, queue);
     std::deque< T > queueTwo;
     std::deque< T > queueThree;
-    List< T > myListTwo;
+    std::list< T > myListTwo;
     print(queue, out);
 
     Shaker(myListTwo.begin(), myListTwo.end(), comp);
