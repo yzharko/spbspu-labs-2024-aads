@@ -230,7 +230,7 @@ namespace zasulsky
 
     T& getHead()
     {
-      if (fakeNode->next != nullptr)
+      if (fakeNode_->next != nullptr)
       {
         return fakeNode_->next->data;
       }
