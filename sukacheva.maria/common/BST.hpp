@@ -25,7 +25,7 @@ namespace sukacheva
     ~BST();
 
     void insert(Key k, Value v);
-    Value at(const Key& k) const noexcept;
+    Value at(const Key& k) const;
     size_t getHeight(TreeNode* node) const noexcept;
     bool empty() const noexcept;
     size_t size() const noexcept;
@@ -45,7 +45,7 @@ namespace sukacheva
     ConstIterator cbegin() const;
     ConstIterator cend() const;
 
-    Value& operator[](Key k) const noexcept;
+    Value& operator[](Key k) const;
     BST& operator=(const BST& other);
     BST& operator=(BST&& other) noexcept;
 
@@ -369,7 +369,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  Value BST< Key, Value, Compare >::at(const Key& k) const noexcept
+  Value BST< Key, Value, Compare >::at(const Key& k) const
   {
     using iterator = typename BST< Key, Value >::Iterator;
     for (iterator it = begin(); it != end(); it++)
@@ -383,7 +383,7 @@ namespace sukacheva
   }
 
   template< typename Key, typename Value, typename Compare >
-  Value& BST< Key, Value, Compare >::operator[](Key k) const noexcept
+  Value& BST< Key, Value, Compare >::operator[](Key k) const
   {
     Value val = at(k);
     Value &valRef{val};
