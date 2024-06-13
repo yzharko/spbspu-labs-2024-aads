@@ -10,7 +10,7 @@ namespace zasulsky
   {
   public:
 
-    Queue() :
+    Stack() :
       forwardList(ForwardList< T >())
     {}
 
