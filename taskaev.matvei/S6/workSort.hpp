@@ -26,7 +26,7 @@ namespace taskaev
   }
 
   template <typename T >
-  void generateData(size_t size, std::string types, std::forward_list< T >& mylist)
+  void generateData(size_t size, std::string types, std::forward_list< T >& myList)
   {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -36,7 +36,7 @@ namespace taskaev
       {
         std::uniform_int_distribution< int > dis(-10000, 10000);
         int val = dis(gen);
-        list.push_front(val);
+        myList.push_front(val);
       }
       else if (types == "floats")
       {

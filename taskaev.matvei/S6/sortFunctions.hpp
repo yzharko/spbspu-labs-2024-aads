@@ -48,9 +48,10 @@ namespace taskaev
         Iterator prev = std::prev(iter);
         if (comp(*iter, *prev))
         {
-          std::iter_swap(it, prev);
+          std::iter_swap(iter, prev);
           flag = true;
         }
+        iter--;
       }
       if (!flag)
       {
