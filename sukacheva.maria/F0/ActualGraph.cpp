@@ -6,66 +6,46 @@ namespace sukacheva
 {
   Graph& sukacheva::GraphList::findActiveWorkspace()
   {
-    auto it = std::find_if(
-      graphList.begin(),
-      graphList.end(),
-      [](std::pair< std::string, ActualGraph > pair) { return pair.second.activityFlag; }
-    );
-
-    if (it != graphList.end())
+    for (auto it = graphList.begin(); it != graphList.end(); ++it)
     {
-      return it->second.actualGraph;
+      if (it->second.activityFlag)
+      {
+        return it->second.actualGraph;
+      }
     }
-    else
-    {
-      throw std::logic_error("No active workspace found.\n");
-    }
+    throw std::logic_error("No active workspace found.\n");
   }
 
   Graph& sukacheva::GraphList::findGraphName(std::string& name)
   {
-    auto it = std::find_if(
-      graphList.begin(),
-      graphList.end(),
-      [name](std::pair< std::string, ActualGraph > pair) { return pair.first == name; }
-    );
-
-    if (it != graphList.end())
+    for (auto it = graphList.begin(); it != graphList.end(); ++it)
     {
-      return it->second.actualGraph;
+      if (it->first == name)
+      {
+        return it->second.actualGraph;
+      }
     }
-    else
-    {
-      throw std::logic_error("Graph with the specified name not found.\n");
-    }
+    throw std::logic_error("Graph with the specified name not found.\n");
   }
 
   Graph& sukacheva::GraphList::switchActualGraph(std::string& name)
   {
-    auto it = std::find_if(
-      graphList.begin(),
-      graphList.end(),
-      [](std::pair< std::string, ActualGraph > pair) { return pair.second.activityFlag; }
-    );
-
-    if (it != graphList.end())
+    for (auto it = graphList.begin(); it != graphList.end(); ++it)
     {
-      it->second.activityFlag = false;
+      if (it->second.activityFlag)
+      {
+        it->second.activityFlag = false;
+        break;
+      }
     }
-    auto itNew = std::find_if(
-      graphList.begin(),
-      graphList.end(),
-      [name](std::pair< std::string, ActualGraph > pair) { return pair.first == name; }
-    );
-
-    if (itNew != graphList.end())
+    for (auto it = graphList.begin(); it != graphList.end(); ++it)
     {
-      itNew->second.activityFlag = true;
-      return itNew->second.actualGraph;
+      if (it->first == name)
+      {
+        it->second.activityFlag = true;
+        return it->second.actualGraph;
+      }
     }
-    else
-    {
-      throw std::logic_error("Graph with the specified name not found.\n");
-    }
+    throw std::logic_error("Graph with the specified name not found.\n");
   }
 }
