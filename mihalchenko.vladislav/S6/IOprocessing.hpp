@@ -29,7 +29,7 @@ void mihalchenko::fillRandContainer(size_t size, List<int> &forward_list,
   {
     forward_list.push_back(rand() % 100);
   }
-  std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(bidirect_list));
+  std::copy(forward_list.begin(), forward_list.end(), std::front_inserter(bidirect_list));
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(deque));
 }
 
@@ -40,7 +40,7 @@ void mihalchenko::fillRandContainer(size_t size, List<double> &forward_list,
   {
     forward_list.push_back(static_cast<double>(rand() % 1000) / (rand() % 10));
   }
-  std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(bidirect_list));
+  std::copy(forward_list.begin(), forward_list.end(), std::front_inserter(bidirect_list));
   std::copy(forward_list.begin(), forward_list.end(), std::back_inserter(deque));
 }
 
@@ -50,7 +50,7 @@ void mihalchenko::printContainer(std::ostream &out, const T &container)
   for (auto iter = container.cbegin(); iter != container.cend(); iter++)
   {
     out << std::fixed << std::setprecision(1) << *iter;
-    if (++iter != container.cend())
+    if (std::next(iter) != container.cend())
     {
       out << " ";
     }
