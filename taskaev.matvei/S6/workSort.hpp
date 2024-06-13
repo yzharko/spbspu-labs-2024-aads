@@ -61,7 +61,7 @@ namespace taskaev
     std::deque< T > queueTwo;
     //std::list< T > listOne;
     //std::list< T > listTwo;
-
+    (void)comp;
     //std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
     std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
     out << "flagCOPY\n";
