@@ -47,15 +47,13 @@ void mihalchenko::fillRandContainer(size_t size, List<double> &forward_list,
 template <typename T>
 void mihalchenko::printContainer(std::ostream &out, const T &container)
 {
-  for (auto iter = container.cbegin(); iter != container.cend(); iter++)
+  auto begin = container.cbegin();
+  auto end = container.cend();
+  while (begin != end)
   {
-    out << std::fixed << std::setprecision(1) << *iter;
-    if (std::next(iter) != container.cend())
-    {
-      out << " ";
-    }
+    out << *begin;
+    out << (++begin == end ? '\n' : ' ');
   }
-  out << "\n";
 }
 
 template <typename T, typename Compare>
@@ -80,6 +78,7 @@ void mihalchenko::testSorts(std::ostream &out, size_t size, Compare compare)
   printContainer(out, deque);
   quickSort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
+  std::sort(deque.begin(), deque.end(), compare);
   printContainer(out, deque);
 }
 

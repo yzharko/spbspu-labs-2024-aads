@@ -80,7 +80,7 @@ void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
     vector.push_front(std::move(*second));
     second = std::next(second);
   }
-  vector.reverse(vector.cbegin(), vector.cend());
+  vector.reverse();
   auto temp_iter = vector.begin();
   for (auto it = begin; it != end; ++it)
   {
