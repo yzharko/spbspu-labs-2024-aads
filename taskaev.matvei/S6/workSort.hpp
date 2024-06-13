@@ -54,7 +54,7 @@ namespace taskaev
     std::forward_list< T > myList;
     out << "flag1\n";
     generateData(size, types, myList);
-    out << "flag2\n";
+    out << myList.empty() << "\n";
    // print(myList, out);
     out << "flag!!\n";
     //std::deque< T > queueOne;
