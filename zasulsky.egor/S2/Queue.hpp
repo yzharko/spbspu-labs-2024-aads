@@ -2,7 +2,6 @@
 #define QUEUE_HPP
 
 #include <ForwardList.hpp>
-#include <Node.hpp>
 
 namespace zasulsky
 {
@@ -10,7 +9,7 @@ namespace zasulsky
   class Queue
   {
   public:
- 
+
     Queue() :
       forwardList(ForwardList< T >())
     {}
