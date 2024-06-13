@@ -66,7 +66,7 @@ namespace taskaev
     //(void)comp;
     std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
     std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
-    out << "flagCOPY\n";
+   // out << "flagCOPY\n";
     std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
     std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
 
