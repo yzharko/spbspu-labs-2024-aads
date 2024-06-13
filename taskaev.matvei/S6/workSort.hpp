@@ -53,31 +53,31 @@ namespace taskaev
     std::forward_list< T > myList;
     generateData(size, types, myList);
     print(myList, out);
-    std::deque< T > queueOne;
-    std::deque< T > queueTwo;
-    std::list< T > listOne;
-    std::list< T > listTwo;
+    //std::deque< T > queueOne;
+    //std::deque< T > queueTwo;
+    //std::list< T > listOne;
+    //std::list< T > listTwo;
 
-    std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
-    std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
-    std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
-    std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
+    //std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
+    //std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
+    //std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
+    //std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
 
-    Shaker(queueOne.begin(), queueOne.end(), comp);
-    print(queueOne, out);
+    //Shaker(queueOne.begin(), queueOne.end(), comp);
+    //print(queueOne, out);
 
-    Shaker(listOne.begin(), listOne.end(), comp);
-    print(listOne, out);
+    //Shaker(listOne.begin(), listOne.end(), comp);
+    //print(listOne, out);
 
-    Selection(queueTwo.begin(), queueTwo.end(), comp);
-    print(queueTwo, out);
+    //Selection(queueTwo.begin(), queueTwo.end(), comp);
+    //print(queueTwo, out);
 
-    Selection(listTwo.begin(), listTwo.end(), comp);
-    print(listTwo, out);
+    //Selection(listTwo.begin(), listTwo.end(), comp);
+    //print(listTwo, out);
 
-    Selection(myList.begin(), myList.end(), comp);
-    print(myList, out);
-    print(myList, out);
+    //Selection(myList.begin(), myList.end(), comp);
+    //print(myList, out);
+    //print(myList, out);
   }
 }
 
