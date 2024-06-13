@@ -1,9 +1,10 @@
 #include <map>
+#include <iostream>
 #include <functional>
 #include <string>
 #include <cstdlib>
 #include <time.h>
-#include <AVLtree.hpp>
+// #include <AVLtree.hpp>
 #include "IOprocessing.hpp"
 #include "details.hpp"
 
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
   if (argc != 4)
   {
     mihalchenko::printWrongInput(std::cout);
-    return 1;
+    return 2;
   }
   size_t size = 0;
   try
@@ -25,20 +26,22 @@ int main(int argc, char *argv[])
     mihalchenko::printWrongSize(std::cout);
     return 1;
   }
-  if (size == 0)
+  if (size < 1)
   {
     mihalchenko::printWrongSize(std::cout);
     return 1;
   }
   std::map<std::string, std::map<std::string, std::function<void(std::ostream &, size_t)>>> cmds;
-  using namespace std::placeholders;
-  cmds["ints"]["ascending"] = std::bind(mihalchenko::testSorts<int, std::less<int>>, _1, _2, std::less<int>{});
-  cmds["ints"]["descending"] = std::bind(mihalchenko::testSorts<int, std::greater<int>>, _1, _2, std::greater<int>{});
-  cmds["floats"]["ascending"] = std::bind(mihalchenko::testSorts<double, std::less<double>>, _1, _2, std::less<double>{});
-  cmds["floats"]["descending"] = std::bind(mihalchenko::testSorts<double, std::greater<double>>, _1, _2, std::greater<double>{});
+  {
+    using namespace std::placeholders;
+    cmds["ascending"]["ints"] = std::bind(mihalchenko::testSorts<int, std::less<int>>, _1, _2, std::less<int>{});
+    cmds["descending"]["ints"] = std::bind(mihalchenko::testSorts<int, std::greater<int>>, _1, _2, std::greater<int>{});
+    cmds["ascending"]["floats"] = std::bind(mihalchenko::testSorts<double, std::less<double>>, _1, _2, std::less<double>{});
+    cmds["descending"]["floats"] = std::bind(mihalchenko::testSorts<double, std::greater<double>>, _1, _2, std::greater<double>{});
+  }
   try
   {
-    cmds.at(argv[2]).at(argv[1])(std::cout, size);
+    cmds.at(argv[1]).at(argv[2])(std::cout, size);
   }
   catch (const std::exception &)
   {

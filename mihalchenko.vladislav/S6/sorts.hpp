@@ -92,13 +92,13 @@ void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
 template <typename Iter, typename Compare>
 void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
 {
-  int size = std::distance(begin, end);
+  long long size = std::distance(begin, end);
   if (size < 2)
   {
     return;
   }
   Iter center = begin;
-  for (int i = 0; i < (size / 2); i++)
+  for (long long i = 0; i < (size / 2); i++)
   {
     center++;
   }
