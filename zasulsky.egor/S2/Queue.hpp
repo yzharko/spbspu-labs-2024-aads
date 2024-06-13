@@ -15,7 +15,7 @@ namespace zasulsky
       forwardList(ForwardList< T >())
     {}
 
-    Queue(const Queue& other) : 
+    Queue(const Queue& other) :
       forwardList(other.forwardList) 
     {}
 
@@ -25,9 +25,9 @@ namespace zasulsky
 
     ~Queue() = default;
 
-    Queue& operator=(const Queue& rhs) 
+    Queue& operator=(const Queue& rhs)
     {
-      if (this == std::addressof(rhs)) 
+      if (this == std::addressof(rhs))
       {
         return *this;
       }
@@ -35,7 +35,7 @@ namespace zasulsky
       return *this;
     }
 
-    Queue& operator=(Queue&& rhs) 
+    Queue& operator=(Queue&& rhs)
     {
       if (this == std::addressof(rhs)) 
       {
