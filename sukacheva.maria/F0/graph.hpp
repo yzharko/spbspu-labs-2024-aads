@@ -15,7 +15,6 @@ namespace sukacheva
     Graph() = default;
     Graph(std::string GraphName_);
     Graph(const Graph& graph) = default;
-    Graph& operator=(const Graph& graph) = default;
     ~Graph() = default;
 
     void addVertex(std::string& name);
@@ -30,6 +29,8 @@ namespace sukacheva
     List< List< size_t > > weightTable();
     bool isVertexExist(std::string& name);
     bool isEdgeExist(std::string& start, std::string& end);
+
+    Graph& operator=(const Graph& graph) = default;
   private:
     BST< size_t, BST< size_t, size_t > > AdjacencyList;
   };

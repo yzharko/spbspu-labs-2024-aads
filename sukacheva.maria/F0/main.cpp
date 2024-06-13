@@ -35,7 +35,7 @@ int main()
     {
       commands.at(inputCommand)(graphList, std::cin, std::cout);
     }
-    catch (const std::exception& e)
+    catch (const std::exception&)
     {
       std::cout << "<INVALID COMMAND>\n";
       std::cin.clear();

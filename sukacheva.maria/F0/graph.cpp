@@ -1,8 +1,6 @@
 #include "graph.hpp"
 #include <limits>
 #include <stdexcept>
-#include <algorithm>
-#include <iterator>
 #include <iostream>
 #include "BST.hpp"
 #include "List.hpp"
@@ -60,31 +58,24 @@ namespace sukacheva
     AdjacencyList.erase(key);
     VertexesList.erase(key);
     BST< size_t, std::string > updatedVertexesList;
-    std::transform(
-      VertexesList.begin(),
-      VertexesList.end(),
-      std::inserter(updatedVertexesList, updatedVertexesList.end()),
-      [key](const auto& vertex) { return std::make_pair(vertex.first > key ? vertex.first - 1 : vertex.first, vertex.second); }
-    );
+    for (auto it = VertexesList.begin(); it != VertexesList.end(); ++it)
+    {
+      size_t newKey = it->first > key ? it->first - 1 : it->first;
+      updatedVertexesList.insert(newKey, it->second);
+    }
     VertexesList = std::move(updatedVertexesList);
-
     BST< size_t, BST< size_t, size_t > > updatedAdjacencyList;
-    std::transform(
-      AdjacencyList.begin(),
-      AdjacencyList.end(),
-      std::inserter(updatedAdjacencyList, updatedAdjacencyList.end()),
-      [key](auto& adjPair) {
-        size_t newKey = adjPair.first > key ? adjPair.first - 1 : adjPair.first;
-        BST< size_t, size_t > updatedAdj;
-        std::transform(
-          adjPair.second.begin(),
-          adjPair.second.end(),
-          std::inserter(updatedAdj, updatedAdj.end()),
-          [key](const auto& adj) {
-            return std::make_pair(adj.first > key ? adj.first - 1 : adj.first, adj.second);
-          });
-        return std::make_pair(newKey, std::move(updatedAdj));
-      });
+    for (auto it = AdjacencyList.begin(); it != AdjacencyList.end(); ++it)
+    {
+      size_t newKey = it->first > key ? it->first - 1 : it->first;
+      BST< size_t, size_t > updatedAdj;
+      for (auto adjIt = it->second.begin(); adjIt != it->second.end(); ++adjIt)
+      {
+        size_t adjKey = adjIt->first > key ? adjIt->first - 1 : adjIt->first;
+        updatedAdj.insert(adjKey, adjIt->second);
+      }
+      updatedAdjacencyList.insert(newKey, std::move(updatedAdj));
+    }
     AdjacencyList = std::move(updatedAdjacencyList);
   }
 
@@ -116,11 +107,15 @@ namespace sukacheva
 
   size_t Graph::getVertexIndex(std::string& name)
   {
-    auto it = std::find_if(
-      VertexesList.begin(),
-      VertexesList.end(),
-      [&name](const auto& vertex) { return vertex.second == name; }
-    );
+    auto it = VertexesList.end();
+    for (auto iter = VertexesList.begin(); iter != VertexesList.end(); ++iter)
+    {
+      if (iter->second == name)
+      {
+        it = iter;
+        break;
+      }
+    }
     if (it != VertexesList.end())
     {
       return it->first;
@@ -137,19 +132,14 @@ namespace sukacheva
     BST< size_t, size_t > distances;
     BST< size_t, size_t > predecessors;
     BST< size_t, bool > visited;
-    std::transform(
-      VertexesList.begin(),
-      VertexesList.end(),
-      std::inserter(distances, distances.end()),
-      [](const std::pair< size_t, std::string >& vertex) { return std::make_pair(vertex.first, std::numeric_limits< size_t >::max()); }
-    );
-
-    std::transform(
-      VertexesList.begin(),
-      VertexesList.end(),
-      std::inserter(visited, visited.end()),
-      [](const std::pair< size_t, std::string >& vertex) { return std::make_pair(vertex.first, false); }
-    );
+    for (auto it = VertexesList.begin(); it != VertexesList.end(); ++it)
+    {
+      distances.insert(it->first, std::numeric_limits<size_t>::max());
+    }
+    for (auto it = VertexesList.begin(); it != VertexesList.end(); ++it)
+    {
+      visited.insert(it->first, false);
+    }
     distances[startKey] = 0;
 
     for (size_t i = 0; i < VertexesList.size(); ++i)
@@ -188,17 +178,16 @@ namespace sukacheva
     List< std::string > path;
     size_t keyStart = getVertexIndex(start);
     size_t keyEnd = getVertexIndex(end);
-    for (size_t at = keyEnd; at != keyStart; at = predecessors.at(at))
+    for (size_t at = keyEnd; at != keyStart; at = predecessors[at])
     {
       if (at == std::numeric_limits< size_t >::max())
       {
-        path.pushBack("unattainable");
+        path.pushFront("unattainable");
         return path;
       }
-      path.pushBack(VertexesList[at]);
+      path.pushFront(VertexesList[at]);
     }
-    path.pushBack(VertexesList[keyStart]);
-    std::reverse(path.begin(), path.end());
+    path.pushFront(VertexesList[keyStart]);
     return path;
   }
 
@@ -226,11 +215,15 @@ namespace sukacheva
 
   bool Graph::isVertexExist(std::string& name)
   {
-    auto it = std::find_if(
-      VertexesList.begin(),
-      VertexesList.end(),
-      [&name](const auto& vertex) { return vertex.second == name; }
-    );
+    auto it = VertexesList.end();
+    for (auto iter = VertexesList.begin(); iter != VertexesList.end(); ++iter)
+    {
+      if (iter->second == name)
+      {
+        it = iter;
+        break;
+      }
+    }
     if (it != VertexesList.end())
     {
       return true;

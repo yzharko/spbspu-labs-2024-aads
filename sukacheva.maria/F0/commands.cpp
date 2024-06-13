@@ -5,9 +5,12 @@
 #include <fstream>
 #include <limits>
 #include <iterator>
+#include "ErrorMessage.hpp"
 
 namespace sukacheva
 {
+  using distances = std::pair< BST< size_t, size_t >, BST< size_t, size_t > >;
+
   void help(std::ostream& out)
   {
     out << "help - displays all available commands with parameters\n";
@@ -90,7 +93,7 @@ namespace sukacheva
     }
   }
 
-  std::pair< BST< size_t, size_t >, BST< size_t, size_t > > getDistances(GraphList& graphList, std::string& name)
+  distances getDistances(GraphList& graphList, std::string& name)
   {
     return graphList.findActiveWorkspace().dijkstraDistances(name);
   }
@@ -138,18 +141,17 @@ namespace sukacheva
 
   void printDistances(GraphList& graphList, std::string& name, std::ostream& out)
   {
-    std::pair< BST< size_t, size_t >, BST< size_t, size_t > > result = getDistances(graphList, name);
+    distances result = getDistances(graphList, name);
     BST< size_t, size_t > distances = result.first;
     Graph activeWorkspace = graphList.findActiveWorkspace();
     List< std::string > outputLines;
-    std::transform(
-      distances.begin(),
-      distances.end(),
-      std::back_inserter(outputLines),
-      [&name, &activeWorkspace](const auto& distancePair) {
-        return "Distance from " + name + " to " + activeWorkspace.VertexesList[distancePair.first]
-          + " : " + std::to_string(distancePair.second) + "\n"; }
-    );
+    for (auto it = distances.begin(); it != distances.end(); ++it)
+    {
+      outputLines.pushBack(
+        "Distance from " + name + " to " + activeWorkspace.VertexesList[it->first]
+          + " : " + std::to_string(it->second) + "\n"
+      );
+    }
 
     std::copy(outputLines.begin(), outputLines.end(), std::ostream_iterator< std::string >(out));
   }
@@ -167,9 +169,9 @@ namespace sukacheva
       createGraph(graphList, graphName);
       out << "Graph " << graphName << " is created.\n";
     }
-    catch (const std::out_of_range& e)
+    catch (const std::out_of_range&)
     {
-      throw std::logic_error("<INVALID COMMAND>\n");
+      ErrorMessage(out);
     }
   }
 
@@ -182,7 +184,7 @@ namespace sukacheva
     in >> command >> start;
     if (command.empty() || start.empty())
     {
-      out << "<INVALID COMMAND>\n";
+      ErrorMessage(out);
       in.clear();
       in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       return;
@@ -201,13 +203,13 @@ namespace sukacheva
         {
           in.clear();
           in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-          throw std::logic_error("<INVALID COMMAND>\n");
+          ErrorMessage(out);
         }
         addEdge(graphList, start, end, weight);
         out << "Edge between " << start << " and " << end << " with weight " << weight << " is added.\n";
       }
     }
-    catch (const std::exception& e)
+    catch (const std::exception&)
     {
       throw std::logic_error("<INVALID COMMAND>\n");
     }
@@ -226,9 +228,9 @@ namespace sukacheva
     {
       commandKey.at(command)(graphList, name, out);
     }
-    catch (const std::out_of_range& e)
+    catch (const std::out_of_range&)
     {
-      throw std::logic_error("<INVALID COMMAND>\n");
+      ErrorMessage(out);
     }
   }
 
@@ -247,7 +249,7 @@ namespace sukacheva
       commandKey.at(command)(graphList, name);
       out << "Struct " << command << " " << name << " was deleted.\n";
     }
-    catch (const std::out_of_range& e)
+    catch (const std::out_of_range&)
     {
       if (command == "edge")
       {
@@ -257,7 +259,7 @@ namespace sukacheva
       }
       else
       {
-        throw std::logic_error("<INVALID COMMAND>\n");
+        ErrorMessage(out);
       }
     }
   }
@@ -271,9 +273,9 @@ namespace sukacheva
       graphList.switchActualGraph(name);
       out << "Now work is being done on the graph " << name << "\n";
     }
-    catch (const std::exception& e)
+    catch (const std::exception&)
     {
-      throw std::logic_error("<INVALID COMMAND>\n");
+      ErrorMessage(out);
     }
   }
 
