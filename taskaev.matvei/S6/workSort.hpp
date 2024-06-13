@@ -70,11 +70,11 @@ namespace taskaev
     Selection(list.begin(), list.end(), comp);
     print(list, out);
     Selection(queue.begin(), queue.end(), comp);
-    print(queue, comp);
+    print(queue, out);
     Shaker(queueTwo.begin(), queueTwo.end(), comp);
-    print(queueTwo, comp);
+    print(queueTwo, out);
     std::sort(queueThree.begin(), queueThree.end(), comp);
-    print(queueThree, comp);
+    print(queueThree, out);
   }
 }
 
