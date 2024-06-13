@@ -8,7 +8,7 @@
 #include <string>
 #include <random>
 #include "sortFunctions.hpp"
-#include <List.hpp>
+
 
 namespace taskaev
 {
@@ -26,7 +26,7 @@ namespace taskaev
   }
 
   template <typename T >
-  void generateData(size_t size, std::string types, List< T >& myList, std::forward_list< T >& list, std::deque< T >& queue)
+  void generateData(size_t size, std::string types, std::forward_list< T >& mylist)
   {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -36,17 +36,13 @@ namespace taskaev
       {
         std::uniform_int_distribution< int > dis(-10000, 10000);
         int val = dis(gen);
-        myList.pushBack(val);
         list.push_front(val);
-        queue.push_back(val);
       }
       else if (types == "floats")
       {
         std::uniform_real_distribution< float > dis(0.0f, 99.9f);
         float val = dis(gen);
-        myList.pushBack(val);
-        list.push_front(val);
-        queue.push_back(val);
+        myList.push_front(val);
       }
     }
   }
@@ -54,29 +50,36 @@ namespace taskaev
   template< typename T, typename Comparator >
   void workSortings(std::ostream& out, std::string types, size_t size, Comparator comp)
   {
-    List< T > myList;
-    std::forward_list< T > list;
-    std::deque< T > queue;
-    generateData(size, types, myList, list, queue);
+    std::forward_list< T > myList;
+    generateData(size, types, myList);
+    print(myList, out);
+    std::deque< T > queueOne;
     std::deque< T > queueTwo;
-    std::deque< T > queueThree;
-    std::list< T > myListTwo;
-    print(queue, out);
+    std::list< T > listOne;
+    std::list< T > listTwo;
 
-    Shaker(myListTwo.begin(), myListTwo.end(), comp);
-    print(myListTwo, out);
+    std::copy(mylist.begin(), mylist.end(), std::back_inserter(queueOne));
+    std::copy(mylist.begin(), mylist.end(), std::back_inserter(queueTwo));
+    std::copy(mylist.begin(), mylist.end(), std::back_inserter(listOne));
+    std::copy(mylist.begin(), mylist.end(), std::back_inserter(listTwo));
+
+    Shaker(queueOne.begin(), queueOne.end(), comp);
+    print(queueOne, out);
+
+    Shaker(listOne.begin(), listOne.end(), comp);
+    print(listOne, out);
+
+    Selection(queueTwo.begin(), queueTwo.end(), comp);
+    print(queueTwo, out);
+
+    Selection(listTwo.begin(), listTwo.end(), comp);
+    print(listTwo, out);
 
     Selection(myList.begin(), myList.end(), comp);
     print(myList, out);
-    Selection(list.begin(), list.end(), comp);
-    print(list, out);
-    Selection(queue.begin(), queue.end(), comp);
-    print(queue, out);
-    Shaker(queueTwo.begin(), queueTwo.end(), comp);
-    print(queueTwo, out);
-    std::sort(queueThree.begin(), queueThree.end(), comp);
-    print(queueThree, out);
+    print(myList, out);
   }
 }
 
 #endif
+
