@@ -57,8 +57,24 @@ namespace taskaev
     std::forward_list< T > list;
     std::deque< T > queue;
     generateData(size, types, myList, list, queue);
-    (void)out;
-    (void)comp;
+    std::deque< T > queueTwo;
+    std::deque< T > queueThree;
+    List< T > myListTwo;
+    print(queue, out);
+
+    Shaker(myListTwo.begin(), myListTwo.end(), ccomp);
+    print(myListTwo, out);
+
+    Selection(myList.begin(), myList.end(), comp);
+    print(myList, out);
+    Selection(list.begin(), list.end(), comp);
+    print(list, out);
+    Selection(queue.begin(), queue.end(), comp);
+    print(queue, comp);
+    Shaker(queueTwo.begin(), queueTwo.end(), comp);
+    print(queueTwo, comp);
+    std::sort(queueThree.begin(), queueThree.end(), comp);
+    print(queueThree, comp);
   }
 }
 
