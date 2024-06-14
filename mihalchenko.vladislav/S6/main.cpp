@@ -11,17 +11,18 @@
 int main(int argc, char *argv[])
 {
   srand(time(0));
+
   if (argc != 4)
   {
     mihalchenko::printWrongInput(std::cout);
-    return 2;
+    return 1;
   }
   size_t size = 0;
   try
   {
     size = std::stoull(argv[3]);
   }
-  catch (const std::invalid_argument& e)
+  catch (const std::exception &)
   {
     mihalchenko::printWrongSize(std::cout);
     return 1;

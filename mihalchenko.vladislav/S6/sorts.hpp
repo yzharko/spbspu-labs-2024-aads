@@ -30,7 +30,7 @@ void mihalchenko::quickSort(Iter begin, Iter end, Compare compare)
   }
   Iter temp_pos = partOfQuickSort(begin, end, compare);
   quickSort(begin, temp_pos, compare);
-  quickSort(std::next(temp_pos), end, compare);
+  quickSort(++temp_pos, end, compare);
 }
 
 template < typename Iter, typename Compare >
@@ -55,13 +55,13 @@ Iter mihalchenko::partOfQuickSort(Iter begin, Iter end, Compare compare)
 template < typename Iter, typename Compare >
 void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
 {
-  long long size = std::distance(begin, end);
+  size_t size = std::distance(begin, end);
   if (size < 2)
   {
     return;
   }
   Iter center = begin;
-  for (long long i = 0; i < (size / 2); i++)
+  for (size_t i = 0; i < 0.5 * size; i++)
   {
     center++;
   }
@@ -81,30 +81,30 @@ void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
     if (compare(*first, *second))
     {
       vector.push_front(std::move(*first));
-      first = std::next(first);
+      ++first;
     }
     else
     {
       vector.push_front(std::move(*second));
-      second = std::next(second);
+      ++second;
     }
   }
   while (first != center)
   {
     vector.push_front(std::move(*first));
-    first = std::next(first);
+    ++first;
   }
   while (second != end)
   {
     vector.push_front(std::move(*second));
-    second = std::next(second);
+    ++second;
   }
   vector.reverse();
   auto temp_iter = vector.begin();
-  for (auto it = begin; it != end; ++it)
+  for (Iter it = begin; it != end; ++it)
   {
     *it = std::move(*temp_iter);
-    temp_iter = std::next(temp_iter);
+    ++temp_iter;
   }
 }
 
