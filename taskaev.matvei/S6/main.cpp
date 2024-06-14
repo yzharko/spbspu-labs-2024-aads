@@ -11,19 +11,7 @@ int main(int argc, char **argv)
   using namespace taskaev;
   if (argc != 4)
   {
-    std::cerr << "Error:\n";
-    return 1;
-  }
-  std::string names = argv[1];
-  if (names != "ascending" && names != "descending")
-  {
-    std::cerr << "Error:   AAA\n";
-    return 1;
-  }
-  std::string types = argv[2];
-  if (types != "ints" && types != "floats")
-  {
-    std::cerr << "Error:   typess errror\n";
+    std::cerr << "Error: arguments!\n";
     return 1;
   }
   size_t size = 0;
@@ -33,7 +21,7 @@ int main(int argc, char **argv)
   }
   catch(...)
   {
-    std::cerr << "eror\n";
+    std::cerr << "Error: invalid argument.\n";
     return 1;
   }
   if (size == 0)
@@ -51,11 +39,11 @@ int main(int argc, char **argv)
   }
   try
   {
-    cmds.at(names).at(types)(std::cout, types, size);
+    cmds.at(argv[1]).at(argv[2])(std::cout, argv[2], size);
   }
   catch(const std::exception&)
   {
-    std::cerr << "ERROR: SOSSS!\n";
+    std::cerr << "ERROR: invalid work programm!\n";
     return 1;
   }
   return 0;

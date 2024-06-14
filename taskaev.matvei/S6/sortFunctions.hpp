@@ -8,31 +8,60 @@ namespace taskaev
   template <typename Iterator, typename Comparator >
   void Shaker(Iterator begin, Iterator end, Comparator comp)
   {
-    auto ends = std::prev(end);
-    bool flag = true;
-    while (flag)
+    if (begin == end || std::next(begin) == end)
     {
+      return;
+    }
+    Iterator one = begin;
+    Iterator two = begin;
+    while (std::next(two) != end)
+    {
+      ++two;
+    }
+    while (true)
+    {
+      bool flag = false;
+      Iterator iter = one;
+      while (iter != two)
+      {
+        Iterator next = std::next(iter);
+        if (comp(*next, *iter))
+        {
+          std::iter_swap(iter, next);
+          flag = true;
+        }
+        iter++;
+      }
+      if (!flag)
+      {
+        break;
+      }
+      if (one == two)
+      {
+        break;
+      }
+      --two;
       flag = false;
-      for (auto i = begin; i != ends; i++)
+      Iterator it = two;
+      while (it != begin)
       {
-        auto nexts = std::next(i);
-        if (!comp(*i, *nexts))
+        Iterator prev = std::prev(it);
+        if (comp(*it, *prev))
         {
-          std::swap(*i, *nexts);
+          std::iter_swap(it, prev);
           flag = true;
         }
+        it--;
       }
-      ends = std::prev(ends);
-      for (auto i = ends; i != begin; i--)
+      if (!flag)
       {
-        auto prevs = std::prev(i);
-        if (!comp(*i, *prevs))
-        {
-          std::swap(*i, *prevs);
-          flag = true;
-        }
+        break;
       }
-      begin = std::next(begin);
+      if (one == two)
+      {
+        break;
+      }
+      ++one;
     }
   }
 
@@ -64,3 +93,4 @@ namespace taskaev
 }
 
 #endif
+
