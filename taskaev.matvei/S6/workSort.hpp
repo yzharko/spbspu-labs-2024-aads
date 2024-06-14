@@ -54,19 +54,14 @@ namespace taskaev
   void workSortings(std::ostream& out, std::string types, size_t size, Comparator comp)
   {
     std::forward_list< T > myList;
-    //out << "flag1\n";
     generateData(size, types, myList);
-    //out << myList.empty() << "\n";
     print(myList, out);
-    //out << "flag!!\n";
     std::deque< T > queueOne;
     std::deque< T > queueTwo;
     std::list< T > listOne;
     std::list< T > listTwo;
-    //(void)comp;
     std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
     std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
-   // out << "flagCOPY\n";
     std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
     std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
 
@@ -77,7 +72,6 @@ namespace taskaev
     print(listOne, out);
 
     Selection(queueTwo.begin(), queueTwo.end(), comp);
-   // out << "f\n";
     print(queueTwo, out);
 
     Selection(listTwo.begin(), listTwo.end(), comp);
