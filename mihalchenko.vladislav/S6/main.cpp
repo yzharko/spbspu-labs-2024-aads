@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
     mihalchenko::printWrongSize(std::cout);
     return 1;
   }
-  mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, size_t)>>> cmds;
+  mihalchenko::AVLTree< std::string, mihalchenko::AVLTree< std::string, std::function< void(std::ostream &, size_t) > > > cmds;
   {
     using namespace std::placeholders;
-    cmds["ascending"]["ints"] = std::bind(mihalchenko::testSorts<int, std::less<int>>, _1, _2, std::less<int>{});
-    cmds["descending"]["ints"] = std::bind(mihalchenko::testSorts<int, std::greater<int>>, _1, _2, std::greater<int>{});
-    cmds["ascending"]["floats"] = std::bind(mihalchenko::testSorts<double, std::less<double>>, _1, _2, std::less<double>{});
-    cmds["descending"]["floats"] = std::bind(mihalchenko::testSorts<double, std::greater<double>>, _1, _2, std::greater<double>{});
+    cmds["ascending"]["ints"] = std::bind(mihalchenko::testSorts< int, std::less< int > >, _1, _2, std::less< int >{});
+    cmds["descending"]["ints"] = std::bind(mihalchenko::testSorts< int, std::greater< int > >, _1, _2, std::greater< int >{});
+    cmds["ascending"]["floats"] = std::bind(mihalchenko::testSorts< double, std::less< double > >, _1, _2, std::less< double >{});
+    cmds["descending"]["floats"] = std::bind(mihalchenko::testSorts< double, std::greater< double > >, _1, _2, std::greater< double >{});
   }
   try
   {

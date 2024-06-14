@@ -8,20 +8,20 @@
 
 namespace mihalchenko
 {
-  template <typename Iter, typename Compare>
+  template < typename Iter, typename Compare >
   void quickSort(Iter begin, Iter end, Compare compare);
 
-  template <typename Iter, typename Compare>
+  template < typename Iter, typename Compare >
   Iter partOfQuickSort(Iter begin, Iter end, Compare compare);
 
-  template <typename Iter, typename Compare>
+  template < typename Iter, typename Compare >
   void mergeSort(Iter begin, Iter end, Compare compare);
 
-  template <typename Iter, typename Compare>
+  template < typename Iter, typename Compare >
   void merge(Iter begin, Iter center, Iter end, Compare compare);
 }
 
-template <typename Iter, typename Compare>
+template < typename Iter, typename Compare >
 void mihalchenko::quickSort(Iter begin, Iter end, Compare compare)
 {
   if (std::distance(begin, end) <= 1)
@@ -33,7 +33,7 @@ void mihalchenko::quickSort(Iter begin, Iter end, Compare compare)
   quickSort(std::next(temp_pos), end, compare);
 }
 
-template <typename Iter, typename Compare>
+template < typename Iter, typename Compare >
 Iter mihalchenko::partOfQuickSort(Iter begin, Iter end, Compare compare)
 {
   auto temp = *begin;
@@ -52,7 +52,7 @@ Iter mihalchenko::partOfQuickSort(Iter begin, Iter end, Compare compare)
   return part_iter;
 }
 
-template <typename Iter, typename Compare>
+template < typename Iter, typename Compare >
 void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
 {
   long long size = std::distance(begin, end);
@@ -70,10 +70,10 @@ void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
   merge(begin, center, end, compare);
 }
 
-template <typename Iter, typename Compare>
+template < typename Iter, typename Compare >
 void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
 {
-  mihalchenko::List<typename std::iterator_traits< Iter >::value_type> vector;
+  mihalchenko::List< typename std::iterator_traits< Iter >::value_type > vector;
   Iter first = begin;
   Iter second = center;
   while (first != center && second != end)
