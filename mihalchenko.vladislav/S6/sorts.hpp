@@ -73,8 +73,7 @@ void mihalchenko::mergeSort(Iter begin, Iter end, Compare compare)
 template <typename Iter, typename Compare>
 void mihalchenko::merge(Iter begin, Iter center, Iter end, Compare compare)
 {
-  // mihalchenko::List<typename std::iterator_traits< Iter >::value_type> vector;
-  std::forward_list<typename Iter::value_type> vector;
+  mihalchenko::List<typename std::iterator_traits< Iter >::value_type> vector;
   Iter first = begin;
   Iter second = center;
   while (first != center && second != end)

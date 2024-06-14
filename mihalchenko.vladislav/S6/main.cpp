@@ -4,7 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <time.h>
-// #include <AVLtree.hpp>
+#include <AVLtree.hpp>
 #include "IOprocessing.hpp"
 #include "details.hpp"
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     mihalchenko::printWrongSize(std::cout);
     return 1;
   }
-  std::map<std::string, std::map<std::string, std::function<void(std::ostream &, size_t)>>> cmds;
+  mihalchenko::AVLTree<std::string, mihalchenko::AVLTree<std::string, std::function<void(std::ostream &, size_t)>>> cmds;
   {
     using namespace std::placeholders;
     cmds["ascending"]["ints"] = std::bind(mihalchenko::testSorts<int, std::less<int>>, _1, _2, std::less<int>{});

@@ -617,30 +617,48 @@ void mihalchenko::List< T >::splice(Iterator position, List &other)
 template < typename T >
 void mihalchenko::List< T >::reverse()
 {
-  if (empty() && begin_->pNext_->pNext_ == nullptr)
+  if (begin_ && begin_->pNext_)
   {
-    Node * prevNode = begin_->pNext_;
-    Node * tempNode = begin_->pNext_->pNext_;
-    while (tempNode->pNext_ != nullptr)
+    if (begin_->pNext_->pNext_ == nullptr)
     {
-      tempNode = tempNode->pNext_;
-      prevNode = prevNode->pNext_;
+      Node * newfirst = begin_->pNext_;
+      newfirst->pNext_ = begin_;
+      begin_->pNext_ = nullptr;
+      begin_ = newfirst;
+      return;
     }
-    tempNode->pNext_ = prevNode;
-    Node * currNode = prevNode;
-    while (currNode != begin_->pNext_)
+    else
     {
-      prevNode = begin_->pNext_;
-      while (prevNode->pNext_ != currNode)
+      bool flag = false;
+      Node * prevNode = begin_;
+      Node * currNode = begin_->pNext_;
+      Node * tempNode = begin_->pNext_;
+      Node * newBegin = nullptr;
+      while (currNode != begin_)
       {
-        prevNode = prevNode->pNext_;
+        while (tempNode->pNext_ != nullptr)
+        {
+          tempNode = tempNode->pNext_;
+          prevNode = prevNode->pNext_;
+        }
+        if (!flag)
+        {
+          newBegin = tempNode;
+          flag = true;
+        }
+        tempNode->pNext_ = prevNode;
+        prevNode->pNext_ = nullptr;
+        currNode = prevNode;
+        prevNode = begin_;
+        tempNode = begin_->pNext_;
       }
-      currNode->pNext_ = prevNode;
-      currNode = prevNode;
+      if (newBegin != nullptr)
+      {
+        begin_ = newBegin;
+      }
     }
-    currNode->pNext_ = nullptr;
-    begin_->pNext_ = tempNode;
   }
+  return;
 }
 
 template < typename T >
