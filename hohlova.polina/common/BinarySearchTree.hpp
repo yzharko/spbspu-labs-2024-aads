@@ -279,7 +279,8 @@ void BinarySearchTree< Key, Value, Compare >::clear(Node* node)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BinarySearchTree< Key, Value, Compare >::Node* BinarySearchTree< Key, Value, Compare >::insert(Node* node, const Key& k, const Value& v)
+typename BinarySearchTree< Key, Value, Compare >::Node*
+  BinarySearchTree< Key, Value, Compare >::insert(Node* node, const Key& k, const Value& v)
 {
     if (!node)
     {
