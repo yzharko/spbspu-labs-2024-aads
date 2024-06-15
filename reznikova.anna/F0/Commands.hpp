@@ -1,6 +1,7 @@
 #ifndef Commands_hpp
 #define Commands_hpp
 #include <iosfwd>
+#include <vector>
 #include <functional>
 #include "Graph.hpp"
 #include "WorkSpace.hpp"

@@ -1,5 +1,6 @@
 #ifndef Graph_hpp
 #define Graph_hpp
+#include <vector>
 #include <string>
 #include "List.hpp"
 #include "Vertex.hpp"
