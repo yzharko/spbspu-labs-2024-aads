@@ -17,6 +17,7 @@ public:
     void push(const Key& k, const Value& v);
     bool empty() const noexcept;
     size_t size() const noexcept;
+    void swap(BinarySearchTree& other);
     Value at(const Key& k) const;
     Value get(const Key& k);
     bool contains(const Key& k);
@@ -201,6 +202,13 @@ size_t BinarySearchTree< Key, Value, Compare >::size() const noexcept
         it++;
     }
     return size;
+}
+
+template < typename Key, typename Value, typename Compare >
+void BinarySearchTree< Key, Value, Compare >::swap(BinarySearchTree& other)
+{
+    std::swap(root, other.root);
+    std::swap(comp, other.comp);
 }
 
 template< typename Key, typename Value, typename Compare >
