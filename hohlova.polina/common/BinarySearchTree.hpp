@@ -55,7 +55,7 @@ private:
 };
 
 template< typename Key, typename Value, typename Compare >
-class BinarySearchTree< Key, Value, Compare >::ConstIterator
+class BinarySearchTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > >
 {
 public:
     friend class BinarySearchTree< Key, Value, Compare >;
@@ -105,7 +105,7 @@ std::pair< const Key&, const Value& > BinarySearchTree< Key, Value, Compare >::C
 
 
 template< typename Key, typename Value, typename Compare >
-class BinarySearchTree< Key, Value, Compare >::Iterator
+class BinarySearchTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, std::pair< Key, Value > >
 {
 public:
     friend class BinarySearchTree< Key, Value, Compare >;
@@ -396,7 +396,7 @@ typename BinarySearchTree< Key, Value, Compare >::ConstIterator BinarySearchTree
 }
 
 template < typename Key, typename Value, typename Compare >
-typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key, Value, Compare >::begin() 
+typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key, Value, Compare >::begin()
 {
     return Iterator(root);
 }
