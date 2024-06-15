@@ -2,7 +2,7 @@
 #include <functional>
 #include <string>
 #include <map>
-#include "command.hpp"
+#include "Command.hpp"
 
 int main()
 {
@@ -21,9 +21,9 @@ int main()
   cmds["table"] = std::bind(&taskaev::HuffmanApp::saveCodeTable, &app);
   cmds["merge"] = std::bind(&taskaev::HuffmanApp::mergeFiles, &app);
   std::string command;
-  while (true) {
+  while (true)
+  {
     std::cout << "> ";
-
     if (!(std::cin >> command))
     {
       break;
@@ -38,6 +38,5 @@ int main()
       std::cerr << "Invalid command. Type 'help' for a list of commands.\n";
     }
   }
-  std::cout << "Good bue!\n";
   return 0;
 }
