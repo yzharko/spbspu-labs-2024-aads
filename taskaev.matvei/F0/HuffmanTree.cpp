@@ -1,6 +1,6 @@
 #include <string>
 #include <cstdlib>
-#include "HuffmanTree.h"
+#include "HuffmanTree.hpp"
 
 void taskaev::HuffmanTree::build(const std::string& text)
 {
