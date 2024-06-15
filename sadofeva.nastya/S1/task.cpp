@@ -63,6 +63,7 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     sum = sum1(sum,value);
 =======
     sum = ::sum(sum,value);
@@ -70,6 +71,9 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
 =======
     sum = sum(sum,value);
 >>>>>>> parent of 34145dd (fx)
+=======
+    sum = sadofeva::sum(sum,value);
+>>>>>>> parent of fa6257b (fx)
   }
   return sum;
 }
