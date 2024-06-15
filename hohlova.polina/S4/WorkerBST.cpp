@@ -60,10 +60,12 @@ void WorkerBST::print(const std::string& str)
     if (findBst == nullptr)
     {
         warningInvCom(std::cout);
+        return;
     }
     else if (findBst->empty())
     {
         warningEmpty(std::cout);
+        return;
     }
     auto it = findBst->begin();
     std::cout << str << ' ';
@@ -104,6 +106,7 @@ void WorkerBST::complement(std::vector< std::string >::iterator begin, std::vect
     if (!second || !first)
     {
         warningInvCom(std::cout);
+        return;
     }
     BinarySearchTree< int, std::string >* result = new BinarySearchTree< int, std::string >;
     auto itF = first->begin();
@@ -198,6 +201,7 @@ void WorkerBST::intersect(std::vector< std::string >::iterator begin, std::vecto
     if (!second || !first)
     {
         warningInvCom(std::cout);
+        return;
     }
     BinarySearchTree< int, std::string >* result = new BinarySearchTree< int, std::string >;
     auto itF = first->begin();
@@ -243,6 +247,7 @@ void WorkerBST::unify(std::vector< std::string >::iterator begin, std::vector< s
     if (!second || !first)
     {
         warningInvCom(std::cout);
+        return;
     }
     BinarySearchTree< int, std::string >* result = new BinarySearchTree< int, std::string >;
     auto itF = first->begin();
@@ -326,11 +331,9 @@ void WorkerBST::parseArguments(const std::string& str)
 void WorkerBST::warningEmpty(std::ostream& out)
 {
     out << "<EMPTY>\n";
-    return;
- }
+}
 
 void WorkerBST::warningInvCom(std::ostream& out)
 {
     out << "<INVALID COMMAND>\n";
-    return;
 }
