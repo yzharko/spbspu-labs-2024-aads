@@ -1,5 +1,6 @@
 #include "WorkSpace.hpp"
 #include <iterator>
+#include <vector>
 #include <functional>
 #include <algorithm>
 
