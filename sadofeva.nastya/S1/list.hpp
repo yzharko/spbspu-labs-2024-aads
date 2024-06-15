@@ -332,7 +332,6 @@ void sadofeva::List< T >::pop_back()
   delete node_to_del;
 }
 
-
 template< typename T >
 sadofeva::List< T >::~List()
 {
