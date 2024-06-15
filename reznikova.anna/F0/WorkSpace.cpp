@@ -1,0 +1,68 @@
+#include "WorkSpace.hpp"
+#include <iterator>
+#include <functional>
+#include <algorithm>
+
+bool reznikova::GraphList::isGraphInList(std::string graphName) const
+{
+  auto graph = std::find_if(
+    graphList_.begin(),
+    graphList_.end(),
+    [&] (WorkObject * graphToCmp)
+    {
+     return graphToCmp->graph_.getGraphName() == graphName;
+    });
+  return graph != graphList_.end();
+}
+
+void reznikova::WorkObject::resetFlag()
+{
+  isActive_ = false;
+}
+
+void reznikova::GraphList::addToList(reznikova::Graph graph)
+{
+  if (isGraphInList(graph.getGraphName()))
+  {
+    throw std::logic_error("this graph is already exists\n");
+  }
+  resetActiveFlags();
+  graphList_.pushBack(new WorkObject(graph));
+}
+
+void reznikova::GraphList::resetActiveFlags()
+{
+  auto it = graphList_.begin();
+  while (it != graphList_.end())
+  {
+    it.node_->data_->resetFlag();
+  }
+}
+
+reznikova::WorkObject * reznikova::GraphList::findGraphByName(std::string graphName) const
+{
+  auto graph = std::find_if(
+    graphList_.begin(),
+    graphList_.end(),
+    [&] (WorkObject * objToCmp)
+    {
+     return objToCmp->graph_.getGraphName() == graphName;
+    });
+  return graph == graphList_.end() ? nullptr : (*graph);
+}
+
+reznikova::WorkObject * reznikova::GraphList::getActiveGraph()
+{
+  if (graphList_.empty())
+  {
+    throw std::logic_error("You did not add any graph\n");
+  }
+  auto graph = std::find_if(
+    graphList_.begin(),
+    graphList_.end(),
+    [] (WorkObject * objToCmp)
+    {
+     return objToCmp->isActive_ == true;
+    });
+  return *graph;
+}
