@@ -3,14 +3,14 @@
 
 bool reznikova::Vertex::isRelated(size_t vertex) const
 {
-  auto relatedVertex = std::find_if(
-    relatedVertices_.begin(),
-    relatedVertices_.end(),
-    [&] (Vertex * vertexToCmp)
+  for (const auto& vertexToCmp : relatedVertices_)
+  {
+    if (vertexToCmp->index_ == vertex)
     {
-      return vertexToCmp->index_ == vertex;
-    });
-  return relatedVertex != relatedVertices_.end();
+      return true;
+    }
+  }
+  return false;
 }
 
 void reznikova::Vertex::add(Vertex * vertex)

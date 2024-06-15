@@ -6,14 +6,14 @@
 
 bool reznikova::GraphList::isGraphInList(std::string graphName) const
 {
-  auto graph = std::find_if(
-    graphList_.begin(),
-    graphList_.end(),
-    [&] (WorkObject * graphToCmp)
+  for (const auto& graphToCmp : graphList_)
+  {
+    if (graphToCmp->graph_.getGraphName() == graphName)
     {
-     return graphToCmp->graph_.getGraphName() == graphName;
-    });
-  return graph != graphList_.end();
+      return true;
+    }
+  }
+  return false;
 }
 
 void reznikova::WorkObject::resetFlag()
@@ -40,30 +40,30 @@ void reznikova::GraphList::resetActiveFlags()
   }
 }
 
-reznikova::WorkObject * reznikova::GraphList::findGraphByName(std::string graphName) const
+reznikova::WorkObject* reznikova::GraphList::findGraphByName(std::string graphName) const
 {
-  auto graph = std::find_if(
-    graphList_.begin(),
-    graphList_.end(),
-    [&] (WorkObject * objToCmp)
+  for (const auto & objToCmp : graphList_)
+  {
+    if (objToCmp->graph_.getGraphName() == graphName)
     {
-     return objToCmp->graph_.getGraphName() == graphName;
-    });
-  return graph == graphList_.end() ? nullptr : (*graph);
+      return objToCmp;
+    }
+  }
+  return nullptr;
 }
 
-reznikova::WorkObject * reznikova::GraphList::getActiveGraph()
+reznikova::WorkObject* reznikova::GraphList::getActiveGraph()
 {
   if (graphList_.empty())
   {
     throw std::logic_error("You did not add any graph\n");
   }
-  auto graph = std::find_if(
-    graphList_.begin(),
-    graphList_.end(),
-    [] (WorkObject * objToCmp)
+  for (const auto & objToCmp : graphList_)
+  {
+    if (objToCmp->isActive_)
     {
-     return objToCmp->isActive_ == true;
-    });
-  return *graph;
+      return objToCmp;
+    }
+  }
+  throw std::logic_error("No active graph found\n");
 }

@@ -1,6 +1,7 @@
 #include "Graph.hpp"
 #include <queue>
 #include <map>
+#include <vector>
 #include <unordered_set>
 #include <algorithm>
 
@@ -19,28 +20,28 @@ size_t reznikova::Graph::getCapacity() const
   return capacity_;
 }
 
-reznikova::Vertex * reznikova::Graph::findVertex(size_t index) const
+reznikova::Vertex* reznikova::Graph::findVertex(size_t index) const
 {
-  auto vertex = std::find_if(
-    graph_.begin(),
-    graph_.end(),
-    [&] (Vertex * vertexToCmp)
+  for (const auto& vertexToCmp : graph_)
+  {
+    if (vertexToCmp->getIndex() == index)
     {
-     return vertexToCmp->getIndex() == index;
-    });
-  return vertex == graph_.end() ? nullptr : (*vertex);
+      return vertexToCmp;
+    }
+  }
+  return nullptr;
 }
 
 bool reznikova::Graph::isVertex(std::size_t index) const
 {
-  auto vertex = std::find_if(
-    graph_.begin(),
-    graph_.end(),
-    [&] (Vertex * vertexToCmp)
+  for (const auto& vertexToCmp : graph_)
+  {
+    if (vertexToCmp->getIndex() == index)
     {
-     return vertexToCmp->getIndex() == index;
-    });
-  return vertex != graph_.end();
+      return true;
+    }
+  }
+  return false;
 }
 
 bool reznikova::Graph::isEdge(size_t first_index, size_t second_index) const
