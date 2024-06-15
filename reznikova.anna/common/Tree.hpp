@@ -6,6 +6,8 @@
 #include <utility>
 #include <algorithm>
 #include <cassert>
+#include "Stack.hpp"
+#include "Queue.hpp"
 
 namespace reznikova
 {
@@ -28,6 +30,12 @@ namespace reznikova
     Tree & operator=(const Tree & otherTree);
     Tree & operator=(Tree && otherTree);
 
+    template< typename F >
+    F traverse_lnr(F f) const;
+    template< typename F >
+    F traverse_rnl(F f) const;
+    template< typename F >
+    F traverse_breadth(F f) const;
     ConstIterator cbegin() const noexcept;
     ConstIterator cend() const noexcept;
     Iterator begin() noexcept;
@@ -430,12 +438,6 @@ Tree< Key, Value, Comparator >::Tree(std::initializer_list< std::pair< const Key
 }
 
 template< typename Key, typename Value, typename Comparator >
-Tree< Key, Value, Comparator >::~Tree()
-{
-  clear(root_);
-}
-
-template< typename Key, typename Value, typename Comparator >
 Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(const Tree & otherTree)
 {
   if (this == &otherTree)
@@ -458,6 +460,81 @@ Tree< Key, Value, Comparator > & Tree< Key, Value, Comparator >::operator=(Tree&
   root_ = otherTree.root_;
   otherTree.root_ = nullptr;
   return *this;
+}
+
+template< typename Key, typename Value, typename Comparator >
+Tree< Key, Value, Comparator >::~Tree()
+{
+  clear(root_);
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename F >
+F Tree< Key, Value, Comparator >::traverse_lnr(F f) const
+{
+  Stack< Node * > stack;
+  Node * current = root_;
+  while (current != nullptr or !stack.empty())
+  {
+    while (current != nullptr)
+    {
+      stack.push(current);
+      current = current->left_;
+    }
+    current = stack.getValue();
+    stack.pop();
+    f(current->value_pair_);
+    current = current->right_;
+  }
+  return f;
+}
+
+template< typename Key, typename Value, typename Comparator >
+template< typename F >
+F Tree< Key, Value, Comparator >::traverse_rnl(F f) const
+{
+  Stack< Node * > stack;
+  Node * current = root_;
+  while (current != nullptr or !stack.empty())
+  {
+    while (current != nullptr)
+    {
+      stack.push(current);
+      current = current->right_;
+    }
+    current = stack.getValue();
+    stack.pop();
+    f(current->value_pair_);
+    current = current->left_;
+  }
+  return f;
+}
+
+template<typename Key, typename Value, typename Comparator>
+template<typename F>
+F Tree<Key, Value, Comparator>::traverse_breadth(F f) const
+{
+  if (root_ == nullptr)
+  {
+    return f;
+  }
+  Queue< Node * > queue;
+  queue.push(root_);
+  while (!queue.empty())
+  {
+    Node * current = queue.getValue();
+    queue.pop();
+    f(current->value_pair_);
+    if (current->left_ != nullptr)
+    {
+      queue.push(current->left_);
+    }
+    if (current->right_ != nullptr)
+    {
+      queue.push(current->right_);
+    }
+  }
+  return f;
 }
 
 template< typename Key, typename Value, typename Comparator >

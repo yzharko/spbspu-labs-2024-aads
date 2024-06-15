@@ -406,13 +406,13 @@ typename zheleznyakov::Tree< Key, Value, Compare >::data_t * zheleznyakov::Tree<
 template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::size(Node* node) const
 {
-  return node != nullptr ? 1 + getSize(node->left) + getSize(node->right) : 0;
+  return node != nullptr ? 1 + size(node->left) + size(node->right) : 0;
 }
 
 template < typename Key, typename Value, typename Compare >
 size_t zheleznyakov::Tree< Key, Value, Compare >::getSize() const
 {
-  return getSize(root_);
+  return size(root_);
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -452,7 +452,8 @@ Value& zheleznyakov::Tree< Key, Value, Compare >::operator[](const Key& key)
 
   current = new Node(parent, nullptr, nullptr);
   current->data.first = key;
-  current->data.second = Value();
+  Value val;
+  current->data.second = val;
   if (parent == nullptr)
   {
       root_ = current;

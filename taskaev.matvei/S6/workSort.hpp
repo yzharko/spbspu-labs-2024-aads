@@ -2,78 +2,86 @@
 #define WORKSORT_HPP
 #include <iostream>
 #include <deque>
-#include <list>
-#include <deque>
+#include <forward_list>
 #include <iomanip>
+#include <list>
+#include <string>
 #include <random>
+#include <algorithm>
 #include "sortFunctions.hpp"
-#include <List.hpp>
+
 
 namespace taskaev
 {
   template < typename Iterators >
   void print(Iterators& iter, std::ostream& out)
   {
-    out << *iter.begin();;
-    ++iter.begin();
-    while (iter.begin() != iter.end())
+    auto it = iter.begin();
+    out << *it;
+    it++;
+    while (it != iter.end())
     {
-      out << " " << *iter.begin();
-      ++iter.begin();
+      out << " ";
+      out << *it;
+      it++;
     }
     out << "\n";
   }
 
   template <typename T >
-  void generateData(size_t size, std::deque< T >& queue, List< T >& list)
+  void generateData(size_t size, std::string types, std::forward_list< T >& myList)
   {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(-1000.0, 1000.0);
-
     for (size_t i = 0; i < size; ++i)
     {
-      auto temp = static_cast<T>(dis(gen));
-      queue.push_back(temp);
-      list.pushFront(temp);
+      if (types == "ints")
+      {
+        std::uniform_int_distribution< int > dis(-10000, 10000);
+        int val = dis(gen);
+        myList.push_front(val);
+      }
+      else if (types == "floats")
+      {
+        std::uniform_real_distribution< float > dis(0.0f, 99.9f);
+        float val = dis(gen);
+        myList.push_front(val);
+      }
     }
   }
 
   template< typename T, typename Comparator >
-  void workSortings(std::ostream& out, size_t size)
+  void workSortings(std::ostream& out, std::string types, size_t size, Comparator comp)
   {
-    std::deque < T > queue;
-    List< T > list;
+    std::forward_list< T > myList;
+    generateData(size, types, myList);
+    print(myList, out);
+    std::deque< T > queueOne;
+    std::deque< T > queueTwo;
+    std::list< T > listOne;
+    std::list< T > listTwo;
+    std::copy(myList.begin(), myList.end(), std::back_inserter(queueOne));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(queueTwo));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(listOne));
+    std::copy(myList.begin(), myList.end(), std::back_inserter(listTwo));
 
-    generateData(size, queue, list);
+    Shaker(queueOne.begin(), queueOne.end(), comp);
+    print(queueOne, out);
 
-    std::list< T > shakerSort(queue.begin(), queue.end());
-    std::list< T > selectionSort(queue.begin(), queue.end());
+    Shaker(listOne.begin(), listOne.end(), comp);
+    print(listOne, out);
 
-    std::deque< T > sorts(queue.begin(), queue.end());
-    std::deque< T > shakerS(queue.begin(), queue.end());
-    std::deque< T > selectionS(queue.begin(), queue.end());
+    Selection(queueTwo.begin(), queueTwo.end(), comp);
+    print(queueTwo, out);
 
-    print(queue, out);
+    Selection(listTwo.begin(), listTwo.end(), comp);
+    print(listTwo, out);
 
-    Shaker(shakerSort.begin(), shakerSort.end(), Comparator());
-    print(shakerSort, out);
-
-    Selection(selectionSort.begin(), selectionSort.end(), Comparator());
-    print(selectionSort, out);
-
-    std::sort(sorts.begin(), sorts.end(), Comparator());
-    print(sorts, out);
-
-    Shaker(shakerS.begin(), shakerS.end(), Comparator());
-    print(shakerS, out);
-
-    Selection(selectionS.begin(), selectionS.end(), Comparator());
-    print(selectionS, out);
-
-    Shaker(list.begin(), list.end(), Comparator());
-    print(list, out);
+    Selection(myList.begin(), myList.end(), comp);
+    print(myList, out);
+    print(myList, out);
   }
 }
 
 #endif
+

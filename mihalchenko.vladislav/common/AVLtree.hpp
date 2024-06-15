@@ -5,6 +5,8 @@
 #include <initializer_list>
 #include <functional>
 #include <iostream>
+#include "stack.hpp"
+#include "queue.hpp"
 
 namespace mihalchenko
 {
@@ -27,11 +29,14 @@ namespace mihalchenko
     AVLTree(AVLTree &&move);
     ~AVLTree();
 
-    void insert(Key key, Value value);
-    void insert(pair_t pairKeyVal);
+    AVLTree &operator=(AVLTree other);
+
+    void insert(const Key &key, const Value &value);
+    void insert(const pair_t &pairKeyVal);
     bool empty() const noexcept;
     size_t getSize() const noexcept;
     size_t erase(const Key &key);
+    void erase(Iterator pos);
     void clear();
     void swap(AVLTree &) noexcept;
 
@@ -46,6 +51,19 @@ namespace mihalchenko
     ConstIterator cend() const noexcept;
     Iterator begin() noexcept;
     Iterator end() noexcept;
+
+    template< typename F >
+    F constTraverseLR(F stackFunc) const;
+    template< typename F >
+    F traverseLR(F stackFunc);
+    template< typename F >
+    F constTraverseRL(F stackFunc) const;
+    template< typename F >
+    F traverseRL(F stackFunc);
+    template< typename F >
+    F constTraverseBreadth(F stackFunc) const;
+    template< typename F >
+    F traverseBreadth(F stackFunc);
 
   private:
     class Node
@@ -62,9 +80,10 @@ namespace mihalchenko
       Node *previous_;
     };
 
-    Node *insertNode(Key key, Value val, Node *node);
+    Node *insertNode(const Key &key, const Value &val, Node *node);
     Iterator findNode(const Key &key, Node *node);
     ConstIterator findNode(const Key &key, Node *node) const;
+    Node *eraseNode(const Key &key);
 
     int calcHeight(Node *node);
     void balancingTree(Node *overweight);
@@ -149,7 +168,7 @@ mihalchenko::AVLTree< Key, Value, Compare >::Node::Node(Key key, Value data, int
 
 template < typename Key, typename Value, typename Compare >
 typename mihalchenko::AVLTree< Key, Value, Compare >::Node
-  *mihalchenko::AVLTree< Key, Value, Compare >::insertNode(Key key, Value val, Node *node)
+  *mihalchenko::AVLTree< Key, Value, Compare >::insertNode(const Key &key, const Value &val, Node *node)
 {
   Node *newNode = new Node(key, val, 0, nullptr, nullptr, nullptr);
   if (!node)
@@ -158,8 +177,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
     size_++;
     return root_;
   }
-  Compare compare;
-  if ((node) && !compare(key, node->pairOfKeyVal_.first) && !compare(node->pairOfKeyVal_.first, key))
+  if ((node) && (key == node->pairOfKeyVal_.first))
   {
     delete newNode;
     return nullptr;
@@ -167,7 +185,7 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
   bool existNode = true;
   while (existNode)
   {
-    if (compare(key, node->pairOfKeyVal_.first))
+    if (key < node->pairOfKeyVal_.first)
     {
       if (!node->left_)
       {
@@ -191,6 +209,96 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::Node
     }
   }
   return newNode;
+}
+
+template < typename Key, typename Value, typename Compare >
+typename mihalchenko::AVLTree< Key, Value, Compare >::Node
+  *mihalchenko::AVLTree< Key, Value, Compare >::eraseNode(const Key &key)
+{
+  Node *deletedNode = find(key).constIter_.node_;
+  Node *prevDelNode = deletedNode->previous_;
+  Node *workerNode = deletedNode;
+  Node *firstRightNode = nullptr;
+  Node *tempNode = nullptr;
+  if ((deletedNode->left_ == nullptr) && (deletedNode->right_ == nullptr))
+  {
+    if (prevDelNode)
+    {
+      if (prevDelNode->left_)
+      {
+        (prevDelNode->left_ == deletedNode) ? prevDelNode->left_ = nullptr : prevDelNode->right_ = nullptr;
+      }
+      else
+      {
+        (prevDelNode->right_ == deletedNode) ? prevDelNode->right_ = nullptr : prevDelNode->left_ = nullptr;
+      }
+    }
+    else
+    {
+      root_ = nullptr;
+    }
+    tempNode = deletedNode;
+    delete deletedNode;
+  }
+  else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr))
+  {
+    workerNode = deletedNode->right_;
+    while (workerNode->left_)
+    {
+      workerNode = workerNode->left_;
+    }
+    firstRightNode = workerNode;
+
+    workerNode = deletedNode->left_;
+    workerNode->previous_ = firstRightNode;
+    firstRightNode->left_ = workerNode;
+    if (deletedNode == root_)
+    {
+      root_ = firstRightNode;
+    }
+    tempNode = deletedNode;
+    delete deletedNode;
+  }
+  else
+  {
+    if (prevDelNode)
+    {
+      if (prevDelNode->left_ == deletedNode)
+      {
+        if (!(deletedNode->left_ = nullptr))
+        {
+          deletedNode->left_->previous_ = prevDelNode;
+          prevDelNode->left_ = deletedNode->left_;
+        }
+        else
+        {
+          deletedNode->right_->previous_ = prevDelNode;
+          prevDelNode->left_ = deletedNode->right_;
+        }
+      }
+      else
+      {
+        if (!(deletedNode->right_ = nullptr))
+        {
+          deletedNode->left_->previous_ = prevDelNode;
+          prevDelNode->right_ = deletedNode->left_;
+        }
+        else
+        {
+          deletedNode->right_->previous_ = prevDelNode;
+          prevDelNode->right_ = deletedNode->right_;
+        }
+      }
+    }
+    else
+    {
+      (deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
+    }
+    tempNode = deletedNode;
+    delete deletedNode;
+  }
+  size_--;
+  return tempNode;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -259,17 +367,25 @@ mihalchenko::AVLTree< Key, Value, Compare >::~AVLTree()
   root_ = nullptr;
 }
 
+template< typename Key, typename Value, typename Compare >
+typename mihalchenko::AVLTree< Key, Value, Compare >::AVLTree
+  &mihalchenko::AVLTree< Key, Value, Compare >::operator=(AVLTree other)
+{
+  clear();
+  swap(other);
+  return *this;
+}
+
 template < typename Key, typename Value, typename Compare >
-void mihalchenko::AVLTree< Key, Value, Compare >::insert(mihalchenko::AVLTree< Key, Value, Compare >::pair_t pair)
+void mihalchenko::AVLTree< Key, Value, Compare >::insert(const pair_t &pair)
 {
   insert(pair.first, pair.second);
 }
 
 template < typename Key, typename Value, typename Compare >
-void mihalchenko::AVLTree< Key, Value, Compare >::insert(Key key, Value value)
+void mihalchenko::AVLTree< Key, Value, Compare >::insert(const Key &key, const Value &value)
 {
   insertNode(key, value, root_);
-  return;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -279,86 +395,18 @@ size_t mihalchenko::AVLTree< Key, Value, Compare >::erase(const Key &key)
   {
     return 0;
   }
-  Node *deletedNode = find(key).constIter_.node_;
-  Node *prevDelNode = deletedNode->previous_;
-  Node *workerNode = deletedNode;
-  Node *firstRightNode = nullptr;
-  if ((deletedNode->left_ == nullptr) && (deletedNode->right_ == nullptr))
-  {
-    if (prevDelNode)
-    {
-      if (prevDelNode->left_)
-      {
-        (prevDelNode->left_ == deletedNode) ? prevDelNode->left_ = nullptr : prevDelNode->right_ = nullptr;
-      }
-      else
-      {
-        (prevDelNode->right_ == deletedNode) ? prevDelNode->right_ = nullptr : prevDelNode->left_ = nullptr;
-      }
-    }
-    else
-    {
-      root_ = nullptr;
-    }
-    delete deletedNode;
-  }
-  else if (!(deletedNode->left_ == nullptr) && !(deletedNode->right_ == nullptr))
-  {
-    workerNode = deletedNode->right_;
-    while (workerNode->left_)
-    {
-      workerNode = workerNode->left_;
-    }
-    firstRightNode = workerNode;
-
-    workerNode = deletedNode->left_;
-    workerNode->previous_ = firstRightNode;
-    firstRightNode->left_ = workerNode;
-    if (deletedNode == root_)
-    {
-      root_ = firstRightNode;
-    }
-    delete deletedNode;
-  }
-  else
-  {
-    if (prevDelNode)
-    {
-      if (prevDelNode->left_ == deletedNode)
-      {
-        if (!(deletedNode->left_ = nullptr))
-        {
-          deletedNode->left_->previous_ = prevDelNode;
-          prevDelNode->left_ = deletedNode->left_;
-        }
-        else
-        {
-          deletedNode->right_->previous_ = prevDelNode;
-          prevDelNode->left_ = deletedNode->right_;
-        }
-      }
-      else
-      {
-        if (!(deletedNode->right_ = nullptr))
-        {
-          deletedNode->left_->previous_ = prevDelNode;
-          prevDelNode->right_ = deletedNode->left_;
-        }
-        else
-        {
-          deletedNode->right_->previous_ = prevDelNode;
-          prevDelNode->right_ = deletedNode->right_;
-        }
-      }
-    }
-    else
-    {
-      (deletedNode->right_) ? root_ = deletedNode->right_ : root_ = deletedNode->left_;
-    }
-    delete deletedNode;
-  }
-  size_--;
+  eraseNode(key);
   return 0;
+}
+
+template< typename Key, typename Value, typename Compare >
+void mihalchenko::AVLTree< Key, Value, Compare >::erase(Iterator pos)
+{
+  if (pos != end())
+  {
+    Key key = pos.constIter_.node_->pairOfKeyVal_.first;
+    eraseNode(key);
+  }
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -378,40 +426,41 @@ typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
 template < typename Key, typename Value, typename Compare >
 Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key)
 {
+  if (find(key) == end())
+  {
+    throw std::out_of_range("This element doesn't exist\n");
+  }
   return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
 const Value &mihalchenko::AVLTree< Key, Value, Compare >::at(const Key &key) const
 {
+  if (find(key) == end())
+  {
+    throw std::out_of_range("This element doesn't exist\n");
+  }
   return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
 Value &mihalchenko::AVLTree< Key, Value, Compare >::operator[](const Key &key)
 {
-  try
+  if (find(key) == end())
   {
-    find(key);
+    insert(key, Value());
   }
-  catch (const std::out_of_range &)
-  {
-    insert(key, root_);
-    return (*find(key)).second;
-  }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
 const Value &mihalchenko::AVLTree< Key, Value, Compare >::operator[](const Key &key) const
 {
-  try
+  if (find(key) == end())
   {
-    find(key);
+    insert(key, Value());
   }
-  catch (const std::out_of_range &)
-  {
-    return (*find(key)).second;
-  }
+  return (*find(key)).second;
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -832,48 +881,47 @@ template <typename Key, typename Value, typename Compare>
 typename mihalchenko::AVLTree< Key, Value, Compare >::Iterator
   mihalchenko::AVLTree< Key, Value, Compare >::findNode(const Key &key, Node *node)
 {
-  Compare compFunc;
   if (node == nullptr)
   {
-    return Iterator(ConstIterator(nullptr, root_));
+    return end();
   }
   if (node->pairOfKeyVal_.first == key)
   {
     return Iterator(ConstIterator(node, root_));
   }
-  if (compFunc(key, node->pairOfKeyVal_.first))
+  if (key < node->pairOfKeyVal_.first)
   {
     return findNode(key, node->left_);
   }
-  if (!compFunc(key, node->pairOfKeyVal_.first))
+  if (key > node->pairOfKeyVal_.first)
   {
     return findNode(key, node->right_);
   }
-  throw std::out_of_range("There is no such node\n");
+  return end();
 }
 
 template < typename Key, typename Value, typename Compare >
 typename mihalchenko::AVLTree< Key, Value, Compare >::ConstIterator
   mihalchenko::AVLTree< Key, Value, Compare >::findNode(const Key &key, Node *node) const
 {
-  Compare compFunc;
+  Compare compare;
   if (node == nullptr)
   {
-    return ConstIterator(nullptr, root_);
+    return end();
   }
   if (node->pairOfKeyVal_.first == key)
   {
     return ConstIterator(node, root_);
   }
-  else if (compFunc(key, node->pairOfKeyVal_.first))
+  else if (compare(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->left_);
   }
-  else if (!compFunc(key, node->pairOfKeyVal_.first))
+  else if (!compare(key, node->pairOfKeyVal_.first))
   {
     return findNode(key, node->right_);
   }
-  throw std::out_of_range("There is no such node\n");
+  return end();
 }
 
 template < typename Key, typename Value, typename Compare >
@@ -885,7 +933,158 @@ void mihalchenko::AVLTree< Key, Value, Compare >::clear(Node *node)
   }
   clear(node->left_);
   clear(node->right_);
+  node->left_ = nullptr;
+  node->right_ = nullptr;
+  node->previous_ = nullptr;
+  if (node == root_)
+  {
+    root_ = nullptr;
+  }
   delete node;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseLR(F stackFunc) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left_;
+    }
+    temp = stack.getElem();
+    // stack.pop();
+    stackFunc(temp->elem_);
+    temp = temp->right_;
+    stack.pop();
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseLR(F stackFunc)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->left_;
+    }
+    temp = stack.getElem();
+    // stack.pop();
+    stackFunc(temp->pairOfKeyVal_);
+    temp = temp->right_;
+    stack.pop();
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseRL(F stackFunc) const
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right_;
+    }
+    temp = stack.getElem();
+    // stack.pop();
+    stackFunc(temp->data_);
+    temp = temp->left_;
+    stack.pop();
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseRL(F stackFunc)
+{
+  Stack< Node * > stack;
+  Node * temp = root_;
+  while ((temp != nullptr) || (!stack.isEmpty()))
+  {
+    while (temp != nullptr)
+    {
+      stack.push(temp);
+      temp = temp->right_;
+    }
+    temp = stack.getElem();
+    // stack.pop();
+    stackFunc(temp->pairOfKeyVal_);
+    temp = temp->left_;
+    stack.pop();
+  }
+  return stackFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::constTraverseBreadth(F queueFunc) const
+{
+  if (empty())
+  {
+    return queueFunc;
+  }
+  Queue< Node * > queueBreadfh;
+  queueBreadfh.push(root_);
+
+  while (!queueBreadfh.isEmpty())
+  {
+    Node * node = queueBreadfh.getElem();
+    queueFunc(node->data);
+    queueBreadfh.pop();
+    if (node->left != nullptr)
+    {
+      queueBreadfh.push(node->left);
+    }
+    if (node->right != nullptr)
+    {
+      queueBreadfh.push(node->right);
+    }
+  }
+  return queueFunc;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F mihalchenko::AVLTree< Key, Value, Compare >::traverseBreadth(F queueFunc)
+{
+  if (empty())
+  {
+    return queueFunc;
+  }
+  Queue< Node * > queueBreadfh;
+  queueBreadfh.push(root_);
+
+  while (!queueBreadfh.isEmpty())
+  {
+    Node * node = queueBreadfh.getElem();
+    queueFunc(node->pairOfKeyVal_);
+    queueBreadfh.pop();
+    if (node->left_ != nullptr)
+    {
+      queueBreadfh.push(node->left_);
+    }
+    if (node->right_ != nullptr)
+    {
+      queueBreadfh.push(node->right_);
+    }
+  }
+  return queueFunc;
 }
 
 #endif

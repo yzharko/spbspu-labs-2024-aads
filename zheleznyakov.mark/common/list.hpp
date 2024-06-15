@@ -20,6 +20,7 @@ namespace zheleznyakov
     List(List &&other) noexcept;
     List(const size_t count, const T &value);
     ~List();
+    List & operator=(const List< T >&other);
     void pushFront(const T &value);
     void pushBack(const T &value);
     size_t getSize() const noexcept;
@@ -30,6 +31,7 @@ namespace zheleznyakov
     bool isEmpty() const noexcept;
     void assign(const size_t count, const T &value);
     void remove(size_t i);
+    bool has(const T &value) const;
     template < typename UnaryPredicate >
     void removeIf(UnaryPredicate predicate);
     T &operator[](const size_t index) const;
@@ -117,6 +119,25 @@ zheleznyakov::List< T >::List(const List< T >&other) : size(other.size), head(nu
       current = current->next;
     }
   }
+}
+
+template < typename T >
+zheleznyakov::List< T > & zheleznyakov::List< T >::operator=(const List< T >&other)
+{
+  clear();
+  if (other.size > 0)
+  {
+    head = new details::Node< T >(other.head->value);
+    tail = head;
+    details::Node< T >*current = other.head;
+    while (current->next != nullptr)
+    {
+      tail->next = new details::Node< T >(current->next->value);
+      tail = tail->next;
+      current = current->next;
+    }
+  }
+  return *this;
 }
 
 template < typename T >
@@ -467,5 +488,16 @@ template< typename T >
 typename zheleznyakov::List< T >::ConstIterator zheleznyakov::List< T >::cEnd() const noexcept
 {
   return nullptr;
+}
+
+template <typename T>
+bool zheleznyakov::List<T>::has(const T& value) const
+{
+  for (auto it = cBegin(); it != cEnd(); ++it) {
+    if (*it == value) {
+      return true;
+    }
+  }
+  return false;
 }
 #endif

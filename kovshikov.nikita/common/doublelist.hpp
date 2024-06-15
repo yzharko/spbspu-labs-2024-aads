@@ -33,6 +33,7 @@ namespace kovshikov
     T& back() const;
 
     bool empty() const noexcept;
+    size_t size() const;
 
     void pushFront(const T &value);
     void pushBack(const T& value);
@@ -318,6 +319,19 @@ template < typename T >
 bool kovshikov::DoubleList< T >::empty() const noexcept
 {
   return (head_ == nullptr && tail_ == nullptr) ? true : false;
+}
+
+template < typename T >
+size_t kovshikov::DoubleList< T >::size() const
+{
+  size_t size = 0;
+  Iterator current = begin();
+  while(current != end())
+  {
+    size += 1;
+    current++;
+  }
+  return size;
 }
 
 template < typename T >

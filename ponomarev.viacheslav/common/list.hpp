@@ -25,6 +25,7 @@ namespace ponomarev
 
     void popFront();
     void pushBack(T& data);
+    void pushBack(T&& data);
     void pushFront(const T& data);
     size_t getSize() const noexcept;
     T& getFront() const;
@@ -351,6 +352,23 @@ void ponomarev::List< T >::pushBack(T& data)
     ListNode* temp = new ListNode(data, nullptr, tail);
     tail->next = temp;
     tail = temp;
+  }
+  size++;
+}
+
+template<typename T>
+void ponomarev::List<T>::pushBack(T&& data)
+{
+  if (head == nullptr)
+  {
+    head = new ListNode(data);
+    tail = head;
+  }
+  else
+  {
+    ListNode* adListNode = new ListNode(data, nullptr, tail);
+    tail->next = adListNode;
+    tail = adListNode;
   }
   size++;
 }

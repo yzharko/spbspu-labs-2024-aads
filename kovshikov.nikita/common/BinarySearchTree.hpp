@@ -33,6 +33,9 @@ namespace kovshikov
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
 
+    bool empty() const noexcept;
+    size_t size() const noexcept;
+
     Iterator find(const Key& key) const;
     size_t count(const Key& key) const;
     Range getEqualRange(const Key& key) const;
@@ -41,6 +44,8 @@ namespace kovshikov
     void insert(Pair& pair);
     Value& operator[](const Key& key);
     Value& at(const Key& key);
+
+    const Value& at(const Key& key) const;
 
     void clear();
     size_t erase(const Key& key);
@@ -406,6 +411,12 @@ bool kovshikov::Tree< Key, Value, Compare >::isEmpty() const noexcept
 }
 
 template< typename Key, typename Value, typename Compare >
+bool kovshikov::Tree< Key, Value, Compare >::empty() const noexcept
+{
+  return isEmpty();
+}
+
+template< typename Key, typename Value, typename Compare >
 size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
 {
   Iterator cstart = begin();
@@ -417,6 +428,13 @@ size_t kovshikov::Tree< Key, Value, Compare >::getSize() const noexcept
     cstart++;
   }
   return size;
+}
+
+
+template< typename Key, typename Value, typename Compare >
+size_t kovshikov::Tree< Key, Value, Compare >::size() const noexcept
+{
+  return getSize();
 }
 
 template< typename Key, typename Value, typename Compare >
@@ -667,6 +685,19 @@ Value& kovshikov::Tree< Key, Value, Compare >::operator[](const Key& key)
 
 template< typename Key, typename Value, typename Compare >
 Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key)
+{
+  if(find(key) == end())
+  {
+    throw std::out_of_range("out_of_range");
+  }
+  else
+  {
+    return find(key) -> second;
+  }
+}
+
+template< typename Key, typename Value, typename Compare >
+const Value& kovshikov::Tree< Key, Value, Compare >::at(const Key& key) const
 {
   if(find(key) == end())
   {
