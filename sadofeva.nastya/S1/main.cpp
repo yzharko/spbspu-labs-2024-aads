@@ -34,10 +34,14 @@ int main()
   }
   bool first = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
   for (auto && sum1 : sums)
 =======
   for (auto && sum: sums)
 >>>>>>> parent of 10f28ac (fx)
+=======
+  for (auto && sum : sums)
+>>>>>>> parent of 54d6294 (fx)
   {
     if (first)
     {
@@ -47,7 +51,7 @@ int main()
     {
       std::cout << " ";
     }
-    std::cout << sum1;
+    std::cout << sum;
   }
   if (first)
   {
