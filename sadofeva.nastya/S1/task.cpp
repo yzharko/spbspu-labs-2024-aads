@@ -1,10 +1,14 @@
-#include <stdexcept>
 #include <limits>
+#include <stdexcept>
 #include "task.hpp"
 
+<<<<<<< HEAD
 //namespace sadofeva
 //{
 unsigned long long sum1(unsigned long long a, unsigned long long b)
+=======
+namespace
+>>>>>>> parent of 10f28ac (fx)
 {
   if ( a > std::numeric_limits< unsigned long long >::max() - b)
   {
@@ -53,7 +57,11 @@ unsigned long sadofeva::sumNumbersFromList(const numbers_list_t & list)
   unsigned long sum = 0;
   for (auto && value: list)
   {
+<<<<<<< HEAD
     sum = sum1(sum,value);
+=======
+    sum = ::sum(sum,value);
+>>>>>>> parent of 10f28ac (fx)
   }
   return sum;
 }

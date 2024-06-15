@@ -33,7 +33,11 @@ int main()
     return 1;
   }
   bool first = true;
+<<<<<<< HEAD
   for (auto && sum1 : sums)
+=======
+  for (auto && sum: sums)
+>>>>>>> parent of 10f28ac (fx)
   {
     if (first)
     {

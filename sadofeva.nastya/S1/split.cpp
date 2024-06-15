@@ -1,6 +1,11 @@
-#include <cctype>
 #include "split.hpp"
+<<<<<<< HEAD
 sadofeva::List< unsigned long > sadofeva::splitNumbers(const std::string & str)
+=======
+#include <cctype>
+
+sadofeva::List< unsigned long> sadofeva::splitNumbers(const std::string & str)
+>>>>>>> parent of 10f28ac (fx)
 {
   if (str.empty())
   {
