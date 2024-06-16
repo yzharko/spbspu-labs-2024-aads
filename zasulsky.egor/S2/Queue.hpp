@@ -69,7 +69,14 @@ namespace zasulsky
 
     T peek()
     {
-      return forwardList.getHead();
+      if (forwardList.head() != nullptr)
+      {
+        return forwardList.head()->data;
+      }
+      else
+      {
+        throw std::logic_error("empty container");
+      }
     }
 
     void dequeue()

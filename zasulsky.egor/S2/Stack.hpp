@@ -73,7 +73,14 @@ namespace zasulsky
 
     T& top()
     {
-      return forwardList.getHead();
+      if (forwardList.head() != nullptr)
+      {
+        return forwardList.head()->data;
+      }
+      else
+      {
+        throw std::logic_error("empty container");
+      }
     }
 
   private:
