@@ -2,13 +2,7 @@
 #include <fstream>
 #include <string>
 
-
-WorkerBST::WorkerBST(const std::string& path)
-{
-    readFile(path);
-}
-
-WorkerBST::~WorkerBST()
+void clearTree(Dictionary& bst)
 {
     auto it = bst.begin();
 
@@ -20,7 +14,7 @@ WorkerBST::~WorkerBST()
     }
 }
 
-void WorkerBST::Menu()
+void Menu(Dictionary& bst)
 {
     std::string line;
 
@@ -29,11 +23,11 @@ void WorkerBST::Menu()
         std::getline(std::cin, line);
         if (!line.empty())
         {
-            parseArguments(line);
+            parseArguments(bst, line);
         }
     }
 }
-void WorkerBST::readFile(const std::string& path)
+void readFile(Dictionary& bst, const std::string& path)
 {
     if (path.empty())
     {
@@ -48,12 +42,12 @@ void WorkerBST::readFile(const std::string& path)
     while (!file.eof())
     {
         std::getline(file, line);
-        readDataSet(line);
+        readDataSet(bst, line);
     }
     file.close();
 }
 
-void WorkerBST::print(const std::string& str)
+void print(Dictionary& bst, const std::string& str)
 {
     BinarySearchTree< int, std::string >* findBst = nullptr;
     findBst = bst.get(str);
@@ -80,7 +74,7 @@ void WorkerBST::print(const std::string& str)
     std::cout << '\n';
 }
 
-void WorkerBST::complement(std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
+void complement(Dictionary& bst, std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
 {
     BinarySearchTree< int, std::string >* first = nullptr;
     BinarySearchTree< int, std::string >* second = nullptr;
@@ -130,7 +124,7 @@ void WorkerBST::complement(std::vector< std::string >::iterator begin, std::vect
     bst.push(key, result);
 }
 
-int WorkerBST::parseNum(const std::string& num)
+int parseNum(const std::string& num)
 {
     size_t pos = 0;
     auto symbol = static_cast<unsigned char>(num[pos]);
@@ -148,7 +142,7 @@ int WorkerBST::parseNum(const std::string& num)
     return result;
 }
 
-void WorkerBST::readDataSet(const std::string& dataSet)
+void readDataSet(Dictionary& bst, const std::string& dataSet)
 {
     size_t pos = 0;
     std::string word;
@@ -179,7 +173,7 @@ void WorkerBST::readDataSet(const std::string& dataSet)
     }
 }
 
-void WorkerBST::intersect(std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
+void intersect(Dictionary& bst, std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
 {
     BinarySearchTree< int, std::string >* first = nullptr;
     BinarySearchTree< int, std::string >* second = nullptr;
@@ -224,7 +218,7 @@ void WorkerBST::intersect(std::vector< std::string >::iterator begin, std::vecto
     bst.push(key, result);
 }
 
-void WorkerBST::unify(std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
+void unify(Dictionary& bst, std::vector< std::string >::iterator begin, std::vector< std::string >::iterator end)
 {
     BinarySearchTree< int, std::string >* first = nullptr;
     BinarySearchTree< int, std::string >* second = nullptr;
@@ -282,7 +276,7 @@ void WorkerBST::unify(std::vector< std::string >::iterator begin, std::vector< s
     bst.push(key, result);
 }
 
-void WorkerBST::parseArguments(const std::string& str)
+void parseArguments(Dictionary& bst, const std::string& str)
 {
     size_t pos = 0;
     std::string word;
@@ -308,19 +302,19 @@ void WorkerBST::parseArguments(const std::string& str)
 
     if (word == "print")
     {
-        print(*(stringList.begin() + 1));
+        print(bst, *(stringList.begin() + 1));
     }
     else if (word == "intersect")
     {
-        intersect(stringList.begin() + 1, stringList.end());
+        intersect(bst, stringList.begin() + 1, stringList.end());
     }
     else if (word == "complement")
     {
-        complement(stringList.begin() + 1, stringList.end());
+        complement(bst, stringList.begin() + 1, stringList.end());
     }
     else if (word == "union")
     {
-        unify(stringList.begin() + 1, stringList.end());
+        unify(bst, stringList.begin() + 1, stringList.end());
     }
     else if (word != "")
     {
@@ -328,12 +322,12 @@ void WorkerBST::parseArguments(const std::string& str)
     }
 }
 
-void WorkerBST::warningEmpty(std::ostream& out)
+void warningEmpty(std::ostream& out)
 {
     out << "<EMPTY>\n";
 }
 
-void WorkerBST::warningInvCom(std::ostream& out)
+void warningInvCom(std::ostream& out)
 {
     out << "<INVALID COMMAND>\n";
 }
