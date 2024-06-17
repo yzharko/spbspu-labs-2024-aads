@@ -28,7 +28,6 @@ namespace reznikova
       const T * operator->() const;
       bool operator!=(const Iterator &) const;
       bool operator==(const Iterator &) const;
-    private:
       details::Node< T > * node_;
     };
   }
