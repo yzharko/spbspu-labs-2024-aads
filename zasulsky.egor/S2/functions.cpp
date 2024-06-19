@@ -117,7 +117,7 @@ zasulsky::Queue< std::string > zasulsky::convertToPostfix(zasulsky::Queue< std::
 
 long long zasulsky::solvePostfixExpr(Queue< std::string >& postfix)
 {
-  zasulsky::Stack < long long > st; 
+  zasulsky::Stack < long long > st;
   while (!postfix.isEmpty())
   {
     std::string p = postfix.peek();
