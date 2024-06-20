@@ -53,6 +53,8 @@ namespace sukacheva {
     ConstIterator cbegin() const;
     ConstIterator cend() const;
 
+    List& operator=(const List& other) = default;
+    List& operator=(List&& other) noexcept = default;
   private:
 
     details::Node< T >* head;
@@ -278,7 +280,7 @@ void sukacheva::List< T >::reverse()
   size_t tempSize = listSize;
   for (size_t i = tempSize - 1; i != -1; i--)
   {
-    pushBack(this->operator[](i)->data);
+    pushBack(this->operator[](i));
   }
   for (size_t i = 0; i != tempSize; i++)
   {
