@@ -36,7 +36,10 @@ public:
     template <typename F>
     F traverse_lnr(F& f) const
     {
-        if (!root) throw std::runtime_error("<EMPTY>");
+        if (!root)
+        {
+          std::cout << "<EMPTY>\n";
+        }
 
         traverse_lnr(root);
         return f;
@@ -47,7 +50,7 @@ public:
     {
         if (!root)
         {
-            throw std::runtime_error("<EMPTY>");
+            std::cout << "<EMPTY>\n";
         }
         traverse_rnr(root);
         return f;
@@ -56,8 +59,10 @@ public:
     template <typename F>
     F traverse_breadth(F f) const
     {
-        if (!root) throw std::runtime_error("<EMPTY>");
-
+        if (!root)
+        {
+          std::cout << "<EMPTY>\n";
+        }
         hohlova::Queue<Node*> q;
         q.push(root);
 
