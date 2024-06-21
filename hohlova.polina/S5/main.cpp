@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     try
     {
         BinarySearchTree<int, std::string> bst;
-        hohlova::ReadFile(argv[2], bst);
+        hohlova::readFile(argv[2], bst);
         Key_summ f;
         Key_summ res;
         std::string cmd = argv[1];
