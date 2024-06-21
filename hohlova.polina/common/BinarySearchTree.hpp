@@ -39,6 +39,7 @@ public:
         if (!root)
         {
           std::cout << "<EMPTY>\n";
+          return f;
         }
 
         traverse_lnr(root);
@@ -51,6 +52,7 @@ public:
         if (!root)
         {
             std::cout << "<EMPTY>\n";
+            return f;
         }
         traverse_rnr(root);
         return f;
@@ -62,6 +64,7 @@ public:
         if (!root)
         {
           std::cout << "<EMPTY>\n";
+          return f;
         }
         hohlova::Queue<Node*> q;
         q.push(root);
