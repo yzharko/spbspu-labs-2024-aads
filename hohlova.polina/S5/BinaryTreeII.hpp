@@ -1,5 +1,5 @@
 #ifndef BINARYTREEII_HPP
-#define BINARYTREE_HPP
+#define BINARYTREEII_HPP
 #include <string>
 #include "BinarySearchTree.hpp"
 
