@@ -6,7 +6,7 @@
 #include <string>
 #include "BinarySearchTree.hpp"
 
-void hohlova::ReadFile(const std::string& path, BinarySearchTree<int, std::string>& bst) {
+void hohlova::readFile(const std::string& path, BinarySearchTree<int, std::string>& bst) {
 
     if (path.empty())
         throw std::runtime_error("Path is empty\n");
@@ -24,6 +24,33 @@ void hohlova::ReadFile(const std::string& path, BinarySearchTree<int, std::strin
     }
 
     file.close();
+}
+
+void hohlova::print(Dictionary& bst, const std::string& str)
+{
+    BinarySearchTree< int, std::string >* findBst = nullptr;
+    findBst = bst.get(str);
+    if (findBst == nullptr)
+    {
+        warningInvCom(std::cout);
+        return;
+    }
+    else if (findBst->empty())
+    {
+        warningEmpty(std::cout);
+        return;
+    }
+    auto it = findBst->begin();
+    std::cout << str << ' ';
+    for (; it != findBst->end();)
+    {
+        std::cout << (*it).first << ' ' << (*it).second;
+        if (++it != findBst->end())
+        {
+            std::cout << ' ';
+        }
+    }
+    std::cout << '\n';
 }
 int hohlova::ParseNum(const std::string& num) {
     int result = 0;
@@ -66,4 +93,14 @@ int sum(int a, int b) {
         throw std::runtime_error("Sum underflow");
     }
     return a + b;
+}
+
+void hohlova::warningEmpty(std::ostream& out)
+{
+    out << "<EMPTY>\n";
+}
+
+void hohlova::warningInvCom(std::ostream& out)
+{
+    out << "<INVALID COMMAND>\n";
 }

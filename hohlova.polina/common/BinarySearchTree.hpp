@@ -36,12 +36,6 @@ public:
     template <typename F>
     F traverse_lnr(F& f) const
     {
-        if (!root)
-        {
-          std::cout << "<EMPTY>\n";
-          return f;
-        }
-
         traverse_lnr(root);
         return f;
     }
@@ -49,11 +43,6 @@ public:
     template <typename F>
     F traverse_rnr(F f) const
     {
-        if (!root)
-        {
-            std::cout << "<EMPTY>\n";
-            return f;
-        }
         traverse_rnr(root);
         return f;
     }
@@ -61,11 +50,6 @@ public:
     template <typename F>
     F traverse_breadth(F f) const
     {
-        if (!root)
-        {
-          std::cout << "<EMPTY>\n";
-          return f;
-        }
         hohlova::Queue<Node*> q;
         q.push(root);
 
