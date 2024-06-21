@@ -1,3 +1,5 @@
+#ifndef BINARYSEARCHTREE_HPP
+#define BINARYSEARCHTREE_HPP
 #include "stack.hpp"
 #include "queue.hpp"
 #include <functional>
