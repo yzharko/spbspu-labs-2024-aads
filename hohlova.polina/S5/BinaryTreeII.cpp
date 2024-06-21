@@ -2,6 +2,7 @@
 #include <iostream>
 #include "fstream"
 #include <vector>
+#include <limits>
 #include <string>
 #include "BinarySearchTree.hpp"
 
