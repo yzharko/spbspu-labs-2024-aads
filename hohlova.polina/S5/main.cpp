@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
         {
             throw std::runtime_error("Invalid command");
         }
+        std::cout << res.result_ << ' ' << res.str << "\n";
     }
     catch (const std::exception& err) {
         std::cout << err.what();
