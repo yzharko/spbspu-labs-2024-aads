@@ -49,7 +49,7 @@ namespace zasulsky
       return forwardList.empty();
     }
 
-    void enqueue(T& data)
+    void enqueue(const T & data)
     {
       if (this->isEmpty())
       {
