@@ -67,7 +67,7 @@ namespace zasulsky
       }
     }
 
-    T peek()
+    const T & peek()
     {
       if (forwardList.head() != nullptr)
       {

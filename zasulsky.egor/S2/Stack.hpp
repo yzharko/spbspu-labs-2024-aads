@@ -71,7 +71,7 @@ namespace zasulsky
       return forwardList.size();
     }
 
-    T& top()
+    const T & top()
     {
       if (forwardList.head() != nullptr)
       {
