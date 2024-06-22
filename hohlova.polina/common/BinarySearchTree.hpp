@@ -37,6 +37,7 @@ public:
     F traverse_lnr(F& f) const
     {
         hohlova::Stack<Node*> stack;
+        stack.push(root);
         Node* curr = root;
         while (!stack.empty())
         {
@@ -56,6 +57,7 @@ public:
     F traverse_rnr(F f) const
     {
       hohlova::Stack<Node*> stack;
+      stack.push(root);
       Node* curr = root;
       while (!stack.empty())
       {
