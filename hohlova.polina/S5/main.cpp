@@ -37,6 +37,11 @@ int main(int argc, char** argv) {
         {
             throw std::runtime_error("Invalid command");
         }
+        if (res.result_ == 0)
+        {
+            hohlova::warningEmpty(std::cout);
+            return 0;
+        }
         std::cout << res.result_ << ' ' << res.str << "\n";
     }
     catch (const std::exception& err) {
