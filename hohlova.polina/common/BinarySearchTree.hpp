@@ -36,15 +36,39 @@ public:
     template <typename F>
     F traverse_lnr(F& f) const
     {
-        traverse_lnr(root);
+        hohlova::Stack<Node*> stack;
+        Node* curr = root;
+        while (!stack.empty())
+        {
+            while (curr)
+            {
+                stack.push(curr);
+                curr = curr->left;
+            }
+            curr = stack.top();
+            stack.pop();
+            curr = curr->right;
+        }
         return f;
     }
 
     template <typename F>
     F traverse_rnr(F f) const
     {
-        traverse_rnr(root);
-        return f;
+      hohlova::Stack<Node*> stack;
+      Node* curr = root;
+      while (!stack.empty())
+      {
+        while (curr)
+        {
+          stack.push(curr);
+          curr = curr->right;
+        }
+        curr = stack.top();
+        stack.pop();
+        curr = curr->left;
+      }
+      return f;
     }
 
     template <typename F>
