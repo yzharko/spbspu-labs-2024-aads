@@ -38,9 +38,9 @@ public:
     {
         hohlova::Stack<Node*> stack;
         stack.push(root);
-        Node* curr = root;
         while (!stack.empty())
         {
+            Node* curr = root;
             while (curr)
             {
                 stack.push(curr);
@@ -58,9 +58,9 @@ public:
     {
       hohlova::Stack<Node*> stack;
       stack.push(root);
-      Node* curr = root;
       while (!stack.empty())
       {
+        Node* curr = root;
         while (curr)
         {
           stack.push(curr);
