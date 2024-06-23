@@ -36,39 +36,51 @@ public:
     template <typename F>
     F traverse_lnr(F& f) const
     {
-        hohlova::Stack<Node*> stack;
-        stack.push(root);
-        Node* curr = root;
-        while (!stack.empty())
+        if (!root) throw std::runtime_error("<EMPTY>");
+
+        hohlova::Stack<Node*> s;
+        Node* current = root;
+
+        while (current != NULL || !s.empty())
         {
-            while (curr)
+            while (current != NULL)
             {
-                stack.push(curr);
-                curr = curr->left;
+                s.push(current);
+                current = current->left;
             }
-            curr = stack.top();
-            stack.pop();
-            curr = curr->right;
+
+            current = s.top();
+            s.pop();
+
+            std::pair<Key, Value> myPair = std::make_pair(current->key, current->value);
+            f(myPair);
+
+            current = current->right;
         }
+
         return f;
     }
 
     template <typename F>
     F traverse_rnr(F f) const
     {
-      hohlova::Stack<Node*> stack;
-      stack.push(root);
-      Node* curr = root;
-      while (!stack.empty())
+      if (!root) throw std::runtime_error("<EMPTY>");
+      hohlova::Stack<Node*> s;
+      Node* current = root;
+
+      while (current != NULL || !s.empty())
       {
-        while (curr)
+        while (current != NULL)
         {
-          stack.push(curr);
-          curr = curr->right;
+          s.push(current);
+          current = current->right;
         }
-        curr = stack.top();
-        stack.pop();
-        curr = curr->left;
+        current = s.top();
+        s.pop();
+        std::pair<Key, Value> myPair = std::make_pair(current->key, current->value);
+        f(myPair);
+
+        current = current->left;
       }
       return f;
     }
