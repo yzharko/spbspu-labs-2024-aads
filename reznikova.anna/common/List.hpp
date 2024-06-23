@@ -390,23 +390,24 @@ typename reznikova::details::Iterator< T > reznikova::List< T >::insert(details:
 template< typename T >
 typename reznikova::details::Iterator< T > reznikova::List< T >::erase(details::Iterator< T > pos)
 {
-  details::Iterator< T > it;
-  if (pos == head_)
+  details::Iterator<T> it;
+  details::Node<T>* node = pos.node_;
+  if (node == head_)
   {
     popFront();
     it = head_;
   }
-  else if (pos == tail_)
+  else if (node == tail_)
   {
     popBack();
     it = tail_;
   }
   else
   {
-    pos->next_->prev_ = pos->prev_;
-    pos->prev_->next_ = pos->next_;
-    it = pos->next_;
-    delete pos;
+    node->next_->prev_ = node->prev_;
+    node->prev_->next_ = node->next_;
+    it = details::Iterator<T>(node->next_);
+    delete node;
   }
   return it;
 }

@@ -36,6 +36,8 @@ namespace taskaev
 
     void erase(const Key& key);
 
+    Value& operator[](const Key& key);
+
     ConstIterator find(const Key& key) const;
     void clear();
 
@@ -729,6 +731,20 @@ namespace taskaev
       }
     }
     return ConstIterator(nullptr, root_);
+  }
+
+  template< typename Key, typename Value, typename Comparator >
+  Value& BSTree< Key, Value, Comparator >::operator[](const Key& key)
+  {
+    if (find(key) == cend())
+    {
+      insert(key, Value());
+      return find(key).node_->data_.second;
+    }
+    else
+    {
+      return find(key).node_->data_.second;
+    }
   }
 
   template < typename Key, typename Value, typename Comparator >
