@@ -4,7 +4,7 @@
 
 int sum(int a, int b);
 struct Key_summ {
-    void operator()(const std::pair<const int, std::string>& key_value)
+    void operator()(const std::pair<const int, std::string> key_value)
     {
         result_ = sum(result_, key_value.first);
         if (str.empty())
