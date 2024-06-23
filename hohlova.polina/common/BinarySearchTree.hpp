@@ -87,7 +87,11 @@ public:
     template <typename F>
     F traverse_breadth(F f) const
     {
-        if (!root) throw std::runtime_error("<EMPTY>");
+        if (!root)
+        {
+          std::cout << "<EMPTY>\n";
+        }
+
         hohlova::Queue<Node*> q;
         q.push(root);
 
