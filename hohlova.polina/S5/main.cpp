@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
         }
         if(!res.str.empty())
         {
-            std::cout << " " << res.str;
+            std::cout << " " << res.str << "\n";
         }
     }
     catch (const std::exception& err) {
