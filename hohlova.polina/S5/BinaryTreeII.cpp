@@ -2,11 +2,9 @@
 #include <iostream>
 #include "fstream"
 #include <vector>
-#include <climits>
 #include <string>
 #include "BinarySearchTree.hpp"
-
-void hohlova::readFile(const std::string& path, BinarySearchTree<int, std::string>& bst) {
+void ReadFile(const std::string& path, BinarySearchTree<int, std::string>& bst) {
 
     if (path.empty())
         throw std::runtime_error("Path is empty\n");
@@ -25,39 +23,12 @@ void hohlova::readFile(const std::string& path, BinarySearchTree<int, std::strin
 
     file.close();
 }
-
-void hohlova::print(Dictionary& bst, const std::string& str)
-{
-    BinarySearchTree< int, std::string >* findBst = nullptr;
-    findBst = bst.get(str);
-    if (findBst == nullptr)
-    {
-        warningInvCom(std::cout);
-        return;
-    }
-    else if (findBst->empty())
-    {
-        warningEmpty(std::cout);
-        return;
-    }
-    auto it = findBst->begin();
-    std::cout << str << ' ';
-    for (; it != findBst->end();)
-    {
-        std::cout << (*it).first << ' ' << (*it).second;
-        if (++it != findBst->end())
-        {
-            std::cout << ' ';
-        }
-    }
-    std::cout << '\n';
-}
-int hohlova::ParseNum(const std::string& num) {
+int ParseNum(const std::string& num) {
     int result = 0;
     result = std::stoi(num);
     return result;
 }
-void hohlova::ReadDataSet(const std::string& dataSet, BinarySearchTree<int, std::string>& bst) {
+void ReadDataSet(const std::string& dataSet, BinarySearchTree<int, std::string>& bst) {
 
     size_t pos = 0;
     std::string word;
@@ -86,21 +57,11 @@ void hohlova::ReadDataSet(const std::string& dataSet, BinarySearchTree<int, std:
 }
 
 int sum(int a, int b) {
-    if (b > 0 && a > INT_MAX - b) {
+    if (b > 0 && a > INT32_MAX - b) {
         throw std::runtime_error("Sum overflow");
     }
-    else if (b < 0 && a < INT_MIN - b) {
+    else if (b < 0 && a < INT32_MIN - b) {
         throw std::runtime_error("Sum underflow");
     }
     return a + b;
-}
-
-void hohlova::warningEmpty(std::ostream& out)
-{
-    out << "<EMPTY>\n";
-}
-
-void hohlova::warningInvCom(std::ostream& out)
-{
-    out << "<INVALID COMMAND>\n";
 }
