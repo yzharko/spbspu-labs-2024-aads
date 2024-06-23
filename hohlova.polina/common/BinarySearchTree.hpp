@@ -95,7 +95,7 @@ public:
             Node* curr = q.front();
             q.pop();
 
-            std::pair<Key, Value> myPair = std::make_pair<Key, Value>(curr->key, curr->value);
+            std::pair<Key, Value> myPair = std::make_pair(curr->key, curr->value);
             f(myPair);
 
             if (curr->left) q.push(curr->left);
