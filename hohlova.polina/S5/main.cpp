@@ -1,10 +1,10 @@
 #include <iostream>
-#include "BinarySearchTree.hpp"
 #include <string>
 #include <map>
 #include <unordered_map>
 #include "BinaryTreeII.hpp"
 #include "keySumm.hpp"
+#include "BinarySearchTree.hpp"
 
 int main(int argc, char** argv)
 {
@@ -13,11 +13,10 @@ int main(int argc, char** argv)
     std::cerr << "Error\n";
     return 1;
   }
-
   try
   {
-    BinarySearchTree<int, std::string> bst;
-    ReadFile(argv[2], bst);
+    BinarySearchTree< int, std::string > bst;
+    hohlova::readFile(argv[2], bst);
     Key_summ f;
     Key_summ res;
     std::string cmd = argv[1];
@@ -37,11 +36,11 @@ int main(int argc, char** argv)
     {
       throw std::runtime_error("Invalid command");
     }
-    if(res.result_)
+    if (res.result_)
     {
       std::cout << res.result_;
     }
-    if(!res.str.empty())
+    if (!res.str.empty())
     {
       std::cout << " " << res.str << "\n";
     }

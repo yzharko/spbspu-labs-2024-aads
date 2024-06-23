@@ -3,7 +3,12 @@
 #include <string>
 #include "BinarySearchTree.hpp"
 
-void ReadFile(const std::string& path, BinarySearchTree<int, std::string>& bst);
-void ReadDataSet(const std::string& dataSet, BinarySearchTree<int, std::string>& bst);
-int sum(int a, int b);
+namespace hohlova
+{
+  void readFile(const std::string& path, BinarySearchTree< int, std::string >& bst);
+  int parseNum(const std::string& num);
+  void readDataSet(const std::string& dataSet, BinarySearchTree< int, std::string >& bst);
+  int sum(int a, int b);
+}
+
 #endif

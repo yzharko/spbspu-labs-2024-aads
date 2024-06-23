@@ -33,82 +33,13 @@ public:
     Value& operator[](Key k) const;
 
     template <typename F>
-    F traverse_lnr(F f) const
-    {
-        if (!root) throw std::runtime_error("<EMPTY>");
-
-        hohlova::Stack<Node*> s;
-        Node* current = root;
-
-        while (current != NULL || !s.empty())
-        {
-            while (current != NULL)
-            {
-                s.push(current);
-                current = current->left;
-            }
-
-            current = s.top();
-            s.pop();
-
-            std::pair<Key, Value> myPair = std::make_pair(current->key, current->value);
-            f(myPair);
-
-            current = current->right;
-        }
-
-        return f;
-    }
+    F traverse_lnr(F f) const;
 
     template <typename F>
-    F traverse_rnr(F f) const
-    {
-      if (!root) throw std::runtime_error("<EMPTY>");
-      hohlova::Stack<Node*> s;
-      Node* current = root;
-
-      while (current != NULL || !s.empty())
-      {
-        while (current != NULL)
-        {
-          s.push(current);
-          current = current->right;
-        }
-        current = s.top();
-        s.pop();
-        std::pair<Key, Value> myPair = std::make_pair(current->key, current->value);
-        f(myPair);
-
-        current = current->left;
-      }
-      return f;
-    }
+    F traverse_rnr(F f) const;
 
     template <typename F>
-    F traverse_breadth(F f) const
-    {
-        if (!root)
-        {
-          std::cout << "<EMPTY>\n";
-          return f;
-        }
-
-        hohlova::Queue<Node*> q;
-        q.push(root);
-
-        while (!q.empty()) {
-            Node* curr = q.front();
-            q.pop();
-
-            std::pair<Key, Value> myPair(curr->key, curr->value);
-            f(myPair);
-
-            if (curr->left) q.push(curr->left);
-            if (curr->right) q.push(curr->right);
-        }
-
-        return f;
-    }
+    F traverse_breadth(F f) const;
 
 private:
     Node* root;
@@ -493,6 +424,90 @@ template < typename Key, typename Value, typename Compare >
 typename BinarySearchTree< Key, Value, Compare >::Iterator BinarySearchTree< Key, Value, Compare >::end()
 {
     return Iterator();
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BinarySearchTree< Key, Value, Compare >::traverse_lnr(F f) const
+{
+  if (!root)
+  {
+    std::cout << "<EMPTY>\n";
+    return f;
+  }
+  hohlova::Stack< Node* > s;
+  Node* current = root;
+  while (current != NULL || !s.empty())
+  {
+    while (current != NULL)
+    {
+      s.push(current);
+      current = current->left;
+    }
+    current = s.top();
+    s.pop();
+    std::pair< Key, Value > myPair = std::make_pair(current->key, current->value);
+    f(myPair);
+    current = current->right;
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BinarySearchTree< Key, Value, Compare >::traverse_rnr(F f) const
+{
+  if (!root)
+  {
+    std::cout << "<EMPTY>\n";
+    return f;
+  }
+  hohlova::Stack< Node* > s;
+  Node* current = root;
+
+  while (current != NULL || !s.empty())
+  {
+    while (current != NULL)
+    {
+      s.push(current);
+      current = current->right;
+    }
+    current = s.top();
+    s.pop();
+    std::pair< Key, Value > myPair = std::make_pair(current->key, current->value);
+    f(myPair);
+    current = current->left;
+  }
+  return f;
+}
+
+template < typename Key, typename Value, typename Compare >
+template< typename F >
+F BinarySearchTree< Key, Value, Compare >::traverse_breadth(F f) const
+{
+  if (!root)
+  {
+    std::cout << "<EMPTY>\n";
+    return f;
+  }
+  hohlova::Queue< Node* > q;
+  q.push(root);
+  while (!q.empty())
+  {
+    Node* curr = q.front();
+    q.pop();
+    std::pair< Key, Value > myPair(curr->key, curr->value);
+    f(myPair);
+    if (curr->left)
+    {
+      q.push(curr->left);
+    }
+    if (curr->right)
+    {
+      q.push(curr->right);
+    }
+  }
+    return f;
 }
 
 #endif
