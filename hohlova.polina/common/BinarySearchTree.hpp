@@ -4,7 +4,6 @@
 #include "queue.hpp"
 #include <functional>
 
-
 template < typename Key, typename Value, typename Compare = std::less< Key > >
 class BinarySearchTree
 {
@@ -88,6 +87,7 @@ public:
     template <typename F>
     F traverse_breadth(F f) const
     {
+        if (!root) throw std::runtime_error("<EMPTY>");
         hohlova::Queue<Node*> q;
         q.push(root);
 
