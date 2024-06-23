@@ -34,7 +34,7 @@ public:
     Value& operator[](Key k) const;
 
     template <typename F>
-    F traverse_lnr(F& f) const
+    F traverse_lnr(F f) const
     {
         if (!root) throw std::runtime_error("<EMPTY>");
 
