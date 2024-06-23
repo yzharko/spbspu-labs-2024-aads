@@ -1,13 +1,14 @@
 #ifndef KEYSUMM_HPP
 #define KEYSUMM_HPP
 #include <string>
+#include "BinaryTreeII.hpp"
 
-int sum(int a, int b);
+int hohlova::sum(int a, int b);
 struct Key_summ
 {
   void operator()(const std::pair< const int, std::string > key_value)
   {
-    result_ = sum(result_, key_value.first);
+    result_ = hohlova::sum(result_, key_value.first);
     if (str.empty())
     {
       str += key_value.second;
