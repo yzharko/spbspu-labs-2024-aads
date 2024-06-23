@@ -90,6 +90,7 @@ public:
         if (!root)
         {
           std::cout << "<EMPTY>\n";
+          return f;
         }
 
         hohlova::Queue<Node*> q;
