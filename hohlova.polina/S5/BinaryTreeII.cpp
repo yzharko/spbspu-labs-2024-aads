@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "BinarySearchTree.hpp"
+#include <BinarySearchTree.hpp>
 
 void hohlova::readFile(const std::string& path, BinarySearchTree< int, std::string >& bst)
 {
