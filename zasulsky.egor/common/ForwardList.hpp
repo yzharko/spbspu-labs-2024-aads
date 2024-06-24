@@ -60,7 +60,7 @@ namespace zasulsky
         clear();
         insert_after(rhs.cbegin(), rhs.cend(), cbeforeBegin());
       }
-      catch (std::bad_alloc&)
+      catch (const std::bad_alloc&)
       {
         clear();
         throw;
@@ -172,9 +172,16 @@ namespace zasulsky
       erase_after(cbeforeBegin());
     }
 
-    bool empty() const
+    bool empty() const noexcept
     {
-      return fakeNode_->next == nullptr;
+      if (fakeNode_ != nullptr)
+      {
+        return fakeNode_->next == nullptr;
+      }
+      else
+      {
+        return true;
+      }
     }
 
     void clear()
@@ -221,6 +228,17 @@ namespace zasulsky
       return fakeNode_->next;
     }
 
+    T& getHead()
+    {
+      if (fakeNode_->next != nullptr)
+      {
+        return fakeNode_->next->data;
+      }
+      else
+      {
+        throw std::logic_error("you can't got data from empty list");
+      }
+    }
     int size()
     {
       int count = 0;
