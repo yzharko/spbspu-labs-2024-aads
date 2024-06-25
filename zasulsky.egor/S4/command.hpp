@@ -4,20 +4,21 @@
 #include <limits>
 #include "Dictionary.hpp"
 
+namespace zasulsky
+{
+  void print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string name, std::ostream& out);
 
-void print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string name, std::ostream& out);
+  void intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBig, std::string p1, std::string p2, std::string res);
 
-void intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBig, std::string p1, std::string p2, std::string res);
+  void complement(Dictionary < std::string, Dictionary < int, std::string> >& dicBig, std::string p1, std::string p2, std::string res);
 
-void complement(Dictionary < std::string, Dictionary < int, std::string> >& dicBig, std::string p1, std::string p2, std::string res);
+  void getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string p1, std::string p2, std::string res);
 
-void getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string p1, std::string p2, std::string res);
+  std::ostream& printInvCmd(std::ostream& out);
 
-std::ostream& printInvCmd(std::ostream& out);
+  void skipUntilNewLine(std::istream& in);
 
-void skipUntilNewLine(std::istream& in);
-
-bool isOperand(std::string st);
-
+  bool isOperand(std::string st);
+}
 
 #endif

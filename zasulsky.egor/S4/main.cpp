@@ -23,9 +23,9 @@ int main(int argc, char* argv[])
     {
       std::cerr << "file isn`t open\n";
     }
-    cmdTree cmd;
+    zasulsky::cmdTree cmd;
     std::string str;
-    Dictionary <std::string, Dictionary < int, std::string  > >  dicBig;
+    zasulsky::Dictionary <std::string, zasulsky::Dictionary < int, std::string  > >  dicBig;
     bool isFirst = 1;
     std::string name = "";
     int key = 0;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     while (getline(file, str))
     {
       Parser pars(str);
-      Dictionary <int, std::string > dic;
+      zasulsky::Dictionary <int, std::string > dic;
       for (auto i = pars(); !i.empty(); i = pars())
       {
         if (isFirst)

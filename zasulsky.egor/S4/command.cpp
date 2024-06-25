@@ -1,6 +1,6 @@
 #include "command.hpp"
 
-void print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string name, std::ostream& out)
+void zasulsky::print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string name, std::ostream& out)
 {
   if (name == "")
   {
@@ -23,7 +23,7 @@ void print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, 
 }
 
 
-void intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
@@ -69,7 +69,7 @@ void intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBi
 }
 
 
-void complement(Dictionary < std::string, Dictionary < int, std::string> >& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::complement(Dictionary < std::string, Dictionary < int, std::string> >& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
@@ -115,7 +115,7 @@ void complement(Dictionary < std::string, Dictionary < int, std::string> >& dicB
 }
 
 
-void getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
@@ -160,18 +160,18 @@ void getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBi
   }
 }
 
-std::ostream& printInvCmd(std::ostream& out)
+std::ostream& zasulsky::printInvCmd(std::ostream& out)
 {
   return out << "<INVALID COMMAND>\n";
 }
 
-void skipUntilNewLine(std::istream& in)
+void zasulsky::skipUntilNewLine(std::istream& in)
 {
   auto maxstream = std::numeric_limits< std::streamsize >::max();
   in.ignore(maxstream, '\n');
 }
 
-bool isOperand(std::string st)
+bool zasulsky::isOperand(std::string st)
 {
   for (char s : st)
   {
