@@ -1,20 +1,21 @@
 #ifndef CMDTREE_HPP
 #define CMDTREE_HPP
 
-#include "Dictionary.hpp"
 #include <string>
-#include "AVL.hpp"
 #include <functional>
 #include <ostream>
 #include "command.hpp"
+#include "Dictionary.hpp"
+#include "AVL.hpp"
+
 
 class cmdTree
 {
-  using ps = Dictionary<std::string, Dictionary< int, std::string > >;
+  using ps = Dictionary< std::string, Dictionary< int, std::string > >;
 
 public:
-  Dictionary < std::string, void(*)(ps&, std::string, std::ostream&)>  cmdsOne;
-  Dictionary < std::string, void(*)(ps&, std::string, std::string, std::string)> cmdsTwo;
+  Dictionary < std::string, void(*)(ps&, std::string, std::ostream&) >  cmdsOne;
+  Dictionary < std::string, void(*)(ps&, std::string, std::string, std::string) > cmdsTwo;
 
   cmdTree()
   {

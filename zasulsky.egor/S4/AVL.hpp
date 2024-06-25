@@ -319,7 +319,6 @@ public:
     return std::addressof(m_ptr->data);
   }
 
-private:
   node* m_ptr;
 
   RevBidIter(const constIterator& other) :
