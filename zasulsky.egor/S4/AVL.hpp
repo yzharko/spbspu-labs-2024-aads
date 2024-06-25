@@ -7,8 +7,6 @@
 #include <vector>
 #include "node_t.hpp"
 
-
-
 template< typename Key, typename Value, typename Compare = std::less< Key > >
 class AVL;
 
@@ -29,25 +27,30 @@ public:
   friend class ConstBidIter< Key, Value, Compare >;
   friend class RevBidIter< Key, Value, Compare >;
   friend class ConstRevBidIter< Key, Value, Compare >;
-  using node = node_t <std::pair <Key, Value> >;
-  using T = std::pair<Key, Value >;
+  using node = node_t< std::pair< Key, Value > >;
+  using T = std::pair< Key, Value >;
   using constIterator = ConstBidIter< Key, Value, Compare >;
 
   BidirectionalIterator() noexcept :
     m_ptr(nullptr)
   {}
-  BidirectionalIterator(node* other) : m_ptr(nullptr) {
+  
+  BidirectionalIterator(node* other) : 
+    m_ptr(nullptr) 
+  {
     m_ptr = other;
   }
 
-  void nz(node* pt)
+  void assignNewValue(node* pt)
   {
     m_ptr = pt;
   }
+
   node* getCur()
   {
     return m_ptr;
   }
+
   BidirectionalIterator& operator++() noexcept
   {
     if (isEmpty(m_ptr))
@@ -76,6 +79,7 @@ public:
 
     return *this;
   }
+
   BidirectionalIterator operator++(int) noexcept
   {
     BidirectionalIterator prev(m_ptr);
@@ -83,6 +87,7 @@ public:
 
     return prev;
   }
+
   BidirectionalIterator& operator--() noexcept
   {
     if (isEmpty(m_ptr))
@@ -112,6 +117,7 @@ public:
 
     return *this;
   }
+
   BidirectionalIterator operator--(int) noexcept
   {
     BidirectionalIterator prev(m_ptr);
@@ -124,6 +130,7 @@ public:
   {
     return (m_ptr == other.m_ptr);
   }
+
   bool operator!=(const BidirectionalIterator& other) const noexcept
   {
     return !(m_ptr == other.m_ptr);
@@ -133,6 +140,7 @@ public:
   {
     return m_ptr->data;
   }
+
   T* operator->()
   {
     return std::addressof(m_ptr->data);
@@ -140,10 +148,11 @@ public:
   node* m_ptr;
 
   BidirectionalIterator(const constIterator& other) :
-    m_ptr(const_cast<node*>(other.m_ptr))
+    m_ptr(const_cast< node* >(other.m_ptr))
   {}
+
   BidirectionalIterator(constIterator&& other) :
-    m_ptr(const_cast<node*>(other.m_ptr))
+    m_ptr(const_cast< node* >(other.m_ptr))
   {}
 };
 
@@ -154,13 +163,14 @@ public:
   friend class AVL< Key, Value, Compare >;
   friend class BidirectionalIterator< Key, Value, Compare >;
 
-  using T = std::pair<Key, Value >;
+  using T = std::pair< Key, Value >;
   using node = typename AVL< Key, Value, Compare >::node;
   using iterator = BidirectionalIterator< Key, Value, Compare >;
 
   ConstBidIter() noexcept :
     m_ptr(nullptr)
   {}
+
   ConstBidIter(const node* other) noexcept :
     m_ptr(other)
   {}
@@ -168,17 +178,21 @@ public:
   ConstBidIter(const iterator& other) noexcept :
     m_ptr(other.m_ptr)
   {}
+
   ConstBidIter(iterator&& other) noexcept :
     m_ptr(other.m_ptr)
   {}
+
   node& getCur()
   {
     return m_ptr;
   }
-  void nz(node* pt)
+
+  void assignNewValue(node* pt)
   {
     m_ptr = pt;
   }
+
   ConstBidIter& operator++() noexcept
   {
     iterator res(m_ptr);
@@ -186,6 +200,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   ConstBidIter operator++(int) noexcept
   {
     ConstBidIter prev(m_ptr);
@@ -193,6 +208,7 @@ public:
 
     return prev;
   }
+
   ConstBidIter& operator--() noexcept
   {
     iterator res(m_ptr);
@@ -200,6 +216,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   ConstBidIter operator--(int) noexcept
   {
     ConstBidIter prev(m_ptr);
@@ -212,6 +229,7 @@ public:
   {
     return (m_ptr == other.m_ptr);
   }
+
   bool operator!=(const ConstBidIter& other) const noexcept
   {
     return !(*this == other);
@@ -221,11 +239,11 @@ public:
   {
     return m_ptr->data;
   }
+
   const T* operator->() const
   {
     return std::addressof(m_ptr->data);
   }
-
 
   const node* m_ptr;
 
@@ -238,7 +256,7 @@ public:
   friend class AVL< Key, Value, Compare >;
   friend class ConstRevBidIter< Key, Value, Compare >;
 
-  using T = std::pair<Key, Value >;
+  using T = std::pair< Key, Value >;
   using node = typename AVL< Key, Value, Compare >::node;
   using basicIterator = BidirectionalIterator< Key, Value, Compare >;
   using constIterator = ConstRevBidIter< Key, Value, Compare >;
@@ -246,6 +264,7 @@ public:
   RevBidIter() noexcept :
     m_ptr(nullptr)
   {}
+
   explicit RevBidIter(node* other) noexcept :
     m_ptr(other)
   {}
@@ -257,6 +276,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   RevBidIter operator++(int) noexcept
   {
     RevBidIter prev(m_ptr);
@@ -264,6 +284,7 @@ public:
 
     return prev;
   }
+
   RevBidIter& operator--() noexcept
   {
     basicIterator res(m_ptr);
@@ -271,6 +292,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   RevBidIter operator--(int) noexcept
   {
     RevBidIter prev(m_ptr);
@@ -283,6 +305,7 @@ public:
   {
     return (m_ptr == other.m_ptr);
   }
+
   bool operator!=(const RevBidIter& other) const noexcept
   {
     return !(*this == other);
@@ -292,6 +315,7 @@ public:
   {
     return m_ptr->data;
   }
+
   T* operator->()
   {
     return std::addressof(m_ptr->data);
@@ -301,10 +325,11 @@ private:
   node* m_ptr;
 
   RevBidIter(const constIterator& other) :
-    m_ptr(const_cast<node*>(other.m_ptr))
+    m_ptr(const_cast< node* >(other.m_ptr))
   {}
+
   RevBidIter(constIterator&& other) :
-    m_ptr(const_cast<node*>(other.m_ptr))
+    m_ptr(const_cast< node* >(other.m_ptr))
   {}
 };
 
@@ -323,6 +348,7 @@ public:
   ConstRevBidIter() noexcept :
     m_ptr(nullptr)
   {}
+
   ConstRevBidIter(const node* other) noexcept :
     m_ptr(other)
   {}
@@ -330,6 +356,7 @@ public:
   ConstRevBidIter(const iterator& other) noexcept :
     m_ptr(other.m_ptr)
   {}
+
   ConstRevBidIter(iterator&& other) noexcept :
     m_ptr(other.m_ptr)
   {}
@@ -341,6 +368,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   ConstRevBidIter operator++(int) noexcept
   {
     ConstRevBidIter prev(m_ptr);
@@ -348,6 +376,7 @@ public:
 
     return prev;
   }
+
   ConstRevBidIter& operator--() noexcept
   {
     basicIterator res(m_ptr);
@@ -355,6 +384,7 @@ public:
     m_ptr = res.m_ptr;
     return *this;
   }
+
   ConstRevBidIter operator--(int) noexcept
   {
     ConstRevBidIter prev(m_ptr);
@@ -367,6 +397,7 @@ public:
   {
     return (m_ptr == other.m_ptr);
   }
+
   bool operator!=(const ConstRevBidIter& other) const noexcept
   {
     return !(*this == other);
@@ -376,6 +407,7 @@ public:
   {
     return m_ptr->data;
   }
+
   const T* operator->() const
   {
     return std::addressof(m_ptr->data);
@@ -385,6 +417,7 @@ public:
 private:
 
 };
+
 template< class Key, class Value, class Compare >
 class AVL
 {
@@ -666,7 +699,7 @@ public:
   {
     if (root == nullptr)
     {
-      root = new node_t<std::pair< Key, Value > >(value);
+      root = new node_t< std::pair< Key, Value > >(value);
       root->height = getHeight(root);
     }
     else if (comp_(value.first, root->data.first))
@@ -1006,61 +1039,4 @@ private:
 
 #endif
 
-//«асулський ≈гор јндреевич
-//јнгло - русский словарь.ј¬Ћ - дерево
-//
-// оманды :
-//1)TRANSLATE
-//ѕринимает словарь и слово
-//выводит перевод :
-//input: TRANSLATE dict1 home
-//output : home - дом
-//
-//2)CALCULATE
-//ѕодсчитывает количество английских слов, доступных дл€ изучени€ в переданном словаре :
-//input: CALCULATE dict
-//output : 15
-//
-//3)PRINT
-//выводит содержимое заданного словар€ :
-//input: PRINT dict
-//output :
-//home - дом
-//car - машина
-//
-//4)ADD
-//принимает словарь, слово вместе с переводом, которое добавл€ет в словарь
-//Input : ADD car - машина
-//
-//5)HELP
-//¬ыводит названи€ команд и описание их функционала;
-//
-//6)COMBINATION
-//ѕринимает им€ результирующего словар€ и двух или более существующих, в результирующий добавл€ет содержимое преда
-//COMBINATION res dict1 dict2
-//
-//7)CROSS
-//принимает им€ результирующего словар€ и двух или более существующих.–езультирующий будет содержать данные, которые
-//CROSS res dict1 dict2
-//
-//8)COUNT
-//выводит кол - во словарей
-//input : COUNT
-//output : 3
-//
-//9)BUILD принимает им€ нового словар€ и создает его
-//input : BUILD new
-//
-//10)SEARCH
-//принимает словарь, подстроку и выводит слова, содержащие заданную подстроку вместе с переводом
-//input : SEARCH fo
-//output :
-//follow - следовать
-//
-//11)TRANSLATION
-//принимает словарь, слово, и новый перевод дл€ него, добавл€ет новый перевод.
-//input:TRANSLATION dict1 Car - машина
-//
-//12)TAG
-//принимает словарь, список слов с переводом, добавл€ет все эти слова с переводами в словарь
-//input : TAG dict1 polytechnic - komser; car - машина
+ 
