@@ -1,6 +1,8 @@
 #include "command.hpp"
 
-void zasulsky::print(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string name, std::ostream& out)
+using dic = zasulsky::Dictionary < int, std::string >;
+
+void zasulsky::print(Dictionary < std::string, dic >& dicBig, std::string name, std::ostream& out)
 {
   if (name == "")
   {
@@ -23,7 +25,7 @@ void zasulsky::print(Dictionary < std::string, Dictionary < int, std::string > >
 }
 
 
-void zasulsky::intersect(Dictionary < std::string, Dictionary < int, std::string >>& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::intersect(Dictionary < std::string, dic >& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
@@ -69,7 +71,7 @@ void zasulsky::intersect(Dictionary < std::string, Dictionary < int, std::string
 }
 
 
-void zasulsky::complement(Dictionary < std::string, Dictionary < int, std::string> >& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::complement(Dictionary < std::string, dic >& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
@@ -115,7 +117,7 @@ void zasulsky::complement(Dictionary < std::string, Dictionary < int, std::strin
 }
 
 
-void zasulsky::getUnion(Dictionary < std::string, Dictionary < int, std::string > >& dicBig, std::string p1, std::string p2, std::string res)
+void zasulsky::getUnion(Dictionary < std::string, dic >& dicBig, std::string p1, std::string p2, std::string res)
 {
   if (!(res != "" && p1 != "" && p2 != ""))
   {
