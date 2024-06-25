@@ -244,7 +244,6 @@ public:
     m_ptr = pt;
   }
 
-private:
   const node* m_ptr;
 
 };
@@ -413,7 +412,6 @@ public:
     return std::addressof(m_ptr->data);
   }
 
-private:
   const node* m_ptr;
 };
 
