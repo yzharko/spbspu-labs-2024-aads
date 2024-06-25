@@ -420,7 +420,7 @@ namespace zasulsky
   {
   public:
     using pair = std::pair< Key, Value >;
-    using node = datail::node_t< pair >;
+    using node = detail::node_t< pair >;
     using iterator = BidirectionalIterator< Key, Value, Compare >;
     using constIterator = ConstBidIter< Key, Value, Compare >;
     using reverseIterator = RevBidIter< Key, Value, Compare >;
