@@ -448,8 +448,6 @@ public:
     other.root_ = nullptr;
   }
 
- 
-
   AVL(std::initializer_list< std::pair< Key, Value > > initList) :
     root_(),
     comp_()
