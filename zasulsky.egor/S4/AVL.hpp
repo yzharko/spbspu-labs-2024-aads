@@ -34,7 +34,7 @@ public:
   BidirectionalIterator() noexcept :
     m_ptr(nullptr)
   {}
-  
+
   BidirectionalIterator(node* other) :
     m_ptr(nullptr) 
   {
