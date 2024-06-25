@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
           name = i;
           isFirst = 0;
         }
-        else if (isOperand(i))
+        else if (zasulsky::isOperand(i))
         {
           key = std::stoi(i);
         }
@@ -85,8 +85,8 @@ int main(int argc, char* argv[])
       }
       else
       {
-        printInvCmd(std::cout);
-        skipUntilNewLine(std::cin);
+        zasulsky::printInvCmd(std::cout);
+        zasulsky::skipUntilNewLine(std::cin);
       }
     }
   }
