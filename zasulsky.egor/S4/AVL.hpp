@@ -698,7 +698,7 @@ namespace zasulsky
       node->height = 1 + std::max(height(node->left), height(node->right));
     }
 
-    void toInsert(node_t< std::pair< Key, Value > >*& root, std::pair< Key, Value > value)
+    void toInsert(zasulsky::detail::node_t< std::pair< Key, Value > >*& root, std::pair< Key, Value > value)
     {
       if (root == nullptr)
       {
