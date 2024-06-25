@@ -41,16 +41,6 @@ public:
     m_ptr = other;
   }
 
-  void assignNewValue(node* pt)
-  {
-    m_ptr = pt;
-  }
-
-  node* getCur()
-  {
-    return m_ptr;
-  }
-
   BidirectionalIterator& operator++() noexcept
   {
     if (isEmpty(m_ptr))
@@ -145,6 +135,18 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
+  
+  void assignNewValue(node* pt)
+  {
+    m_ptr = pt;
+  }
+
+  node* getCur()
+  {
+    return m_ptr;
+  }
+
+private:
   node* m_ptr;
 
   BidirectionalIterator(const constIterator& other) :
@@ -182,16 +184,6 @@ public:
   ConstBidIter(iterator&& other) noexcept :
     m_ptr(other.m_ptr)
   {}
-
-  node& getCur()
-  {
-    return m_ptr;
-  }
-
-  void assignNewValue(node* pt)
-  {
-    m_ptr = pt;
-  }
 
   ConstBidIter& operator++() noexcept
   {
@@ -244,7 +236,18 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
+  
+  node& getCur()
+  {
+    return m_ptr;
+  }
 
+  void assignNewValue(node* pt)
+  {
+    m_ptr = pt;
+  }
+
+private:
   const node* m_ptr;
 
 };
@@ -412,10 +415,9 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
-  const node* m_ptr;
 
 private:
-
+  const node* m_ptr;
 };
 
 template< class Key, class Value, class Compare >
@@ -438,23 +440,26 @@ public:
     root_(copy(other.root_)),
     comp_()
   {}
+
   AVL(AVL&& other) noexcept :
     root_(other.root_),
     comp_()
   {
     other.root_ = nullptr;
   }
-  ~AVL()
-  {
-    clear();
-  }
 
+ 
 
   AVL(std::initializer_list< std::pair< Key, Value > > initList) :
     root_(),
     comp_()
   {
     insertinsert(initList);
+  }
+
+  ~AVL()
+  {
+    clear();
   }
 
   AVL& operator = (const AVL& other)
@@ -471,7 +476,6 @@ public:
     }
   }
 
-
   AVL& operator = (const AVL&& other)
   {
     if (this == std::addressof(other))
@@ -486,6 +490,25 @@ public:
     }
   }
 
+  Value& operator[](Key key)
+  {
+    auto it = begin();
+    while (it != end())
+    {
+      if (it->first == key)
+      {
+        return it->second;
+      }
+      else
+      {
+        it++;
+      }
+    }
+    insert(make_pair(key, Value{}));
+    auto p = find(key);
+    return p->second;
+  }
+
   void clear()
   {
     clearN(root_);
@@ -497,41 +520,47 @@ public:
     node* pt = min();
     return iterator(pt);
   }
+
   iterator end()
   {
     return iterator();
   }
+
   constIterator cbegin() const
   {
     return constIterator(min());
   }
+
   constIterator cend() const
   {
     return constIterator();
   }
+
   reverseIterator reverseBegin()
   {
     return reverseIterator(max());
   }
+
   reverseIterator reverseEnd()
   {
     return reverseIterator();
   }
+
   reverseConstIterator reverseConstBegin() const
   {
     return reverseConstIterator(max());
   }
+
   reverseConstIterator reverseConstEnd() const
   {
     return reverseConstIterator();
   }
 
-
-
   node* max() const noexcept
   {
     return findMax(root_);
   }
+
   node* min() const noexcept
   {
     return findMin(root_);
@@ -550,6 +579,7 @@ public:
 
     return node;
   }
+
   static node* findMin(node* node)
   {
     if (isEmpty(node))
@@ -563,7 +593,6 @@ public:
 
     return node;
   }
-
 
   iterator find(Key& key)
   {
@@ -599,13 +628,11 @@ public:
     return res;
   }
 
-
-
-
   static bool isEqual(Key k1, Key k2)
   {
     return k1 == k2;
   }
+
   static int getHeight(node* node)
   {
     if (node == nullptr)
@@ -648,29 +675,12 @@ public:
     }
     throw std::out_of_range("no such key");
   }
-  Value& operator[](Key key)
-  {
-    auto it = begin();
-    while (it != end())
-    {
-      if (it->first == key)
-      {
-        return it->second;
-      }
-      else
-      {
-        it++;
-      }
-    }
-    insert(make_pair(key, Value{}));
-    auto p = find(key);
-    return p->second;
-  }
 
   bool empty()
   {
     return root_ == nullptr;
   }
+
   static int balanceFactor(node* node)
   {
     if (node == nullptr)
@@ -679,6 +689,7 @@ public:
     }
     return height(node->left) - height(node->right);
   }
+
   static int balanceFactor(const node* node)
   {
     if (node == nullptr)
@@ -693,8 +704,6 @@ public:
     node->height = 1 + std::max(height(node->left), height(node->right));
   }
 
-
-  //template< class K, class V >
   void toInsert(node_t< std::pair< Key, Value > >*& root, std::pair< Key, Value > value)
   {
     if (root == nullptr)
@@ -829,10 +838,9 @@ public:
     pt->left = ptr;
 
     updateHeight(ptr);
-    updateHeight(ptr->right);   // ÝÒÎ ÇÄÅÑÜ !!!!!ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ ÑÓÊÀ
+    updateHeight(ptr->right);
     return pt;
   }
-
 
   node* balance(node* node)
   {
@@ -873,6 +881,7 @@ public:
     calc(root_, count);
     return count;
   }
+
   static void calc(node_t<std::pair<Key, Value>>* root, int& count)
   {
     if (root != nullptr)
@@ -889,15 +898,16 @@ public:
     }
   }
 
-
   void inorderTraversal()
   {
     infix(root_);
   }
+
   void preorderTraversal()
   {
     prefix(root_);
   }
+
   void postorderTraversal()
   {
     postfix(root_);
@@ -919,8 +929,6 @@ public:
   {
     foo(ptr);
   }
-
-
 
 private:
   node* root_;
@@ -998,7 +1006,6 @@ private:
     }
     countKey(root->right, key, isKey);
   }
-
 
   static void infix(node* root)
   {
