@@ -1038,5 +1038,3 @@ private:
 };
 
 #endif
-
- 

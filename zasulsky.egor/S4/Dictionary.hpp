@@ -34,7 +34,7 @@ public:
     insert(inList);
     return *this;
   }
-  
+
   iterator begin()
   {
     return fL.begin();
