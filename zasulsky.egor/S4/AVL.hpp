@@ -35,7 +35,7 @@ public:
     m_ptr(nullptr)
   {}
   
-  BidirectionalIterator(node* other) : 
+  BidirectionalIterator(node* other) :
     m_ptr(nullptr) 
   {
     m_ptr = other;

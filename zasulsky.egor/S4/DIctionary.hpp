@@ -35,8 +35,6 @@ public:
     return *this;
   }
 
-
-
   iterator begin()
   {
     return fL.begin();
