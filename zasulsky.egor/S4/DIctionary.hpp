@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "node_t.hpp"
 #include "AVL.hpp"
+
 template< class Key, class Value, class Compare = std::less< Key > >
 class Dictionary
 {

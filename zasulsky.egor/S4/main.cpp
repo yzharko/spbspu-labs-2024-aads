@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     }
     while (getline(file, str))
     {
-      zasulsky::Parser pars(str);
+      Parser pars(str);
       Dictionary <int, std::string > dic;
       for (auto i = pars(); !i.empty(); i = pars())
       {
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
           name = i;
           isFirst = 0;
         }
-        else if (zasulsky::isOperand(i))
+        else if (isOperand(i))
         {
           key = std::stoi(i);
         }
