@@ -66,7 +66,6 @@ public:
       }
       m_ptr = parent;
     }
-
     return *this;
   }
 
@@ -101,10 +100,8 @@ public:
         m_ptr = parent;
         parent = parent->parent;
       }
-
       m_ptr = parent;
     }
-
     return *this;
   }
 
@@ -236,7 +233,7 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
- 
+
   node& getCur()
   {
     return m_ptr;
