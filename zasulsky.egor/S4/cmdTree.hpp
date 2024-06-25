@@ -10,7 +10,7 @@
 
 class cmdTree
 {
-  using ps = Dictionary<std::string, Dictionary<int, std::string>>;
+  using ps = Dictionary<std::string, Dictionary< int, std::string > >;
 
 public:
   Dictionary < std::string, void(*)(ps&, std::string, std::ostream&)>  cmdsOne;
