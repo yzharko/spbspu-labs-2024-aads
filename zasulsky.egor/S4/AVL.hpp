@@ -143,7 +143,6 @@ public:
     return m_ptr;
   }
 
-private:
   node* m_ptr;
 
   BidirectionalIterator(const constIterator& other) :
