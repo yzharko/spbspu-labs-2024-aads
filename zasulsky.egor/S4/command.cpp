@@ -182,5 +182,3 @@ bool isOperand(std::string st)
   }
   return true;
 }
-
-#endif

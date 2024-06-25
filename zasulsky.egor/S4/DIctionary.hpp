@@ -22,17 +22,29 @@ public:
     fL(),
     comp()
   {}
+
   Dictionary(std::initializer_list< KVPair >& inList, const Compare& com = Compare()) :
     fL(),
     comp(com)
   {
     insert(inList);
   }
+
   Dictionary& operator=(std::initializer_list< KVPair >& inList)
   {
     fL.clear();
     insert(inList);
     return *this;
+  }
+
+  Value& operator[](const Key& key)
+  {
+    iterator it = lookfor(key);
+    if (!isEmptyIt(it))
+    {
+      return it->second;
+    }
+    return insert({ key, Value() })->second;
   }
 
   iterator begin()
@@ -182,16 +194,6 @@ public:
     return ++finded;
   }
 
-  Value& operator[](const Key& key)
-  {
-    iterator it = lookfor(key);
-    if (!isEmptyIt(it))
-    {
-      return it->second;
-    }
-    return insert({ key, Value() })->second;
-  }
-
   void clear() noexcept
   {
     fL.clear();
@@ -237,6 +239,7 @@ public:
   {
     fL.popFront();
   }
+
   void print()
   {
     iterator temp = fL.begin();
@@ -299,7 +302,8 @@ public:
       }
     }
   }
-  Dictionary merge(Dictionary<Key, Value> other)
+
+  Dictionary merge(Dictionary< Key, Value > other)
   {
     iterator it;
     iterator cur = other.begin();
@@ -316,6 +320,7 @@ public:
     res.sort();
     return res;
   }
+
   bool count(const Key& key)
   {
     iterator it = lookfor(key);
