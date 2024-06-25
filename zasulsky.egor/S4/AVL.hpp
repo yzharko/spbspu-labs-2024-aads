@@ -135,7 +135,7 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
-  
+
   void assignNewValue(node* pt)
   {
     m_ptr = pt;
@@ -236,7 +236,7 @@ public:
   {
     return std::addressof(m_ptr->data);
   }
-  
+ 
   node& getCur()
   {
     return m_ptr;
@@ -507,12 +507,6 @@ public:
     return p->second;
   }
 
-  void clear()
-  {
-    clearN(root_);
-    root_ = nullptr;
-  }
-
   iterator begin()
   {
     node* pt = min();
@@ -553,6 +547,13 @@ public:
   {
     return reverseConstIterator();
   }
+
+  void clear()
+  {
+    clearN(root_);
+    root_ = nullptr;
+  }
+
 
   node* max() const noexcept
   {
