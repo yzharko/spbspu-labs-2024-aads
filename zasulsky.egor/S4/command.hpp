@@ -180,4 +180,16 @@ void skipUntilNewLine(std::istream& in)
   in.ignore(maxstream, '\n');
 }
 
+bool isOperand(std::string st)
+{
+  for (char s : st)
+  {
+    if (!isdigit(s))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 #endif
