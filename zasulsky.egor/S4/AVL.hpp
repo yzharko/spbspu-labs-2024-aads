@@ -36,7 +36,7 @@ public:
   {}
 
   BidirectionalIterator(node* other) :
-    m_ptr(nullptr) 
+    m_ptr(nullptr)
   {
     m_ptr = other;
   }
@@ -1032,8 +1032,6 @@ private:
     postfix(root->right);
     visit(root, showKey);
   }
-
-
 
 };
 
