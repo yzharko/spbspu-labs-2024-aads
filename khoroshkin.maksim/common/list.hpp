@@ -22,6 +22,8 @@ namespace khoroshkin
 
     List();
     List(size_t count, const T & value);
+    template< typename Iter >
+    List(Iter begin, Iter end);
     List(std::initializer_list< T > init);
     List(const List & obj);
     List(List && obj);
@@ -31,6 +33,7 @@ namespace khoroshkin
     List< T > & operator=(List && obj);
 
     void push_back(const T & data);
+    void push_front(const T & data);
     void pop_front();
     void clear();
     void swap(List< T > & other);
@@ -265,6 +268,17 @@ khoroshkin::List< T >::List(size_t count, const T & value)
 }
 
 template< typename T >
+template< typename Iter >
+khoroshkin::List< T >::List(Iter begin, Iter end) :
+  size(0), head(nullptr)
+{
+  for (;begin != end; begin++)
+  {
+    push_back(*begin);
+  }
+}
+
+template< typename T >
 khoroshkin::List< T >::List(std::initializer_list< T > init)
 {
   for (auto it = init.begin(); it != init.end(); ++it)
@@ -282,7 +296,10 @@ khoroshkin::List< T >::List(const khoroshkin::List< T > & obj)
   }
   else
   {
-    head = new Node(*obj.head);
+    for (auto it = obj.begin(); it != obj.end(); it++)
+    {
+      push_back(*it);
+    }
   }
   size = obj.size;
 }
@@ -292,7 +309,6 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 {
   if (this != &obj)
   {
-    this->size = obj.size;
     clear();
     Node * temp = obj.head;
     while (temp)
@@ -305,10 +321,12 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(const List & obj)
 }
 
 template< typename T >
-khoroshkin::List< T >::List(khoroshkin::List< T > && obj) :
-  size(obj.size), head(obj.head)
+khoroshkin::List< T >::List(khoroshkin::List< T > && obj)
 {
-  obj.clear();
+  size = std::move(obj.size);
+  head = std::move(obj.head);
+  obj.head = nullptr;
+  obj.size = 0;
 }
 
 template< typename T >
@@ -317,13 +335,14 @@ khoroshkin::List< T > & khoroshkin::List< T >::operator=(List && obj)
   if (this != &obj)
   {
     clear();
-    this->size = obj.size;
-    while (obj.head)
+    Node * temp = obj.head;
+    while (temp)
     {
       push_back(obj.head->data);
-      obj.head = obj.head->pNext;
+      temp = temp->pNext;
     }
   }
+  this->size = obj.size;
   obj.clear();
   return *this;
 }
@@ -374,6 +393,22 @@ void khoroshkin::List< T >::push_back(const T & data)
       current = current->pNext;
     }
     current->pNext = new Node(data);
+  }
+  size++;
+}
+
+template< typename T >
+void khoroshkin::List< T >::push_front(const T & data)
+{
+  if (head == nullptr)
+  {
+      head = new Node(data);
+  }
+  else
+  {
+    Node * current = new Node(data);
+    current->pNext = head;
+    head = current;
   }
   size++;
 }
@@ -503,7 +538,7 @@ void khoroshkin::List< T >::remove(const T & value, bool onlyFirst)
     }
     else if (next(it) != this->end() && *next(it) == value)
     {
-      Node * subhead = it.node;
+      Node * subhead = it.iter_.node_;
       Node * todelete = subhead->pNext;
       subhead->pNext = todelete->pNext;
       delete todelete;
