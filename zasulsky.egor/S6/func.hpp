@@ -52,7 +52,7 @@ void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& f
 template <typename T>
 void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& deque, const std::list<T>& l, const std::list<T>& l2)
 {
-  std::copy(fL.begin(), fL.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(fL.cbegin(), fL.cend(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
   std::copy(deque.begin(), deque.end(), std::ostream_iterator<T>(std::cout, " "));
