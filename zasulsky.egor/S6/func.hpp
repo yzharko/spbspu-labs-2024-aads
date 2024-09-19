@@ -67,7 +67,7 @@ void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& de
 
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
-  
+ 
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
