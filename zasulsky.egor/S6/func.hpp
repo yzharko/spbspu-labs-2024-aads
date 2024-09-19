@@ -97,7 +97,7 @@ void outputOldData(std::vector<T>& vec)
 template< typename T >
 void processContainers(int cal, bool order)
 {
-  zasulsky::ForwardList<T > forwardList;
+  std::forward_list<T > forwardList;
   std::deque<T> deque;
   std::list<T> list;
   std::list<T> list2;
