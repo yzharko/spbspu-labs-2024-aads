@@ -17,20 +17,20 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  using base_t = zasulsky::avlTree< long long, std::string >;
+  using base_t = zas::avlTree< long long, std::string >;
   base_t data;
 
-  zasulsky::fillTree(input, data);
+  zas::fillTree(input, data);
   if (data.isEmpty())
   {
-    zasulsky::outEmpty(std::cout);
+    zas::outEmpty(std::cout);
     return 0;
   }
 
-  zasulsky::avlTree< std::string, std::function< void(std::ostream&, base_t&) > > travCmds;
-  travCmds.insert({ "ascending", zasulsky::ascending });
-  travCmds.insert({ "descending", zasulsky::descending });
-  travCmds.insert({ "breadth", zasulsky::breadth });
+  zas::avlTree< std::string, std::function< void(std::ostream&, base_t&) > > travCmds;
+  travCmds.insert({ "ascending", zas::ascending });
+  travCmds.insert({ "descending", zas::descending });
+  travCmds.insert({ "breadth", zas::breadth });
 
   std::string direct = argv[1];
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
       }
       else if (!direct.empty())
       {
-        zasulsky::outInvCommand(std::cout);
+        zas::outInvCommand(std::cout);
         return 1;
       }
     }
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
   }
   else
   {
-    zasulsky::outEmpty(std::cout);
+    zas::outEmpty(std::cout);
   }
 
   return 0;

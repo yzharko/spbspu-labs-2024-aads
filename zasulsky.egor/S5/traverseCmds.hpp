@@ -18,4 +18,4 @@ namespace zasulsky
   void breadth(std::ostream& out, base_t& data);
 }
 
-#endif
+zas

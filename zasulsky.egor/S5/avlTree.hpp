@@ -5,7 +5,7 @@
 #include <functional>
 #include "stack.hpp"
 #include "queue.hpp"
-namespace zasulsky
+namespace zas
 {
   template < typename Key, typename Value, typename Compare = std::less< Key > >
   class avlTree
@@ -104,7 +104,7 @@ namespace zasulsky
 }
 
 template < typename Key, typename Value, typename Compare >
-class zasulsky::avlTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class zas::avlTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -135,24 +135,24 @@ private:
 };
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator() :
+zas::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator() :
   unit(nullptr),
   root(nullptr)
 {}
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Iterator that) :
+zas::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Iterator that) :
   unit(that.imIter.unit),
   root(that.imIter.root)
 {}
 
 template< typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Unit* unit_, Unit* root_) :
+zas::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Unit* unit_, Unit* root_) :
   unit(unit_), root(root_)
 {}
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator& zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator++()
+typename zas::avlTree< Key, Value, Compare >::ConstIterator& zas::avlTree< Key, Value, Compare >::ConstIterator::operator++()
 {
   if (unit->right)
   {
@@ -176,7 +176,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator& zasulsky::avlT
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator++(int)
+typename zas::avlTree< Key, Value, Compare >::ConstIterator zas::avlTree< Key, Value, Compare >::ConstIterator::operator++(int)
 {
   this_t inked(*this);
   ++(*this);
@@ -184,7 +184,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTr
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator& zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator--()
+typename zas::avlTree< Key, Value, Compare >::ConstIterator& zas::avlTree< Key, Value, Compare >::ConstIterator::operator--()
 {
   if (unit == nullptr)
   {
@@ -214,7 +214,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator& zasulsky::avlT
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
+typename zas::avlTree< Key, Value, Compare >::ConstIterator zas::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
 {
   this_t deked(*this);
   --(*this);
@@ -222,31 +222,31 @@ typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTr
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
+const typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType* zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
+const typename zas::avlTree< Key, Value, Compare >::dataType* zas::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator==(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::ConstIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
 template< typename Key, typename Value, typename Compare >
-class zasulsky::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class zas::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -275,17 +275,17 @@ private:
 };
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::Iterator::Iterator() :
+zas::avlTree< Key, Value, Compare >::Iterator::Iterator() :
   imIter(ConstIterator())
 {}
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that) :
+zas::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that) :
   imIter(that)
 {}
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator& zasulsky::avlTree< Key, Value, Compare >::Iterator::operator++()
+typename zas::avlTree< Key, Value, Compare >::Iterator& zas::avlTree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(imIter != ConstIterator());
   imIter++;
@@ -293,14 +293,14 @@ typename zasulsky::avlTree< Key, Value, Compare >::Iterator& zasulsky::avlTree< 
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::Iterator::operator++(int)
 {
   ++imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator& zasulsky::avlTree< Key, Value, Compare >::Iterator::operator--()
+typename zas::avlTree< Key, Value, Compare >::Iterator& zas::avlTree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(imIter != nullptr);
   --imIter;
@@ -308,50 +308,50 @@ typename zasulsky::avlTree< Key, Value, Compare >::Iterator& zasulsky::avlTree< 
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::Iterator::operator--(int)
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::Iterator::operator--(int)
 {
   --imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::Iterator::operator*()
+typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::Iterator::operator*()
 {
   return imIter.unit->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType* zasulsky::avlTree< Key, Value, Compare >::Iterator::operator->()
+typename zas::avlTree< Key, Value, Compare >::dataType* zas::avlTree< Key, Value, Compare >::Iterator::operator->()
 {
   return &(imIter.unit->data);
 }
 
 template< typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::Iterator::operator*() const
+const typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::Iterator::operator*() const
 {
   return imIter.node_->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType* zasulsky::avlTree< Key, Value, Compare >::Iterator::operator->() const
+const typename zas::avlTree< Key, Value, Compare >::dataType* zas::avlTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &(imIter.unit->data);
 }
 
 template< typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::Iterator::operator==(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::Iterator::operator==(const this_t& that) const
 {
   return imIter == that.imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
 template < typename Key, typename Value, typename Compare >
-class zasulsky::avlTree< Key, Value, Compare >::LnRIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class zas::avlTree< Key, Value, Compare >::LnRIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree;
@@ -379,17 +379,17 @@ private:
 };
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator() :
+zas::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator() :
   unit(nullptr)
 {}
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator(Unit* unit_) :
+zas::avlTree< Key, Value, Compare >::LnRIterator::LnRIterator(Unit* unit_) :
   unit(unit_)
 {}
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator& zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator++()
+typename zas::avlTree< Key, Value, Compare >::LnRIterator& zas::avlTree< Key, Value, Compare >::LnRIterator::operator++()
 {
   if (unit == nullptr)
   {
@@ -420,7 +420,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator& zasulsky::avlTre
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator++(int)
+typename zas::avlTree< Key, Value, Compare >::LnRIterator zas::avlTree< Key, Value, Compare >::LnRIterator::operator++(int)
 {
   this_t tempo = *this;
   ++(*this);
@@ -428,7 +428,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator zasulsky::avlTree
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator& zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator--()
+typename zas::avlTree< Key, Value, Compare >::LnRIterator& zas::avlTree< Key, Value, Compare >::LnRIterator::operator--()
 {
   if (unit == nullptr)
   {
@@ -462,7 +462,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator& zasulsky::avlTre
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator--(int)
+typename zas::avlTree< Key, Value, Compare >::LnRIterator zas::avlTree< Key, Value, Compare >::LnRIterator::operator--(int)
 {
   this_t tempo = *this;
   --(*this);
@@ -470,44 +470,44 @@ typename zasulsky::avlTree< Key, Value, Compare >::LnRIterator zasulsky::avlTree
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator*()
+typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::LnRIterator::operator*()
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType*
-zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator->()
+typename zas::avlTree< Key, Value, Compare >::dataType*
+zas::avlTree< Key, Value, Compare >::LnRIterator::operator->()
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator*() const
+const typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::LnRIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType* zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator->() const
+const typename zas::avlTree< Key, Value, Compare >::dataType* zas::avlTree< Key, Value, Compare >::LnRIterator::operator->() const
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator==(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::LnRIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::LnRIterator::operator!=(const this_t& that) const
 {
   return !(*this == that);
 }
 
 template < typename Key, typename Value, typename Compare >
-class zasulsky::avlTree< Key, Value, Compare >::RnLIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class zas::avlTree< Key, Value, Compare >::RnLIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree;
@@ -535,17 +535,17 @@ private:
 };
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator() :
+zas::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator() :
   unit(nullptr)
 {}
 
 template < typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator(Unit* unit_) :
+zas::avlTree< Key, Value, Compare >::RnLIterator::RnLIterator(Unit* unit_) :
   unit(unit_)
 {}
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator& zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator++()
+typename zas::avlTree< Key, Value, Compare >::RnLIterator& zas::avlTree< Key, Value, Compare >::RnLIterator::operator++()
 {
   if (unit == nullptr)
   {
@@ -576,7 +576,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator& zasulsky::avlTre
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator++(int)
+typename zas::avlTree< Key, Value, Compare >::RnLIterator zas::avlTree< Key, Value, Compare >::RnLIterator::operator++(int)
 {
   this_t tempo = *this;
   ++(*this);
@@ -584,7 +584,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator zasulsky::avlTree
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator& zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator--()
+typename zas::avlTree< Key, Value, Compare >::RnLIterator& zas::avlTree< Key, Value, Compare >::RnLIterator::operator--()
 {
   if (unit == nullptr)
   {
@@ -618,7 +618,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator& zasulsky::avlTre
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator--(int)
+typename zas::avlTree< Key, Value, Compare >::RnLIterator zas::avlTree< Key, Value, Compare >::RnLIterator::operator--(int)
 {
   this_t tempo = *this;
   --(*this);
@@ -626,49 +626,49 @@ typename zasulsky::avlTree< Key, Value, Compare >::RnLIterator zasulsky::avlTree
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator*()
+typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::RnLIterator::operator*()
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::dataType*
-zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator->()
+typename zas::avlTree< Key, Value, Compare >::dataType*
+zas::avlTree< Key, Value, Compare >::RnLIterator::operator->()
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType& zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator*() const
+const typename zas::avlTree< Key, Value, Compare >::dataType& zas::avlTree< Key, Value, Compare >::RnLIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename zasulsky::avlTree< Key, Value, Compare >::dataType* zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator->() const
+const typename zas::avlTree< Key, Value, Compare >::dataType* zas::avlTree< Key, Value, Compare >::RnLIterator::operator->() const
 {
   return &(unit->data);
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator==(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::RnLIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
 template < typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t& that) const
+bool zas::avlTree< Key, Value, Compare >::RnLIterator::operator!=(const this_t& that) const
 {
   return !(*this == that);
 }
 
 template< typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::avlTree() :
+zas::avlTree< Key, Value, Compare >::avlTree() :
   treeRoot(nullptr)
 {}
 
 template<typename Key, typename Value, typename Compare>
-zasulsky::avlTree< Key, Value, Compare >::avlTree(const avlTree& that) :
+zas::avlTree< Key, Value, Compare >::avlTree(const avlTree& that) :
   treeRoot(nullptr)
 {
   for (Iterator iter = that.cbegin(); iter != cend(); ++iter)
@@ -678,7 +678,7 @@ zasulsky::avlTree< Key, Value, Compare >::avlTree(const avlTree& that) :
 }
 
 template<typename Key, typename Value, typename Compare>
-zasulsky::avlTree< Key, Value, Compare >::avlTree(size_t& initSize, dataType& initData)
+zas::avlTree< Key, Value, Compare >::avlTree(size_t& initSize, dataType& initData)
 {
   treeRoot = nullptr;
   for (size_t i = 0; i < initSize; ++i)
@@ -688,7 +688,7 @@ zasulsky::avlTree< Key, Value, Compare >::avlTree(size_t& initSize, dataType& in
 }
 
 template<typename Key, typename Value, typename Compare>
-zasulsky::avlTree< Key, Value, Compare >::avlTree(std::initializer_list< dataType > inList)
+zas::avlTree< Key, Value, Compare >::avlTree(std::initializer_list< dataType > inList)
 {
   for (auto data : inList)
   {
@@ -697,26 +697,26 @@ zasulsky::avlTree< Key, Value, Compare >::avlTree(std::initializer_list< dataTyp
 }
 
 template< typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >::~avlTree()
+zas::avlTree< Key, Value, Compare >::~avlTree()
 {
   clear();
 }
 
 template< typename Key, typename Value, typename Compare >
-void zasulsky::avlTree< Key, Value, Compare >::swap(avlTree& first, avlTree& second) noexcept
+void zas::avlTree< Key, Value, Compare >::swap(avlTree& first, avlTree& second) noexcept
 {
   std::swap(first.treeRoot, second.treeRoot);
 }
 
 template< typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >& zasulsky::avlTree< Key, Value, Compare >::operator=(avlTree that)
+zas::avlTree< Key, Value, Compare >& zas::avlTree< Key, Value, Compare >::operator=(avlTree that)
 {
   swap(*this, that);
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-zasulsky::avlTree< Key, Value, Compare >& zasulsky::avlTree< Key, Value, Compare >::operator=(avlTree&& that)
+zas::avlTree< Key, Value, Compare >& zas::avlTree< Key, Value, Compare >::operator=(avlTree&& that)
 {
   if (&that != this)
   {
@@ -728,14 +728,14 @@ zasulsky::avlTree< Key, Value, Compare >& zasulsky::avlTree< Key, Value, Compare
 }
 
 template<typename Key, typename Value, typename Compare>
-void zasulsky::avlTree< Key, Value, Compare >::clear()
+void zas::avlTree< Key, Value, Compare >::clear()
 {
   undercut(treeRoot);
   treeRoot = nullptr;
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::begin() noexcept
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::begin() noexcept
 {
   if (isEmpty())
   {
@@ -750,7 +750,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< K
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTree<Key, Value, Compare>::cbegin() const noexcept
+typename zas::avlTree< Key, Value, Compare >::ConstIterator zas::avlTree<Key, Value, Compare>::cbegin() const noexcept
 {
   if (isEmpty())
   {
@@ -765,31 +765,31 @@ typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTr
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree<Key, Value, Compare>::end() noexcept
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree<Key, Value, Compare>::end() noexcept
 {
   return Iterator(ConstIterator(nullptr, treeRoot));
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::ConstIterator zasulsky::avlTree<Key, Value, Compare>::cend() const noexcept
+typename zas::avlTree< Key, Value, Compare >::ConstIterator zas::avlTree<Key, Value, Compare>::cend() const noexcept
 {
   return ConstIterator(nullptr, treeRoot);
 }
 
 template< typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree< Key, Value, Compare >::isEmpty() const noexcept
+bool zas::avlTree< Key, Value, Compare >::isEmpty() const noexcept
 {
   return (treeRoot == nullptr);
 }
 
 template<typename Key, typename Value, typename Compare>
-size_t zasulsky::avlTree< Key, Value, Compare >::getSize() const noexcept
+size_t zas::avlTree< Key, Value, Compare >::getSize() const noexcept
 {
   return getSize(treeRoot);
 }
 
 template<typename Key, typename Value, typename Compare>
-Value& zasulsky::avlTree<Key, Value, Compare>::at(const Key& key)
+Value& zas::avlTree<Key, Value, Compare>::at(const Key& key)
 {
   Unit* curr = treeRoot;
   Compare compare;
@@ -813,7 +813,7 @@ Value& zasulsky::avlTree<Key, Value, Compare>::at(const Key& key)
 }
 
 template<typename Key, typename Value, typename Compare>
-const Value& zasulsky::avlTree<Key, Value, Compare>::at(const Key& key) const
+const Value& zas::avlTree<Key, Value, Compare>::at(const Key& key) const
 {
   Unit* curr = treeRoot;
   Compare compare;
@@ -837,7 +837,7 @@ const Value& zasulsky::avlTree<Key, Value, Compare>::at(const Key& key) const
 }
 
 template<typename Key, typename Value, typename Compare>
-Value& zasulsky::avlTree<Key, Value, Compare>::operator[](const Key& key)
+Value& zas::avlTree<Key, Value, Compare>::operator[](const Key& key)
 {
   Unit* curr = treeRoot;
   Compare compare;
@@ -861,7 +861,7 @@ Value& zasulsky::avlTree<Key, Value, Compare>::operator[](const Key& key)
 }
 
 template<typename Key, typename Value, typename Compare>
-Value& zasulsky::avlTree<Key, Value, Compare>::operator[](Key&& key)
+Value& zas::avlTree<Key, Value, Compare>::operator[](Key&& key)
 {
   Unit* curr = treeRoot;
   Compare compare;
@@ -885,13 +885,13 @@ Value& zasulsky::avlTree<Key, Value, Compare>::operator[](Key&& key)
 }
 
 template < typename Key, typename Value, typename Compare >
-using it = typename zasulsky::avlTree< Key, Value, Compare >::Iterator;
+using it = typename zas::avlTree< Key, Value, Compare >::Iterator;
 
 template < typename Key, typename Value, typename Compare >
 using iterPair = std::pair< it< Key, Value, Compare >, it< Key, Value, Compare > >;
 
 template<typename Key, typename Value, typename Compare>
-iterPair< Key, Value, Compare > zasulsky::avlTree<Key, Value, Compare>::equalRange(const Key& key)
+iterPair< Key, Value, Compare > zas::avlTree<Key, Value, Compare>::equalRange(const Key& key)
 {
   Unit* unit = treeRoot;
   Iterator startIt = begin();
@@ -917,7 +917,7 @@ iterPair< Key, Value, Compare > zasulsky::avlTree<Key, Value, Compare>::equalRan
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::find(const Key& key)
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::find(const Key& key)
 {
   Compare compare;
   Unit* tempo = treeRoot;
@@ -941,21 +941,21 @@ typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< K
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::insert(dataType& data)
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::insert(dataType& data)
 {
   treeRoot = updData(treeRoot, data);
   return find(data.first);
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Iterator zasulsky::avlTree< Key, Value, Compare >::insert(dataType&& data)
+typename zas::avlTree< Key, Value, Compare >::Iterator zas::avlTree< Key, Value, Compare >::insert(dataType&& data)
 {
   treeRoot = updData(treeRoot, std::move(data));
   return find(data.first);
 }
 
 template< typename Key, typename Value, typename Compare >
-bool zasulsky::avlTree<Key, Value, Compare>::erase(const Key& key)
+bool zas::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
@@ -967,7 +967,7 @@ bool zasulsky::avlTree<Key, Value, Compare>::erase(const Key& key)
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseLnR(F f) const
+F zas::avlTree<Key, Value, Compare>::traverseLnR(F f) const
 {
   Stack< const Unit* > ancestors;
   const Unit* wayP = treeRoot;
@@ -994,7 +994,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseLnR(F f) const
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseRnL(F f) const
+F zas::avlTree<Key, Value, Compare>::traverseRnL(F f) const
 {
   Stack< const Unit* > ancestors;
   const Unit* wayP = treeRoot;
@@ -1021,7 +1021,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseRnL(F f) const
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseBre(F f) const
+F zas::avlTree<Key, Value, Compare>::traverseBre(F f) const
 {
   if (isEmpty())
   {
@@ -1051,7 +1051,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseBre(F f) const
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseLnR(F f)
+F zas::avlTree<Key, Value, Compare>::traverseLnR(F f)
 {
   Stack< Unit* > ancestors;
   Unit* wayP = treeRoot;
@@ -1078,7 +1078,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseLnR(F f)
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseRnL(F f)
+F zas::avlTree<Key, Value, Compare>::traverseRnL(F f)
 {
   Stack< Unit* > ancestors;
   Unit* wayP = treeRoot;
@@ -1105,7 +1105,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseRnL(F f)
 
 template< typename Key, typename Value, typename Compare >
 template< typename F >
-F zasulsky::avlTree<Key, Value, Compare>::traverseBre(F f)
+F zas::avlTree<Key, Value, Compare>::traverseBre(F f)
 {
   if (isEmpty())
   {
@@ -1134,7 +1134,7 @@ F zasulsky::avlTree<Key, Value, Compare>::traverseBre(F f)
 }
 
 template<typename Key, typename Value, typename Compare>
-size_t zasulsky::avlTree<Key, Value, Compare>::getSize(Unit* unit) const
+size_t zas::avlTree<Key, Value, Compare>::getSize(Unit* unit) const
 {
   if (unit == nullptr)
   {
@@ -1145,7 +1145,7 @@ size_t zasulsky::avlTree<Key, Value, Compare>::getSize(Unit* unit) const
 }
 
 template<typename Key, typename Value, typename Compare>
-void zasulsky::avlTree<Key, Value, Compare>::undercut(Unit* unit)
+void zas::avlTree<Key, Value, Compare>::undercut(Unit* unit)
 {
   if (unit != nullptr)
   {
@@ -1157,7 +1157,7 @@ void zasulsky::avlTree<Key, Value, Compare>::undercut(Unit* unit)
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree< Key, Value, Compare >::delUnit(Unit* unit, const Key& key)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree< Key, Value, Compare >::delUnit(Unit* unit, const Key& key)
 {
   Compare compare;
   if (unit == nullptr)
@@ -1210,7 +1210,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree< Key,
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, Value, Compare>::makeBal(Unit* unit)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree<Key, Value, Compare>::makeBal(Unit* unit)
 {
   int balFact = getFact(unit);
   if (balFact == 2)
@@ -1242,7 +1242,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, 
 }
 
 template<typename Key, typename Value, typename Compare>
-int zasulsky::avlTree<Key, Value, Compare>::getFact(Unit* unit)
+int zas::avlTree<Key, Value, Compare>::getFact(Unit* unit)
 {
   if (unit == nullptr)
   {
@@ -1252,7 +1252,7 @@ int zasulsky::avlTree<Key, Value, Compare>::getFact(Unit* unit)
 }
 
 template < typename Key, typename Value, typename Compare >
-int zasulsky::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
+int zas::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 {
   if (unit == nullptr)
   {
@@ -1264,7 +1264,7 @@ int zasulsky::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 }
 
 template< typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
 {
   Unit* tempo = moveU->right;
   Unit* ancest = moveU->ancest;
@@ -1282,7 +1282,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, 
 }
 
 template<typename Key, typename Value, typename Compare>
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, Value, Compare>::rTurn(Unit* moveU)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree<Key, Value, Compare>::rTurn(Unit* moveU)
 {
   Unit* tempo = moveU->left;
   Unit* ancest = moveU->ancest;
@@ -1300,7 +1300,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree<Key, 
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
 {
   Compare compare;
   if (unit == nullptr)
@@ -1327,7 +1327,7 @@ typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree< Key,
 }
 
 template < typename Key, typename Value, typename Compare >
-typename zasulsky::avlTree< Key, Value, Compare >::Unit* zasulsky::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
+typename zas::avlTree< Key, Value, Compare >::Unit* zas::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
 {
   Compare compare;
   if (unit == nullptr)

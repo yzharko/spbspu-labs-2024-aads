@@ -2,12 +2,12 @@
 #include <limits>
 #include <stdexcept>
 
-zasulsky::TaskSumm::TaskSumm() :
+zas::TaskSumm::TaskSumm() :
   keySumm(0),
   valSumm("")
 {}
 
-void zasulsky::TaskSumm::operator()(const std::pair< const long long, std::string >& dataPair)
+void zas::TaskSumm::operator()(const std::pair< const long long, std::string >& dataPair)
 {
   long long llMax = std::numeric_limits< long long >::max();
   bool overCheck = (keySumm > 0) && (dataPair.first > 0) && (llMax - keySumm < dataPair.first);
@@ -29,12 +29,12 @@ void zasulsky::TaskSumm::operator()(const std::pair< const long long, std::strin
   valSumm += (" " + dataPair.second);
 }
 
-long long zasulsky::TaskSumm::getKeySumm()
+long long zas::TaskSumm::getKeySumm()
 {
   return keySumm;
 }
 
-std::string zasulsky::TaskSumm::getValSumm()
+std::string zas::TaskSumm::getValSumm()
 {
   return valSumm;
 }

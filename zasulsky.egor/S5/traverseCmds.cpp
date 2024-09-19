@@ -1,21 +1,21 @@
 #include "traverseCmds.hpp"
 #include "taskSumm.hpp"
 
-std::ostream& zasulsky::outInvCommand(std::ostream& out)
+std::ostream& zas::outInvCommand(std::ostream& out)
 {
   out << "<INVALID COMMAND>\n";
   return out;
 }
 
-std::ostream& zasulsky::outEmpty(std::ostream& out)
+std::ostream& zas::outEmpty(std::ostream& out)
 {
   out << "<EMPTY>\n";
   return out;
 }
 
-using base_t = zasulsky::avlTree< long long, std::string >;
+using base_t = zas::avlTree< long long, std::string >;
 
-void zasulsky::fillTree(std::istream& in, base_t& data)
+void zas::fillTree(std::istream& in, base_t& data)
 {
   while (!in.eof())
   {
@@ -34,25 +34,25 @@ void zasulsky::fillTree(std::istream& in, base_t& data)
   }
 }
 
-void zasulsky::ascending(std::ostream& out, base_t& data)
+void zas::ascending(std::ostream& out, base_t& data)
 {
-  zasulsky::TaskSumm summ;
+  zas::TaskSumm summ;
   summ = data.traverseLnR< TaskSumm >(summ);
 
   out << summ.getKeySumm() << summ.getValSumm() << "\n";
 }
 
-void zasulsky::descending(std::ostream& out, base_t& data)
+void zas::descending(std::ostream& out, base_t& data)
 {
-  zasulsky::TaskSumm summ;
+  zas::TaskSumm summ;
   summ = data.traverseRnL< TaskSumm >(summ);
 
   out << summ.getKeySumm() << summ.getValSumm() << "\n";
 }
 
-void zasulsky::breadth(std::ostream& out, base_t& data)
+void zas::breadth(std::ostream& out, base_t& data)
 {
-  zasulsky::TaskSumm summ;
+  zas::TaskSumm summ;
   summ = data.traverseBre< TaskSumm >(summ);
 
   out << summ.getKeySumm() << summ.getValSumm() << "\n";

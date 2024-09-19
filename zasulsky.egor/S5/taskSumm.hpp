@@ -3,7 +3,7 @@
 #include <string>
 #include "avlTree.hpp"
 
-namespace zasulsky
+namespace zas
 {
   struct TaskSumm
   {
