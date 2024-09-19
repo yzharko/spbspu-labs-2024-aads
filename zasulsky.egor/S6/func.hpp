@@ -2,6 +2,7 @@
 #define FUNC_HPP
 
 #include <iostream>
+#include <iterator>
 #include <vector>
 #include <deque>
 #include <list>
