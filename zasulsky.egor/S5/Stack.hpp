@@ -1,12 +1,13 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include <list.hpp>
+#include "list.hpp"
 
-namespace zasulsky
+namespace zas
 {
   template < typename T >
   class Stack
   {
+ 
   public:
     Stack() = default;
     Stack(const Stack& other);
@@ -20,7 +21,6 @@ namespace zasulsky
     void push(const T& data);
     void push(T&& data);
     void pop();
-
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
   private:
@@ -29,55 +29,55 @@ namespace zasulsky
 }
 
 template < typename T >
-zasulsky::Stack< T >::Stack(const Stack& other)
+zas::Stack< T >::Stack(const Stack& other)
 {
   depot = other.depot;
 }
 
 template < typename T >
-zasulsky::Stack< T >::Stack(const List< T >& dep)
+zas::Stack< T >::Stack(const List< T >& dep)
 {
   depot(dep);
 }
 
 template < typename T >
-zasulsky::Stack< T >& zasulsky::Stack< T >::operator=(const Stack& other)
+zas::Stack< T >& zas::Stack< T >::operator=(const Stack& other)
 {
   depot = other.dep;
 }
 
 template < typename T >
-T& zasulsky::Stack< T >::getTop() const
+T& zas::Stack< T >::getTop() const
 {
   return depot.getFront();
 }
 
 template < typename T >
-void zasulsky::Stack< T >::push(const T& data)
+void zas::Stack< T >::push(const T& data)
 {
   depot.pushFront(data);
 }
 
 template < typename T >
-void zasulsky::Stack< T >::push(T&& data)
+void zas::Stack< T >::push(T&& data)
 {
   depot.pushFront(data);
 }
 
 template < typename T >
-void zasulsky::Stack< T >::pop()
+void zas::Stack< T >::pop()
 {
   depot.popFront();
 }
 
 template<typename T>
-size_t zasulsky::Stack<T>::getSize() const noexcept
+size_t zas::Stack<T>::getSize() const noexcept
 {
   return depot.getSize();
 }
 
 template < typename T >
-bool zasulsky::Stack< T >::isEmpty() const noexcept
+bool zas::Stack< T >::isEmpty() const noexcept
 {
   return depot.empty();
 }

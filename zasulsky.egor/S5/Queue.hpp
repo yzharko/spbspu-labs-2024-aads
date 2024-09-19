@@ -1,8 +1,8 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-#include <list.hpp>
+#include "list.hpp"
 
-namespace zasulsky
+namespace zas
 {
   template < typename T >
   class Queue
@@ -31,61 +31,61 @@ namespace zasulsky
 }
 
 template < typename T >
-zasulsky::Queue< T >::Queue(const Queue& other)
+zas::Queue< T >::Queue(const Queue& other)
 {
   depot = other.depot;
 }
 
 template < typename T >
-zasulsky::Queue< T >::Queue(const zasulsky::List< T >& dep)
+zas::Queue< T >::Queue(const zas::List< T >& dep)
 {
   depot(dep);
 }
 
 template < typename T >
-zasulsky::Queue< T >& zasulsky::Queue< T >::operator=(const Queue& other)
+zas::Queue< T >& zas::Queue< T >::operator=(const Queue& other)
 {
   depot = other.dep;
 }
 
 template < typename T >
-T& zasulsky::Queue< T >::getFront() const
+T& zas::Queue< T >::getFront() const
 {
   return depot.getFront();
 }
 
 template < typename T >
-T& zasulsky::Queue< T >::getBack() const
+T& zas::Queue< T >::getBack() const
 {
   return depot.getBack();
 }
 
 template < typename T >
-void zasulsky::Queue< T >::push(const T& data)
+void zas::Queue< T >::push(const T& data)
 {
   depot.pushBack(data);
 }
 
 template < typename T >
-void zasulsky::Queue< T >::push(T&& data)
+void zas::Queue< T >::push(T&& data)
 {
   depot.pushBack(data);
 }
 
 template < typename T >
-void zasulsky::Queue< T >::pop()
+void zas::Queue< T >::pop()
 {
   depot.popFront();
 }
 
 template<typename T>
-size_t zasulsky::Queue<T>::getSize() const noexcept
+size_t zas::Queue<T>::getSize() const noexcept
 {
   return depot.getSize();
 }
 
 template < typename T >
-bool zasulsky::Queue< T >::isEmpty() const noexcept
+bool zas::Queue< T >::isEmpty() const noexcept
 {
   return depot.empty();
 }
