@@ -158,7 +158,7 @@ namespace zasulsky
       }
     }
 
-    void push_front(T value)
+    void pushFront(T value)
     {
       insert_after(cbeforeBegin(), value);
     }
