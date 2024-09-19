@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <memory>
 #include <vector>
+#include <limits>
 #include "node_t.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
