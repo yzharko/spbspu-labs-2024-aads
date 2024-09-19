@@ -23,7 +23,8 @@ void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL
     vec.push_back(static_cast<T>(rand()));
   }
 
-  for (const auto& elem : vec) {
+  for (const auto& elem : vec)
+  {
     fL.insert_after(fL.before_begin(), elem);
   }
 
@@ -40,7 +41,8 @@ void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& f
     vec.push_back(static_cast<T>(randomFloat()));
   }
 
-  for (const auto& elem : vec) {
+  for (const auto& elem : vec)
+  {
     fL.insert_after(fL.beforeBegin(), elem);
   }
 
@@ -48,7 +50,6 @@ void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& f
   std::copy(vec.begin(), vec.end(), std::back_inserter(l));
   std::copy(vec.begin(), vec.end(), std::back_inserter(l2));
 }
-
 
 template <typename T>
 void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& deque, const std::list<T>& l, const std::list<T>& l2)
@@ -67,7 +68,7 @@ void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& de
 
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
- 
+
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
