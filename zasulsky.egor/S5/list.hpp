@@ -5,7 +5,7 @@
 #include <initializer_list>
 #include <iterator>
 
-namespace psarev
+namespace zas
 {
   template< typename T >
   class List
@@ -92,7 +92,7 @@ namespace psarev
 }
 
 template< typename T >
-class psarev::List< T >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
+class zas::List< T >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -123,17 +123,17 @@ private:
 };
 
 template< typename T >
-psarev::List< T >::ConstIterator::ConstIterator() :
+zas::List< T >::ConstIterator::ConstIterator() :
   unit(nullptr)
 {}
 
 template< typename T >
-psarev::List< T >::ConstIterator::ConstIterator(Unit* ptr) :
+zas::List< T >::ConstIterator::ConstIterator(Unit* ptr) :
   unit(ptr)
 {}
 
 template < typename T >
-typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::operator++()
+typename zas::List< T >::ConstIterator& zas::List< T >::ConstIterator::operator++()
 {
   assert(unit != nullptr);
   unit = unit->next;
@@ -141,7 +141,7 @@ typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::ope
 };
 
 template < typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator++(int)
+typename zas::List< T >::ConstIterator zas::List< T >::ConstIterator::operator++(int)
 {
   ConstIterator tempo(*this);
   ++(*this);
@@ -149,7 +149,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::oper
 }
 
 template < typename T >
-typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::operator--()
+typename zas::List< T >::ConstIterator& zas::List< T >::ConstIterator::operator--()
 {
   assert(unit != nullptr);
   unit = unit->prev;
@@ -157,7 +157,7 @@ typename psarev::List< T >::ConstIterator& psarev::List< T >::ConstIterator::ope
 }
 
 template < typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator--(int)
+typename zas::List< T >::ConstIterator zas::List< T >::ConstIterator::operator--(int)
 {
   ConstIterator tempo(*this);
   --(*this);
@@ -165,7 +165,7 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::oper
 }
 
 template< typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::operator+(size_t index)
+typename zas::List< T >::ConstIterator zas::List< T >::ConstIterator::operator+(size_t index)
 {
   for (size_t i = 0; i < index; i++)
   {
@@ -175,31 +175,31 @@ typename psarev::List< T >::ConstIterator psarev::List< T >::ConstIterator::oper
 }
 
 template< typename T >
-const T& psarev::List< T >::ConstIterator::operator*() const
+const T& zas::List< T >::ConstIterator::operator*() const
 {
   return unit->data;
 }
 
 template< typename T >
-const T* psarev::List< T >::ConstIterator::operator->() const
+const T* zas::List< T >::ConstIterator::operator->() const
 {
   return &(unit->data);
 }
 
 template< typename T >
-bool psarev::List< T >::ConstIterator::operator==(const this_t& that) const
+bool zas::List< T >::ConstIterator::operator==(const this_t& that) const
 {
   return unit == that.unit;
 }
 
 template< typename T >
-bool psarev::List< T >::ConstIterator::operator!=(const this_t& that) const
+bool zas::List< T >::ConstIterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
 template< typename T >
-bool psarev::List< T >::ConstIterator::operator>=(const this_t& that) const
+bool zas::List< T >::ConstIterator::operator>=(const this_t& that) const
 {
   Unit* cur = unit;
   while (cur) {
@@ -212,7 +212,7 @@ bool psarev::List< T >::ConstIterator::operator>=(const this_t& that) const
 }
 
 template< typename T >
-class psarev::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
+class zas::List< T >::Iterator : public std::iterator< std::bidirectional_iterator_tag, T >
 {
 public:
   friend class List< T >;
@@ -244,29 +244,29 @@ private:
 };
 
 template< typename T >
-psarev::List< T >::Iterator::Iterator() :
+zas::List< T >::Iterator::Iterator() :
   iter_(ConstIterator())
 {}
 
 template< typename T >
-psarev::List< T >::Iterator::Iterator(Unit* ptr) :
+zas::List< T >::Iterator::Iterator(Unit* ptr) :
   iter_(ConstIterator(ptr))
 {}
 
 template< typename T >
-psarev::List< T >::Iterator::Iterator(ConstIterator constIter) :
+zas::List< T >::Iterator::Iterator(ConstIterator constIter) :
   iter_(constIter)
 {}
 
 template < typename T >
-typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator++()
+typename zas::List< T >::Iterator& zas::List< T >::Iterator::operator++()
 {
   ++iter_;
   return *this;
 };
 
 template < typename T >
-typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int)
+typename zas::List< T >::Iterator zas::List< T >::Iterator::operator++(int)
 {
   this_t result = iter_;
   ++iter_;
@@ -274,21 +274,21 @@ typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator++(int
 }
 
 template < typename T >
-typename psarev::List< T >::Iterator& psarev::List< T >::Iterator::operator--()
+typename zas::List< T >::Iterator& zas::List< T >::Iterator::operator--()
 {
   --iter_;
   return *this;
 }
 
 template < typename T >
-typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator--(int)
+typename zas::List< T >::Iterator zas::List< T >::Iterator::operator--(int)
 {
   --iter_;
   return iter_;
 }
 
 template< typename T >
-typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator+(size_t index)
+typename zas::List< T >::Iterator zas::List< T >::Iterator::operator+(size_t index)
 {
   for (size_t i = 0; i < index; i++)
   {
@@ -298,49 +298,49 @@ typename psarev::List< T >::Iterator psarev::List< T >::Iterator::operator+(size
 }
 
 template< typename T >
-T& psarev::List< T >::Iterator::operator*()
+T& zas::List< T >::Iterator::operator*()
 {
   return iter_.unit->data;
 }
 
 template< typename T >
-T* psarev::List< T >::Iterator::operator->()
+T* zas::List< T >::Iterator::operator->()
 {
   return &(iter_.unit->data);
 }
 
 template< typename T >
-const T& psarev::List< T >::Iterator::operator*() const
+const T& zas::List< T >::Iterator::operator*() const
 {
   return iter_.unit->data;
 }
 
 template< typename T >
-const T* psarev::List< T >::Iterator::operator->() const
+const T* zas::List< T >::Iterator::operator->() const
 {
   return &(iter_.unit->data);
 }
 
 template< typename T >
-bool psarev::List< T >::Iterator::operator==(const this_t& that) const
+bool zas::List< T >::Iterator::operator==(const this_t& that) const
 {
   return iter_ == that.iter_;
 }
 
 template< typename T >
-bool psarev::List< T >::Iterator::operator!=(const this_t& that) const
+bool zas::List< T >::Iterator::operator!=(const this_t& that) const
 {
   return !(that == *this);
 }
 
 template< typename T >
-bool psarev::List< T >::Iterator::operator>=(const this_t& that) const
+bool zas::List< T >::Iterator::operator>=(const this_t& that) const
 {
   return iter_ >= that.iter_;
 }
 
 template< typename T >
-T& psarev::List< T >::operator[](const size_t index)
+T& zas::List< T >::operator[](const size_t index)
 {
   size_t counter = 0;
   Unit* current = this->head;
@@ -357,7 +357,7 @@ T& psarev::List< T >::operator[](const size_t index)
 }
 
 template< typename T >
-psarev::List< T >::List()
+zas::List< T >::List()
 {
   head = nullptr;
   tail = nullptr;
@@ -365,7 +365,7 @@ psarev::List< T >::List()
 }
 
 template< typename T >
-psarev::List< T >::List(size_t amount)
+zas::List< T >::List(size_t amount)
 {
   size = 0;
   for (int i = 1; i <= amount; i++)
@@ -375,7 +375,7 @@ psarev::List< T >::List(size_t amount)
 }
 
 template< typename T >
-psarev::List< T >::List(size_t amount, const T& data)
+zas::List< T >::List(size_t amount, const T& data)
 {
   size = 0;
   for (int i = 0; i <= amount; i++)
@@ -385,7 +385,7 @@ psarev::List< T >::List(size_t amount, const T& data)
 }
 
 template< typename T >
-psarev::List< T >::List(iter beginThat, iter endThat)
+zas::List< T >::List(iter beginThat, iter endThat)
 {
   size = 0;
   while (beginThat != endThat)
@@ -396,7 +396,7 @@ psarev::List< T >::List(iter beginThat, iter endThat)
 }
 
 template<typename T>
-psarev::List<T>::List(std::initializer_list<T> ilThat)
+zas::List<T>::List(std::initializer_list<T> ilThat)
 {
   size = 0;
   for (T data : ilThat)
@@ -406,13 +406,13 @@ psarev::List<T>::List(std::initializer_list<T> ilThat)
 }
 
 template< typename T >
-psarev::List< T >::~List()
+zas::List< T >::~List()
 {
   clear();
 }
 
 template< typename T >
-void psarev::List< T >::popFront()
+void zas::List< T >::popFront()
 {
   Unit* tempo = head;
   head = head->next;
@@ -421,7 +421,7 @@ void psarev::List< T >::popFront()
 }
 
 template< typename T >
-void psarev::List< T >::popBack()
+void zas::List< T >::popBack()
 {
   Unit* delUnit = tail;
   tail = tail->prev;
@@ -430,7 +430,7 @@ void psarev::List< T >::popBack()
 }
 
 template< typename T >
-void psarev::List< T >::pushFront(T& data)
+void zas::List< T >::pushFront(T& data)
 {
   head = new Unit(data, head);
   if (size != 0)
@@ -441,7 +441,7 @@ void psarev::List< T >::pushFront(T& data)
 }
 
 template< typename T >
-void psarev::List< T >::pushBack(T& data)
+void zas::List< T >::pushBack(T& data)
 {
   if (head == nullptr)
   {
@@ -458,7 +458,7 @@ void psarev::List< T >::pushBack(T& data)
 }
 
 template< typename T >
-void psarev::List< T >::pushFront(const T& data)
+void zas::List< T >::pushFront(const T& data)
 {
   head = new Unit(data, head);
   if (size != 0)
@@ -469,7 +469,7 @@ void psarev::List< T >::pushFront(const T& data)
 }
 
 template< typename T >
-void psarev::List< T >::pushBack(const T& data)
+void zas::List< T >::pushBack(const T& data)
 {
   if (head == nullptr)
   {
@@ -486,7 +486,7 @@ void psarev::List< T >::pushBack(const T& data)
 }
 
 template<typename T>
-void psarev::List<T>::pushFront(T&& data)
+void zas::List<T>::pushFront(T&& data)
 {
   head = new Unit(data, head);
   if (size != 0)
@@ -497,7 +497,7 @@ void psarev::List<T>::pushFront(T&& data)
 }
 
 template<typename T>
-void psarev::List<T>::pushBack(T&& data)
+void zas::List<T>::pushBack(T&& data)
 {
   if (head == nullptr)
   {
@@ -514,7 +514,7 @@ void psarev::List<T>::pushBack(T&& data)
 }
 
 template<typename T>
-void psarev::List<T>::assign(size_t amount, T& data)
+void zas::List<T>::assign(size_t amount, T& data)
 {
   clear();
   for (int i = 0; i < amount; i++)
@@ -524,7 +524,7 @@ void psarev::List<T>::assign(size_t amount, T& data)
 }
 
 template<typename T>
-void psarev::List<T>::assign(iter beginThat, iter endThat)
+void zas::List<T>::assign(iter beginThat, iter endThat)
 {
   clear();
   while (beginThat != endThat)
@@ -535,7 +535,7 @@ void psarev::List<T>::assign(iter beginThat, iter endThat)
 }
 
 template<typename T>
-void psarev::List<T>::assign(std::initializer_list<T> ilThat)
+void zas::List<T>::assign(std::initializer_list<T> ilThat)
 {
   clear();
   for (T data : ilThat)
@@ -545,7 +545,7 @@ void psarev::List<T>::assign(std::initializer_list<T> ilThat)
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::insert(iter pos, iter beginThat, iter endThat)
+typename zas::List< T >::Iterator zas::List<T>::insert(iter pos, iter beginThat, iter endThat)
 {
   while (beginThat != endThat)
   {
@@ -557,7 +557,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter pos, iter begi
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T& data)
+typename zas::List< T >::Iterator zas::List<T>::insert(iter& pos, T& data)
 {
   if (pos == begin())
   {
@@ -574,7 +574,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T& data)
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T&& data)
+typename zas::List< T >::Iterator zas::List<T>::insert(iter& pos, T&& data)
 {
   if (pos == begin())
   {
@@ -591,7 +591,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, T&& data
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& amount, T& data)
+typename zas::List< T >::Iterator zas::List<T>::insert(iter& pos, size_t& amount, T& data)
 {
   if (amount == 0)
   {
@@ -610,7 +610,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& 
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& amount, T&& data)
+typename zas::List< T >::Iterator zas::List<T>::insert(iter& pos, size_t& amount, T&& data)
 {
   if (amount == 0)
   {
@@ -629,7 +629,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::insert(iter& pos, size_t& 
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& pos)
+typename zas::List< T >::Iterator zas::List<T>::erase(iter& pos)
 {
   if (pos.iter_.unit == head)
   {
@@ -653,7 +653,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& pos)
 }
 
 template<typename T>
-typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& first, iter& last)
+typename zas::List< T >::Iterator zas::List<T>::erase(iter& first, iter& last)
 {
   if (first == last)
   {
@@ -667,7 +667,7 @@ typename psarev::List< T >::Iterator psarev::List<T>::erase(iter& first, iter& l
 }
 
 template< typename T >
-void psarev::List< T >::remove(const T& value)
+void zas::List< T >::remove(const T& value)
 {
   iter it = begin();
   while (it != end())
@@ -703,7 +703,7 @@ void psarev::List< T >::remove(const T& value)
 
 template< typename T >
 template< class Func >
-void psarev::List< T >::remove_if(Func p)
+void zas::List< T >::remove_if(Func p)
 {
   iter it = begin();
   while (it != end())
@@ -738,19 +738,19 @@ void psarev::List< T >::remove_if(Func p)
 }
 
 template< typename T >
-T& psarev::List< T >::getFront() const
+T& zas::List< T >::getFront() const
 {
   return head->data;
 }
 
 template< typename T >
-T& psarev::List< T >::getBack() const
+T& zas::List< T >::getBack() const
 {
   return tail->data;
 }
 
 template< typename T >
-void psarev::List< T >::swap(List< T >& targetList) noexcept
+void zas::List< T >::swap(List< T >& targetList) noexcept
 {
   Unit tempoH = targetList.head;
   targetList.head = head;
@@ -761,7 +761,7 @@ void psarev::List< T >::swap(List< T >& targetList) noexcept
 }
 
 template< typename T >
-void psarev::List< T >::splice(iter pos, List< T >& other)
+void zas::List< T >::splice(iter pos, List< T >& other)
 {
   if (!(other.empty()))
   {
@@ -777,7 +777,7 @@ void psarev::List< T >::splice(iter pos, List< T >& other)
 }
 
 template< typename T >
-void psarev::List< T >::splice(iter pos, List< T >&& other)
+void zas::List< T >::splice(iter pos, List< T >&& other)
 {
   if (!(other.empty()))
   {
@@ -793,7 +793,7 @@ void psarev::List< T >::splice(iter pos, List< T >&& other)
 }
 
 template< typename T >
-void psarev::List< T >::clear()
+void zas::List< T >::clear()
 {
   while (size > 0)
   {
@@ -802,49 +802,49 @@ void psarev::List< T >::clear()
 }
 
 template< typename T >
-bool psarev::List< T >::empty() const noexcept
+bool zas::List< T >::empty() const noexcept
 {
   return this->getSize() == 0;
 }
 
 template< typename T >
-size_t psarev::List< T >::getSize() const noexcept
+size_t zas::List< T >::getSize() const noexcept
 {
   return size;
 }
 
 template < typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::cbegin() const noexcept
+typename zas::List< T >::ConstIterator zas::List< T >::cbegin() const noexcept
 {
   return ConstIterator(head);
 }
 
 template< typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::cend() const noexcept
+typename zas::List< T >::ConstIterator zas::List< T >::cend() const noexcept
 {
   return nullptr;
 }
 
 template < typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::begin() const noexcept
+typename zas::List< T >::ConstIterator zas::List< T >::begin() const noexcept
 {
   return ConstIterator(head);
 }
 
 template< typename T >
-typename psarev::List< T >::ConstIterator psarev::List< T >::end() const noexcept
+typename zas::List< T >::ConstIterator zas::List< T >::end() const noexcept
 {
   return nullptr;
 }
 
 template < typename T >
-typename psarev::List< T >::Iterator psarev::List< T >::begin() noexcept
+typename zas::List< T >::Iterator zas::List< T >::begin() noexcept
 {
   return Iterator(head);
 }
 
 template< typename T >
-typename psarev::List< T >::Iterator psarev::List< T >::end() noexcept
+typename zas::List< T >::Iterator zas::List< T >::end() noexcept
 {
   return nullptr;
 }
