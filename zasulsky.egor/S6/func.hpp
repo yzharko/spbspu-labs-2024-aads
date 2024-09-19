@@ -27,8 +27,8 @@ void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL
   }
 
   std::copy(vec.begin(), vec.end(), std::back_inserter(deque));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list2));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l2));
 }
 
 template <typename T>
@@ -44,8 +44,8 @@ void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& f
   }
 
   std::copy(vec.begin(), vec.end(), std::back_inserter(deque));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list2));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l2));
 }
 
 
@@ -58,10 +58,10 @@ void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& de
   std::copy(deque.begin(), deque.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list.begin(), list.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l.begin(), l.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list2.begin(), list2.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 }
 
