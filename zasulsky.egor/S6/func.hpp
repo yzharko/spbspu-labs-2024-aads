@@ -1,6 +1,7 @@
 #ifndef FUNC_HPP
 #define FUNC_HPP
 
+#include <iostream>
 #include <vector>
 #include <deque>
 #include <list>
