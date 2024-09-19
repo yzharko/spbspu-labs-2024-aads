@@ -1,11 +1,11 @@
 #ifndef FUNC_HPP
 #define FUNC_HPP
 
+#include <ios>
 #include <vector>
 #include <deque>
 #include <list>
-
-#include "ForwardList.hpp"
+#include <ForwardList.hpp>
 #include <vector>
 
 float randomFloat()
@@ -16,7 +16,7 @@ float randomFloat()
 }
 
 template <typename T>
-void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& forwardList, std::deque<T>& deque, std::list<T>& list, std::list<T>& list2)
+void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL, std::deque<T>& deque, std::list<T>& l, std::list<T>& l2)
 {
   for (int i = 0; i < count; i++)
   {
@@ -24,16 +24,16 @@ void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fo
   }
 
   for (const auto& elem : vec) {
-    forwardList.insert_after(forwardList.before_begin(), elem);
+    fL.insert_after(fL.before_begin(), elem);
   }
 
   std::copy(vec.begin(), vec.end(), std::back_inserter(deque));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list2));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l2));
 }
 
 template <typename T>
-void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& forwardList, std::deque<T>& deque, std::list<T>& list, std::list<T>& list2)
+void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL, std::deque<T>& deque, std::list<T>& l, std::list<T>& l2)
 {
   for (int i = 0; i < count; i++)
   {
@@ -41,44 +41,44 @@ void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& f
   }
 
   for (const auto& elem : vec) {
-    forwardList.insert_after(forwardList.beforeBegin(), elem);
+    fL.insert_after(fL.beforeBegin(), elem);
   }
 
   std::copy(vec.begin(), vec.end(), std::back_inserter(deque));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list));
-  std::copy(vec.begin(), vec.end(), std::back_inserter(list2));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l));
+  std::copy(vec.begin(), vec.end(), std::back_inserter(l2));
 }
 
 
 template <typename T>
-void printContainers(const zasulsky::ForwardList<T>& forwardList, const std::deque<T>& deque, const std::list<T>& list, const std::list<T>& list2)
+void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& deque, const std::list<T>& l, const std::list<T>& l2)
 {
-  std::copy(forwardList.begin(), forwardList.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(fL.cbegin(), fL.cend(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
   std::copy(deque.begin(), deque.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list.begin(), list.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l.begin(), l.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list2.begin(), list2.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list2.begin(), list2.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::cout << '\n';
+  
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(list2.begin(), list2.end(), std::ostream_iterator<T>(std::cout, " "));
-  std::cout << '\n';
-
-  std::copy(list2.begin(), list2.end(), std::ostream_iterator<T>(std::cout, " "));
+  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 }
 
 template <typename T>
 void outputOldData(std::vector<T>& vec)
 {
-  for (int i = 0; i < vec.size(); i++)
+  for (size_t i = 0; i < vec.size(); i++)
   {
     std::cout << vec[i];
     if (i == vec.size() - 1)
