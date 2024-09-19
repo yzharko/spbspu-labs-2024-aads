@@ -8,6 +8,7 @@ namespace zas
   class Queue
   {
   public:
+
     Queue() = default;
     Queue(const Queue& other);
     explicit Queue(const List< T >& dep);
