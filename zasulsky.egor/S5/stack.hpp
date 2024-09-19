@@ -1,12 +1,13 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include <list.hpp>
+#include "list.hpp"
 
 namespace zas
 {
   template < typename T >
   class Stack
   {
+ 
   public:
     Stack() = default;
     Stack(const Stack& other);
@@ -20,7 +21,6 @@ namespace zas
     void push(const T& data);
     void push(T&& data);
     void pop();
-
     size_t getSize() const noexcept;
     bool isEmpty() const noexcept;
   private:
