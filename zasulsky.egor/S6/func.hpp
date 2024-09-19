@@ -8,7 +8,6 @@
 #include <ForwardList.hpp>
 #include <vector>
 
-using fL = zasulsky::ForwardList<T>;
 float randomFloat()
 {
   const float min = -1000.0f;
@@ -17,7 +16,7 @@ float randomFloat()
 }
 
 template <typename T>
-void fillContainers(int count, std::vector<T>& vec, fL & forwardList, std::deque<T>& deque, std::list<T>& list, std::list<T>& list2)
+void fillContainers(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL, std::deque<T>& deque, std::list<T>& l, std::list<T>& l2)
 {
   for (int i = 0; i < count; i++)
   {
@@ -34,7 +33,7 @@ void fillContainers(int count, std::vector<T>& vec, fL & forwardList, std::deque
 }
 
 template <typename T>
-void fillContainersF(int count, std::vector<T>& vec, fL & forwardList, std::deque<T>& deque, std::list<T>& list, std::list<T>& list2)
+void fillContainersF(int count, std::vector<T>& vec, zasulsky::ForwardList<T>& fL, std::deque<T>& deque, std::list<T>& l, std::list<T>& l2)
 {
   for (int i = 0; i < count; i++)
   {
@@ -52,7 +51,7 @@ void fillContainersF(int count, std::vector<T>& vec, fL & forwardList, std::dequ
 
 
 template <typename T>
-void printContainers(const fL & forwardList, const std::deque<T>& deque, const std::list<T>& list, const std::list<T>& list2)
+void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& deque, const std::list<T>& l, const std::list<T>& l2)
 {
   std::copy(forwardList.begin(), forwardList.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
