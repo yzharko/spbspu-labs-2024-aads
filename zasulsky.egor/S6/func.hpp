@@ -68,7 +68,7 @@ void printContainers(const zasulsky::ForwardList<T>& fL, const std::deque<T>& de
 template <typename T>
 void outputOldData(std::vector<T>& vec)
 {
-  for (int i = 0; i < vec.size(); i++)
+  for (size_t i = 0; i < vec.size(); i++)
   {
     std::cout << vec[i];
     if (i == vec.size() - 1)
