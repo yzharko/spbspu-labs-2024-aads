@@ -18,4 +18,4 @@ namespace zas
   void breadth(std::ostream& out, base_t& data);
 }
 
-zas
+#endif
