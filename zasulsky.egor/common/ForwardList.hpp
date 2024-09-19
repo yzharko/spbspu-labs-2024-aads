@@ -163,6 +163,11 @@ namespace zasulsky
       insert_after(cbeforeBegin(), value);
     }
 
+    void push_front(T value)
+    {
+      insert_after(cbeforeBegin(), value);
+    }
+
     void popFront()
     {
       if (empty())
