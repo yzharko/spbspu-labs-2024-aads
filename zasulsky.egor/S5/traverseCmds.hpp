@@ -4,12 +4,12 @@
 #include <string>
 #include "avlTree.hpp"
 
-namespace zasulsky
+namespace zas
 {
   std::ostream& outInvCommand(std::ostream& out);
   std::ostream& outEmpty(std::ostream& out);
 
-  using base_t = zasulsky::avlTree< long long, std::string >;
+  using base_t = zas::avlTree< long long, std::string >;
 
   void fillTree(std::istream& in, base_t& data);
 
