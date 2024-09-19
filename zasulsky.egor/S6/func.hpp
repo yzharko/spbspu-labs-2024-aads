@@ -1,7 +1,7 @@
 #ifndef FUNC_HPP
 #define FUNC_HPP
 
-#include <ios>
+#include <iostream>
 #include <vector>
 #include <deque>
 #include <list>
@@ -101,7 +101,6 @@ void processContainers(int cal, bool order)
   std::list<T> list2;
   std::vector<T> vec;
   fillContainersF(cal, vec, forwardList, deque, list, list2);
-  //outputOldData(vec);
 
   sortBubble(forwardList, order);
   shellSort(deque, order);
