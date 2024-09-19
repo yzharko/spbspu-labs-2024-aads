@@ -1,101 +1,93 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-
-#include "ForwardList.hpp"
+#include <list.hpp>
 
 namespace zasulsky
 {
-  template < class T >
+  template < typename T >
   class Queue
   {
   public:
-
-    Queue() :
-      forwardList(ForwardList< T >())
-    {}
-
-    Queue(const Queue& other) :
-      forwardList(other.forwardList)
-    {}
-
-    Queue(Queue&& other) :
-      forwardList(std::move(other.forwardList))
-    {}
-
+    Queue() = default;
+    Queue(const Queue& other);
+    explicit Queue(const List< T >& dep);
     ~Queue() = default;
 
-    Queue& operator=(const Queue& rhs)
-    {
-      if (this == std::addressof(rhs))
-      {
-        return *this;
-      }
-      forwardList = rhs.forwardList;
-      return *this;
-    }
+    Queue< T >& operator=(const Queue& other);
 
-    Queue& operator=(Queue&& rhs)
-    {
-      if (this == std::addressof(rhs))
-      {
-        return *this;
-      }
-      forwardList = std::move(rhs.forwardList);
-      return *this;
-    }
+    T& getFront() const;
+    T& getBack() const;
 
-    bool isEmpty() noexcept
-    {
-      return forwardList.empty();
-    }
+    void push(const T& data);
+    void push(T&& data);
+    void pop();
 
-    void enqueue(const T& data)
-    {
-      if (this->isEmpty())
-      {
-        forwardList.insert_after(forwardList.cbeforeBegin(), data);
-      }
-      else
-      {
-        detail::Node< T >* temp = forwardList.head();
-        while (temp->next != nullptr)
-        {
-          temp = temp->next;
-        }
-        constIterator< T > it(temp);
-        forwardList.insert_after(it, data);
-      }
-    }
-
-    const T& peek()
-    {
-      if (forwardList.head() != nullptr)
-      {
-        return forwardList.head()->data;
-      }
-      else
-      {
-        throw std::logic_error("empty container");
-      }
-    }
-
-    void dequeue()
-    {
-      if (this->isEmpty())
-      {
-        throw std::logic_error("The list is empty!!");
-      }
-      else
-      {
-        forwardList.erase_after(forwardList.cbeforeBegin());
-      }
-    }
+    size_t getSize() const noexcept;
+    bool isEmpty() const noexcept;
 
   private:
-
-    ForwardList< T > forwardList;
-
+    List< T > depot;
   };
+}
+
+template < typename T >
+zasulsky::Queue< T >::Queue(const Queue& other)
+{
+  depot = other.depot;
+}
+
+template < typename T >
+zasulsky::Queue< T >::Queue(const zasulsky::List< T >& dep)
+{
+  depot(dep);
+}
+
+template < typename T >
+zasulsky::Queue< T >& zasulsky::Queue< T >::operator=(const Queue& other)
+{
+  depot = other.dep;
+}
+
+template < typename T >
+T& zasulsky::Queue< T >::getFront() const
+{
+  return depot.getFront();
+}
+
+template < typename T >
+T& zasulsky::Queue< T >::getBack() const
+{
+  return depot.getBack();
+}
+
+template < typename T >
+void zasulsky::Queue< T >::push(const T& data)
+{
+  depot.pushBack(data);
+}
+
+template < typename T >
+void zasulsky::Queue< T >::push(T&& data)
+{
+  depot.pushBack(data);
+}
+
+template < typename T >
+void zasulsky::Queue< T >::pop()
+{
+  depot.popFront();
+}
+
+template<typename T>
+size_t zasulsky::Queue<T>::getSize() const noexcept
+{
+  return depot.getSize();
+}
+
+template < typename T >
+bool zasulsky::Queue< T >::isEmpty() const noexcept
+{
+  return depot.empty();
 }
 
 #endif

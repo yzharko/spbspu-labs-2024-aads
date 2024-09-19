@@ -1,93 +1,85 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-
-#include "ForwardList.hpp"
+#include <list.hpp>
 
 namespace zasulsky
 {
-  template < class T >
+  template < typename T >
   class Stack
   {
   public:
-
-    Stack() :
-      forwardList(ForwardList< T >())
-    {}
-
-    Stack(const Stack& other) :
-      forwardList(other.forwardList)
-    {}
-
-    Stack(Stack&& other) :
-      forwardList(std::move(other.forwardList))
-    {}
-
+    Stack() = default;
+    Stack(const Stack& other);
+    explicit Stack(const List< T >& dep);
     ~Stack() = default;
 
-    Stack& operator=(const Stack& rhs)
-    {
-      if (this == std::addressof(rhs))
-      {
-        return *this;
-      }
-      forwardList = rhs.forwardList;
-      return *this;
-    }
+    Stack< T >& operator=(const Stack& other);
 
-    Stack& operator=(Stack&& rhs)
-    {
-      if (this == std::addressof(rhs))
-      {
-        return *this;
-      }
-      forwardList = std::move(rhs.forwardList);
-      return *this;
-    }
+    T& getTop() const;
 
-    void push(T data)
-    {
-      forwardList.insert_after(forwardList.cbeforeBegin(), data);
-    }
+    void push(const T& data);
+    void push(T&& data);
+    void pop();
 
-    bool isEmpty() noexcept
-    {
-      return forwardList.empty();
-    }
-
-    void pop()
-    {
-      if (this->isEmpty())
-      {
-        throw std::logic_error("The list is empty!");
-      }
-      else
-      {
-        forwardList.erase_after(forwardList.cbeforeBegin());
-      }
-    }
-
-    int getSize()
-    {
-      return forwardList.size();
-    }
-
-    const T& top()
-    {
-      if (forwardList.head() != nullptr)
-      {
-        return forwardList.head()->data;
-      }
-      else
-      {
-        throw std::logic_error("empty container");
-      }
-    }
-
+    size_t getSize() const noexcept;
+    bool isEmpty() const noexcept;
   private:
-
-    ForwardList< T > forwardList;
-
+    List< T > depot;
   };
+}
+
+template < typename T >
+zasulsky::Stack< T >::Stack(const Stack& other)
+{
+  depot = other.depot;
+}
+
+template < typename T >
+zasulsky::Stack< T >::Stack(const List< T >& dep)
+{
+  depot(dep);
+}
+
+template < typename T >
+zasulsky::Stack< T >& zasulsky::Stack< T >::operator=(const Stack& other)
+{
+  depot = other.dep;
+}
+
+template < typename T >
+T& zasulsky::Stack< T >::getTop() const
+{
+  return depot.getFront();
+}
+
+template < typename T >
+void zasulsky::Stack< T >::push(const T& data)
+{
+  depot.pushFront(data);
+}
+
+template < typename T >
+void zasulsky::Stack< T >::push(T&& data)
+{
+  depot.pushFront(data);
+}
+
+template < typename T >
+void zasulsky::Stack< T >::pop()
+{
+  depot.popFront();
+}
+
+template<typename T>
+size_t zasulsky::Stack<T>::getSize() const noexcept
+{
+  return depot.getSize();
+}
+
+template < typename T >
+bool zasulsky::Stack< T >::isEmpty() const noexcept
+{
+  return depot.empty();
 }
 
 #endif
