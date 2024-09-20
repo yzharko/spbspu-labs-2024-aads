@@ -14,4 +14,3 @@ namespace sadofeva
     const std::string& dataset);
 }
 #endif
-
