@@ -102,7 +102,7 @@ typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Valu
 
 // �������� �����
 template <typename Key, typename Value, typename Compare>
-class BinarySearchTree<Key, Value, Compare>::Iterator 
+class BinarySearchTree<Key, Value, Compare>::Iterator
 {
 private:
     Node* current;
@@ -137,7 +137,7 @@ void BinarySearchTree<Key, Value, Compare>::Iterator::pushLeft(Node* node)
         node = node->left.get();
     }
 }
- 
+
 template <typename Key, typename Value, typename Compare>
 typename BinarySearchTree<Key,Value,Compare>::Iterator::Iterator BinarySearchTree<Key, Value, Compare>::Iterator::operator++(int)
 {
@@ -176,7 +176,7 @@ BinarySearchTree<Key, Value, Compare>::Iterator::Iterator(Node* rootNode) : curr
 // }
 
 template <typename Key, typename Value, typename Compare>
-class BinarySearchTree<Key, Value, Compare>::ConstIterator 
+class BinarySearchTree<Key, Value, Compare>::ConstIterator
 {
 private:
     const Node* current;
@@ -405,7 +405,8 @@ typename BinarySearchTree<Key, Value, Compare>::ConstIterator BinarySearchTree<K
 
 // End const iterator
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::ConstIterator BinarySearchTree<Key, Value, Compare>::cend() const {
+typename BinarySearchTree<Key, Value, Compare>::ConstIterator
+BinarySearchTree<Key, Value, Compare>::cend() const {
     return ConstIterator(nullptr);
 }
 
