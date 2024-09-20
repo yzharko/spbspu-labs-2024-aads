@@ -1,5 +1,5 @@
-#ifndef STACK_HPP
-#define STACK_HPP
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 
 #include <stdexcept>
 #include "list.hpp"
@@ -7,21 +7,21 @@
 namespace sadofeva
 {
   template <typename T>
-  class Stack
+  class Queue
   {
    public:
-    Stack() = default;
-    Stack(const Stack &);
-    Stack(Stack &&);
+    Queue() = default;
+    Queue(const Queue &);
+    Queue(Queue &&);
 
-    Stack & operator=(const Stack &);
-    Stack & operator=(Stack &&);
+    Queue & operator=(const Queue &);
+    Queue & operator=(Queue &&);
 
-    void swap(Stack &) noexcept;
+    void swap(Queue &) noexcept;
 
     void push(const T &);
     void drop();
-    const T & top() const;
+    const T & next() const;
     bool empty() const;
 
    private:
@@ -30,69 +30,70 @@ namespace sadofeva
 }
 
 template <typename T>
-sadofeva::Stack<T>::Stack(const Stack & s):
-  list_(s.list_)
+sadofeva::Queue<T>::Queue(const Queue & q):
+  list_(q.list_)
 {}
 template <typename T>
-sadofeva::Stack<T>::Stack(Stack && s):
-  list_{ std::move(s.list_) }
+sadofeva::Queue<T>::Queue(Queue && q):
+  list_{ std::move(q.list_) }
 {}
 template <typename T>
-sadofeva::Stack<T> & sadofeva::Stack<T>::operator=(const Stack & s)
+sadofeva::Queue<T> & sadofeva::Queue<T>::operator=(const Queue & q)
 {
-  if (this != &s)
+  if (this != &q)
   {
-    Stack<T> tmp(s);
+    Queue<T> tmp(q);
     swap(tmp);
   }
   return *this;
 }
 template <typename T>
-sadofeva::Stack<T> & sadofeva::Stack<T>::operator=(Stack && s)
+sadofeva::Queue<T> & sadofeva::Queue<T>::operator=(Queue && q)
 {
-  if (this != &s)
+  if (this != &q)
   {
-    Stack<T> tmp(std::move(s));
+    Queue<T> tmp(std::move(q));
     swap(tmp);
   }
   return *this;
 }
 template <typename T>
-void sadofeva::Stack<T>::swap(Stack & s) noexcept
+void sadofeva::Queue<T>::swap(Queue & q) noexcept
 {
-  std::swap(list_, s.list_);
+  std::swap(list_, q.list_);
 }
 
 template <typename T>
-void sadofeva::Stack<T>::push(const T & value)
+void sadofeva::Queue<T>::push(const T & value)
 {
-  list_.push_front(value);
+  list_.push_back(value);
 }
 
 template <typename T>
-void sadofeva::Stack<T>::drop()
+void sadofeva::Queue<T>::drop()
 {
   if (empty())
   {
-    throw std::logic_error("stack is empty");
+    throw std::logic_error("queue is empty");
   }
   list_.pop_front();
 }
 
 template <typename T>
-const T & sadofeva::Stack<T>::top() const
+const T & sadofeva::Queue<T>::next() const
 {
   if (empty())
   {
-    throw std::logic_error("stack is empty");
+    throw std::logic_error("queue is empty");
   }
   return list_.front();
 }
 
 template <typename T>
-bool sadofeva::Stack<T>::empty() const
+bool sadofeva::Queue<T>::empty() const
 {
   return list_.empty();
 }
 
 #endif
+
