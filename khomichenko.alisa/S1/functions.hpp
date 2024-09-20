@@ -57,7 +57,7 @@ namespace khomichenko
              listsIter = lists.begin();
              while (!hugeList.begin()->second.empty())
              {
-                 if (iter != hugeList.begin()->second.end() && listsIter == lists.end()) 
+                 if (iter != hugeList.begin()->second.end() && listsIter == lists.end())
                  {
                      lists.pushBack(List <unsigned long long>());
                  }
