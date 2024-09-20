@@ -1,5 +1,6 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
+
 #include <stdexcept>
 #include "list.hpp"
 
@@ -88,3 +89,10 @@ const T & sadofeva::Queue<T>::next() const
   return list_.front();
 }
 
+template <typename T>
+bool sadofeva::Queue<T>::empty() const
+{
+  return list_.empty();
+}
+
+#endif
