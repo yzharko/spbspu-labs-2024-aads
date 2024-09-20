@@ -9,7 +9,7 @@ std::unordered_map<std::string, std::function<void(hohlova::DictOfDictionary&, s
 int main()
 {
     using namespace std::placeholders;
-    setlocale(LC_ALL, "Russian"); 
+    setlocale(LC_ALL, "Russian");
 
     commands.insert({ "help",std::bind(hohlova::help, _3) });
     commands.insert({ "create" , std::bind(hohlova::create, _1, _2) });
