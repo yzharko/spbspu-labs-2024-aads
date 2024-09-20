@@ -4,7 +4,7 @@
 sadofeva::InfixExpression::InfixExpression(std::istream & in):
   eparts_{}
 {
-  while (in && !in.eof() && (in >> std::noskipws).peek() != '\n')
+  while (in && !in.eof() && (in >> std::noskipws).peek() != '\n' && in && !in.eof())
   {
     eparts_.push(ExpressionPart(in >> std::ws));
   }

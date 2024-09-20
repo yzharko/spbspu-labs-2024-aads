@@ -1,6 +1,8 @@
 #ifndef EXPRESSION_PART_HPP
 #define EXPRESSION_PART_HPP
+
 #include <iosfwd>
+
 #include "Operator.hpp"
 #include "Operand.hpp"
 

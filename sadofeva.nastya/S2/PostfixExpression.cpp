@@ -67,3 +67,4 @@ bool sadofeva::PostfixExpression::empty() const
 {
   return expression_.empty();
 }
+

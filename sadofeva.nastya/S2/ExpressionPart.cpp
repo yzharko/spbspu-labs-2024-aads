@@ -1,6 +1,6 @@
+#include "ExpressionPart.hpp"
 #include <iostream>
 #include <string>
-#include "ExpressionPart.hpp"
 
 namespace
 {
@@ -88,3 +88,4 @@ sadofeva::Operand sadofeva::ExpressionPart::getOperand() const
 {
   return operand_;
 }
+

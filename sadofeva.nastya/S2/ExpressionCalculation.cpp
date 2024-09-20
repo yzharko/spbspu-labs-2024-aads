@@ -1,7 +1,7 @@
+#include "ExpressionCalculation.hpp"
 #include <iostream>
 #include <limits>
 #include "stack.hpp"
-#include "ExpressionCalculation.hpp"
 
 namespace
 {
@@ -77,7 +77,11 @@ sadofeva::Queue<sadofeva::InfixExpression> sadofeva::readExpressions(std::istrea
   Queue<InfixExpression> expressions_queue;
   while (in && !in.eof())
   {
-    expressions_queue.push(InfixExpression(in));
+    auto ie = InfixExpression(in);
+    if (!ie.empty())
+    {
+      expressions_queue.push(ie);
+    }
     if ((in >> std::noskipws).peek() == '\n')
     {
       in >> std::skipws >> std::ws;
