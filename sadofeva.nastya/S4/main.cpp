@@ -7,79 +7,77 @@ using namespace sadofeva;
 
 int main(int argc, char* argv[])
 {
-	if (argc != 2)
-	{
-		std::cerr << "File not provided" << "\n";
-		return 1;
-	}
+  if (argc != 2)
+  {
+    std::cerr << "File not provided" << "\n";
+    return 1;
+  }
 
-	std::ifstream file(argv[1]);
-	if (!file)
-	{
-		std::cerr << "Error:Unable to open file" << "\n;
-		return 1;
-	}
-	
-	std::map<std::string, BinarySearchTree<int, std::string>> dicts;
+  std::ifstream file(argv[1]);
+  if (!file)
+  {
+    std::cerr << "Error:Unable to open file" << "\n;
+    return 1;
+  }
 
-	std::string line;
-	while (std::getline(file, line))
-	{
-		if (line.empty()) continue;
-		std::istringstream iss(line);
-		
-		std::string datasetName;
-		iss >> datasetName;
+  std::map<std::string, BinarySearchTree<int, std::string>> dicts;
 
-		BinarySearchTree<int, std::string> tree;
-		int key;
-		std::string value;
-		while (iss >> key >> value)
-		{
-			tree.push(key, value);
+  std::string line;
+  while (std::getline(file, line))
+  {
+    if (line.empty()) continue;
+    std::istringstream iss(line);
 
-		}
+    std::string datasetName;
+    iss >> datasetName;
 
-		dicts[datasetName] = tree;
-	}
+    BinarySearchTree<int, std::string> tree;
+    int key;
+    std::string value;
+    while (iss >> key >> value)
+    {
+      tree.push(key, value);
+    }
 
-	file.close();
+    dicts[datasetName] = tree;
+  }
 
-	std::string commandLine;
-	while (std::getline(std::cin, commandLine))
-	{
-		std::istringstream iss(commandLine);
-		std::string command;
-		iss >> command;
+  file.close();
+  std::string commandLine;
+  while (std::getline(std::cin, commandLine))
+  {
+    std::istringstream iss(commandLine);
+    std::string command;
+    iss >> command;
 
-		if (command == "print")
-		{
-			std::string dataset;
-			iss >> dataset;
-			handlePrint(dicts, dataset);
-		}
-		else if (command == "complement")
-		{
-			std::string newDataset, dataset1, dataset2;
-			iss >> newDataset >> dataset1 >> dataset2;
-			handleComplement(dicts, newDataset, dataset1, dataset2);
-		}
-		else if (command == "intersect")
-		{
-			std::string newDataset, dataset1, dataset2;
-			iss >> newDataset >> dataset1 >> dataset2;
-			handleIntersect(dicts, newDataset, dataset1, dataset2);
-		}
-		else if (command == "union")
-		{
-			std::string newDataset, dataset1, dataset2;
-			iss >> newDataset >> dataset1 >> dataset2;
-			handleUnion(dicts, newDataset, dataset1, dataset2);
-		}
-		else
-		{
-			std::count << "<INVALID COMMAND>" << "\n";
-		}
-	}
-	return 0;
+    if (command == "print")
+    {
+      std::string dataset;
+      iss >> dataset;
+      handlePrint(dicts, dataset);
+    }
+    else if (command == "complement")
+    {
+      std::string newDataset, dataset1, dataset2;
+      iss >> newDataset >> dataset1 >> dataset2;
+      handleComplement(dicts, newDataset, dataset1, dataset2);
+    }
+    else if (command == "intersect")
+    {
+       std::string newDataset, dataset1, dataset2;
+       iss >> newDataset >> dataset1 >> dataset2;
+       handleIntersect(dicts, newDataset, dataset1, dataset2);
+    }
+    else if (command == "union")
+    {
+      std::string newDataset, dataset1, dataset2;
+      iss >> newDataset >> dataset1 >> dataset2;
+      handleUnion(dicts, newDataset, dataset1, dataset2);
+    }
+    else
+    {
+      std::count << "<INVALID COMMAND>" << "\n";
+    }
+  }
+  return 0;
 }
