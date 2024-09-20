@@ -11,12 +11,12 @@ int main(int argc, char* argv[])
   {
     std::cerr << "File not provided" << "\n";
     return 1;
-   }
+  }
   std::ifstream file(argv[1]);
   if (!file)
   {
-    std::cerr << "Error:Unable to open file" << "\n";
-     return 1;
+    std::cerr << "Error:Unable to open file" << "\n;
+    return 1;
   }
   std::map<std::string, BinarySearchTree<int, std::string>> dicts;
   std::string line;
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     {
       tree.push(key, value);
     }
-    dicts[datasetName] = std::move(tree);
+    dicts[datasetName] = tree;
   }
   file.close();
   std::string commandLine;
@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
     std::istringstream iss(commandLine);
     std::string command;
     iss >> command;
+
     if (command == "print")
     {
       std::string dataset;
@@ -50,9 +51,9 @@ int main(int argc, char* argv[])
     }
     else if (command == "complement")
     {
-       std::string newDataset, dataset1, dataset2;
-       iss >> newDataset >> dataset1 >> dataset2;
-       handleComplement(dicts, newDataset, dataset1, dataset2);
+      std::string newDataset, dataset1, dataset2;
+      iss >> newDataset >> dataset1 >> dataset2;
+      handleComplement(dicts, newDataset, dataset1, dataset2);
     }
     else if (command == "intersect")
     {
@@ -68,8 +69,9 @@ int main(int argc, char* argv[])
     }
     else
     {
-      std::cout << "<INVALID COMMAND>" << "\n";
+      std::count << "<INVALID COMMAND>" << "\n";
     }
   }
   return 0;
 }
+
