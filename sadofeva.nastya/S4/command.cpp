@@ -21,8 +21,6 @@ void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std:
   dicts[newDataset] = std::move(result);
 }
 
-
-
 void sadofeva::handleIntersect(std::map<std::string, BinarySearchTree<int, std::string>>& dicts, const std::string& newDataset, const std::string& dataset1, const std::string& dataset2)
 {
   if (dicts.find(dataset1) == dicts.end() || dicts.find(dataset2) == dicts.end())
@@ -43,8 +41,6 @@ void sadofeva::handleIntersect(std::map<std::string, BinarySearchTree<int, std::
       continue;
     }
   }
-
-
   dicts[newDataset] = std::move(result);
 }
 
@@ -92,6 +88,6 @@ void sadofeva::handlePrint(std::map<std::string, BinarySearchTree<int, std::stri
 
   for (auto it = tree.begin(); it != tree.end(); ++it)
   {
-    std::cout << it->first << " " << it->second << " ";
+    std::cout << it->first << " " << it->second << " " << "\n";
   }
 }
