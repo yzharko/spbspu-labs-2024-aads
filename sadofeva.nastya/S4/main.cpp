@@ -19,7 +19,6 @@ int main(int argc, char* argv[])
      return 1;
   }
   std::map<std::string, BinarySearchTree<int, std::string>> dicts;
-
   std::string line;
   while (std::getline(file, line))
   {
