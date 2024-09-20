@@ -21,11 +21,11 @@ namespace zasulsky
       node_t(T dat,int hei)
       {
         hei = 1;
-        data(dat);
-        height(hei);
-        parent(nullptr);
-        left(nullptr);
-        right(nullptr);
+        data = dat;
+        height = hei;
+        parent = nullptr;
+        left = nullptr;
+        right = nullptr;
       }
 
       T data;
