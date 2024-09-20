@@ -18,9 +18,9 @@ namespace zasulsky
         right(nullptr)
       {}
 
-      node_t(T dat, int hei = 1) :
+      node_t(T dat, int hei) :
         data(dat),
-        height(hei),
+        height(1),
         parent(nullptr),
         left(nullptr),
         right(nullptr)
