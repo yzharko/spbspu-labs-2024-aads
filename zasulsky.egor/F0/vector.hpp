@@ -71,8 +71,8 @@ private:
 public:
   Vector() :
     data(nullptr),
-    capacity(0),
-    size(0)
+    size(0),
+    capacity(0)
   {}
 
   Vector(const Vector& other) : size(other.size), capacity(other.capacity)
