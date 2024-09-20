@@ -137,7 +137,7 @@ void BinarySearchTree<Key, Value, Compare>::Iterator::pushLeft(Node* node)
     node = node->left.get();
   }
 }
- 
+
 template <typename Key, typename Value, typename Compare>
 typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator BinarySearchTree<Key, Value, Compare>::Iterator::operator++(int)
 {
