@@ -1,7 +1,10 @@
 #include "Command.hpp"
 
-void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std::string>>& dicts, const std::string& newDataset, const std::string& dataset1, const std::string& dataset2) {
-  if (dicts.find(dataset1) == dicts.end() || dicts.find(dataset2) == dicts.end()) {
+void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std::string>>& dicts,
+const std::string& newDataset, const std::string& dataset1, const std::string& dataset2)
+{
+  if (dicts.find(dataset1) == dicts.end() || dicts.find(dataset2) == dicts.end())
+  {
     std::cout << "<INVALID COMMAND>" << "\n";
     return 0;
   }
@@ -10,14 +13,18 @@ void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std:
   BinarySearchTree<int, std::string>& set1 = dicts[dataset1];
   BinarySearchTree<int, std::string>& set2 = dicts[dataset2];
 
-  for (const auto& item : set1) {
-    if (!set2.contains(item.first)) {
+  for (const auto& item : set1)
+  {
+    if (!set2.contains(item.first))
+    {
       result.push(item.first, item.second);
     }
   }
   dicts[newDataset] = result;
 }
-void handleIntersect(std::map<std::string, BinarySearchTree<int, std::string>>& dicts const std::string& newDataset, const std::string& dataset1, const std::string& dataset2)
+
+void handleIntersect(std::map<std::string, BinarySearchTree<int, std::string>>& dicts, const std::string& newDataset,
+const std::string& dataset1, const std::string& dataset2)
 {
   if (dicts.find(dataset1) == dicts.end() || dicts.find(dataset2) == dicts.end())
   {
@@ -37,7 +44,8 @@ void handleIntersect(std::map<std::string, BinarySearchTree<int, std::string>>& 
   dicts[newDataset] = result;
 }
 
-void handleUnion(std::map<std::string, BinarySearchTree<int, std::string>>& dicts const std::string& newDataset, const std::string& dataset1, const std::string& dataset2)
+void handleUnion(std::map<std::string, BinarySearchTree<int, std::string>>& dicts,
+const std::string& newDataset, const std::string& dataset1, const std::string& dataset2)
 {
   if (dicts.find(dataset1) == dicts.end() || dicts.find(dataset2) == dicts.end()) {
     std::cout << "<INVALID COMMAND>" << "\n";
@@ -61,7 +69,8 @@ void handleUnion(std::map<std::string, BinarySearchTree<int, std::string>>& dict
   dicts[newDataset] = result;
 }
 
-void handlePrint(std::map<std::string, BinarySearchTree<int, std::string>>& dicts, const std::string& dataset)
+void handlePrint(std::map<std::string, BinarySearchTree<int, std::string>>& dicts,
+const std::string& dataset)
 {
   auto it = dicts.find(dataset);
   if (if == dicts.end())
