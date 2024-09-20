@@ -1,6 +1,7 @@
 #include <fstream>
 #include "calculationProcess.hpp"
 
+
 int main(int argc, char* argv[])
 {
   using namespace jirkov;
