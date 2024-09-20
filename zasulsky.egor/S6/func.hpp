@@ -73,8 +73,6 @@ void printContainers(const std::forward_list<T>& fL, const std::deque<T>& deque,
   std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
   std::cout << '\n';
 
-  std::copy(l2.begin(), l2.end(), std::ostream_iterator<T>(std::cout, " "));
-  std::cout << '\n';
 
 }
 
@@ -105,7 +103,7 @@ void processContainers(int cal, bool order)
   std::list<T> list2;
   std::vector<T> vec;
   fillContainersF(cal, vec, forwardList, deque, list, list2);
-  //outputOldData(vec);
+  outputOldData(vec);
 
   sortBubble(forwardList, order);
   shellSort(deque, order);
