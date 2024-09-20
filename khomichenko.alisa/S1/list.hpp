@@ -1,215 +1,493 @@
 #ifndef LIST_HPP
 #define LIST_HPP
+#include <cstddef>
+#include <cassert>
+#include <memory>
 #include <iostream>
-template< typename T >
-class List {
-public:
-    List() :
-        size(0),
-        head(nullptr),
-        ending(nullptr)
-    {};
-    List(const List& other) = default;
-    ~List() = default;
 
-    void pushBack(T data);
-    void pushFront(T data);
-    bool empty();
-    void print();
-    void popFront();
-    void clear();
-    void swap(List* other);
-
-    class Iterator;
+namespace khomichenko
+{
+  template < typename T >
+  class List
+  {
+  public:
     class ConstIterator;
-    Iterator begin();
-    Iterator end();
-private:
-    class Node {
+    class Iterator;
+
+    List();
+    List(size_t n, const T& value);
+    List(const List< T >& otherList);
+    List(List< T >&& otherList);
+    ~List();
+
+    void pushFront(const T& data);
+    void pushBack(const T& data);
+    void popFront();
+    bool isEmpty() noexcept;
+    void clear();
+    void swap(List< T >& otherList) noexcept;
+    void assign(size_t n, const T& value);
+    void remove(const T& value);
+    template< typename P >
+    void removeIf(P p);
+    size_t getSize();
+    T& front();
+    T& back();
+
+    ConstIterator operator[](const int index);
+
+    Iterator begin() const;
+    Iterator end() const;
+
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
+
+  private:
+    struct Node
+    {
     public:
-        friend class List;
-        Node(T value) :
-            data(value),
-            next(nullptr)
-        {}
+      friend class List;
+      Node(T value) :
+        data(value),
+        next(nullptr)
+      {}
     private:
-        T data;
-        Node* next;
+      T data;
+      Node* next;
     };
-    size_t size;
-    Node * head;
-    Node * ending;
-};
 
-template <typename T>
-bool List<T>::empty()
-{
-    return (head == nullptr);
+    Node* head_;
+    Node* tail_;
+  };
 }
 
-template <typename T>
-void List<T>::pushBack(T data)
-{
-    Node* pushed = new Node(data);
-    if (head != nullptr)
-    {
-        ending->next = pushed;
-    }
-    else
-    {
-        head = pushed;
-    }
-    ending = pushed;
-    size += 1;
-    delete pushed;
-}
-
-template <typename T>
-void List<T>::pushFront(T data)
-{
-    Node* pushed = new Node(data);
-    if (size > 0)
-    {
-        pushed->next = head;
-        head = pushed;
-    }
-    head = pushed;
-    size += 1;
-    delete pushed;
-}
-
-template <typename T>
-void List<T>::print()
-{
-    Node* go = head;
-    while (go != nullptr)
-    {
-        std::cout << go->data << " ";
-        go = go->next;
-    }
-    std::cout << "\n";
-}
-
-template <typename T>
-void List<T>::popFront()
-{
-    if (head == ending)
-    {
-        delete head;
-        head = nullptr;
-        ending = nullptr;
-    }
-    else
-    {
-        Node* todel = head;
-        head = head->next;
-        delete todel;
-    }
-}
-
-template <typename T>
-void List<T>::clear()
-{
-    while (head != nullptr)
-    {
-        popFront();
-    }
-}
-
-template <typename T>
-void List<T>::swap(List* other)
-{
-    if (size == other->size)
-    {
-        std::swap(head, other->head);
-        std::swap(ending, other->ending);
-    }
-    else
-    {
-        std::cerr << "error: different size\n";
-    }
-
-}
-
-
-template <typename T>
-class List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
+template< typename T >
+class khomichenko::List< T >::ConstIterator : public std::iterator< std::forward_iterator_tag, T >
 {
 public:
-    friend class List<T>;
-    Iterator();
-    Iterator(List<T>::Node * ptr);
-    ~Iterator() = default;
-    Iterator(const Iterator&) = default;
-    Iterator& operator= (const Iterator&) = default;
-    Iterator& operator++();
-    Iterator operator++(int);
-    T& operator*();
-    T* operator->();
-    bool operator!=(Iterator rhs);
-    bool operator==(Iterator rhs);
-    Node * node;
+  friend class List< T >;
+
+  ConstIterator();
+  ConstIterator(Node* pointer);
+  ConstIterator(const ConstIterator&) = default;
+  ~ConstIterator() = default;
+
+  ConstIterator& operator=(const ConstIterator&) = default;
+  ConstIterator& operator++();
+  ConstIterator operator++(int);
+
+  const T& operator*() const;
+  const T* operator->() const;
+
+  bool operator!=(const ConstIterator& rhs) const;
+  bool operator==(const ConstIterator& rhs) const;
+
+private:
+  Node* node;
 };
 
-template <typename T>
-List<T>::Iterator::Iterator() :
-    node (nullptr)
+template< typename T >
+khomichenko::List< T >::ConstIterator::ConstIterator():
+  node(nullptr)
 {}
 
-template <typename T>
-List<T>::Iterator::Iterator(Node * ptr) :
-    node (ptr)
+template< typename T >
+khomichenko::List< T >::ConstIterator::ConstIterator(Node* pointer):
+  node(pointer)
 {}
 
-template <typename T>
-typename List<T>::Iterator& List<T>::Iterator::operator++()
+template< typename T >
+typename khomichenko::List< T >::ConstIterator& khomichenko::List< T >::ConstIterator::operator++()
 {
-    node = node->next;
-    return *this;
+  assert(node != nullptr);
+  node = node->next;
+  return *this;
 }
 
-template <typename T>
-typename List<T>::Iterator List<T>::Iterator::operator++(int)
+template< typename T >
+typename khomichenko::List< T >::ConstIterator khomichenko::List< T >::ConstIterator::operator++(int)
 {
-    Iterator result(*this);
-    ++(*this);
-    return result;
+  assert(node != nullptr);
+  ConstIterator result(*this);
+  ++(*this);
+  return result;
 }
 
-template <typename T>
-T& List<T>::Iterator::operator*()
+template< typename T >
+const T& khomichenko::List< T >::ConstIterator::operator*() const
 {
-    return node->data;
+  assert(node != nullptr);
+  return node->data;
 }
 
-template <typename T>
-T* List<T>::Iterator::operator->()
+template< typename T >
+const T* khomichenko::List< T >::ConstIterator::operator->() const
 {
-    return std::addressof(node->data);
+  assert(node != nullptr);
+  return std::addressof(node->data);
 }
 
-template <typename T>
-bool List<T>::Iterator::operator==(List<T>::Iterator rhs)
+template< typename T >
+bool khomichenko::List< T >::ConstIterator::operator!=(const ConstIterator& rhs) const
 {
-    return node == rhs.node;
+  return !(rhs == *this);
 }
 
-template <typename T>
-bool List<T>::Iterator::operator!=(List<T>::Iterator rhs)
+template< typename T >
+bool khomichenko::List< T >::ConstIterator::operator==(const ConstIterator& rhs) const
 {
-    return !(rhs == *this);
+  return node == rhs.node;
 }
 
-template <typename T>
-typename List<T>::Iterator List<T>::begin()
+template< typename T >
+class khomichenko::List< T >::Iterator : public std::iterator< std::forward_iterator_tag, T >
 {
-    return Iterator(head);
+public:
+  friend class List< T >;
+  Iterator();
+  Iterator(ConstIterator someIterator);
+  ~Iterator() = default;
+  Iterator(const Iterator&) = default;
+  Iterator& operator=(const Iterator&) = default;
+
+  Iterator& operator++();
+  Iterator operator++(int);
+
+  T& operator*();
+  T* operator->();
+
+  bool operator!=(const Iterator& rhs) const;
+  bool operator==(const Iterator& rhs) const;
+
+private:
+  ConstIterator iterator;
 };
 
-template <typename T>
-typename List<T>::Iterator List<T>::end()
+template< typename T >
+khomichenko::List< T >::Iterator::Iterator():
+  iterator(nullptr)
+{}
+
+template< typename T >
+khomichenko::List< T >::Iterator::Iterator(ConstIterator someIterator):
+  iterator(someIterator)
+{}
+
+template< typename T >
+typename khomichenko::List< T >::Iterator& khomichenko::List< T >::Iterator::operator++()
 {
-    return Iterator(ending);
-};
+  assert(iterator != nullptr);
+  iterator++;
+  return iterator;
+}
+
+template< typename T >
+typename khomichenko::List< T >::Iterator khomichenko::List< T >::Iterator::operator++(int)
+{
+  assert(iterator != nullptr);
+  ++iterator;
+  return iterator;
+}
+
+template< typename T >
+T& khomichenko::List< T >::Iterator::operator*()
+{
+  assert(iterator != nullptr);
+  return iterator.node->data;
+}
+
+template< typename T >
+T* khomichenko::List< T >::Iterator::operator->()
+{
+  assert(iterator != nullptr);
+  return std::addressof(iterator.node->data);
+}
+
+template< typename T >
+bool khomichenko::List< T >::Iterator::operator!=(const Iterator& rhs) const
+{
+  return !(rhs.iterator == iterator);
+}
+
+template< typename T >
+bool khomichenko::List< T >::Iterator::operator==(const Iterator& rhs) const
+{
+  return iterator == rhs.iterator;
+}
+
+template< typename T >
+khomichenko::List< T >::List():
+  head_(nullptr),
+  tail_(nullptr)
+{}
+
+template< typename T >
+khomichenko::List< T >::List(size_t n, const T& value)
+{
+  head_ = nullptr;
+  tail_ = nullptr;
+  for (size_t i = 0; i < n; i++)
+  {
+    pushBack(value);
+  }
+}
+
+template< typename T >
+khomichenko::List< T >::List(const List< T >& otherList)
+{
+  head_ = nullptr;
+  tail_ = nullptr;
+  Node* head = otherList.head_;
+  while (head)
+  {
+    pushBack(head->data);
+    head = head->next;
+  }
+}
+
+template< typename T >
+khomichenko::List< T >::List(List&& otherList)
+{
+  head_ = otherList.head_;
+  tail_ = otherList.tail_;
+  otherList.head_ = nullptr;
+  otherList.tail_ = nullptr;
+}
+
+template< typename T >
+khomichenko::List< T >::~List()
+{
+  clear();
+}
+
+template< typename T >
+void khomichenko::List< T >::pushFront(const T& data)
+{
+  Node* node = new Node(data);
+  if (head_ != nullptr)
+  {
+    node->next = head_;
+    head_ = node;
+  }
+  else
+  {
+    head_ = tail_ = node;
+  }
+}
+
+template< typename T >
+void khomichenko::List< T >::pushBack(const T& data)
+{
+  Node* node = new Node(data);
+  if (head_ == nullptr)
+  {
+    head_ = tail_ = node;
+  }
+  else
+  {
+    tail_->next = node;
+    tail_ = node;
+  }
+}
+
+template< typename T >
+size_t khomichenko::List< T >::getSize()
+{
+  Node* head = head_;
+  size_t size = 0ull;
+  while (head)
+  {
+    size++;
+    head = head->next;
+  }
+  return size;
+}
+
+
+template< typename T >
+void khomichenko::List< T >::popFront()
+{
+  if (head_ == tail_)
+  {
+    delete tail_;
+    head_ = tail_ = nullptr;
+  }
+  if (head_ != nullptr)
+  {
+    Node* node = head_;
+    head_ = node->next;
+    delete node;
+  }
+}
+
+template< typename T >
+bool khomichenko::List< T >::isEmpty() noexcept
+{
+  return head_ == nullptr ? true : false;
+}
+
+template< typename T >
+void khomichenko::List< T >::clear()
+{
+  while (head_)
+  {
+    popFront();
+  }
+}
+
+template< typename T >
+void khomichenko::List< T >::swap(List< T >& otherList) noexcept
+{
+  std::swap(head_, otherList.head_);
+  std::swap(tail_, otherList.tail_);
+}
+
+template< typename T >
+void khomichenko::List< T >::assign(size_t n, const T& value)
+{
+  clear();
+  for (size_t i = 0; i < n; i++)
+  {
+    push_back(value);
+  }
+}
+
+template< typename T >
+void khomichenko::List< T >::remove(const T& value)
+{
+  ConstIterator iterator = cbegin();
+  Node* nextNode = iterator.node->next;
+  Node* toRemove = nullptr;
+  if (!isEmpty())
+  {
+    while (*iterator == value)
+    {
+      popFront();
+      iterator = cbegin();
+      nextNode = iterator.node->next;
+    }
+    while (nextNode)
+    {
+      if (nextNode->data == value)
+      {
+        if (nextNode->next == nullptr)
+        {
+          toRemove = nextNode;
+          nextNode = nullptr;
+          iterator.node->next = nullptr;
+          tail_ = iterator.node;
+          delete toRemove;
+        }
+        else
+        {
+          toRemove = nextNode;
+          iterator.node->next = nextNode->next;
+          nextNode = iterator.node->next;
+          delete toRemove;
+        }
+      }
+      else
+      {
+        iterator++;
+        nextNode = iterator.node->next;
+      }
+    }
+  }
+}
+
+template< typename T >
+template< typename P >
+void khomichenko::List< T >::removeIf(P p)
+{
+  ConstIterator iterator = cbegin();
+  Node* nextNode = iterator.node->next;
+  Node* toRemove = nullptr;
+  if (!isEmpty())
+  {
+    while (p(*iterator))
+    {
+      popFront();
+      iterator = cbegin();
+      nextNode = iterator.node->next;
+    }
+    while (nextNode)
+    {
+      if (p(nextNode->data))
+      {
+        if (nextNode->next == nullptr)
+        {
+          toRemove = nextNode;
+          nextNode = nullptr;
+          iterator.node->next = nullptr;
+          tail_ = iterator.node;
+          delete toRemove;
+        }
+        else
+        {
+          toRemove = nextNode;
+          iterator.node->next = nextNode->next;
+          nextNode = iterator.node->next;
+          delete toRemove;
+        }
+      }
+      else
+      {
+        iterator++;
+        nextNode = iterator.node->next;
+      }
+    }
+  }
+}
+
+template< typename T >
+T& khomichenko::List< T >::front()
+{
+  return head_->data;
+}
+
+template< typename T >
+T& khomichenko::List< T >::back()
+{
+  return tail_->data;
+}
+
+template< typename T >
+typename khomichenko::List< T >::ConstIterator khomichenko::List< T >::operator[](const int index)
+{
+  ConstIterator iterator = cbegin();
+  for (int i = 0; i < index; i++)
+  {
+    if (iterator == nullptr)
+    {
+      return nullptr;
+    }
+    iterator++;
+  }
+  return iterator.node;
+}
+
+template< typename T >
+typename khomichenko::List< T >::Iterator khomichenko::List< T >::begin() const
+{
+  return Iterator(head_);
+}
+
+template< typename T >
+typename khomichenko::List< T >::Iterator khomichenko::List< T >::end() const
+{
+  return Iterator(tail_->next);
+}
+
+template< typename T >
+typename khomichenko::List< T >::ConstIterator khomichenko::List< T >::cbegin() const
+{
+  return ConstIterator(head_);
+}
+
+template< typename T >
+typename khomichenko::List< T >::ConstIterator khomichenko::List< T >::cend() const
+{
+  return ConstIterator(tail_->next);
+}
 
 #endif

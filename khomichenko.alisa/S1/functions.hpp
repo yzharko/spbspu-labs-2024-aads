@@ -1,108 +1,188 @@
-#ifndef FUNC_HPP
-#define FUNC_HPP
-#include <limits>
+#ifndef FUNCTIONS_HPP
+#define FUNCTIONS_HPP
 #include <string>
 #include <iostream>
-#include <utility>
-#include <cctype>
+#include <limits>
 #include "list.hpp"
 
 namespace khomichenko
 {
-    using mainList = List <std::pair <std::string, List<unsigned long long>>>;
+  using this_t = List< std::pair< std::string, List< size_t > > >;
 
-    mainList listInput(std::istream& input)
+  size_t getMaxSize(this_t& list)
+  {
+    size_t size = 0;
+    size_t maxSize = 0;
+    this_t::Iterator iterator = list.begin();
+    while (iterator != this_t::ConstIterator())
     {
-        mainList lstt;
-        std::string newwords;
-        const unsigned long long maximum = std::numeric_limits<unsigned long long>::max();
-        while (input >> newwords)
-        {
-            if (std::isalpha(newwords[0]))
-            {
-                lstt.pushBack({ newwords, List <unsigned long long>() });
-            }
-            else if (std::stoull(newwords) <= maximum)
-            {
-                lstt.end()->second.pushBack(std::stoull(newwords));
-            }
-            else
-            {
-                std::overflow_error("overflow error");
-            }
-        }
-        return lstt;
+      size = iterator->second.getSize();
+      maxSize = size > maxSize ? size : maxSize;
+      iterator++;
     }
+    return maxSize;
+  }
 
-    void namesOut(mainList list)
+  this_t listInput(std::istream& input)
+  {
+    std::string inputString = "";
+    this_t inputList;
+    unsigned long long readNumber = 0;
+    const size_t maximum = std::numeric_limits< size_t >::max();
+    while (input >> inputString)
     {
-        mainList::Iterator iter = list.begin();
-        while (iter != list.end())
+      if (std::isalpha(inputString[0]))
+      {
+        inputList.pushBack({ inputString, List< size_t >() });
+      }
+      else
+      {
+        readNumber = std::stoull(inputString);
+        if (readNumber > maximum)
         {
-            std::cout << iter->first << " ";
-            iter++;
+          throw std::overflow_error("overflow error");
         }
-        std::cout << iter->first << "\n";
+        else
+        {
+          inputList.back().second.pushBack(readNumber);
+        }
+      }
     }
+    return inputList;
+  }
 
-    List <List <unsigned long long>> remadeLists(mainList hugeList)
+  void namesOutput(this_t& list, std::ostream& output)
+  {
+    this_t::Iterator iterator = list.begin();
+    if (!list.isEmpty())
     {
-         List <List <unsigned long long>> lists;
-         List<unsigned long long>::Iterator iter;
-         List <List <unsigned long long>>::Iterator listsIter;
-         lists.pushBack(List <unsigned long long>());
-         while (!hugeList.empty())
-         {
-             iter = hugeList.begin()->second.begin();
-             listsIter = lists.begin();
-             while (!hugeList.begin()->second.empty())
-             {
-                 if (iter != hugeList.begin()->second.end() && listsIter == lists.end())
-                 {
-                     lists.pushBack(List <unsigned long long>());
-                 }
-                 listsIter->pushBack(*iter);
-                 iter++;
-                 listsIter++;
-                 hugeList.begin()->second.popFront();
-             }
-             hugeList.popFront();
-         }
-         return lists;
+      while (iterator != list.end())
+      {
+        if (iterator != list.begin())
+        {
+          output << " ";
+        }
+        output << iterator->first;
+        iterator++;
+      }
+      output << "\n";
     }
+  }
 
-    List <unsigned long long> getSums(List <List <unsigned long long>> lists)
+  void listFormation(this_t& mainList, List< List < size_t > >& lists)
+  {
+    this_t::Iterator iterator;
+    size_t maxSize = getMaxSize(mainList);
+    List< size_t >::Iterator localIterator = List< size_t >::ConstIterator();
+    List< size_t > curList;
+    for (size_t index = 0; index < maxSize; index++)
     {
-        List <unsigned long long>::Iterator iter;
-        List <List <unsigned long long>>::Iterator hugeIter;
-        List <unsigned long long> sums;
-        unsigned long long sum;
-        hugeIter = lists.begin();
-        while (hugeIter != lists.end())
+      iterator = mainList.begin();
+      while (iterator != mainList.end())
+      {
+        if (iterator->second[index] != nullptr)
         {
-            iter = hugeIter->begin();
-            sum = 0;
-            while (iter != hugeIter->end())
-            {
-                sum = sum + *iter;
-                iter++;
-            }
-            sum = sum + *iter;
-            hugeIter++;
-            sums.pushBack(sum);
+          localIterator = List< size_t >::ConstIterator(iterator->second[index]);
+          curList.pushBack(*localIterator);
         }
-        iter = hugeIter->begin();
-        sum = 0;
-        while (iter != hugeIter->end())
-        {
-            sum = sum + *iter;
-            iter++;
-
-        }
-        sum = sum + *iter;
-        hugeIter++;
-        sums.pushBack(sum);
-        return sums;
+        iterator++;
+      }
+      lists.pushBack(curList);
+      curList.clear();
     }
+  }
+
+  void getSum(List< size_t >& list, List< size_t >& sums)
+  {
+    List< size_t >::Iterator iterator = list.begin();
+    const size_t maximum = std::numeric_limits< size_t >::max();
+    bool overflowError = false;
+    size_t sum = 0;
+    while (iterator != list.end())
+    {
+      if (iterator != List< size_t >::ConstIterator())
+      {
+        if (maximum - sum < *iterator)
+        {
+          overflowError = true;
+        }
+        else
+        {
+          sum = sum + *iterator;
+        }
+      }
+      iterator++;
+    }
+    if (!overflowError)
+    {
+      sums.pushBack(sum);
+    }
+    else
+    {
+      throw std::overflow_error("overflow error");
+    }
+  }
+
+  void sumsFormation(List< List < size_t > >& lists, List< size_t >& sums)
+  {
+    List< List< size_t > >::Iterator iterator = lists.begin();
+    while (iterator != lists.end())
+    {
+      getSum(*iterator, sums);
+      iterator++;
+    }
+  }
+
+  void printList(std::ostream& output, List< size_t > list)
+  {
+    List< size_t >::Iterator iterator = list.begin();
+    size_t size = list.getSize();
+    for (size_t i = 0; i < size; i++)
+    {
+      output << *iterator;
+      if (i != size - 1)
+      {
+        output << " ";
+      }
+      iterator++;
+    }
+  }
+
+  void listsOutput(std::ostream& output, List< List< size_t > >& lists)
+  {
+    List< List< size_t > >::Iterator iterator = lists.begin();
+    while (iterator != lists.end())
+    {
+      printList(output, *iterator);
+      output << "\n";
+      iterator++;
+    }
+  }
+
+  void sumsOutput(std::ostream& output, List< size_t >& sums)
+  {
+    List< size_t >::Iterator iteratorForSums = sums.begin();
+    if (sums.isEmpty())
+    {
+      output << 0;
+    }
+    else
+    {
+      while (iteratorForSums != sums.end())
+      {
+        if (iteratorForSums != List< size_t >::ConstIterator())
+        {
+          if (iteratorForSums != sums.begin())
+          {
+            output << " ";
+          }
+          output << *iteratorForSums;
+        }
+        iteratorForSums++;
+      }
+    }
+    output << "\n";
+  }
 }
+
 #endif

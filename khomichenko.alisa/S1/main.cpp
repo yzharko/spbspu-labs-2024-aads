@@ -1,27 +1,35 @@
-#include <string>
-#include <iostream>
-#include <utility>
-#include <cctype>
-#include "functions.hpp"
+#include <limits>
 #include "list.hpp"
+#include "functions.hpp"
 
-using mainList = List <std::pair <std::string, List<unsigned long long>>>;
 int main()
 {
-    using namespace khomichenko;
-    mainList lst;
-    List<int> list;
-    List <List<unsigned long long>> lists;
-    lst = listInput(std::cin);
-    namesOut(lst);
-    lists = remadeLists(lst);
-    List<List<unsigned long long>>::Iterator iter = lists.begin();
-    List <unsigned long long> sums = getSums(lists);
-    while (!lists.empty())
+  using namespace khomichenko;
+  try
+  {
+    List< std::pair< std::string, List< size_t > > > list = listInput(std::cin);
+    List< List < size_t > > lists;
+    List< size_t > sums;
+    namesOutput(list, std::cout);
+    if (!list.isEmpty())
     {
-        iter->print();
-        iter++;
-        lists.popFront();
+      listFormation(list, lists);
+      if (!lists.isEmpty())
+      {
+        listsOutput(std::cout, lists);
+        sumsFormation(lists, sums);
+      }
+      sumsOutput(std::cout, sums);
     }
-    sums.print();
+    else
+    {
+      std::cout << 0 << "\n";
+    }
+    return 0;
+  }
+  catch (std::overflow_error& e)
+  {
+    std::cerr << e.what() << "\n";
+    return 1;
+  }
 }
