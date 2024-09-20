@@ -99,7 +99,7 @@ zasulsky::Queue< std::string > zasulsky::convertToPostfix(zasulsky::Queue< std::
       st.pop();
     }
     infix.dequeue();
-  }
+  }à
   if (infix.isEmpty())
   {
     while (!st.isEmpty())
