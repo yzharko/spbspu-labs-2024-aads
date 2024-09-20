@@ -280,7 +280,7 @@ namespace hohlova
                 printError("Empty name");
                 return;
             }
-            auto rWord = (*it).second.find(word);
+//            auto rWord = (*it).second.find(word);
             if ((*it).second.find(word) != (*it).second.end())
             {
                 (*it).second.remove(word);
