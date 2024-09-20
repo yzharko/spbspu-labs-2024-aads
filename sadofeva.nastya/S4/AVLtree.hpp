@@ -148,7 +148,7 @@ void BinarySearchTree<Key, Value, Compare>::Iterator::pushLeft(Node* node)
     node = node->left.get();
   }
 }
- 
+
 template <typename Key, typename Value, typename Compare>
 typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator BinarySearchTree<Key, Value, Compare>::Iterator::operator++(int)
 {
@@ -226,7 +226,8 @@ BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator(const Node* 
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator::operator++(int)
+typename BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator
+BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator::operator++(int)
 {
   ConstIterator tmp = *this;
   ++(*this);
@@ -234,7 +235,8 @@ typename BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator Bin
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator& BinarySearchTree<Key, Value, Compare>::ConstIterator::operator++()
+typename BinarySearchTree<Key, Value, Compare>::ConstIterator::ConstIterator&
+BinarySearchTree<Key, Value, Compare>::ConstIterator::operator++()
 {
   if (nodeStack.empty()) {
     current = nullptr;
@@ -252,7 +254,8 @@ template <typename Key, typename Value, typename Compare>
 BinarySearchTree<Key, Value, Compare>::BinarySearchTree() : root(nullptr), tree_size(0), comp(Compare()) {}
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::insert(Node* node, const Key& key, const Value& value) {
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::insert(Node* node, const Key& key, const Value& value) {
   if (!node) {
     ++tree_size;
     return new Node(key, value);
@@ -299,7 +302,8 @@ void BinarySearchTree<Key, Value, Compare>::push(const Key& k, const Value& v) {
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::find(Node* node, const Key& key) const {
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::find(Node* node, const Key& key) const {
   if (!node) return nullptr;
   if (comp(key, node->data.first)) {
     return find(node->left.get(), key);
@@ -328,7 +332,8 @@ bool BinarySearchTree<Key, Value, Compare>::drop(const Key& k) {
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::remove(Node* node, const Key& key) {
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::remove(Node* node, const Key& key) {
   if (!node) return nullptr;
   if (comp(key, node->data.first)) {
     node->left.reset(remove(node->left.release(), key));
@@ -347,7 +352,8 @@ typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Valu
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::findMin(Node* node) const {
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::findMin(Node* node) const {
   while (node->left) node = node->left.get();
   return node;
 }
@@ -395,13 +401,15 @@ typename BinarySearchTree<Key, Value, Compare>::Iterator BinarySearchTree<Key, V
 
 // Begin const iterator
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::ConstIterator BinarySearchTree<Key, Value, Compare>::cbegin() const {
+typename BinarySearchTree<Key, Value, Compare>::ConstIterator
+BinarySearchTree<Key, Value, Compare>::cbegin() const {
   return ConstIterator(root.get());
 }
 
 // End const iterator
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::ConstIterator BinarySearchTree<Key, Value, Compare>::cend() const {
+typename BinarySearchTree<Key, Value, Compare>::ConstIterator
+BinarySearchTree<Key, Value, Compare>::cend() const {
   return ConstIterator(nullptr);
 }
 
