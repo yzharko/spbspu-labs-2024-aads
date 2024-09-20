@@ -1,9 +1,9 @@
 #ifndef FUNC_HPP
 #define FUNC_HPP
+#include <limits>
 #include <string>
 #include <iostream>
 #include <utility>
-#include <limits>
 #include <cctype>
 #include "list.hpp"
 
@@ -106,4 +106,3 @@ namespace khomichenko
     }
 }
 #endif
-

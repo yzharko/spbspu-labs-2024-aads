@@ -1,8 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-
 #include <iostream>
-
 template< typename T >
 class List {
 public:
@@ -24,21 +22,12 @@ public:
 
     class Iterator;
     class ConstIterator;
-
-
     Iterator begin();
     Iterator end();
-    /*ConstIterator cbegin() const;
-    ConstIterator cend();*/
-
-
-
-
 private:
     class Node {
     public:
         friend class List;
-
         Node(T value) :
             data(value),
             next(nullptr)
@@ -47,7 +36,6 @@ private:
         T data;
         Node* next;
     };
-
     size_t size;
     Node * head;
     Node * ending;
@@ -147,22 +135,17 @@ class List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
 {
 public:
     friend class List<T>;
-
     Iterator();
     Iterator(List<T>::Node * ptr);
     ~Iterator() = default;
     Iterator(const Iterator&) = default;
     Iterator& operator= (const Iterator&) = default;
-
     Iterator& operator++();
     Iterator operator++(int);
-
     T& operator*();
     T* operator->();
-
     bool operator!=(Iterator rhs);
     bool operator==(Iterator rhs);
-
     Node * node;
 };
 
@@ -175,7 +158,6 @@ template <typename T>
 List<T>::Iterator::Iterator(Node * ptr) :
     node (ptr)
 {}
-
 
 template <typename T>
 typename List<T>::Iterator& List<T>::Iterator::operator++()
@@ -222,7 +204,6 @@ typename List<T>::Iterator List<T>::begin()
     return Iterator(head);
 };
 
-
 template <typename T>
 typename List<T>::Iterator List<T>::end()
 {
@@ -230,4 +211,3 @@ typename List<T>::Iterator List<T>::end()
 };
 
 #endif
-
