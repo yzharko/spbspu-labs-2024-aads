@@ -2,8 +2,8 @@
 #define TERMFUNCS_HPP
 #include <string>
 #include <iostream>
-#include "queue.hpp"
-#include "stack.hpp"
+#include "Queue.hpp"
+#include "Stack.hpp"
 
 namespace proselkov
 {
