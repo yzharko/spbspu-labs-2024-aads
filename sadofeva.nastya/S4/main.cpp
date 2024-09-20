@@ -1,65 +1,85 @@
 #include <fstream>
-#include "AVLtree.hpp"
-#include "Keystruct.hpp"
+#include <sstream>
+#include "ABLtree.hpp"
+#include "Command.hpp"
 
+using namespace sadofeva;
 
 int main(int argc, char* argv[])
 {
-  if (argc != 3)
-  {
-     std::cerr << "Error. Invalid command\n";
-     return 1;
-  }
-  std::string mode = argv[1];
-  std::string filename = argv[2];
+	if (argc != 2)
+	{
+		std::cerr << "File not provided" << "\n";
+		return 1;
+	}
 
-  std::ifstream file(filename);
-  if (!file.is_open())
-  {
-    std::cerr << "Error: Could not open file\n";
-    return 1;
-  }
+	std::ifstream file(argv[1]);
+	if (!file)
+	{
+		std::cerr << "Error:Unable to open file" << "\n;
+		return 1;
+	}
+	
+	std::map<std::string, BinarySearchTree<int, std::string>> dicts;
 
-  BinarySearchTree<int, std::string> tree;
-  int key;
-  std::string value;
+	std::string line;
+	while (std::getline(file, line))
+	{
+		if (line.empty()) continue;
+		std::istringstream iss(line);
+		
+		std::string datasetName;
+		iss >> datasetName;
 
-  while (file >> key >> value)
-  {
-    tree.push(key, value);
-  }
-  if (tree.empty())
-  {
-    std::cout << "<EMPTY>\n";
-    return 0;
-  }
-  sadofeva::KeyVal sum;
+		BinarySearchTree<int, std::string> tree;
+		int key;
+		std::string value;
+		while (iss >> key >> value)
+		{
+			tree.push(key, value);
 
-  try
-    {
-    if (mode == "ascending")
-    {
-      tree.traverse_lnr(sum);
-    }
-    else if (mode == "descending")
-    {
-      tree.traverse_rnl(sum);
-    }
-    else if (mode == "breadth")
-    {
-       tree.traverse_breadth(sum);
-    }
-    else
-    {
-      std::cerr << "Error: Invalid travels mode\n";
-      return 1;
-    }
-    std::cout << sum.get_key_sum() << sum.get_val_sum() << "\n";
-  }
-  catch (const std::out_of_range& e)
-  {
-    std::cerr << e.what();
-    return 1;
-  }
-  return 0;
+		}
+
+		dicts[datasetName] = tree;
+	}
+
+	file.close();
+
+	std::string commandLine;
+	while (std::getline(std::cin, commandLine))
+	{
+		std::istringstream iss(commandLine);
+		std::string command;
+		iss >> command;
+
+		if (command == "print")
+		{
+			std::string dataset;
+			iss >> dataset;
+			handlePrint(dicts, dataset);
+		}
+		else if (command == "complement")
+		{
+			std::string newDataset, dataset1, dataset2;
+			iss >> newDataset >> dataset1 >> dataset2;
+			handleComplement(dicts, newDataset, dataset1, dataset2);
+		}
+		else if (command == "intersect")
+		{
+			std::string newDataset, dataset1, dataset2;
+			iss >> newDataset >> dataset1 >> dataset2;
+			handleIntersect(dicts, newDataset, dataset1, dataset2);
+		}
+		else if (command == "union")
+		{
+			std::string newDataset, dataset1, dataset2;
+			iss >> newDataset >> dataset1 >> dataset2;
+			handleUnion(dicts, newDataset, dataset1, dataset2);
+		}
+		else
+		{
+			std::count << "<INVALID COMMAND>" << "\n";
+		}
+	}
+	return 0;
 }
