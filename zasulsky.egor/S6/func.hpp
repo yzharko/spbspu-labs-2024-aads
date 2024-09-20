@@ -102,7 +102,7 @@ void processContainers(int cal, bool order)
   std::list<T> list2;
   std::vector<T> vec;
   fillContainersF(cal, vec, forwardList, deque, list, list2);
-  outputOldData(vec);
+  //outputOldData(vec);
 
   sortBubble(forwardList, order);
   shellSort(deque, order);
