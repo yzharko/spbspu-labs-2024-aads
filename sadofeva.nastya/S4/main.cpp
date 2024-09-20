@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
        tree.push(key, value);
     }
     dicts[datasetName] = std::move(tree);
-  }
+  } 
   file.close();
   std::string commandLine;
   while (std::getline(std::cin, commandLine))
@@ -73,3 +73,6 @@ int main(int argc, char* argv[])
   }
   return 0;
 }
+
+
+
