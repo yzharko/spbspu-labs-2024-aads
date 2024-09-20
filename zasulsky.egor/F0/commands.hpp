@@ -6,18 +6,6 @@
 #include "AVL.hpp"
 #include "vector.hpp"
 
-
-class Parser
-{
-public:
-  Parser(std::string  toparse);
-  std::string operator ()();
-
-private:
-  std::string parsable_;
-  size_t current_;
-};
-
 using dict = zasulsky::AVL< std::string, Vector< std::string > >;
 using dictOfDicts = zasulsky::AVL< std::string, dict >;
 void help(dictOfDicts& ref, std::ostream& out);
