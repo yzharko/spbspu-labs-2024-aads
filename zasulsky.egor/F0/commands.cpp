@@ -207,7 +207,7 @@ void intersect(dictOfDicts& ref, std::string str)
     }
   }
   res = it2->second;
-  for (int i = 0; i < vec.getSize(); i++)
+  for (size_t i = 0; i < vec.getSize(); i++)
   {
     auto it3 = ref.find(vec[i]);
     if (it3 != ref.end())
@@ -261,7 +261,7 @@ void combination(dictOfDicts& ref, std::string str)
     }
   }
   res = it2->second;
-  for (int i = 0; i < vec.getSize(); i++)
+  for (size_t i = 0; i < vec.getSize(); i++)
   {
     auto it3 = ref.find(vec[i]);
     if (it3 != ref.end())

@@ -64,8 +64,9 @@ class Vector
   friend class Iterator<T>;
 private:
   T* data;
-  size_t capacity;
+  
   size_t size;
+  size_t capacity;
 
 public:
   Vector() :
