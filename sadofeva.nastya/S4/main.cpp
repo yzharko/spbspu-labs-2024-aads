@@ -5,25 +5,29 @@
 
 using namespace sadofeva;
 
-
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "File not provided" << "\n";
+    std::cerr << "File not provided"
+              << "\n";
     return 1;
   }
   std::ifstream file(argv[1]);
   if (!file)
   {
-    std::cerr << "Error:Unable to open file" << "\n";
+    std::cerr << "Error:Unable to open file"
+              << "\n";
     return 1;
   }
   std::map<std::string, BinarySearchTree<int, std::string>> dicts;
   std::string line;
   while (std::getline(file, line))
   {
-    if (line.empty()) continue;
+    if (line.empty())
+    {
+      continue;
+    }
     std::istringstream iss(line);
     std::string datasetName;
     iss >> datasetName;
@@ -69,7 +73,8 @@ int main(int argc, char* argv[])
     }
     else
     {
-      std::cout << "<INVALID COMMAND>" << "\n";
+      std::cout << "<INVALID COMMAND>"
+                << "\n";
     }
   }
   return 0;
