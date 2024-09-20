@@ -61,6 +61,7 @@ void List<T>::pushBack(T data)
     }
     ending = pushed;
     size += 1;
+    delete pushed;
 }
 
 template <typename T>
@@ -74,6 +75,7 @@ void List<T>::pushFront(T data)
     }
     head = pushed;
     size += 1;
+    delete pushed;
 }
 
 template <typename T>
