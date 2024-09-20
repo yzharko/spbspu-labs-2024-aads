@@ -2,6 +2,7 @@
 #define BIANRYSEARCHTREE
 #include <iostream>
 #include <utility>
+#include <limits>
 #include <stdexcept>
 #include <memory>
 #include <vector>
