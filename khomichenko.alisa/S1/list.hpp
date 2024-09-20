@@ -6,7 +6,6 @@
 template< typename T >
 class List {
 public:
-    
     List() :
         size(0),
         head(nullptr),
@@ -152,11 +151,8 @@ public:
     Iterator();
     Iterator(List<T>::Node * ptr);
     ~Iterator() = default;
-
-
-
-    Iterator(const Iterator&) = default; //копирование
-    Iterator& operator= (const Iterator&) = default; //копирующее присваивание
+    Iterator(const Iterator&) = default;
+    Iterator& operator= (const Iterator&) = default;
 
     Iterator& operator++();
     Iterator operator++(int);
@@ -234,3 +230,4 @@ typename List<T>::Iterator List<T>::end()
 };
 
 #endif
+
