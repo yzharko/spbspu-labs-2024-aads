@@ -39,4 +39,4 @@ void tag(dictOfDicts& ref, std::string str);
 
 void create(dictOfDicts& ref, std::string name);
 
-#endif 
+#endif
