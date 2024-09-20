@@ -7,7 +7,6 @@
 #include <limits>
 #include "list.hpp"
 
-
 namespace khomichenko
 {
   using mainList = List <std::pair <std::string, List<unsigned long long>>>;

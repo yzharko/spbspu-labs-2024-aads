@@ -6,8 +6,6 @@
 #include "list.hpp"
 
 using mainList = List <std::pair <std::string, List<unsigned long long>>>;
-
-
 int main()
 {
   using namespace khomichenko;
@@ -27,4 +25,3 @@ int main()
   }
   sums.print();
 }
-
