@@ -84,7 +84,8 @@ size_t BinarySearchTree<Key, Value, Compare>::getBalance(Node* node)
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::rotateRight(Node* y)
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::rotateRight(Node* y)
 {
   Node* x = y->left.release();
   Node* T2 = x->right.release();
@@ -98,7 +99,8 @@ typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Valu
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::rotateLeft(Node* x)
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::rotateLeft(Node* x)
 {
   Node* y = x->right.release();
   Node* T2 = y->left.release();
@@ -150,7 +152,8 @@ void BinarySearchTree<Key, Value, Compare>::Iterator::pushLeft(Node* node)
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator BinarySearchTree<Key, Value, Compare>::Iterator::operator++(int)
+typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator
+BinarySearchTree<Key, Value, Compare>::Iterator::operator++(int)
 {
   if (nodeStack.empty())
   {
@@ -167,7 +170,8 @@ typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator BinarySearchT
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator BinarySearchTree<Key, Value, Compare>::Iterator::operator++()
+typename BinarySearchTree<Key, Value, Compare>::Iterator::Iterator
+BinarySearchTree<Key, Value, Compare>::Iterator::operator++()
 {
   Iterator tmp = *this;
   (*this)++;
@@ -251,7 +255,8 @@ BinarySearchTree<Key, Value, Compare>::ConstIterator::operator++()
 }
 
 template <typename Key, typename Value, typename Compare>
-BinarySearchTree<Key, Value, Compare>::BinarySearchTree() : root(nullptr), tree_size(0), comp(Compare()) {}
+BinarySearchTree<Key, Value, Compare>::BinarySearchTree() :
+root(nullptr), tree_size(0), comp(Compare()) {}
 
 template <typename Key, typename Value, typename Compare>
 typename BinarySearchTree<Key, Value, Compare>::Node*
@@ -359,7 +364,8 @@ BinarySearchTree<Key, Value, Compare>::findMin(Node* node) const {
 }
 
 template <typename Key, typename Value, typename Compare>
-typename BinarySearchTree<Key, Value, Compare>::Node* BinarySearchTree<Key, Value, Compare>::removeMin(Node* node) {
+typename BinarySearchTree<Key, Value, Compare>::Node*
+BinarySearchTree<Key, Value, Compare>::removeMin(Node* node) {
   if (!node->left) return node->right.release();
   node->left.reset(removeMin(node->left.release()));
   return node;
