@@ -102,4 +102,3 @@ bool sadofeva::Stack<T>::empty() const
 }
 
 #endif
-
