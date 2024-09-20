@@ -3,7 +3,7 @@
 #include <iterator>
 #include <vector>
 #include <algorithm>
-#include <Windows.h>
+//#include <Windows.h>
 
 namespace hohlova
 {
@@ -96,8 +96,8 @@ namespace hohlova
 
     void view(DictOfDictionary& dictOfdict, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+  //      SetConsoleCP(1251);
+    //    SetConsoleOutputCP(1251);
 
         if (dictOfdict.empty())
         {
@@ -124,8 +124,8 @@ namespace hohlova
 
     void find(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+      //  SetConsoleCP(1251);
+        //SetConsoleOutputCP(1251);
         std::string nameOfDict, word;
         is >> nameOfDict >> word;
         if (nameOfDict.empty() || word.empty())
@@ -143,8 +143,8 @@ namespace hohlova
 
     void rename(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+        //SetConsoleCP(1251);
+        //SetConsoleOutputCP(1251);
 
         std::string currName;
         std::string newName;
@@ -186,8 +186,8 @@ namespace hohlova
 
     void edit(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+     //   SetConsoleCP(1251);
+       // SetConsoleOutputCP(1251);
 
         std::string nameDict;
         std::string word;
@@ -219,8 +219,8 @@ namespace hohlova
 
     void insert(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+    //    SetConsoleCP(1251);
+      //  SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
@@ -260,8 +260,8 @@ namespace hohlova
 
     void remove(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+  //      SetConsoleCP(1251);
+    //    SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
@@ -300,8 +300,8 @@ namespace hohlova
 
     void clear(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+      //  SetConsoleCP(1251);
+        //SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
