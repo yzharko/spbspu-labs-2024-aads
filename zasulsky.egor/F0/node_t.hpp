@@ -12,17 +12,17 @@ namespace zasulsky
     public:
       node_t(T dat) :
         data(dat),
-        right(nullptr),
-        left(nullptr),
+        height(1),
         parent(nullptr),
-        height(1)
+        left(nullptr),
+        right(nullptr)
       {}
       node_t(T dat, int hei) :
         data(dat),
-        right(nullptr),
-        left(nullptr),
+        height(1),
         parent(nullptr),
-        height(hei)
+        left(nullptr),
+        right(nullptr)
       {}
 
       T data;
