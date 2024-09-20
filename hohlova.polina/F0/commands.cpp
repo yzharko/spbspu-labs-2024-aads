@@ -3,26 +3,27 @@
 #include <iterator>
 #include <vector>
 #include <algorithm>
-//#include <Windows.h>
+#include <Windows.h>
 
 namespace hohlova
 {
-    void help(std::ostream& stream)
-    {
-        stream << "List of available commands:\n";
-        stream << "1. help - displays information about available commands(active now)\n";
-        stream << "2. create < filename > - opening the filename file, if it does not exist,\n";
-        stream << "then creating it and forming a dictionary with the same name from its data\n";
-        stream << "3. edit < name > < word > < new frequency > - edit dictionary elements,\n";
-        stream << "their names and frequencies\n";
-        stream << "4. insert < name > < word > < frequency > - inserting a word-frequency pair\n";
-        stream << "5. remove < name > < word > - deleting an item(s) from the dictionary\n";
-        stream << "by word / frequency / word and frequency\n";
-        stream << "6. rename < oldname > < newname > - renaming the dictionary from oldname to newname\n";
-        stream << "7. find < name > < word > - output of element(s) by word\n";
-        stream << "8. view - the output of the names of existing dictionaries\n";
-        stream << "9. size < name > - print the size of the dictionary\n";
-    }
+  void help(std::ostream& stream)
+  {
+    stream << "List of available commands:\n";
+    stream << "1. help - displays information about available commands(active now)\n";
+    stream << "2. create < filename > - opening the filename file, if it does not exist,\n";
+    stream << "then creating it and forming a dictionary with the same name from its data\n";
+    stream << "3. edit < name > < word > < new translation > - edit dictionary elements,\n";
+    stream << "their translations\n";
+    stream << "4. insert < name > < word > < translation > - inserting a word-translation pair\n";
+    stream << "5. remove < name > < word > - deleting an item from the dictionary\n";
+    stream << "by word";
+    stream << "6. rename < oldname > < newname > - renaming the dictionary from oldname to newname\n";
+    stream << "7. find < name > < word > - output of element by word\n";
+    stream << "8. view - the output of the names of existing dictionaries\n";
+    stream << "9. size < name > - print the size of the dictionary\n";
+    stream << "10. save < name > - saving changes to the 'filename' file\n";
+  }
 
     void create(DictOfDictionary& dictOfdict, std::istream& is)
     {
@@ -95,8 +96,8 @@ namespace hohlova
 
     void view(DictOfDictionary& dictOfdict, std::ostream& out)
     {
-//        SetConsoleCP(1251);
-  //      SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         if (dictOfdict.empty())
         {
@@ -123,8 +124,8 @@ namespace hohlova
 
     void find(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-    //    SetConsoleCP(1251);
-    //    SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
         std::string nameOfDict, word;
         is >> nameOfDict >> word;
         if (nameOfDict.empty() || word.empty())
@@ -142,8 +143,8 @@ namespace hohlova
 
     void rename(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-    //    SetConsoleCP(1251);
-    //    SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         std::string currName;
         std::string newName;
@@ -185,8 +186,8 @@ namespace hohlova
 
     void edit(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-      //  SetConsoleCP(1251);
-      //  SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         std::string nameDict;
         std::string word;
@@ -218,8 +219,8 @@ namespace hohlova
 
     void insert(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        //SetConsoleCP(1251);
-        //SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
@@ -259,8 +260,8 @@ namespace hohlova
 
     void remove(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        //SetConsoleCP(1251);
-        //SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
@@ -299,8 +300,8 @@ namespace hohlova
 
     void clear(DictOfDictionary& dictOfdict, std::istream& is, std::ostream& out)
     {
-        //SetConsoleCP(1251);
-        //SetConsoleOutputCP(1251);
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
 
         std::string nameOfDict;
         is >> nameOfDict;
