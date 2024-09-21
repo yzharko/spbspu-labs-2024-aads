@@ -90,8 +90,11 @@ namespace proselkov
   };
 }
 
+template < typename Key, typename Value, typename Compare>
+using Tree = proselkov::avlTree< Key, Value, Compare >;
+
 template < typename Key, typename Value, typename Compare >
-class proselkov::avlTree< Key, Value, Compare >::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class Tree::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -260,9 +263,6 @@ public:
 private:
   ConstIterator imIter;
 };
-
-template < typename Key, typename Value, typename Compare >
-using Tree = proselkov::avlTree< Key, Value, Compare>;
 
 template < typename Key, typename Value, typename Compare >
 proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator() :
