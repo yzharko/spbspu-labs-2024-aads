@@ -13,80 +13,80 @@ namespace proselkov
   class avlTree
   {
   public:
-    class ConstIterator;
-    class Iterator;
+  class ConstIterator;
+  class Iterator;
 
-    using cIter = ConstIterator;
-    using iter = Iterator;
-    using dataType = std::pair< Key, Value >;
+  using cIter = ConstIterator;
+  using iter = Iterator;
+  using dataType = std::pair< Key, Value >;
 
-    avlTree();
-    avlTree(const avlTree& that);
-    ~avlTree();
+  avlTree();
+  avlTree(const avlTree& that);
+  ~avlTree();
 
-    void swap(avlTree& first, avlTree& second) noexcept;
-    avlTree& operator=(avlTree that);
+  void swap(avlTree& first, avlTree& second) noexcept;
+  avlTree& operator=(avlTree that);
 
-    void clear();
+  void clear();
 
-    iter begin() noexcept;
-    cIter cbegin() const noexcept;
-    iter end() noexcept;
-    cIter cend() const noexcept;
+  iter begin() noexcept;
+  cIter cbegin() const noexcept;
+  iter end() noexcept;
+  cIter cend() const noexcept;
 
-    bool isEmpty() const noexcept;
-    size_t getSize() const noexcept;
+  bool isEmpty() const noexcept;
+  size_t getSize() const noexcept;
 
-    Value& at(const Key& key);
-    const Value& at(const Key& key) const;
-    Value& operator[](const Key& key);
-    Value& operator[](Key&& key);
+  Value& at(const Key& key);
+  const Value& at(const Key& key) const;
+  Value& operator[](const Key& key);
+  Value& operator[](Key&& key);
 
-    iter find(const Key& key);
-    iter insert(dataType& data);
-    iter insert(dataType&& data);
-    bool erase(const Key& key);
+  iter find(const Key& key);
+  iter insert(dataType& data);
+  iter insert(dataType&& data);
+  bool erase(const Key& key);
 
-    template < typename F >
-    F traverseLnR(F f) const;
-    template < typename F >
-    F traverseRnL(F f) const;
-    template < typename F >
-    F traverseBre(F f) const;
+  template < typename F >
+  F traverseLnR(F f) const;
+  template < typename F >
+  F traverseRnL(F f) const;
+  template < typename F >
+  F traverseBre(F f) const;
 
   private:
 
-    struct Unit
-    {
-      dataType data;
-      Unit* ancest;
-      Unit* left;
-      Unit* right;
+  struct Unit
+  {
+    dataType data;
+    unit2< Key, Value, Compare >* ancest;
+    unit2< Key, Value, Compare >* left;
+    unit2< Key, Value, Compare >* right;
 
-      Unit(dataType data_, Unit* ancest_ = nullptr, Unit* left_ = nullptr, Unit* right_ = nullptr) :
-        data(data_),
-        ancest(ancest_),
-        left(left_),
-        right(right_)
-      {}
-    };
+    Unit(dataType data_, Unit* ancest_ = nullptr, Unit* left_ = nullptr, Unit* right_ = nullptr) :
+    data(data_),
+    ancest(ancest_),
+    left(left_),
+    right(right_)
+    {}
+  };
 
-    Unit* treeRoot;
+  Unit* treeRoot;
 
-    size_t getSize(Unit* unit) const;
-    void undercut(Unit* unit);
-    Unit* delUnit(Unit* unit, const Key& key);
+  size_t getSize(Unit* unit) const;
+  void undercut(Unit* unit);
+  Unit* delUnit(Unit* unit, const Key& key);
 
-    Unit* makeBal(Unit* unit);
-    int getFact(Unit* unit);
+  Unit* makeBal(Unit* unit);
+  int getFact(Unit* unit);
 
-    int getHeight(Unit* unit);
+  int getHeight(Unit* unit);
 
-    Unit* lTurn(Unit* moveU);
-    Unit* rTurn(Unit* moveU);
+  Unit* lTurn(Unit* moveU);
+  Unit* rTurn(Unit* moveU);
 
-    Unit* updData(Unit* unit, const dataType& data);
-    Unit* updData(Unit* unit, dataType&& data);
+  Unit* updData(Unit* unit, const dataType& data);
+  Unit* updData(Unit* unit, dataType&& data);
   };
 }
 
@@ -94,7 +94,10 @@ template< typename Key, typename Value, typename Compare >
 using citer = typename proselkov::avlTree< Key, Value, Compare >::ConstIterator;
 
 template< typename Key, typename Value, typename Compare >
-using data = typename proselkov::avlTree< Key, Value, Compare>::dataType;
+using unit2 = typename proselkov::avlTree< Key, Value, Compare >::Unit;
+
+template< typename Key, typename Value, typename Compare >
+using data = const typename proselkov::avlTree< Key, Value, Compare >::dataType;
 
 template < typename Key, typename Value, typename Compare >
 class proselkov::avlTree< Key, Value, Compare >::ConstIterator
@@ -111,7 +114,7 @@ public:
   this_t& operator=(const this_t&) = default;
 
   citer< Key, Value, Compare >& operator++();
-  citer< Key, Value, Compare >& operator++(int);
+  citer< Key, Value, Compare > operator++(int);
   citer< Key, Value, Compare >& operator--();
   citer< Key, Value, Compare > operator--(int);
 
@@ -145,25 +148,25 @@ proselkov::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Unit* un
 {}
 
 template < typename Key, typename Value, typename Compare >
-citer<Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++()
+citer< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++()
 {
   if (unit->right)
   {
-    unit = unit->right;
-    while (unit->left)
-    {
-      unit = unit->left;
-    }
+  unit = unit->right;
+  while (unit->left)
+  {
+    unit = unit->left;
+  }
   }
   else
   {
-    Unit* tAncest = unit->ancest;
-    while (tAncest && unit == tAncest->right)
-    {
-      unit = tAncest;
-      tAncest = unit->ancest;
-    }
+  Unit* tAncest = unit->ancest;
+  while (tAncest && unit == tAncest->right)
+  {
     unit = tAncest;
+    tAncest = unit->ancest;
+  }
+  unit = tAncest;
   }
   return *this;
 }
@@ -181,33 +184,33 @@ citer< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIt
 {
   if (unit == nullptr)
   {
-    unit = root;
-    while (unit->right != nullptr)
-    {
-      unit = unit->right;
-    }
+  unit = root;
+  while (unit->right != nullptr)
+  {
+    unit = unit->right;
+  }
   }
   else if (unit->left != nullptr)
   {
-    unit = unit->left;
-    while (unit->right != nullptr)
-    {
-      unit = unit->right;
-    }
+  unit = unit->left;
+  while (unit->right != nullptr)
+  {
+    unit = unit->right;
+  }
   }
   else
   {
-    while ((unit == unit->ancest->left) && (unit->ancest != nullptr))
-    {
-      unit = unit->ancest;
-    }
+  while ((unit == unit->ancest->left) && (unit->ancest != nullptr))
+  {
     unit = unit->ancest;
+  }
+  unit = unit->ancest;
   }
   return *this;
 }
 
 template< typename Key, typename Value, typename Compare >
-citer< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
+citer< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
 {
   this_t deked(*this);
   --(*this);
@@ -239,13 +242,13 @@ bool proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const 
 }
 
 template< typename Key, typename Value, typename Compare >
-using iter = typename proselkov::avlTree< Key, Value, Compare>::Iterator;
+using Iter = typename proselkov::avlTree< Key, Value, Compare >::Iterator;
 
 template< typename Key, typename Value, typename Compare >
-using data2 = typename proselkov::avlTree< Key, Value, Compare>::dataType;
+using data2 = typename proselkov::avlTree< Key, Value, Compare >::dataType;
 
 template< typename Key, typename Value, typename Compare >
-class proselkov::avlTree< Key, Value, Compare >::Iterator
+class proselkov::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -284,7 +287,7 @@ proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that
 {}
 
 template< typename Key, typename Value, typename Compare >
-Iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
+Iter< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(imIter != ConstIterator());
   imIter++;
@@ -292,14 +295,14 @@ Iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator:
 }
 
 template< typename Key, typename Value, typename Compare >
-Iter< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+Iter< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
 {
   ++imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-Iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
+Iter< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(imIter != nullptr);
   --imIter;
@@ -314,25 +317,25 @@ Iter< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::Iterator:
 }
 
 template< typename Key, typename Value, typename Compare >
-data< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
+data2< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
 {
   return imIter.unit->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-data< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
+data2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
 {
   return &(imIter.unit->data);
 }
 
 template< typename Key, typename Value, typename Compare >
-data2< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*() const
+data< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*() const
 {
   return imIter.node_->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-data2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->() const
+data< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &(imIter.unit->data);
 }
@@ -360,7 +363,7 @@ proselkov::avlTree< Key, Value, Compare >::avlTree(const avlTree& that) :
 {
   for (Iterator iter = that.cbegin(); iter != cend(); ++iter)
   {
-    insert(*iter);
+  insert(*iter);
   }
 }
 
@@ -395,12 +398,12 @@ typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree<
 {
   if (isEmpty())
   {
-    return cend();
+  return cend();
   }
   Unit* tempo = treeRoot;
   while (tempo->left != nullptr)
   {
-    tempo = tempo->left;
+  tempo = tempo->left;
   }
   return Iterator(ConstIterator(tempo, treeRoot));
 }
@@ -410,12 +413,12 @@ typename proselkov::avlTree< Key, Value, Compare >::ConstIterator proselkov::avl
 {
   if (isEmpty())
   {
-    return cend();
+  return cend();
   }
   Unit* tempo = treeRoot;
   while (tempo->left != nullptr)
   {
-    tempo = tempo->left;
+  tempo = tempo->left;
   }
   return ConstIterator(tempo, treeRoot);
 }
@@ -452,18 +455,18 @@ Value& proselkov::avlTree<Key, Value, Compare>::at(const Key& key)
 
   while (curr != nullptr)
   {
-    if (compare(curr->data.first, key))
-    {
-      curr = curr->right;
-    }
-    else if (compare(key, curr->data.first))
-    {
-      curr = curr->left;
-    }
-    else
-    {
-      return curr->data.second;
-    }
+  if (compare(curr->data.first, key))
+  {
+    curr = curr->right;
+  }
+  else if (compare(key, curr->data.first))
+  {
+    curr = curr->left;
+  }
+  else
+  {
+    return curr->data.second;
+  }
   }
   throw std::out_of_range("Error: No such element exists!");
 }
@@ -476,18 +479,18 @@ const Value& proselkov::avlTree<Key, Value, Compare>::at(const Key& key) const
 
   while (curr != nullptr)
   {
-    if (compare(curr->data.first, key))
-    {
-      curr = curr->right;
-    }
-    else if (compare(key, curr->data.first))
-    {
-      curr = curr->left;
-    }
-    else
-    {
-      return curr->data.second;
-    }
+  if (compare(curr->data.first, key))
+  {
+    curr = curr->right;
+  }
+  else if (compare(key, curr->data.first))
+  {
+    curr = curr->left;
+  }
+  else
+  {
+    return curr->data.second;
+  }
   }
   throw std::out_of_range("Error: No such element exists!");
 }
@@ -500,18 +503,18 @@ Value& proselkov::avlTree<Key, Value, Compare>::operator[](const Key& key)
 
   while (curr != nullptr)
   {
-    if (compare(curr->data.first, key))
-    {
-      curr = curr->right;
-    }
-    else if (compare(key, curr->data.first))
-    {
-      curr = curr->left;
-    }
-    else
-    {
-      return curr->data.second;
-    }
+  if (compare(curr->data.first, key))
+  {
+    curr = curr->right;
+  }
+  else if (compare(key, curr->data.first))
+  {
+    curr = curr->left;
+  }
+  else
+  {
+    return curr->data.second;
+  }
   }
   throw std::out_of_range("Error: No such element exists!");
 }
@@ -524,18 +527,18 @@ Value& proselkov::avlTree<Key, Value, Compare>::operator[](Key&& key)
 
   while (curr != nullptr)
   {
-    if (compare(curr->data.first, key))
-    {
-      curr = curr->right;
-    }
-    else if (compare(key, curr->data.first))
-    {
-      curr = curr->left;
-    }
-    else
-    {
-      return curr->data.second;
-    }
+  if (compare(curr->data.first, key))
+  {
+    curr = curr->right;
+  }
+  else if (compare(key, curr->data.first))
+  {
+    curr = curr->left;
+  }
+  else
+  {
+    return curr->data.second;
+  }
   }
   throw std::out_of_range("Error: No such element exists!");
 }
@@ -548,18 +551,18 @@ typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree<
 
   while (tempo != nullptr)
   {
-    if (compare(key, tempo->data.first))
-    {
-      tempo = tempo->left;
-    }
-    else if (compare(tempo->data.first, key))
-    {
-      tempo = tempo->right;
-    }
-    else
-    {
-      return Iterator(ConstIterator(tempo, treeRoot));
-    }
+  if (compare(key, tempo->data.first))
+  {
+    tempo = tempo->left;
+  }
+  else if (compare(tempo->data.first, key))
+  {
+    tempo = tempo->right;
+  }
+  else
+  {
+    return Iterator(ConstIterator(tempo, treeRoot));
+  }
   }
   return end();
 }
@@ -583,8 +586,8 @@ bool proselkov::avlTree<Key, Value, Compare>::erase(const Key& key)
 {
   if (find(key) != end())
   {
-    treeRoot = delUnit(treeRoot, key);
-    return true;
+  treeRoot = delUnit(treeRoot, key);
+  return true;
   }
   return false;
 }
@@ -598,20 +601,20 @@ F proselkov::avlTree<Key, Value, Compare>::traverseLnR(F f) const
 
   while (!ancestors.isEmpty() || wayP != nullptr)
   {
-    while (wayP != nullptr)
-    {
-      ancestors.push(wayP);
-      wayP = wayP->left;
-    }
+  while (wayP != nullptr)
+  {
+    ancestors.push(wayP);
+    wayP = wayP->left;
+  }
 
-    if (!ancestors.isEmpty())
-    {
-      wayP = ancestors.getTop();
-      ancestors.pop();
+  if (!ancestors.isEmpty())
+  {
+    wayP = ancestors.getTop();
+    ancestors.pop();
 
-      f(wayP->data);
-      wayP = wayP->right;
-    }
+    f(wayP->data);
+    wayP = wayP->right;
+  }
   }
   return f;
 }
@@ -625,20 +628,20 @@ F proselkov::avlTree<Key, Value, Compare>::traverseRnL(F f) const
 
   while (!ancestors.isEmpty() || wayP != nullptr)
   {
-    while (wayP != nullptr)
-    {
-      ancestors.push(wayP);
-      wayP = wayP->right;
-    }
+  while (wayP != nullptr)
+  {
+    ancestors.push(wayP);
+    wayP = wayP->right;
+  }
 
-    if (!ancestors.isEmpty())
-    {
-      wayP = ancestors.getTop();
-      ancestors.pop();
+  if (!ancestors.isEmpty())
+  {
+    wayP = ancestors.getTop();
+    ancestors.pop();
 
-      f(wayP->data);
-      wayP = wayP->left;
-    }
+    f(wayP->data);
+    wayP = wayP->left;
+  }
   }
   return f;
 }
@@ -649,26 +652,26 @@ F proselkov::avlTree<Key, Value, Compare>::traverseBre(F f) const
 {
   if (isEmpty())
   {
-    return f;
+  return f;
   }
   Queue< const Unit* > stage;
 
   stage.push(treeRoot);
   while (!stage.isEmpty())
   {
-    const Unit* unit = stage.getFront();
-    f(unit->data);
-    stage.pop();
+  const Unit* unit = stage.getFront();
+  f(unit->data);
+  stage.pop();
 
-    if (unit->left != nullptr)
-    {
-      stage.push(unit->left);
-    }
+  if (unit->left != nullptr)
+  {
+    stage.push(unit->left);
+  }
 
-    if (unit->right != nullptr)
-    {
-      stage.push(unit->right);
-    }
+  if (unit->right != nullptr)
+  {
+    stage.push(unit->right);
+  }
   }
   return f;
 }
@@ -678,7 +681,7 @@ size_t proselkov::avlTree<Key, Value, Compare>::getSize(Unit* unit) const
 {
   if (unit == nullptr)
   {
-    return 0;
+  return 0;
   }
   size_t res = getSize(unit->left) + getSize(unit->right) + 1;
   return res;
@@ -689,10 +692,10 @@ void proselkov::avlTree<Key, Value, Compare>::undercut(Unit* unit)
 {
   if (unit != nullptr)
   {
-    undercut(unit->left);
-    undercut(unit->right);
-    delete unit;
-    unit = nullptr;
+  undercut(unit->left);
+  undercut(unit->right);
+  delete unit;
+  unit = nullptr;
   }
 }
 
@@ -702,47 +705,47 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Ke
   Compare compare;
   if (unit == nullptr)
   {
-    return unit;
+  return unit;
   }
 
   if (compare(key, unit->data.first))
   {
-    unit->left = delUnit(unit->left, key);
+  unit->left = delUnit(unit->left, key);
   }
   else if (compare(unit->data.first, key))
   {
-    unit->right = delUnit(unit->right, key);
+  unit->right = delUnit(unit->right, key);
   }
   else
   {
-    Unit* tempo = nullptr;
-    if (unit->left == nullptr && unit->right == nullptr)
+  Unit* tempo = nullptr;
+  if (unit->left == nullptr && unit->right == nullptr)
+  {
+    delete unit;
+    return nullptr;
+  }
+  else if (unit->right == nullptr)
+  {
+    tempo = unit->left;
+    *unit = *tempo;
+    delete tempo;
+  }
+  else if (unit->left == nullptr)
+  {
+    tempo = unit->right;
+    *unit = *tempo;
+    delete tempo;
+  }
+  else
+  {
+    tempo = unit->right;
+    while (tempo->left != nullptr)
     {
-      delete unit;
-      return nullptr;
+    tempo = tempo->left;
     }
-    else if (unit->right == nullptr)
-    {
-      tempo = unit->left;
-      *unit = *tempo;
-      delete tempo;
-    }
-    else if (unit->left == nullptr)
-    {
-      tempo = unit->right;
-      *unit = *tempo;
-      delete tempo;
-    }
-    else
-    {
-      tempo = unit->right;
-      while (tempo->left != nullptr)
-      {
-        tempo = tempo->left;
-      }
-      unit->data = tempo->data;
-      unit->right = delUnit(unit->right, tempo->data.first);
-    }
+    unit->data = tempo->data;
+    unit->right = delUnit(unit->right, tempo->data.first);
+  }
   }
 
   unit = makeBal(unit);
@@ -755,27 +758,27 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key
   int balFact = getFact(unit);
   if (balFact == 2)
   {
-    if (getFact(unit->left) >= 0)
-    {
-      unit = rTurn(unit);
-    }
-    else
-    {
-      unit->left = lTurn(unit->left);
-      unit = rTurn(unit);
-    }
+  if (getFact(unit->left) >= 0)
+  {
+    unit = rTurn(unit);
+  }
+  else
+  {
+    unit->left = lTurn(unit->left);
+    unit = rTurn(unit);
+  }
   }
   else if (balFact == -2)
   {
-    if (getFact(unit->right) <= 0)
-    {
-      unit = lTurn(unit);
-    }
-    else
-    {
-      unit->right = rTurn(unit->right);
-      unit = lTurn(unit);
-    }
+  if (getFact(unit->right) <= 0)
+  {
+    unit = lTurn(unit);
+  }
+  else
+  {
+    unit->right = rTurn(unit->right);
+    unit = lTurn(unit);
+  }
   }
 
   return unit;
@@ -786,7 +789,7 @@ int proselkov::avlTree<Key, Value, Compare>::getFact(Unit* unit)
 {
   if (unit == nullptr)
   {
-    return 0;
+  return 0;
   }
   return getHeight(unit->left) - getHeight(unit->right);
 }
@@ -796,7 +799,7 @@ int proselkov::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 {
   if (unit == nullptr)
   {
-    return 0;
+  return 0;
   }
   int leftHeight = getHeight(unit->left);
   int rightHeight = getHeight(unit->right);
@@ -812,7 +815,7 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key
 
   if (moveU->right != nullptr)
   {
-    moveU->right->ancest = moveU;
+  moveU->right->ancest = moveU;
   }
 
   tempo->left = moveU;
@@ -830,7 +833,7 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key
 
   if (moveU->left != nullptr)
   {
-    moveU->left->ancest = moveU;
+  moveU->left->ancest = moveU;
   }
 
   tempo->right = moveU;
@@ -840,26 +843,26 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key
 }
 
 template < typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
+unit2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
 {
   Compare compare;
   if (unit == nullptr)
   {
-    unit = new Unit(newData);
-    return unit;
+  unit = new Unit(newData);
+  return unit;
   }
   else
   {
-    if (compare(newData.first, unit->data.first))
-    {
-      unit->left = updData(unit->left, newData);
-      unit->left->ancest = unit;
-    }
-    else if (compare(unit->data.first, newData.first))
-    {
-      unit->right = updData(unit->right, newData);
-      unit->right->ancest = unit;
-    }
+  if (compare(newData.first, unit->data.first))
+  {
+    unit->left = updData(unit->left, newData);
+    unit->left->ancest = unit;
+  }
+  else if (compare(unit->data.first, newData.first))
+  {
+    unit->right = updData(unit->right, newData);
+    unit->right->ancest = unit;
+  }
   }
 
   unit = makeBal(unit);
@@ -867,26 +870,26 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Ke
 }
 
 template < typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
+unit2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
 {
   Compare compare;
   if (unit == nullptr)
   {
-    unit = new Unit(std::move(newData));
-    return unit;
+  unit = new Unit(std::move(newData));
+  return unit;
   }
   else
   {
-    if (compare(newData.first, unit->data.first))
-    {
-      unit->left = updData(unit->left, std::move(newData));
-      unit->left->ancest = unit;
-    }
-    else if (compare(unit->data.first, newData.first))
-    {
-      unit->right = updData(unit->right, std::move(newData));
-      unit->right->ancest = unit;
-    }
+  if (compare(newData.first, unit->data.first))
+  {
+    unit->left = updData(unit->left, std::move(newData));
+    unit->left->ancest = unit;
+  }
+  else if (compare(unit->data.first, newData.first))
+  {
+    unit->right = updData(unit->right, std::move(newData));
+    unit->right->ancest = unit;
+  }
   }
 
   unit = makeBal(unit);
