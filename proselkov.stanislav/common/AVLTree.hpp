@@ -239,7 +239,7 @@ template< typename Kay, typename Value, typename Compare >
 using iter = typename proselkov::avlTree< Key, Value, Compare>::Iterator;
 
 template< typename Key, typename Value, typename Compare >
-class proselkov::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class proselkov::avlTree< Key, Value, Compare >::Iterator
 {
 public:
   friend class avlTree< Key, Value, Compare >;
