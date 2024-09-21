@@ -262,6 +262,9 @@ private:
 };
 
 template < typename Key, typename Value, typename Compare >
+using Tree = proselkov::avlTree< Key, Value, Compare>;
+
+template < typename Key, typename Value, typename Compare >
 proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator() :
   imIter(ConstIterator())
 {}
