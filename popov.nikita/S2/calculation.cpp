@@ -1,4 +1,4 @@
-#include "calculationProcess.hpp"
+#include "calculation.hpp"
 #include <limits>
 
 void popov::readInfixForm(std::istream& input, Queue< std::string >& result)

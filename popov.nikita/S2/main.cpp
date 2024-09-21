@@ -1,5 +1,5 @@
 #include <fstream>
-#include "calculationProcess.hpp"
+#include "calculation.hpp"
 
 int main(int argc, char* argv[])
 {
