@@ -116,8 +116,9 @@ void sadofeva::handlePrint(std::map<std::string, sadofeva::AVLTree<int, std::str
     return;
   }
 
+  std::cout << dataset;
   for (auto it = tree.begin(); it != tree.end(); ++it)
   {
-    std::cout << it->first << " " << it->second << " ";
+    std::cout << ' ' << it->first << ' ' << it->second;
   }
 }
