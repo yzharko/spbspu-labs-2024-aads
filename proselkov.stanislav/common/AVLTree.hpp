@@ -59,9 +59,9 @@ namespace proselkov
   struct Unit
   {
     dataType data;
-    unit2< Key, Value, Compare >* ancest;
-    unit2< Key, Value, Compare >* left;
-    unit2< Key, Value, Compare >* right;
+    Unit* ancest;
+    Unit* left;
+    Unit* right;
 
     Unit(dataType data_, Unit* ancest_ = nullptr, Unit* left_ = nullptr, Unit* right_ = nullptr) :
     data(data_),
@@ -85,8 +85,8 @@ namespace proselkov
   Unit* lTurn(Unit* moveU);
   Unit* rTurn(Unit* moveU);
 
-  Unit* updData(Unit* unit, const dataType& data);
-  Unit* updData(Unit* unit, dataType&& data);
+  unit2< Key, Value, Compare >* updData(Unit* unit, const dataType& data);
+  unit2< Key, Value, Compare >* updData(Unit* unit, dataType&& data);
   };
 }
 
