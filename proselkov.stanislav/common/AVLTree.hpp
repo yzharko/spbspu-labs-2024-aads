@@ -90,11 +90,11 @@ namespace proselkov
   };
 }
 
-template < typename Key, typename Value, typename Compare>
-using Tree = proselkov::avlTree< Key, Value, Compare >;
+template< typename Key, typename Value, typename Comparev >
+using citer = typename proselkov::avlTree< Key, Value, Compare >::ConstIterator;
 
 template < typename Key, typename Value, typename Compare >
-class Tree::ConstIterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class proselkov::avlTree< Key, Value, Compare >::ConstIterator
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -107,10 +107,10 @@ public:
 
   this_t& operator=(const this_t&) = default;
 
-  this_t& operator++();
-  this_t operator++(int);
-  this_t& operator--();
-  this_t operator--(int);
+  citer< Key, Value, Compare >& operator++();
+  citer< Key, Value, Compare >& operator++(int);
+  citer< Key, Value, Compare >& operator--();
+  citer< Key, Value, Compare > operator--(int);
 
   const dataType& operator*() const;
   const dataType* operator->() const;
@@ -142,7 +142,7 @@ proselkov::avlTree< Key, Value, Compare >::ConstIterator::ConstIterator(Unit* un
 {}
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::ConstIterator& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++()
+citer<Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++()
 {
   if (unit->right)
   {
@@ -166,7 +166,7 @@ typename Tree::ConstIterator& proselkov::avlTree< Key, Value, Compare >::ConstIt
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::ConstIterator proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++(int)
+citer< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator++(int)
 {
   this_t inked(*this);
   ++(*this);
@@ -174,7 +174,7 @@ typename Tree::ConstIterator proselkov::avlTree< Key, Value, Compare >::ConstIte
 }
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::ConstIterator& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--()
+citer< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--()
 {
   if (unit == nullptr)
   {
@@ -204,7 +204,7 @@ typename Tree::ConstIterator& proselkov::avlTree< Key, Value, Compare >::ConstIt
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::ConstIterator proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
+citer< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator--(int)
 {
   this_t deked(*this);
   --(*this);
@@ -212,13 +212,13 @@ typename Tree::ConstIterator proselkov::avlTree< Key, Value, Compare >::ConstIte
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename Tree::dataType& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
+const typename proselkov::avlTree< Key, Value, Compare >::dataType& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename Tree::dataType* proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
+const typename proselkov::avlTree< Key, Value, Compare >::dataType* proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
 {
   return &(unit->data);
 }
@@ -236,7 +236,7 @@ bool proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const 
 }
 
 template< typename Key, typename Value, typename Compare >
-class Tree::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
+class proselkov::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
 public:
   friend class avlTree< Key, Value, Compare >;
@@ -275,7 +275,7 @@ proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that
 {}
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
+typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(imIter != ConstIterator());
   imIter++;
@@ -283,14 +283,14 @@ typename Tree::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::op
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
 {
   ++imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
+typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(imIter != nullptr);
   --imIter;
@@ -298,32 +298,32 @@ typename Tree::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::op
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
 {
   --imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::dataType& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
+typename proselkov::avlTree< Key, Value, Compare >::dataType& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
 {
   return imIter.unit->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::dataType* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
+typename proselkov::avlTree< Key, Value, Compare >::dataType* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
 {
   return &(imIter.unit->data);
 }
 
 template< typename Key, typename Value, typename Compare >
-const typename Tree::dataType& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*() const
+const typename proselkov::avlTree< Key, Value, Compare >::dataType& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*() const
 {
   return imIter.node_->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-const typename Tree::dataType* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->() const
+const typename proselkov::avlTree< Key, Value, Compare >::dataType* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->() const
 {
   return &(imIter.unit->data);
 }
@@ -382,7 +382,7 @@ void proselkov::avlTree< Key, Value, Compare >::clear()
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::begin() noexcept
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::begin() noexcept
 {
   if (isEmpty())
   {
@@ -397,7 +397,7 @@ typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::begin() noexc
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::ConstIterator proselkov::avlTree<Key, Value, Compare>::cbegin() const noexcept
+typename proselkov::avlTree< Key, Value, Compare >::ConstIterator proselkov::avlTree<Key, Value, Compare>::cbegin() const noexcept
 {
   if (isEmpty())
   {
@@ -412,13 +412,13 @@ typename Tree::ConstIterator proselkov::avlTree<Key, Value, Compare>::cbegin() c
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Iterator proselkov::avlTree<Key, Value, Compare>::end() noexcept
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree<Key, Value, Compare>::end() noexcept
 {
   return Iterator(ConstIterator(nullptr, treeRoot));
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::ConstIterator proselkov::avlTree<Key, Value, Compare>::cend() const noexcept
+typename proselkov::avlTree< Key, Value, Compare >::ConstIterator proselkov::avlTree<Key, Value, Compare>::cend() const noexcept
 {
   return ConstIterator(nullptr, treeRoot);
 }
@@ -532,7 +532,7 @@ Value& proselkov::avlTree<Key, Value, Compare>::operator[](Key&& key)
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::find(const Key& key)
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::find(const Key& key)
 {
   Compare compare;
   Unit* tempo = treeRoot;
@@ -556,14 +556,14 @@ typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::find(const Ke
 }
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType& data)
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType& data)
 {
   treeRoot = updData(treeRoot, data);
   return find(data.first);
 }
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType&& data)
+typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType&& data)
 {
   treeRoot = updData(treeRoot, std::move(data));
   return find(data.first);
@@ -688,7 +688,7 @@ void proselkov::avlTree<Key, Value, Compare>::undercut(Unit* unit)
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Unit* proselkov::avlTree< Key, Value, Compare >::delUnit(Unit* unit, const Key& key)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::delUnit(Unit* unit, const Key& key)
 {
   Compare compare;
   if (unit == nullptr)
@@ -741,7 +741,7 @@ typename Tree::Unit* proselkov::avlTree< Key, Value, Compare >::delUnit(Unit* un
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Unit* proselkov::avlTree<Key, Value, Compare>::makeBal(Unit* unit)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key, Value, Compare>::makeBal(Unit* unit)
 {
   int balFact = getFact(unit);
   if (balFact == 2)
@@ -795,7 +795,7 @@ int proselkov::avlTree< Key, Value, Compare >::getHeight(Unit* unit)
 }
 
 template< typename Key, typename Value, typename Compare >
-typename Tree::Unit* proselkov::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
 {
   Unit* tempo = moveU->right;
   Unit* ancest = moveU->ancest;
@@ -813,7 +813,7 @@ typename Tree::Unit* proselkov::avlTree<Key, Value, Compare>::lTurn(Unit* moveU)
 }
 
 template<typename Key, typename Value, typename Compare>
-typename Tree::Unit* proselkov::avlTree<Key, Value, Compare>::rTurn(Unit* moveU)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key, Value, Compare>::rTurn(Unit* moveU)
 {
   Unit* tempo = moveU->left;
   Unit* ancest = moveU->ancest;
@@ -831,7 +831,7 @@ typename Tree::Unit* proselkov::avlTree<Key, Value, Compare>::rTurn(Unit* moveU)
 }
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
 {
   Compare compare;
   if (unit == nullptr)
@@ -858,7 +858,7 @@ typename Tree::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* un
 }
 
 template < typename Key, typename Value, typename Compare >
-typename Tree::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
 {
   Compare compare;
   if (unit == nullptr)
