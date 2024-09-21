@@ -1,6 +1,7 @@
+#include <iostream>
 #include <fstream>
 #include <sstream>
-#include "ABLtree.hpp"
+#include "AVLtree.hpp"
 #include "Command.hpp"
 
 using namespace sadofeva;
@@ -20,7 +21,7 @@ int main(int argc, char * argv[])
               << "\n";
     return 1;
   }
-  std::map<std::string, BinarySearchTree<int, std::string>> dicts;
+  std::map<std::string, sadofeva::AVLTree<int, std::string>> dicts;
   std::string line;
   while (std::getline(file, line))
   {
@@ -31,12 +32,12 @@ int main(int argc, char * argv[])
     std::istringstream iss(line);
     std::string datasetName;
     iss >> datasetName;
-    BinarySearchTree<int, std::string> tree;
+    sadofeva::AVLTree<int, std::string> tree;
     int key;
     std::string value;
     while (iss >> key >> value)
     {
-      tree.push(key, value);
+      tree.insert(key, value);
     }
     dicts[datasetName] = std::move(tree);
   }

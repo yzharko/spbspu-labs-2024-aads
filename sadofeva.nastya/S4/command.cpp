@@ -1,6 +1,7 @@
 #include "Command.hpp"
+#include <iostream>
 
-void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std::string>> & dicts,
+void sadofeva::handleComplement(std::map<std::string, sadofeva::AVLTree<int, std::string>> & dicts,
  const std::string & newDataset,
  const std::string & dataset1,
  const std::string & dataset2)
@@ -13,24 +14,24 @@ void sadofeva::handleComplement(std::map<std::string, BinarySearchTree<int, std:
   }
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
-  BinarySearchTree<int, std::string> result;
+  sadofeva::AVLTree<int, std::string> result;
 
   for (auto it = it1->second.begin(); it != it1->second.end(); ++it)
   {
     int key = it->first;
     try
     {
-      it2->second.get(key);
+      it2->second.at(key);
     }
     catch (const std::out_of_range &)
     {
-      result.push(key, it->second);
+      result.insert(key, it->second);
     }
   }
   dicts[newDataset] = std::move(result);
 }
 
-void sadofeva::handleIntersect(std::map<std::string, BinarySearchTree<int, std::string>> & dicts,
+void sadofeva::handleIntersect(std::map<std::string, sadofeva::AVLTree<int, std::string>> & dicts,
  const std::string & newDataset,
  const std::string & dataset1,
  const std::string & dataset2)
@@ -43,14 +44,14 @@ void sadofeva::handleIntersect(std::map<std::string, BinarySearchTree<int, std::
   }
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
-  BinarySearchTree<int, std::string> result;
+  sadofeva::AVLTree<int, std::string> result;
   for (auto it = it1->second.begin(); it != it1->second.end(); ++it)
   {
     int key = it->first;
     try
     {
-      std::string value = it2->second.get(key);
-      result.push(key, it->second);
+      std::string value = (it2->second.at(key))->second;
+      result.insert(key, it->second);
     }
     catch (const std::out_of_range &)
     {
@@ -61,7 +62,7 @@ void sadofeva::handleIntersect(std::map<std::string, BinarySearchTree<int, std::
   dicts[newDataset] = std::move(result);
 }
 
-void sadofeva::handleUnion(std::map<std::string, BinarySearchTree<int, std::string>> & dicts,
+void sadofeva::handleUnion(std::map<std::string, sadofeva::AVLTree<int, std::string>> & dicts,
  const std::string & newDataset,
  const std::string & dataset1,
  const std::string & dataset2)
@@ -74,28 +75,28 @@ void sadofeva::handleUnion(std::map<std::string, BinarySearchTree<int, std::stri
   }
   auto it1 = dicts.find(dataset1);
   auto it2 = dicts.find(dataset2);
-  BinarySearchTree<int, std::string> result;
+  sadofeva::AVLTree<int, std::string> result;
   for (auto it = it1->second.begin(); it != it1->second.end(); ++it)
   {
-    result.push(it->first, it->second);
+    result.insert(it->first, it->second);
   }
 
   for (auto it = it2->second.begin(); it != it2->second.end(); ++it)
   {
     try
     {
-      result.get(it->first);
+      result.at(it->first);
     }
     catch (const std::out_of_range &)
     {
-      result.push(it->first, it->second);
+      result.insert(it->first, it->second);
     }
   }
 
   dicts[newDataset] = std::move(result);
 }
 
-void sadofeva::handlePrint(std::map<std::string, BinarySearchTree<int, std::string>> & dicts,
+void sadofeva::handlePrint(std::map<std::string, sadofeva::AVLTree<int, std::string>> & dicts,
  const std::string & dataset)
 {
   auto it = dicts.find(dataset);
@@ -106,9 +107,9 @@ void sadofeva::handlePrint(std::map<std::string, BinarySearchTree<int, std::stri
     return;
   }
 
-  BinarySearchTree<int, std::string> & tree = it->second;
+  sadofeva::AVLTree<int, std::string> & tree = it->second;
 
-  if (tree.empty())
+  if (tree.isEmpty())
   {
     std::cout << "<EMPTY>"
               << "\n";

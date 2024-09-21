@@ -23,7 +23,7 @@ namespace sadofeva
     void drop();
     const T & top() const;
     bool empty() const;
-    T& front();
+    T & front();
 
    private:
     List<T> list_;
@@ -48,10 +48,10 @@ sadofeva::Stack<T> & sadofeva::Stack<T>::operator=(const Stack & s)
   }
   return *this;
 }
-template< typename T >
-T& sadofeva::Stack< T >::front()
+template <typename T>
+T & sadofeva::Stack<T>::front()
 {
-    return list_.front();
+  return list_.front();
 }
 template <typename T>
 sadofeva::Stack<T> & sadofeva::Stack<T>::operator=(Stack && s)
