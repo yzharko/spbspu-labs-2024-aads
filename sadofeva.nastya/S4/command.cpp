@@ -121,4 +121,5 @@ void sadofeva::handlePrint(std::map<std::string, sadofeva::AVLTree<int, std::str
   {
     std::cout << ' ' << it->first << ' ' << it->second;
   }
+  std::cout << "\n";
 }
