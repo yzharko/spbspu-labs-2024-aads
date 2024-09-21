@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include "node.hpp"
-#include "iterator.hpp"
-#include <queue.hpp>
-#include <stack.hpp>
+#include "biniterator.hpp"
+#include "queue.hpp"
+#include "stack.hpp"
 
 namespace lisitsyna
 {

@@ -1,4 +1,4 @@
-#include "commands.hpp"
+#include "Commands.hpp"
 #include <string>
 #include "getSum.hpp"
 

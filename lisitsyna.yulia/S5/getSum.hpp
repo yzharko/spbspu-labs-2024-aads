@@ -1,5 +1,5 @@
-#ifndef KEY_SUMM_HPP
-#define KEY_SUMM_HPP
+#ifndef GETSUM_HPP
+#define GETSUM_HPP
 
 #include <tuple>
 #include <string>
