@@ -1,8 +1,7 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
-#include <bdlist.hpp>
-
+#include "list.hpp>"
 namespace lisitsyna
 {
   template< class T >

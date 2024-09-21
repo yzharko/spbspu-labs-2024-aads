@@ -2,9 +2,9 @@
 #include <fstream>
 #include "queue.hpp"
 #include "stack.hpp"
-#include "checks.hpp"
-#include "infix_operations.hpp"
-#include "postfix_operations.hpp"
+#include "check.hpp"
+#include "toinfix.hpp"
+#include "postfix.hpp"
 
 int main(int argc, char * argv[])
 {
