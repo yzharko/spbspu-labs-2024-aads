@@ -90,8 +90,11 @@ namespace proselkov
   };
 }
 
-template< typename Key, typename Value, typename Comparev >
+template< typename Key, typename Value, typename Compare >
 using citer = typename proselkov::avlTree< Key, Value, Compare >::ConstIterator;
+
+template< typename Key, typename Value, typename Compare >
+using data = typename proselkov::avlTree< Key, Value, Compare>::dataType;
 
 template < typename Key, typename Value, typename Compare >
 class proselkov::avlTree< Key, Value, Compare >::ConstIterator
@@ -112,8 +115,8 @@ public:
   citer< Key, Value, Compare >& operator--();
   citer< Key, Value, Compare > operator--(int);
 
-  const dataType& operator*() const;
-  const dataType* operator->() const;
+  data< Key, Value, Compare >& operator*() const;
+  data< Key, Value, Compare >* operator->() const;
 
   bool operator==(const this_t& rhs) const;
   bool operator!=(const this_t& rhs) const;
@@ -212,13 +215,13 @@ citer< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::ConstIter
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename proselkov::avlTree< Key, Value, Compare >::dataType& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
+data< Key, Value, Compare >& proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator*() const
 {
   return unit->data;
 }
 
 template < typename Key, typename Value, typename Compare >
-const typename proselkov::avlTree< Key, Value, Compare >::dataType* proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
+data< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator->() const
 {
   return &(unit->data);
 }
@@ -250,15 +253,15 @@ public:
   ~Iterator() = default;
 
   this_t& operator=(const this_t&) = default;
-  iter< Key, Value, Compare >& operator++();
-  iter< Key, Value, Compare > operator++(int);
-  iter< Key, Value, Compare >& operator--();
-  iter< Key, Value, Compare > operator--(int);
+  Iter< Key, Value, Compare >& operator++();
+  Iter< Key, Value, Compare > operator++(int);
+  Iter< Key, Value, Compare >& operator--();
+  Iter< Key, Value, Compare > operator--(int);
 
   dataType& operator*();
   dataType* operator->();
-  const dataType& operator*() const;
-  const dataType* operator->() const;
+  data< Key, Value, Compare >& operator*() const;
+  data< Key, Value, Compare >* operator->() const;
 
   bool operator==(const this_t&) const;
   bool operator!=(const this_t&) const;
@@ -278,7 +281,7 @@ proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that
 {}
 
 template< typename Key, typename Value, typename Compare >
-iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
+Iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(imIter != ConstIterator());
   imIter++;
@@ -286,14 +289,14 @@ iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator:
 }
 
 template< typename Key, typename Value, typename Compare >
-iter< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+Iter< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
 {
   ++imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
+Iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(imIter != nullptr);
   --imIter;
@@ -301,20 +304,20 @@ iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator:
 }
 
 template< typename Key, typename Value, typename Compare >
-iter< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
+Iter< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
 {
   --imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::dataType& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
+data< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator*()
 {
   return imIter.unit->data;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::dataType* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
+data< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::Iterator::operator->()
 {
   return &(imIter.unit->data);
 }
