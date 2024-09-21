@@ -235,6 +235,9 @@ bool proselkov::avlTree< Key, Value, Compare >::ConstIterator::operator!=(const 
   return !(that == *this);
 }
 
+template< typename Kay, typename Value, typename Compare >
+using iter = typename proselkov::avlTree< Key, Value, Compare>::Iterator;
+
 template< typename Key, typename Value, typename Compare >
 class proselkov::avlTree< Key, Value, Compare >::Iterator : public std::iterator< std::bidirectional_iterator_tag, dataType >
 {
@@ -247,10 +250,10 @@ public:
   ~Iterator() = default;
 
   this_t& operator=(const this_t&) = default;
-  this_t& operator++();
-  this_t operator++(int);
-  this_t& operator--();
-  this_t operator--(int);
+  iter< Key, Value, Compare >& operator++();
+  iter< Key, Value, Compare > operator++(int);
+  iter< Key, Value, Compare >& operator--();
+  iter< Key, Value, Compare > operator--(int);
 
   dataType& operator*();
   dataType* operator->();
@@ -275,7 +278,7 @@ proselkov::avlTree< Key, Value, Compare >::Iterator::Iterator(ConstIterator that
 {}
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
+iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator++()
 {
   assert(imIter != ConstIterator());
   imIter++;
@@ -283,14 +286,14 @@ typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree
 }
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
+iter< Key, Value, Compare> proselkov::avlTree< Key, Value, Compare >::Iterator::operator++(int)
 {
   ++imIter;
   return imIter;
 }
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
+iter< Key, Value, Compare>& proselkov::avlTree< Key, Value, Compare >::Iterator::operator--()
 {
   assert(imIter != nullptr);
   --imIter;
@@ -298,7 +301,7 @@ typename proselkov::avlTree< Key, Value, Compare >::Iterator& proselkov::avlTree
 }
 
 template< typename Key, typename Value, typename Compare >
-typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
+iter< Key, Value, Compare > proselkov::avlTree< Key, Value, Compare >::Iterator::operator--(int)
 {
   --imIter;
   return imIter;
