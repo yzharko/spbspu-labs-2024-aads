@@ -43,6 +43,10 @@ int main(int argc, char* argv[])
       throw std::invalid_argument("bad arg");
     }
     amount = (it->second)(cmdOutput, map);
+    if (cmdOutput.empty())
+    {
+      std::cerr << "<EMPTY>";
+    }
     if (!cmdOutput.empty())
     {
       cmdOutput.pop_back();
