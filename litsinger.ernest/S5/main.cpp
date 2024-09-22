@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
   std::fstream input(argv[2]);
   if (!input)
   {
-    std::cerr << "can't read from file\n";
+    std::cerr << "can t read from file\n";
     return 1;
   }
   Tree< std::string, std::function< void(Tree< int, std::string > &) > > commands;
