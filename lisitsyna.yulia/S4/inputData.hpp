@@ -3,7 +3,7 @@
 
 #include "Commands.hpp"
 
-namespace lisitsyn
+namespace lisitsyna
 {
   data_t input_dict(std::istream & input);
 }
