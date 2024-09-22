@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
   while (!results.isEmpty())
   {
-    std::cout << results.pop() << ' ';
+    std::cout << results.pop();
     if (!results.isEmpty())
     {
       std::cout << ' ';
