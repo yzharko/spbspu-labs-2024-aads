@@ -60,6 +60,10 @@ int main(int argc, char *argv[])
   while (!results.isEmpty())
   {
     std::cout << results.pop() << ' ';
+    if (!results.esEmpty())
+    {
+      std::cout << ' ';
+    }
   }
   std::cout << std::endl;
 
