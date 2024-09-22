@@ -1,7 +1,7 @@
 #include <iostream>
 #include <functional>
-#include <string>
 #include <limits>
+#include <string>
 #include "binarySearchTree.hpp"
 #include "list.hpp"
 #include "cmds.hpp"
