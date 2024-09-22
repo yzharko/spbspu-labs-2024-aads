@@ -116,15 +116,47 @@ long long calculatePostfix(const std::string &postfix)
       long long a = stack.pop();
 
       if (current == "+")
+      {
+        if ((b > 0 && a > LLONG_MAX - b) || (b < 0 && a < LLONG_MIN - b))
+        {
+          throw std::overflow_error("Addition overflow");
+        }
         stack.push(a + b);
+      }
       else if (current == "-")
         stack.push(a - b);
       else if (current == "*")
+      {
+        if ((a > 0 && b > 0 && a > LLONG_MAX / b) ||
+          (a < 0 && b < 0 && a < LLONG_MIN / b) ||
+          (a > 0 && b < 0 && a > LLONG_MIN / b) ||
+          (a < 0 && b > 0 && a < LLONG_MAX / b))
+        {
+          throw std::overflow_error("Multiplication overflow");
+        }
         stack.push(a * b);
+      }
       else if (current == "/")
+      {
+        if (b == 0)
+        {
+          throw std::runtime_error("Division by zero");
+        }
         stack.push(a / b);
+      }
       else if (current == "%")
-        stack.push(a % b);
+      {
+        if (b == 0)
+        {
+          throw std::runtime_error("Modulo by zero");
+        }
+        long long result = a % b;
+        if (result < 0)
+        {
+          result += std::abs(b);
+        }
+        stack.push(result);
+      }
     }
   }
 

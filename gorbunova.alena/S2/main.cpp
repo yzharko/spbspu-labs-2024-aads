@@ -1,4 +1,5 @@
 #include <fstream>
+#include <algorithm>
 #include "expressions.hpp"
 #include "queue.hpp"
 
@@ -16,6 +17,16 @@ int main(int argc, char *argv[])
       std::cerr << "Cant open file: " << argv[1] << std::endl;
       return 1;
     }
+    std::string expression;
+    while (std::getline(file, expression))
+    {
+      expression.erase(std::remove_if(expression.begin(), expression.end(), ::isspace), expression.end());
+
+      if (!expression.empty())
+      {
+        expressions.push(expression);
+      }
+    }
   }
   else
   {
@@ -25,18 +36,6 @@ int main(int argc, char *argv[])
       if (expression.empty())
         break;
       expressions.push(expression);
-    }
-  }
-
-  if (argc == 2)
-  {
-    std::string expression;
-    while (std::getline(file, expression))
-    {
-      if (!expression.empty())
-      {
-        expressions.push(expression);
-      }
     }
   }
 
