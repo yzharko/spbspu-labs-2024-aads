@@ -33,11 +33,14 @@ int main(int argc, char *argv[])
     std::string expression;
     while (std::getline(std::cin, expression))
     {
-      if (expression.empty())
-        break;
-      expressions.push(expression);
-    }
-  }
+      expression.erase(std::remove_if(expression.begin(), expression.end(), ::isspace), expression.end());
+
+      if (!expression.empty())
+      {
+        expressions.push(expression);
+      }
+   }
+}
 
   while (!expressions.isEmpty())
   {
