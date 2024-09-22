@@ -34,6 +34,7 @@ namespace sadofeva
     const_iterator begin() const;
     const_iterator end() const;
     T & front();
+    const T & front() const;
     T & back();
     List & operator=(const List & list);
     List & operator=(List && list) noexcept;
@@ -231,7 +232,17 @@ T & sadofeva::List<T>::front()
   {
     throw std::logic_error("list is empty");
   }
-  return *head_;
+  return head_->value;
+}
+
+template <typename T>
+const T & sadofeva::List<T>::front() const
+{
+  if (empty())
+  {
+    throw std::logic_error("list is empty");
+  }
+  return head_->value;
 }
 
 template <typename T>
