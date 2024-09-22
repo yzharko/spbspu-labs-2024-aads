@@ -1,7 +1,7 @@
 #ifndef TREETRAVERSAL_HPP
 #define TREETRAVERSAL_HPP
 
-#include "../common/BinarySearchTree.hpp"
+#include "BinarySearchTree.hpp"
 #include "Sum.hpp"
 
 namespace kaseev {
