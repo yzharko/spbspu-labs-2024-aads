@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
-
 template<typename T>
 class List
 {
