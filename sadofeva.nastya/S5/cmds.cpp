@@ -41,7 +41,7 @@ int Summator::getResult() const
   return result_;
 }
 
-int sadofeva::traverseAscending(std::string& result, AVLtree< int, std::string >& tree)
+int sadofeva::traverseAscending(std::string& result, AVLTree< int, std::string >& tree)
 {
   Summator amount;
   amount = tree.traverse_lnr(amount);
@@ -50,7 +50,7 @@ int sadofeva::traverseAscending(std::string& result, AVLtree< int, std::string >
   return sum;
 }
 
-int sadofeva::traverseDescending(std::string& result, AVLtree< int, std::string >& tree)
+int sadofeva::traverseDescending(std::string& result, AVLTree< int, std::string >& tree)
 {
   Summator amount;
   amount = tree.traverse_rnl(amount);
@@ -59,7 +59,7 @@ int sadofeva::traverseDescending(std::string& result, AVLtree< int, std::string 
   return sum;
 }
 
-int sadofeva::TraverseBreadth(std::string& result, AVLtree< int, std::string >& tree)
+int sadofeva::TraverseBreadth(std::string& result, AVLTree< int, std::string >& tree)
 {
   Summator amount;
   amount = tree.traverse_breadth(amount);

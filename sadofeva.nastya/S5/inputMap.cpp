@@ -2,11 +2,11 @@
 #include <iostream>
 #include <stdexcept>
 
-sadofeva::AVLtree< int, std::string > strelyaev::inputMap(std::istream& in)
+sadofeva::AVLTree< int, std::string > strelyaev::inputMap(std::istream& in)
 {
   int key = 0;
   std::string value = "";
-  AVLtree< int, std::string > tree;
+  AVLTree< int, std::string > tree;
   while (in)
   {
     while (in >> key >> value)

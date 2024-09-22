@@ -7,7 +7,7 @@
 int main(int argc, char* argv[])
 {
   using namespace sadofeva;
-  AVLtree< int, std::string > map;
+  AVLTree< int, std::string > map;
   if (argc == 3)
   {
     try
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  AVLtree< std::string, std::function< int(std::string& result, AVLtree< int, std::string >& map) > > cmds;
+  AVLTree< std::string, std::function< int(std::string& result, AVLTree< int, std::string >& map) > > cmds;
   cmds.insert("ascending", std::addressof(traverseAscending));
   cmds.insert("descending", std::addressof(traverseDescending));
   cmds.insert("breadth", std::addressof(TraverseBreadth));

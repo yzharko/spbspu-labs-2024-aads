@@ -5,7 +5,7 @@
 
 namespace sadofeva
 {
-  AVLtree< int, std::string > inputMap(std::istream&);
+  AVLTree< int, std::string > inputMap(std::istream&);
 }
 
 #endif
