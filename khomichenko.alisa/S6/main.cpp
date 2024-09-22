@@ -1,5 +1,5 @@
-#include <iostream>
 #include <stdexcept>
+#include <iostream>
 #include "sort.hpp"
 
 int main(int argc, char* argv[])
