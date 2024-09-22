@@ -4,7 +4,7 @@
 #include <string>
 #include "functions.hpp"
 
-namespace panov
+namespace A
 {
   template< typename T >
   bool less(T left, T right)
