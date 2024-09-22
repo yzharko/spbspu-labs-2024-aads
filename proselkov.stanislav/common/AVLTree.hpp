@@ -94,7 +94,7 @@ template< typename Key, typename Value, typename Compare >
 using citer = typename proselkov::avlTree< Key, Value, Compare >::ConstIterator;
 
 template< typename Key, typename Value, typename Compare >
-using unit2 = typename proselkov::avlTree< Key, Value, Compare >::Unit;
+using unit2 = typename proselkov::avlTree< Key, Value, Compare >::updData;
 
 template< typename Key, typename Value, typename Compare >
 using data = const typename proselkov::avlTree< Key, Value, Compare >::dataType;
