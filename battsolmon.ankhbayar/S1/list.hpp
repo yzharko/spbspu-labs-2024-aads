@@ -1,6 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include "node.h"
+#include "node.hpp"
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
