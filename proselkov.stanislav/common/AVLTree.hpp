@@ -85,16 +85,13 @@ namespace proselkov
   Unit* lTurn(Unit* moveU);
   Unit* rTurn(Unit* moveU);
 
-  unit2< Key, Value, Compare >* updData(Unit* unit, const dataType& data);
-  unit2< Key, Value, Compare >* updData(Unit* unit, dataType&& data);
+  Unit* add(Unit* unit, const dataType& data);
+  Unit* add(Unit* unit, dataType&& data);
   };
 }
 
 template< typename Key, typename Value, typename Compare >
 using citer = typename proselkov::avlTree< Key, Value, Compare >::ConstIterator;
-
-template< typename Key, typename Value, typename Compare >
-using unit2 = typename proselkov::avlTree< Key, Value, Compare >::updData;
 
 template< typename Key, typename Value, typename Compare >
 using data = const typename proselkov::avlTree< Key, Value, Compare >::dataType;
@@ -570,14 +567,14 @@ typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree<
 template < typename Key, typename Value, typename Compare >
 typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType& data)
 {
-  treeRoot = updData(treeRoot, data);
+  treeRoot = add(treeRoot, data);
   return find(data.first);
 }
 
 template < typename Key, typename Value, typename Compare >
 typename proselkov::avlTree< Key, Value, Compare >::Iterator proselkov::avlTree< Key, Value, Compare >::insert(dataType&& data)
 {
-  treeRoot = updData(treeRoot, std::move(data));
+  treeRoot = add(treeRoot, std::move(data));
   return find(data.first);
 }
 
@@ -843,24 +840,24 @@ typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree<Key
 }
 
 template < typename Key, typename Value, typename Compare >
-unit2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, const dataType& newData)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::add(Unit* unit, const dataType& newD)
 {
   Compare compare;
   if (unit == nullptr)
   {
-  unit = new Unit(newData);
+  unit = new Unit(newD);
   return unit;
   }
   else
   {
-  if (compare(newData.first, unit->data.first))
+  if (compare(newD.first, unit->data.first))
   {
-    unit->left = updData(unit->left, newData);
+    unit->left = add(unit->left, newD);
     unit->left->ancest = unit;
   }
-  else if (compare(unit->data.first, newData.first))
+  else if (compare(unit->data.first, newD.first))
   {
-    unit->right = updData(unit->right, newData);
+    unit->right = add(unit->right, newD);
     unit->right->ancest = unit;
   }
   }
@@ -870,24 +867,24 @@ unit2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::updData
 }
 
 template < typename Key, typename Value, typename Compare >
-unit2< Key, Value, Compare >* proselkov::avlTree< Key, Value, Compare >::updData(Unit* unit, dataType&& newData)
+typename proselkov::avlTree< Key, Value, Compare >::Unit* proselkov::avlTree< Key, Value, Compare >::add(Unit* unit, dataType&& newD)
 {
   Compare compare;
   if (unit == nullptr)
   {
-  unit = new Unit(std::move(newData));
+  unit = new Unit(std::move(newD));
   return unit;
   }
   else
   {
-  if (compare(newData.first, unit->data.first))
+  if (compare(newD.first, unit->data.first))
   {
-    unit->left = updData(unit->left, std::move(newData));
+    unit->left = add(unit->left, std::move(newD));
     unit->left->ancest = unit;
   }
-  else if (compare(unit->data.first, newData.first))
+  else if (compare(unit->data.first, newD.first))
   {
-    unit->right = updData(unit->right, std::move(newData));
+    unit->right = add(unit->right, std::move(newD));
     unit->right->ancest = unit;
   }
   }
