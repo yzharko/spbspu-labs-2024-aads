@@ -1,7 +1,7 @@
 #include <iostream>
 #include <functional>
 #include <fstream>
-#include "../common/BinarySearchTree.hpp"
+#include "BinarySearchTree.hpp"
 #include "Traversal.hpp"
 
 int main(int argc, char *argv[]) {
