@@ -37,7 +37,12 @@ int main(int argc, char* argv[])
   int amount = 0;
   try
   {
-    amount = cmds.at(command)(cmdOutput, map);
+    auto it = cmds.at(command);
+    if (it == cmds.end())
+    {
+      throw std::invalid_argument("bad arg");
+    }
+    amount = (it->second)(cmdOutput, map);
     if (!cmdOutput.empty())
     {
       cmdOutput.pop_back();

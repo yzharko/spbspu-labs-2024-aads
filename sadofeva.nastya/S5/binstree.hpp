@@ -625,7 +625,7 @@ namespace sadofeva
       queue.push(root_);
       while (!queue.empty())
       {
-        auto current = queue.getTop();
+        auto current = queue.next();
         queue.drop();
         f(current->data_);
         if (current->left_)
