@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 
-sadofeva::AVLTree< int, std::string > strelyaev::inputMap(std::istream& in)
+sadofeva::AVLTree< int, std::string > sadofeva::inputMap(std::istream& in)
 {
   int key = 0;
   std::string value = "";
