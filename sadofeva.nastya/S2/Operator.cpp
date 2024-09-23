@@ -48,3 +48,4 @@ int sadofeva::Operator::getPriority_() const noexcept
   }
   return 0;
 }
+
