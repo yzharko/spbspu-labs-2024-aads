@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 #include "task.hpp"
@@ -49,6 +50,7 @@ int main(int argc, char ** argv)
   }
   else if (type == "floats")
   {
+    std::cout << std::fixed << std::setprecision(1);
     if (sort == "ascending")
     {
       sadofeva::task<float, std::less<float>>(N);
