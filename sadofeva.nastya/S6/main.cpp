@@ -24,6 +24,12 @@ int main(int argc, char ** argv)
     return 1;
   }
 
+  if (N == 0)
+  {
+    std::cerr << "Bad arg N\n";
+    return 1;
+  }
+
   if (sort != "ascending" && sort != "descending")
   {
     std::cerr << "Wrong sort type arg\n";
