@@ -10,7 +10,8 @@
 
 namespace malanin
 {
-  template< typename Key, typename Value, typename Comparator = std::less< Key > >
+  template< typename Key, typename Value,
+ typename Comparator = std::less< Key > >
   class Tree
   {
   public:
@@ -22,7 +23,8 @@ namespace malanin
     class RnLIterator;
 
     using iter_pair = std::pair< Iterator, Iterator >;
-    using const_iter_pair = std::pair< ConstIterator, ConstIterator >;
+    using const_iter_pair = std::
+pair< ConstIterator, ConstIterator >;
 
     Tree();
     Tree(const Key& key, const Value& value);
@@ -54,7 +56,8 @@ namespace malanin
     ConstIterator find(const Key&) const;
     bool contains(const Key&) const;
     std::pair< Iterator, Iterator > equalRange(const Key&);
-    std::pair< ConstIterator, ConstIterator > equalRange(const Key&) const;
+    std::pair< ConstIterator,
+ ConstIterator > equalRange(const Key&) const;
 
     template < typename PairPred >
     PairPred ctraverseLnR(PairPred) const;
@@ -155,7 +158,8 @@ malanin::Tree< Key, Value, Comparator >::Iterator::Iterator():
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
+malanin::Tree< Key, Value, Comparator >::
+Iterator::Iterator(Tree* init):
   cur_(init),
   max_(nullptr)
 {
@@ -175,25 +179,29 @@ malanin::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init):
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::Iterator::Iterator(LnRIterator rhs)
+malanin::Tree< Key, Value, Comparator >::Iterator::
+Iterator(LnRIterator rhs)
 {
   *this = Iterator(rhs.cur_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::Iterator::Iterator(RnLIterator rhs)
+malanin::Tree< Key, Value, Comparator >::
+Iterator::Iterator(RnLIterator rhs)
 {
   *this = Iterator(rhs.cur_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::Iterator::Iterator(Tree* init, Tree* max):
+malanin::Tree< Key, Value, Comparator >::
+Iterator::Iterator(Tree* init, Tree* max):
   cur_(init),
   max_(max)
 {}
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
+bool malanin::Tree< Key, Value, Comparator >::
+Iterator::weAreOnRight()
 {
   Comparator comparator;
   if (!cur_->parrent_)
@@ -204,7 +212,9 @@ bool malanin::Tree< Key, Value, Comparator >::Iterator::weAreOnRight()
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator& malanin::Tree< Key, Value, Comparator >::Iterator::operator++()
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator& malanin::Tree< Key, Value, Comparator >::
+Iterator::operator++()
 {
   if (!cur_)
   {
@@ -226,7 +236,9 @@ typename malanin::Tree< Key, Value, Comparator >::Iterator& malanin::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, Value, Comparator >::Iterator::operator++(int)
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator malanin::Tree< Key, Value, Comparator >::
+Iterator::operator++(int)
 {
   Iterator iter(*this);
   ++(*this);
@@ -234,7 +246,9 @@ typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, V
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator& malanin::Tree< Key, Value, Comparator >::Iterator::operator--()
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator& malanin::Tree< Key, Value, Comparator >::
+Iterator::operator--()
 {
   if (!cur_)
   {
@@ -259,7 +273,9 @@ typename malanin::Tree< Key, Value, Comparator >::Iterator& malanin::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, Value, Comparator >::Iterator::operator--(int)
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator malanin::Tree< Key, Value, Comparator >
+::Iterator::operator--(int)
 {
   Iterator iter(*this);
   --(*this);
@@ -267,7 +283,9 @@ typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, V
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::Iterator::operator*() const
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+Iterator::operator*() const
 {
   if (!cur_)
   {
@@ -277,7 +295,9 @@ typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, V
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::Iterator::operator->() const
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+Iterator::operator->() const
 {
   if (!cur_)
   {
@@ -287,13 +307,15 @@ typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, V
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::Iterator::operator==(const Iterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+Iterator::operator==(const Iterator& rhs) const
 {
   return cur_ == rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::Iterator::operator!=(const Iterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+Iterator::operator!=(const Iterator& rhs) const
 {
   return !(*this == rhs);
 }
@@ -337,76 +359,95 @@ private:
 };
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator():
+malanin::Tree< Key, Value, Comparator >::
+ConstIterator::ConstIterator():
   iter_(Iterator())
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(Iterator iter):
+malanin::Tree< Key, Value, Comparator >::
+ConstIterator::ConstIterator(Iterator iter):
   iter_(iter)
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(LnRIterator rhs):
+malanin::Tree< Key, Value, Comparator >::
+ConstIterator::ConstIterator(LnRIterator rhs):
   iter_(Iterator(rhs.cur_))
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::ConstIterator::ConstIterator(RnLIterator rhs):
+malanin::Tree< Key, Value, Comparator >::
+ConstIterator::ConstIterator(RnLIterator rhs):
   iter_(Iterator(rhs.cur_))
 {}
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator& malanin::Tree< Key, Value, Comparator >::ConstIterator::operator++()
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator& malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator++()
 {
   ++iter_;
   return *this;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< Key, Value, Comparator >::ConstIterator::operator++(int)
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator++(int)
 {
   return iter_++;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator& malanin::Tree< Key, Value, Comparator >::ConstIterator::operator--()
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator& malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator--()
 {
   return --iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< Key, Value, Comparator >::ConstIterator::operator--(int)
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator--(int)
 {
   return iter_--;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::ConstIterator::operator==(const ConstIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator==(const ConstIterator& rhs) const
 {
   return this->iter_ == rhs.iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::ConstIterator::operator!=(const ConstIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator!=(const ConstIterator& rhs) const
 {
   return this->iter_ != rhs.iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::ConstIterator::operator*() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator*() const
 {
   return *iter_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::ConstIterator::operator->() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+ConstIterator::operator->() const
 {
   return std::addressof(*iter_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::ConstIterator::erase()
+void malanin::Tree< Key, Value, Comparator >::
+ConstIterator::erase()
 {
   iter_->erase();
 }
@@ -442,7 +483,8 @@ private:
 };
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::LnRIterator::LnRIterator():
+malanin::Tree< Key, Value, Comparator >::
+LnRIterator::LnRIterator():
   cur_(nullptr),
   temp_(nullptr),
   stack_(Stack< Tree* >())
@@ -460,7 +502,9 @@ malanin::Tree< Key, Value, Comparator >::LnRIterator::LnRIterator(Tree* ptr):
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::LnRIterator& malanin::Tree< Key, Value, Comparator >::LnRIterator::operator++()
+typename malanin::Tree< Key, Value, Comparator >::
+LnRIterator& malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator++()
 {
   if (!cur_ && stack_.empty())
   {
@@ -474,7 +518,9 @@ typename malanin::Tree< Key, Value, Comparator >::LnRIterator& malanin::Tree< Ke
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::LnRIterator malanin::Tree< Key, Value, Comparator >::LnRIterator::operator++(int)
+typename malanin::Tree< Key, Value, Comparator >::
+LnRIterator malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator++(int)
 {
   LnRIterator temp = *this;
   (*this)++;
@@ -482,43 +528,54 @@ typename malanin::Tree< Key, Value, Comparator >::LnRIterator malanin::Tree< Key
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::LnRIterator::operator*()
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator*()
 {
   return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::LnRIterator::operator*() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator*() const
 {
   return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::LnRIterator::operator->()
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator->()
 {
   return std::addressof(*cur_->pair_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::LnRIterator::operator->() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator->() const
 {
   return std::addressof(*cur_->pair_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::LnRIterator::operator!=(const LnRIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator!=(const LnRIterator& rhs) const
 {
   return cur_ != rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::LnRIterator::operator==(const LnRIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+LnRIterator::operator==(const LnRIterator& rhs) const
 {
   return cur_ == rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::LnRIterator::goDownLeft()
+void malanin::Tree< Key, Value, Comparator >::
+LnRIterator::goDownLeft()
 {
   while (cur_)
   {
@@ -528,7 +585,8 @@ void malanin::Tree< Key, Value, Comparator >::LnRIterator::goDownLeft()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::LnRIterator::dropToCurFromStack()
+void malanin::Tree< Key, Value, Comparator >::
+LnRIterator::dropToCurFromStack()
 {
   cur_ = stack_.top();
   stack_.pop();
@@ -568,14 +626,16 @@ private:
 };
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::RnLIterator::RnLIterator():
+malanin::Tree< Key, Value, Comparator >::
+RnLIterator::RnLIterator():
   cur_(nullptr),
   temp_(nullptr),
   stack_(Stack< Tree* >())
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >::RnLIterator::RnLIterator(Tree* ptr):
+malanin::Tree< Key, Value, Comparator >::
+RnLIterator::RnLIterator(Tree* ptr):
   cur_(ptr),
   temp_(nullptr),
   stack_(Stack< Tree* >())
@@ -586,11 +646,14 @@ malanin::Tree< Key, Value, Comparator >::RnLIterator::RnLIterator(Tree* ptr):
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::RnLIterator& malanin::Tree< Key, Value, Comparator >::RnLIterator::operator++()
+typename malanin::Tree< Key, Value, Comparator >::
+RnLIterator& malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator++()
 {
   if (!cur_ && stack_.empty())
   {
-    throw std::runtime_error("RnL iterator already reached the end of the tree");
+    throw std::runtime_error("RnL iterator already reached\n"
+    "the end of the tree");
   }
   cur_ = temp_;
   goDownRight();
@@ -600,7 +663,9 @@ typename malanin::Tree< Key, Value, Comparator >::RnLIterator& malanin::Tree< Ke
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::RnLIterator malanin::Tree< Key, Value, Comparator >::RnLIterator::operator++(int)
+typename malanin::Tree< Key, Value, Comparator >::
+RnLIterator malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator++(int)
 {
   RnLIterator temp = *this;
   (*this)++;
@@ -608,43 +673,54 @@ typename malanin::Tree< Key, Value, Comparator >::RnLIterator malanin::Tree< Key
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::RnLIterator::operator*()
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator*()
 {
   return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair& malanin::Tree< Key, Value, Comparator >::RnLIterator::operator*() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair& malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator*() const
 {
   return *cur_->pair_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::RnLIterator::operator->()
+typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator->()
 {
   return std::addressof(*cur_->pair_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-const typename malanin::Tree< Key, Value, Comparator >::kv_pair* malanin::Tree< Key, Value, Comparator >::RnLIterator::operator->() const
+const typename malanin::Tree< Key, Value, Comparator >::
+kv_pair* malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator->() const
 {
   return std::addressof(*cur_->pair_);
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::RnLIterator::operator!=(const RnLIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator!=(const RnLIterator& rhs) const
 {
   return cur_ != rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::RnLIterator::operator==(const RnLIterator& rhs) const
+bool malanin::Tree< Key, Value, Comparator >::
+RnLIterator::operator==(const RnLIterator& rhs) const
 {
   return cur_ == rhs.cur_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::RnLIterator::goDownRight()
+void malanin::Tree< Key, Value, Comparator >::
+RnLIterator::goDownRight()
 {
   while (cur_)
   {
@@ -654,7 +730,8 @@ void malanin::Tree< Key, Value, Comparator >::RnLIterator::goDownRight()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::RnLIterator::dropToCurFromStack()
+void malanin::Tree< Key, Value, Comparator >::
+RnLIterator::dropToCurFromStack()
 {
   cur_ = stack_.top();
   stack_.pop();
@@ -677,7 +754,8 @@ malanin::Tree< Key, Value, Comparator>::Tree():
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value):
+malanin::Tree< Key, Value, Comparator>::
+Tree(const Key& key, const Value& value):
   pair_(new kv_pair(key, value)),
   height_(1),
   isEmpty_(false),
@@ -687,7 +765,8 @@ malanin::Tree< Key, Value, Comparator>::Tree(const Key& key, const Value& value)
 {}
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator>::Tree(const malanin::Tree< Key, Value, Comparator >& rhs):
+malanin::Tree< Key, Value, Comparator>::
+Tree(const malanin::Tree< Key, Value, Comparator >& rhs):
   pair_(nullptr),
   height_(rhs.height_),
   isEmpty_(rhs.isEmpty_),
@@ -708,7 +787,9 @@ malanin::Tree< Key, Value, Comparator>::Tree(const malanin::Tree< Key, Value, Co
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >& malanin::Tree< Key, Value, Comparator>::operator=(const malanin::Tree< Key, Value, Comparator >& rhs)
+malanin::Tree< Key, Value, Comparator >& malanin::
+Tree< Key, Value, Comparator>::
+operator=(const malanin::Tree< Key, Value, Comparator >& rhs)
 {
   clear();
   pair_ = rhs.pair_ ? new kv_pair(*rhs.pair_) : nullptr;
@@ -727,7 +808,8 @@ malanin::Tree< Key, Value, Comparator >& malanin::Tree< Key, Value, Comparator>:
 }
 
 template< typename Key, typename Value, typename Comparator >
-Value& malanin::Tree< Key, Value, Comparator>::at(const Key& key)
+Value& malanin::Tree< Key, Value, Comparator>::
+at(const Key& key)
 {
   Comparator comparator;
   if (key == pair_->first)
@@ -753,7 +835,8 @@ Value& malanin::Tree< Key, Value, Comparator>::at(const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-const Value& malanin::Tree< Key, Value, Comparator>::at(const Key& key) const
+const Value& malanin::Tree< Key, Value, Comparator>::
+at(const Key& key) const
 {
   Comparator comparator;
   if (key == pair_->first)
@@ -778,7 +861,8 @@ const Value& malanin::Tree< Key, Value, Comparator>::at(const Key& key) const
   }
 }
 
-template< typename Key, typename Value, typename Comparator >
+template< typename Key, typename Value,
+ typename Comparator >
 void malanin::Tree< Key, Value, Comparator>::clear()
 {
   if (left_)
@@ -800,7 +884,8 @@ void malanin::Tree< Key, Value, Comparator>::clear()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::insert(const Key& key, const Value& value)
+void malanin::Tree< Key, Value, Comparator>::
+insert(const Key& key, const Value& value)
 {
   rawInsert(key, value);
   updateHeight();
@@ -808,7 +893,8 @@ void malanin::Tree< Key, Value, Comparator>::insert(const Key& key, const Value&
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::insert(const std::pair< Key, Value >& pair)
+void malanin::Tree< Key, Value, Comparator>::
+insert(const std::pair< Key, Value >& pair)
 {
   insert(pair.first, pair.second);
 }
@@ -822,7 +908,8 @@ void malanin::Tree< Key, Value, Comparator>::swap(Tree& tree)
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::printKeys(std::ostream& out) const
+void malanin::Tree< Key, Value, Comparator>::
+printKeys(std::ostream& out) const
 {
   if (isEmpty_)
   {
@@ -836,7 +923,8 @@ void malanin::Tree< Key, Value, Comparator>::printKeys(std::ostream& out) const
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::printValues(std::ostream& out) const
+void malanin::Tree< Key, Value, Comparator>::
+printValues(std::ostream& out) const
 {
   if (isEmpty_)
   {
@@ -850,7 +938,8 @@ void malanin::Tree< Key, Value, Comparator>::printValues(std::ostream& out) cons
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Value& value)
+void malanin::Tree< Key, Value, Comparator>::
+rawInsert(const Key& key, const Value& value)
 {
   Comparator comparator;
   if (isEmpty_)
@@ -887,25 +976,29 @@ void malanin::Tree< Key, Value, Comparator>::rawInsert(const Key& key, const Val
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getMaxNode()
+malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getMaxNode()
 {
   return right_ ? right_->getMaxNode() : this;
 }
 
 template< typename Key, typename Value, typename Comparator >
-const malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getMaxNode() const
+const malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getMaxNode() const
 {
   return right_ ? right_->getMaxNode() : this;
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getMinNode()
+malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getMinNode()
 {
   return left_ ? left_->getMinNode() : this;
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getRoot()
+malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getRoot()
 {
   Tree* temp = this;
   while (temp->parrent_)
@@ -916,7 +1009,8 @@ malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>:
 }
 
 template< typename Key, typename Value, typename Comparator >
-const malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getRoot() const
+const malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getRoot() const
 {
   Tree* temp = this;
   while (temp->parrent_)
@@ -927,19 +1021,22 @@ const malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Compar
 }
 
 template< typename Key, typename Value, typename Comparator >
-const malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::getMinNode() const
+const malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::getMinNode() const
 {
   return left_ ? left_->getMinNode() : this;
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator>::empty() const noexcept
+bool malanin::Tree< Key, Value, Comparator>::
+empty() const noexcept
 {
   return isEmpty_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-size_t malanin::Tree< Key, Value, Comparator>::size() const
+size_t malanin::Tree< Key, Value,
+ Comparator>::size() const
 {
   size_t leftSize = left_ ? left_->size() : 0;
   size_t rightSize = right_ ? right_->size() : 0;
@@ -947,26 +1044,30 @@ size_t malanin::Tree< Key, Value, Comparator>::size() const
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::erase(const Key& key)
+void malanin::Tree< Key, Value, Comparator>::
+erase(const Key& key)
 {
   rawDelete(key);
   updateHeight();
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::erase(Iterator iter)
+void malanin::Tree< Key, Value, Comparator >::
+erase(Iterator iter)
 {
   iter->erase();
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::erase(ConstIterator citer)
+void malanin::Tree< Key, Value, Comparator >::
+erase(ConstIterator citer)
 {
   citer->erase();
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
+void malanin::Tree< Key, Value, Comparator>::
+rawDelete(const Key& key)
 {
   Comparator comparator;
   if (isEmpty_)
@@ -1006,7 +1107,8 @@ void malanin::Tree< Key, Value, Comparator>::rawDelete(const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::rawDeleteSelf()
+void malanin::Tree< Key, Value,
+ Comparator>::rawDeleteSelf()
 {
   if (!left_ && !right_)
   {
@@ -1032,7 +1134,8 @@ void malanin::Tree< Key, Value, Comparator>::rawDeleteSelf()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::rebalanceSelf()
+void malanin::Tree< Key, Value, Comparator>::
+rebalanceSelf()
 {
   if (left_)
   {
@@ -1063,7 +1166,8 @@ void malanin::Tree< Key, Value, Comparator>::rebalanceSelf()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::updateParrentsLocally()
+void malanin::Tree< Key, Value, Comparator>::
+updateParrentsLocally()
 {
   if (left_)
   {
@@ -1076,7 +1180,9 @@ void malanin::Tree< Key, Value, Comparator>::updateParrentsLocally()
 }
 
 template< typename Key, typename Value, typename Comparator >
-malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>::findNextNode(const Key& key) const
+malanin::Tree< Key, Value, Comparator >* malanin::
+Tree< Key, Value, Comparator>::
+findNextNode(const Key& key) const
 {
   Comparator comparator;
   if (comparator(pair_->first, key))
@@ -1090,13 +1196,15 @@ malanin::Tree< Key, Value, Comparator >* malanin::Tree< Key, Value, Comparator>:
 }
 
 template< typename Key, typename Value, typename Comparator >
-size_t malanin::Tree< Key, Value, Comparator>::getHeight() const
+size_t malanin::Tree< Key, Value, Comparator>::
+getHeight() const
 {
   return height_;
 }
 
 template< typename Key, typename Value, typename Comparator >
-int malanin::Tree< Key, Value, Comparator>::getDiff() const
+int malanin::Tree< Key, Value, Comparator>::
+getDiff() const
 {
   int leftHeight = left_ ? left_->getHeight() : 0;
   int rightHeight = right_ ? right_->getHeight() : 0;
@@ -1104,7 +1212,8 @@ int malanin::Tree< Key, Value, Comparator>::getDiff() const
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::updateHeight()
+void malanin::Tree< Key, Value, Comparator>::
+updateHeight()
 {
   size_t leftHeight = left_ ? left_->getHeight() : 0;
   size_t rightHeight = right_ ? right_->getHeight() : 0;
@@ -1112,7 +1221,8 @@ void malanin::Tree< Key, Value, Comparator>::updateHeight()
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator>::swapNodes(Tree* lhs, Tree* rhs)
+void malanin::Tree< Key, Value, Comparator>::
+swapNodes(Tree* lhs, Tree* rhs)
 {
   kv_pair temp = kv_pair(*lhs->pair_);
   lhs->replacePair(*rhs->pair_);
@@ -1146,19 +1256,23 @@ void malanin::Tree< Key, Value, Comparator>::rotateLL()
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, Value, Comparator >::begin()
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator malanin::Tree< Key, Value, Comparator >::begin()
 {
   return getMinNode();
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, Value, Comparator >::end()
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator malanin::Tree< Key, Value, Comparator >::end()
 {
   return Iterator(nullptr, getMaxNode());
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, Value, Comparator >::find(const Key& key)
+typename malanin::Tree< Key, Value, Comparator >::
+Iterator malanin::Tree< Key, Value, Comparator >::
+find(const Key& key)
 {
   if (isEmpty_)
   {
@@ -1180,7 +1294,9 @@ typename malanin::Tree< Key, Value, Comparator >::Iterator malanin::Tree< Key, V
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< Key, Value, Comparator >::find(const Key& key) const
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator malanin::Tree< Key, Value, Comparator >::
+find(const Key& key) const
 {
   if (isEmpty_)
   {
@@ -1202,7 +1318,8 @@ typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< K
 }
 
 template< typename Key, typename Value, typename Comparator >
-bool malanin::Tree< Key, Value, Comparator >::contains(const Key& key) const
+bool malanin::Tree< Key, Value, Comparator >::
+contains(const Key& key) const
 {
   if (isEmpty_)
   {
@@ -1224,7 +1341,8 @@ bool malanin::Tree< Key, Value, Comparator >::contains(const Key& key) const
 }
 
 template< typename Key, typename Value, typename Comparator >
-Value& malanin::Tree< Key, Value, Comparator >::operator[](const Key& key)
+Value& malanin::Tree< Key, Value, Comparator >::
+operator[](const Key& key)
 {
   try
   {
@@ -1238,7 +1356,8 @@ Value& malanin::Tree< Key, Value, Comparator >::operator[](const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-const Value& malanin::Tree< Key, Value, Comparator >::operator[](const Key& key) const
+const Value& malanin::Tree< Key, Value, Comparator >::
+operator[](const Key& key) const
 {
   try
   {
@@ -1251,7 +1370,8 @@ const Value& malanin::Tree< Key, Value, Comparator >::operator[](const Key& key)
 }
 
 template< typename Key, typename Value, typename Comparator >
-void malanin::Tree< Key, Value, Comparator >::replacePair(const kv_pair& substitution)
+void malanin::Tree< Key, Value, Comparator >::
+replacePair(const kv_pair& substitution)
 {
   kv_pair* temp = pair_;
   pair_ = new kv_pair(substitution);
@@ -1259,20 +1379,26 @@ void malanin::Tree< Key, Value, Comparator >::replacePair(const kv_pair& substit
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< Key, Value, Comparator >::cbegin() const
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator malanin::Tree< Key, Value, Comparator >::
+cbegin() const
 {
   return isEmpty_ ? Iterator (nullptr) : Iterator(const_cast< Tree* >(getMinNode()));
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::ConstIterator malanin::Tree< Key, Value, Comparator >::cend() const
+typename malanin::Tree< Key, Value, Comparator >::
+ConstIterator malanin::Tree< Key, Value, Comparator >::
+cend() const
 {
   return Iterator(nullptr, const_cast< Tree* >(getMaxNode()));
 }
 
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::iter_pair malanin::Tree< Key, Value, Comparator >::equalRange(const Key& key)
+typename malanin::Tree< Key, Value, Comparator >::
+iter_pair malanin::Tree< Key, Value, Comparator >::
+equalRange(const Key& key)
 {
   Iterator start = find(key);
   Iterator end = start;
@@ -1282,7 +1408,9 @@ typename malanin::Tree< Key, Value, Comparator >::iter_pair malanin::Tree< Key, 
 }
 
 template< typename Key, typename Value, typename Comparator >
-typename malanin::Tree< Key, Value, Comparator >::const_iter_pair malanin::Tree< Key, Value, Comparator >::equalRange(const Key& key) const
+typename malanin::Tree< Key, Value, Comparator >::
+const_iter_pair malanin::Tree< Key, Value, Comparator >::
+equalRange(const Key& key) const
 {
   ConstIterator start = find(key);
   ConstIterator end = start;
@@ -1293,7 +1421,8 @@ typename malanin::Tree< Key, Value, Comparator >::const_iter_pair malanin::Tree<
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::ctraverseLnR(PairPred p) const
+PairPred malanin::Tree< Key, Value, Comparator >::
+ctraverseLnR(PairPred p) const
 {
   Stack< const Tree* > stack;
   const Tree* current = this;
@@ -1314,7 +1443,9 @@ PairPred malanin::Tree< Key, Value, Comparator >::ctraverseLnR(PairPred p) const
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::traverseLnR(PairPred p)
+PairPred malanin::
+Tree< Key, Value, Comparator >::
+traverseLnR(PairPred p)
 {
   Stack< Tree* > stack;
   Tree* current = this;
@@ -1335,7 +1466,8 @@ PairPred malanin::Tree< Key, Value, Comparator >::traverseLnR(PairPred p)
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
+PairPred malanin::Tree< Key, Value, Comparator >::
+ctraverseRnL(PairPred p) const
 {
   Stack< const Tree* > stack;
   const Tree* current = this;
@@ -1356,7 +1488,8 @@ PairPred malanin::Tree< Key, Value, Comparator >::ctraverseRnL(PairPred p) const
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::traverseRnL(PairPred p)
+PairPred malanin::Tree< Key, Value, Comparator >::
+traverseRnL(PairPred p)
 {
   Stack< Tree* > stack;
   Tree* current = this;
@@ -1377,7 +1510,8 @@ PairPred malanin::Tree< Key, Value, Comparator >::traverseRnL(PairPred p)
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::ctraverseBreadth(PairPred p) const
+PairPred malanin::Tree< Key, Value, Comparator >::
+ctraverseBreadth(PairPred p) const
 {
   Queue< Tree * > queue;
   const Tree* current = this;
@@ -1400,7 +1534,8 @@ PairPred malanin::Tree< Key, Value, Comparator >::ctraverseBreadth(PairPred p) c
 
 template< typename Key, typename Value, typename Comparator >
 template< typename PairPred >
-PairPred malanin::Tree< Key, Value, Comparator >::traverseBreadth(PairPred p)
+PairPred malanin::Tree< Key, Value, Comparator >::
+traverseBreadth(PairPred p)
 {
   Queue< Tree * > queue;
   Tree* current = this;
