@@ -1,5 +1,5 @@
-#ifndef LIST_HPP
-#define LIST_HPP
+#ifndef BDLIST_HPP
+#define BDLIST_HPP
 
 #include <algorithm>
 #include "node.hpp"

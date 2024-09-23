@@ -1,7 +1,7 @@
 #ifndef BINITERATOR_HPP
 #define BINITERATOR_HPP
 
-#include "node.hpp"
+#include "binode.hpp"
 #include <memory>
 
 namespace lisitsyna

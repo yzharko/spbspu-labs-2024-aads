@@ -6,7 +6,7 @@
 
 namespace lisitsyna
 {
-  void inputData(AVLTree< int, std::string > & data, std::istream & input);
+  void input_data(AVLTree< int, std::string > & data, std::istream & input);
 }
 
 #endif

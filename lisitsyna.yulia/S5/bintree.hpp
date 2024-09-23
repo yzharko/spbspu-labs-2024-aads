@@ -2,7 +2,7 @@
 #define BINTREE_HPP
 
 #include <iostream>
-#include "node.hpp"
+#include "binode.hpp"
 #include "biniterator.hpp"
 #include "queue.hpp"
 #include "stack.hpp"

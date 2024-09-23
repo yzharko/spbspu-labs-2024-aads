@@ -1,6 +1,6 @@
 #include "inputdata.hpp"
 
-void lisitsyna::inputData(AVLTree< int, std::string >& data, std::istream& input)
+void lisitsyna::input_data(AVLTree< int, std::string > & data, std::istream & input)
 {
   int key = 0;
   std::string value;

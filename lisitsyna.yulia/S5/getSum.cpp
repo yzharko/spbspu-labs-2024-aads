@@ -2,12 +2,12 @@
 #include <limits>
 #include <stdexcept>
 
-lisitsyna::keySum::keySum() :
+lisitsyna::Key_summ::Key_summ():
   int_sum_(0),
   str_sum_()
 {}
 
-void lisitsyna::keySum::operator()(const std::pair< const int, std::string >& key_value)
+void lisitsyna::Key_summ::operator()(const std::pair< const int, std::string > & key_value)
 {
   constexpr int maxnum = std::numeric_limits< int >::max();
   constexpr int minnum = std::numeric_limits< int >::min();
@@ -23,12 +23,12 @@ void lisitsyna::keySum::operator()(const std::pair< const int, std::string >& ke
   str_sum_ += " " + key_value.second;
 }
 
-int lisitsyna::keySum::get_int() const
+int lisitsyna::Key_summ::get_int() const
 {
   return int_sum_;
 }
 
-std::string lisitsyna::keySum::get_str() const
+std::string lisitsyna::Key_summ::get_str() const
 {
   return str_sum_;
 }

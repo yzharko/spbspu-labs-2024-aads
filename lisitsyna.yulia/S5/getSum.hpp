@@ -6,9 +6,9 @@
 
 namespace lisitsyna
 {
-  struct keySum
+  struct Key_summ
   {
-    keySum();
+    Key_summ();
     void operator()(const std::pair< const int, std::string > & key_value);
     int get_int() const;
     std::string get_str() const;
