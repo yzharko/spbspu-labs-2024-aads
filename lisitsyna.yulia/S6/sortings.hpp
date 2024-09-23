@@ -31,7 +31,7 @@ namespace lisitsyna
     do
     {
       auto current_first = begin;
-      auto current_second = begin + 1;
+      auto current_second = std::next(begin);
       sorted_once = false;
       for (; current_second != end; current_first++, current_second++)
       {

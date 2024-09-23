@@ -1,5 +1,6 @@
 #include <functional>
 #include <map>
+#include <ctime>
 #include <iostream>
 #include "distribution.hpp"
 #include "outputFunctions.hpp"
@@ -18,6 +19,8 @@ int main(int argc, char** argv)
     lisitsyna::pringWrongSize(std::cout);
     return 1;
   }
+
+  std::srand(std::time(0));
 
   std::map< std::string, std::map < std::string, std::function< void(std::ostream&, int) > > > commands;
   {
