@@ -41,9 +41,10 @@ namespace proselkov
 
     cIter cbegin() const noexcept;
     cIter cend() const noexcept;
-
-    iter begin() noexcept;
-    iter end() noexcept;
+    cIter begin() const;
+    cIter end() const;
+    iter begin();
+    iter end();
 
   private:
     class Unit
@@ -487,13 +488,25 @@ typename proselkov::List< T >::ConstIterator proselkov::List< T >::cend() const 
 }
 
 template < typename T >
-typename proselkov::List< T >::Iterator proselkov::List< T >::begin() noexcept
+typename proselkov::List< T >::ConstIterator proselkov::List< T >::begin() const
+{
+  return ConstIterator(head);
+}
+
+template< typename T >
+typename proselkov::List< T >::ConstIterator proselkov::List< T >::end() const
+{
+  return nullptr;
+}
+
+template < typename T >
+typename proselkov::List< T >::Iterator proselkov::List< T >::begin()
 {
   return Iterator(head);
 }
 
 template< typename T >
-typename proselkov::List< T >::Iterator proselkov::List< T >::end() noexcept
+typename proselkov::List< T >::Iterator proselkov::List< T >::end()
 {
   return nullptr;
 }
