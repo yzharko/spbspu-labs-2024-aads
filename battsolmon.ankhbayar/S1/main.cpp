@@ -1,149 +1,48 @@
-#include "list.hpp"
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <limits>
-#include <algorithm>
-#include <stdexcept>
-
-namespace ankhbayar
-{
-  unsigned long long sum(unsigned long long a, unsigned long long b)
-  {
-    if (a > std::numeric_limits< unsigned long long >::max() - b)
-    {
-      throw std::overflow_error("Overflow!");
-    }
-    return a + b;
-  }
-}
+#include <iostream>
+#include "List.hpp"
 int main()
 {
-  std::string line;
-  std::vector< std::pair< std::string, List< unsigned long long > > > sequences;
-  size_t maxLen = 0;
-  while (std::getline(std::cin, line) && !line.empty())
-  {
-    std::istringstream iss(line);
-    std::string name;
-    iss >> name;
-    List< unsigned long long > list;
-    unsigned long long num;
-    size_t count = 0;
-    while (!iss.fail() && !iss.eof())
-    {
-      iss >> num;
-      if (iss.fail())
-      {
-        std::cerr << "Input error\n";
-        return 1;
-      }
-      list.push_back(num);
-        ++count;
-    }
-      maxLen = std::max(maxLen, count);
-      sequences.emplace_back(name, std::move(list));
-    }
-    bool first = true;
-    for (const auto& seq : sequences)
-    {
-      if (first)
-      {
-        first = false;
-      }
-      else
-      {
-        std::cout << ' ';
-      }
-      std::cout << seq.first;
-    }
-    if (sequences.empty())
-    {
-      std::cout << 0 << '\n';
-      return 0;
-    }
-    std::cout << '\n';
-    for (size_t i = 0; i < maxLen; ++i)
-    {
-      first = true;
-      for (const auto& seq : sequences)
-      {
-        const auto& list = seq.second;
-        auto it = list.begin();
-        for (size_t j = 0; j < i && it != list.end(); ++j)
-        {
-          ++it;
-        }
-        if (it != list.end())
-        {
-          if (first)
-          {
-            first = false;
-          }
-          else
-          {
-            std::cout << ' ';
-          }
-            std::cout << *it;
-        }
-    }
-    std::cout << '\n';
-    if (sequences.empty())
-    {
-      std::cout << 0;
-    }
-}
-std::vector< unsigned long long > sums(maxLen, 0);
-try
-  {
-    for (size_t i = 0; i < maxLen; ++i)
-    {
-      for (const auto& seq : sequences)
-      {
-        const auto& list = seq.second;
-        auto it = list.begin();
-        for (size_t j = 0; j < i && it != list.end(); ++j)
-        {
-          ++it;
-        }
-        if (it != list.end())
-        {
-          sums[i] = ankhbayar::sum (sums[i], *it);
-        }
-      }
-    }
-}
-catch (const std::overflow_error& e)
-{
-  std::cerr << e.what() << '\n';
-  return 1;
-}
-first = true;
-bool foundNonZero = false;
-for (auto sum : sums)
-{
-  if (sum != 0)
-  {
-    foundNonZero = true;
-  }
-  if (foundNonZero)
-  {
-    if (first)
-    {
-      first = false;
-    }
-    else
-    {
-      std::cout << ' ';
-    }
-    std::cout << sum;
-  }
-}
-if (sums.empty())
-{
-  std::cout << '0';
-}
-  std::cout << '\n';
+  List<int> numbers;
+
+  numbers.insert(133);
+  numbers.insert(18);
+  numbers.insert(120);
+  std::cout << "First dictionary: " << numbers << "\n";
+
+  List<int> orderedNumbers;
+  orderedNumbers.insertInOrder(4);
+  orderedNumbers.insertInOrder(8);
+  orderedNumbers.insertInOrder(1);
+  orderedNumbers.insertInOrder(35);
+  orderedNumbers.insertInOrder(15);
+  orderedNumbers.insertInOrder(55);
+
+  orderedNumbers.insertInOrder(2);
+  orderedNumbers.insertInOrder(16);
+  orderedNumbers.insertInOrder(15);
+  std::cout << "Second dictionary (ordered): " << orderedNumbers << "\n";
+
+  std::cout << "search(84) for second dictionary: " << std::boolalpha << orderedNumbers.search(84) << "\n\n";
+  orderedNumbers.remove(15);
+  orderedNumbers.remove(8);
+  std::cout << "After removing 8 and 15: " << orderedNumbers << "\n";
+
+  orderedNumbers.merge(numbers);
+  std::cout << "Merged (second dictionary): " << orderedNumbers << "\n";
+  std::cout << "Merged (first dictionary): " << numbers << "\n";
+
+  numbers.insert(133);
+  numbers.insert(18);
+  numbers.insert(120);
+  std::cout << "First dictionary: " << numbers << "\n";
+  orderedNumbers.deleteWords(numbers);
+  std::cout << "Delete words (dict1) from dict2: " << orderedNumbers;
+
+  orderedNumbers.insertInOrder(133);
+  orderedNumbers.insertInOrder(120);
+  orderedNumbers.insertInOrder(18);
+
+  std::cout << "The intersection of 1st and 2nd dictionaries: " << getIntersection(orderedNumbers, numbers) << "\n";
   return 0;
 }
