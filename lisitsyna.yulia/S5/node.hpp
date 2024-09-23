@@ -7,22 +7,17 @@ namespace lisitsyna
 {
   namespace detail
   {
-    template< class Key, class Value >
-    struct TNode
+    template< class T >
+    struct Node
     {
-      std::pair< Key, Value > data;
-      int height;
-      TNode *parent;
-      TNode *left;
-      TNode *right;
-
-      TNode(const Key key, const Value value):
-        data(std::pair< Key, Value >(key, value)),
-        height(0),
-        parent(nullptr),
-        left(nullptr),
-        right(nullptr)
+      Node(const T & data):
+        data_(data),
+        next_(nullptr),
+        prev_(nullptr)
       {}
+      T data_;
+      Node * next_;
+      Node * prev_;
     };
   }
 }
