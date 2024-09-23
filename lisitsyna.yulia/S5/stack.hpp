@@ -1,7 +1,7 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include <bdlist.hpp>
+#include "bdlist.hpp"
 
 namespace lisitsyna
 {
