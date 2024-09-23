@@ -13,7 +13,16 @@ int main(int argc, char ** argv)
 
   std::string sort = argv[1];
   std::string type = argv[2];
-  size_t N = std::stoull(argv[3]);
+  size_t N = 0;
+  try
+  {
+    N = std::stoull(argv[3]);
+  }
+  catch (const std::exception & e)
+  {
+    std::cerr << e.what() << '\n';
+    return 1;
+  }
 
   if (sort != "ascending" && sort != "descending")
   {

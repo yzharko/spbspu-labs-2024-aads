@@ -48,6 +48,7 @@ void sadofeva::task(size_t N)
 
   Compare comp;
 
+  check_sort(std::sort<typename std::deque<T>::iterator, Compare>, deq, comp, std::cout);
   check_sort(sadofeva::bubble_sort<typename std::deque<T>::iterator, Compare>, deq, comp, std::cout);
   check_sort(sadofeva::oddeven_sort<typename std::deque<T>::iterator, Compare>, deq, comp, std::cout);
 
