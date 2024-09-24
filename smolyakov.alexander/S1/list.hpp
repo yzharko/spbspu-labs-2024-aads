@@ -28,10 +28,10 @@ namespace smolyakov
     void clear();
     void swap(size_t value1Index, size_t value2Index);
 
-    Iterator begin();
-    Iterator end();
-    ConstIterator constBegin();
-    ConstIterator constEnd();
+    Iterator begin() const;
+    Iterator end() const;
+    ConstIterator constBegin() const;
+    ConstIterator constEnd() const;
 
   private:
     size_t size_;
@@ -354,6 +354,28 @@ void smolyakov::List<T>::swap(size_t value1Index, size_t value2Index)
   std::swap(node1, node2);
 }
 
+template<typename T>
+typename smolyakov::List<T>::Iterator smolyakov::List<T>::begin() const
+{
+  return head_;
+}
 
+template<typename T>
+typename smolyakov::List<T>::Iterator smolyakov::List<T>::end() const
+{
+  return tail_;
+}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator smolyakov::List<T>::constBegin() const
+{
+  return head_;
+}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator smolyakov::List<T>::constEnd() const
+{
+  return tail_;
+}
 
 #endif
