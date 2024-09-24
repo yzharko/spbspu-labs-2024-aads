@@ -2,6 +2,7 @@
 #define LIST_HPP
 #include <iterator>
 #include <stdexcept>
+#include <utility>
 #include "node.hpp"
 
 namespace smolyakov
@@ -35,6 +36,8 @@ namespace smolyakov
     size_t size_;
     Node<T>* head_;
     Node<T>* tail_;
+
+    Node<T>* NodeByIndex(const size_t index);
   };
 
   template<typename T>
@@ -96,18 +99,7 @@ smolyakov::List<T>::~List<T>()
 template<typename T>
 T smolyakov::List<T>::operator [] (const size_t index)
 {
-  Node<T>* node = head_;
-  size_t i = 0;
-  while (node != nullptr)
-  {
-    if (i == index)
-    {
-      return node->value;
-    }
-    node = node->next;
-    i++;
-  }
-  throw std::out_of_range("Given index was out of the list's range");
+  return NodeByIndex(index)->value;
 }
 
 template<typename T>
@@ -185,7 +177,38 @@ T smolyakov::List<T>::popBack()
   }
 }
 
+template<typename T>
+void smolyakov::List<T>::clear()
+{
+  while (size_ > 0)
+  {
+    popFront();
+  }
+}
 
+template <typename T>
+smolyakov::Node<T>* smolyakov::List<T>::NodeByIndex(const size_t index)
+{
+  Node<T>* node = head_;
+  size_t i = 0;
+  while (node != nullptr)
+  {
+    if (i == index)
+    {
+      return node;
+    }
+    node = node->next;
+    i++;
+  }
+  throw std::out_of_range("Given index was out of the list's range");
+}
 
+template<typename T>
+void smolyakov::List<T>::swap(size_t value1Index, size_t value2Index)
+{
+  smolyakov::Node<T>* node1 = NodeByIndex(value1Index);
+  smolyakov::Node<T>* node2 = NodeByIndex(value2Index);
+  std::swap(node1, node2);
+}
 
 #endif
