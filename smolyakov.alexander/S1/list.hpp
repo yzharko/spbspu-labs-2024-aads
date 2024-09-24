@@ -292,12 +292,12 @@ T smolyakov::List<T>::popFront()
   }
   else
   {
+    size_--;
     Node<T>* oldHead = head_;
     head_ = oldHead->next;
     T value = oldHead->value;
     delete oldHead;
     return value;
-    size_--;
   }
 }
 
@@ -311,12 +311,12 @@ T smolyakov::List<T>::popBack()
   }
   else
   {
+    size_--;
     Node<T>* oldTail = tail_;
     tail_ = oldTail->previous;
     T value = oldTail->value;
     delete oldTail;
     return value;
-    size_--;
   }
 }
 
