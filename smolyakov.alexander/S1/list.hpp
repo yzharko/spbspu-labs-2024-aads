@@ -45,7 +45,7 @@ namespace smolyakov
   class List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
   {
   public:
-    Iterator(const Node<T>* node);
+    Iterator(Node<T>* node);
     Iterator(const Iterator& other) = default;
     ~Iterator() = default;
 
@@ -67,14 +67,27 @@ namespace smolyakov
   class List<T>::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
   {
   public:
-    ConstIterator(Node<T>* node);
+    ConstIterator(const Node<T>* node);
     ConstIterator(const ConstIterator& other) = default;
     ~ConstIterator() = default;
+
+    ConstIterator& operator ++();
+    ConstIterator operator ++(int);
+    ConstIterator& operator --();
+    ConstIterator operator --(int);
+
+    T& operator *() const;
+    T* operator ->() const;
+
+    bool operator !=(const ConstIterator& rhs) const;
+    bool operator ==(const ConstIterator& rhs) const;
+  private:
+    Node<T>* node_;
   };
 }
 
 template<typename T>
-smolyakov::List<T>::Iterator::Iterator(const Node<T>* node)
+smolyakov::List<T>::Iterator::Iterator(Node<T>* node)
   : node_(node) {}
 
 template<typename T>
@@ -127,6 +140,64 @@ bool smolyakov::List<T>::Iterator::operator ==(const List<T>::Iterator& rhs) con
 
 template<typename T>
 bool smolyakov::List<T>::Iterator::operator !=(const List<T>::Iterator& rhs) const
+{
+  return node_ != rhs.node_;
+}
+
+template<typename T>
+smolyakov::List<T>::ConstIterator::ConstIterator(const Node<T>* node)
+  : node_(node) {}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator& smolyakov::List<T>::ConstIterator::operator ++()
+{
+  node_ = node_->next;
+  return *this;
+}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator smolyakov::List<T>::ConstIterator::operator ++(int)
+{
+  List<T>::ConstIterator newIterator(*this);
+  ++(*this);
+  return newIterator;
+}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator& smolyakov::List<T>::ConstIterator::operator --()
+{
+  node_ = node_->previous;
+  return *this;
+}
+
+template<typename T>
+typename smolyakov::List<T>::ConstIterator smolyakov::List<T>::ConstIterator::operator --(int)
+{
+  List<T>::Iterator newIterator(*this);
+  --(*this);
+  return newIterator;
+}
+
+template<typename T>
+T& smolyakov::List<T>::ConstIterator::operator *() const
+{
+  return node_->value;
+}
+
+template<typename T>
+T* smolyakov::List<T>::ConstIterator::operator ->() const
+{
+  return std::addressof(node_->value);
+}
+
+template<typename T>
+bool smolyakov::List<T>::ConstIterator::operator ==(const List<T>::ConstIterator& rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template<typename T>
+bool smolyakov::List<T>::ConstIterator::operator !=(const List<T>::ConstIterator& rhs) const
 {
   return node_ != rhs.node_;
 }
