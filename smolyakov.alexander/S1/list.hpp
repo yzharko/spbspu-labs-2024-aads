@@ -21,8 +21,8 @@ namespace smolyakov
     T operator [] (const size_t index);
     void pushFront(const T& value);
     void pushBack(const T& value);
-    void popFront(const T& value);
-    void popBack(const T& value);
+    T popFront();
+    T popBack();
     void clear();
     void swap(size_t value1Index, size_t value2Index);
 
@@ -148,9 +148,42 @@ void smolyakov::List<T>::pushFront(const T& value)
   size_++;
 }
 
+template<typename T>
+T smolyakov::List<T>::popFront()
+{
+  if (size_ == 0)
+  {
+    throw std::logic_error("Cannot pop a list with size 0");
+  }
+  else
+  {
+    Node<T> oldHead = head_;
+    head_ = oldHead->next;
+    T value = oldHead.value;
+    delete oldHead;
+    return value;
+    size_--;
+  }
+}
 
 
-
+template<typename T>
+T smolyakov::List<T>::popBack()
+{
+  if (size_ == 0)
+  {
+    throw std::logic_error("Cannot pop a list with size 0");
+  }
+  else
+  {
+    Node<T> oldTail = tail_;
+    tail_ = oldTail->previous;
+    T value = oldTail.value;
+    delete oldTail;
+    return value;
+    size_--;
+  }
+}
 
 
 
