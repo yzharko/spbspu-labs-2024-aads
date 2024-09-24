@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <iterator>
+#include <memory>
 #include <stdexcept>
 #include <utility>
 #include "node.hpp"
@@ -44,19 +45,90 @@ namespace smolyakov
   class List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
   {
   public:
-    Iterator();
+    Iterator(const Node<T>* node);
     Iterator(const Iterator& other) = default;
     ~Iterator() = default;
+
+    Iterator& operator ++();
+    Iterator operator ++(int);
+    Iterator& operator --();
+    Iterator operator --(int);
+
+    T& operator *();
+    T* operator ->();
+
+    bool operator !=(const Iterator& rhs) const;
+    bool operator ==(const Iterator& rhs) const;
+  private:
+    Node<T>* node_;
   };
 
   template<typename T>
   class List<T>::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
   {
   public:
-    ConstIterator();
+    ConstIterator(Node<T>* node);
     ConstIterator(const ConstIterator& other) = default;
     ~ConstIterator() = default;
   };
+}
+
+template<typename T>
+smolyakov::List<T>::Iterator::Iterator(const Node<T>* node)
+  : node_(node) {}
+
+template<typename T>
+typename smolyakov::List<T>::Iterator& smolyakov::List<T>::Iterator::operator ++()
+{
+  node_ = node_->next;
+  return *this;
+}
+
+template<typename T>
+typename smolyakov::List<T>::Iterator smolyakov::List<T>::Iterator::operator ++(int)
+{
+  List<T>::Iterator newIterator(*this);
+  ++(*this);
+  return newIterator;
+}
+
+template<typename T>
+typename smolyakov::List<T>::Iterator& smolyakov::List<T>::Iterator::operator --()
+{
+  node_ = node_->previous;
+  return *this;
+}
+
+template<typename T>
+typename smolyakov::List<T>::Iterator smolyakov::List<T>::Iterator::operator --(int)
+{
+  List<T>::Iterator newIterator(*this);
+  --(*this);
+  return newIterator;
+}
+
+template<typename T>
+T& smolyakov::List<T>::Iterator::operator *()
+{
+  return node_->value;
+}
+
+template<typename T>
+T* smolyakov::List<T>::Iterator::operator ->()
+{
+  return std::addressof(node_->value);
+}
+
+template<typename T>
+bool smolyakov::List<T>::Iterator::operator ==(const List<T>::Iterator& rhs) const
+{
+  return node_ == rhs.node_;
+}
+
+template<typename T>
+bool smolyakov::List<T>::Iterator::operator !=(const List<T>::Iterator& rhs) const
+{
+  return node_ != rhs.node_;
 }
 
 template<typename T>
@@ -210,5 +282,7 @@ void smolyakov::List<T>::swap(size_t value1Index, size_t value2Index)
   smolyakov::Node<T>* node2 = NodeByIndex(value2Index);
   std::swap(node1, node2);
 }
+
+
 
 #endif
