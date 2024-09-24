@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <iterator>
+#include <stdexcept>
 #include "node.hpp"
 
 namespace smolyakov
@@ -92,9 +93,22 @@ smolyakov::List<T>::~List<T>()
   clear();
 }
 
-
-
-
+template<typename T>
+T smolyakov::List<T>::operator [] (const size_t index)
+{
+  Node<T>* node = head_;
+  size_t i = 0;
+  while (node != nullptr)
+  {
+    if (i == index)
+    {
+      return node->value;
+    }
+    node = node->next;
+    i++;
+  }
+  throw std::out_of_range("Given index was out of the list's range");
+}
 
 
 
