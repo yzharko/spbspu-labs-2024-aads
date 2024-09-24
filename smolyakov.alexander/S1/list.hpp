@@ -110,9 +110,43 @@ T smolyakov::List<T>::operator [] (const size_t index)
   throw std::out_of_range("Given index was out of the list's range");
 }
 
+template<typename T>
+void smolyakov::List<T>::pushBack(const T& value)
+{
+  Node<T> newTail = new Node<T>(value);
 
+  if (size_ == 0)
+  {
+    head_ = newTail;
+    tail_ = newTail;
+  }
+  else
+  {
+    newTail.previous = tail_;
+    tail_->next = newTail;
+    tail_ = newTail;
+  }
+  size_++;
+}
 
+template<typename T>
+void smolyakov::List<T>::pushFront(const T& value)
+{
+  Node<T> newHead = new Node<T>(value);
 
+  if (size_ == 0)
+  {
+    head_ = newHead;
+    tail_ = newHead;
+  }
+  else
+  {
+    newHead.next = head_;
+    head_->previous = newHead;
+    head_ = newHead;
+  }
+  size_++;
+}
 
 
 
