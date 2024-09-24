@@ -12,4 +12,10 @@ namespace smolyakov
     Node<T> *previous;
   };
 }
+
+template<typename T>
+smolyakov::Node<T>::Node(T value, Node<T>* next, Node<T>* previous)
+  : value(value), next(next), previous(previous)
+{}
+
 #endif

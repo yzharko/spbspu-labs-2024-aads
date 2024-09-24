@@ -248,7 +248,7 @@ T smolyakov::List<T>::operator [] (const size_t index)
 template<typename T>
 void smolyakov::List<T>::pushBack(const T& value)
 {
-  Node<T> newTail = new Node<T>(value);
+  Node<T>* newTail = new Node<T>(value);
 
   if (size_ == 0)
   {
@@ -257,7 +257,7 @@ void smolyakov::List<T>::pushBack(const T& value)
   }
   else
   {
-    newTail.previous = tail_;
+    newTail->previous = tail_;
     tail_->next = newTail;
     tail_ = newTail;
   }
@@ -267,7 +267,7 @@ void smolyakov::List<T>::pushBack(const T& value)
 template<typename T>
 void smolyakov::List<T>::pushFront(const T& value)
 {
-  Node<T> newHead = new Node<T>(value);
+  Node<T>* newHead = new Node<T>(value);
 
   if (size_ == 0)
   {
@@ -276,7 +276,7 @@ void smolyakov::List<T>::pushFront(const T& value)
   }
   else
   {
-    newHead.next = head_;
+    newHead->next = head_;
     head_->previous = newHead;
     head_ = newHead;
   }
@@ -292,9 +292,9 @@ T smolyakov::List<T>::popFront()
   }
   else
   {
-    Node<T> oldHead = head_;
+    Node<T>* oldHead = head_;
     head_ = oldHead->next;
-    T value = oldHead.value;
+    T value = oldHead->value;
     delete oldHead;
     return value;
     size_--;
@@ -311,9 +311,9 @@ T smolyakov::List<T>::popBack()
   }
   else
   {
-    Node<T> oldTail = tail_;
+    Node<T>* oldTail = tail_;
     tail_ = oldTail->previous;
-    T value = oldTail.value;
+    T value = oldTail->value;
     delete oldTail;
     return value;
     size_--;
