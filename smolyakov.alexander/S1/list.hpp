@@ -1,6 +1,5 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-#include <iterator>
 #include <memory>
 #include <stdexcept>
 #include <utility>
@@ -42,7 +41,7 @@ namespace smolyakov
   };
 
   template<typename T>
-  class List<T>::Iterator : public std::iterator<std::forward_iterator_tag, T>
+  class List<T>::Iterator
   {
   public:
     Iterator(Node<T>* node);
@@ -64,7 +63,7 @@ namespace smolyakov
   };
 
   template<typename T>
-  class List<T>::ConstIterator : public std::iterator<std::forward_iterator_tag, T>
+  class List<T>::ConstIterator
   {
   public:
     ConstIterator(const Node<T>* node);
