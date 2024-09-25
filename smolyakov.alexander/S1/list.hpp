@@ -27,6 +27,7 @@ namespace smolyakov
     void clear();
     void swap(size_t value1Index, size_t value2Index);
     bool isEmpty();
+    size_t getSize();
 
     Iterator begin() const;
     Iterator end() const;
@@ -358,6 +359,12 @@ template<typename T>
 bool smolyakov::List<T>::isEmpty()
 {
   return size_ == 0;
+}
+
+template<typename T>
+size_t smolyakov::List<T>::getSize()
+{
+  return size_;
 }
 
 template<typename T>
