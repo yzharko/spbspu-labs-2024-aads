@@ -26,6 +26,7 @@ namespace smolyakov
     T popBack();
     void clear();
     void swap(size_t value1Index, size_t value2Index);
+    bool isEmpty();
 
     Iterator begin() const;
     Iterator end() const;
@@ -351,6 +352,12 @@ void smolyakov::List<T>::swap(size_t value1Index, size_t value2Index)
   smolyakov::Node<T>* node1 = NodeByIndex(value1Index);
   smolyakov::Node<T>* node2 = NodeByIndex(value2Index);
   std::swap(node1, node2);
+}
+
+template<typename T>
+bool smolyakov::List<T>::isEmpty()
+{
+  return size_ == 0;
 }
 
 template<typename T>
