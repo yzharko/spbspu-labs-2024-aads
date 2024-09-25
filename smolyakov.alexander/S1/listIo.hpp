@@ -6,7 +6,8 @@
 
 namespace smolyakov
 {
-  List<std::pair<std::string, List<long long>>> InputList(std::istream& inputStream);
+  List<std::pair<std::string, List<long long>>> inputList(std::istream& inputStream);
+  void outputPairListNames(std::ostream& outputStream, List<std::pair<std::string, smolyakov::List<long long>>> list);
 }
 
 #endif
