@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace
+namespace ankhbayr
 {
   unsigned long long sum(unsigned long long a, unsigned long long b)
   {
