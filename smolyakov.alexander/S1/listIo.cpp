@@ -147,7 +147,7 @@ void smolyakov::outputListValues(std::ostream& outputStream, smolyakov::List<siz
     {
       if (firstOutput)
       {
-	firstOutput = false;
+        firstOutput = false;
       }
       else
       {
