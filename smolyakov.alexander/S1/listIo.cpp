@@ -123,7 +123,7 @@ void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::Lis
 void smolyakov::calculateSums(smolyakov::List<smolyakov::List<long long>>& lists, smolyakov::List<long long>& destination)
 {
   smolyakov::List<smolyakov::List<long long>>::Iterator iterator = lists.begin();
-  const size_t maxPossibleValue = std::numeric_limits<long long>::max();
+  const long long maxPossibleValue = std::numeric_limits<long long>::max();
 
   while (iterator != ++lists.end())
   {
