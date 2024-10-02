@@ -30,7 +30,7 @@ listOfPairs smolyakov::inputList(std::istream& inputStream)
       }
       catch (std::out_of_range& e)
       {
-	throw std::overflow_error("Could not read input list: value too big");
+        throw std::overflow_error("Could not read input list: value too big");
       }
       list.end()->second.pushBack(inputNumber);
     }
