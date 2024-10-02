@@ -14,7 +14,6 @@ listOfPairs smolyakov::inputList(std::istream& inputStream)
   std::string rawInput = "";
   size_t inputNumber = 0;
   listOfPairs list;
-  const size_t maxPossibleValue = std::numeric_limits<size_t>::max();
 
   while (inputStream >> rawInput)
   {
