@@ -151,7 +151,7 @@ void smolyakov::outputListValues(std::ostream& outputStream, smolyakov::List<siz
       }
       else
       {
-	outputStream << ' ';
+        outputStream << ' ';
       }
       outputStream << *iterator;
       iterator++;
