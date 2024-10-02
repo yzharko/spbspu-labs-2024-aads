@@ -87,7 +87,7 @@ void smolyakov::rearrangeValues(listOfPairs& listOfPairs, smolyakov::List<smolya
       bool canAppendNumber = column < iterator->second.getSize();
       if (canAppendNumber)
       {
-	currentList.pushBack(iterator->second[column]);
+        currentList.pushBack(iterator->second[column]);
       }
       iterator++;
     }
@@ -106,11 +106,11 @@ void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::Lis
     {
       if (firstOutput)
       {
-	firstOutput = false;
+        firstOutput = false;
       }
       else
       {
-	outputStream << ' ';
+        outputStream << ' ';
       }
       outputStream << *innerIterator;
       innerIterator++;
@@ -133,7 +133,7 @@ void smolyakov::calculateSums(smolyakov::List<smolyakov::List<long long>>& lists
     {
       if (maxPossibleValue - sum < *innerIterator)
       {
-	throw std::overflow_error("Could not calculate sum: value too big");
+        throw std::overflow_error("Could not calculate sum: value too big");
       }
       sum += *innerIterator;
       innerIterator++;
