@@ -7,20 +7,20 @@
 #include <utility>
 #include "list.hpp"
 
-using listOfPairs = smolyakov::List<std::pair<std::string, smolyakov::List<long long>>>;
+using listOfPairs = smolyakov::List<std::pair<std::string, smolyakov::List<size_t>>>;
 
 listOfPairs smolyakov::inputList(std::istream& inputStream)
 {
   std::string rawInput = "";
-  long long inputNumber = 0;
+  size_t inputNumber = 0;
   listOfPairs list;
-  const long long maxPossibleValue = std::numeric_limits<long long>::max();
+  const size_t maxPossibleValue = std::numeric_limits<size_t>::max();
 
   while (inputStream >> rawInput)
   {
     if (std::isalpha(rawInput[0]))
     {
-      list.pushBack({rawInput, List<long long>()});
+      list.pushBack({rawInput, List<size_t>()});
     }
     else
     {
@@ -80,7 +80,7 @@ size_t getMaxSize(listOfPairs listOfPairs)
   return maxSize;
 }
 
-void smolyakov::rearrangeValues(listOfPairs& listOfPairs, smolyakov::List<smolyakov::List<long long>>& lists)
+void smolyakov::rearrangeValues(listOfPairs& listOfPairs, smolyakov::List<smolyakov::List<size_t>>& lists)
 {
   listOfPairs::Iterator iterator = listOfPairs.begin();
 
@@ -88,7 +88,7 @@ void smolyakov::rearrangeValues(listOfPairs& listOfPairs, smolyakov::List<smolya
   for (size_t column = 0; column < maxSize; column++)
   {
     iterator = listOfPairs.begin();
-    smolyakov::List<long long> currentList = smolyakov::List<long long>();
+    smolyakov::List<size_t> currentList = smolyakov::List<size_t>();
 
     while (iterator != ++listOfPairs.end())
     {
@@ -103,9 +103,9 @@ void smolyakov::rearrangeValues(listOfPairs& listOfPairs, smolyakov::List<smolya
   }
 }
 
-void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::List<smolyakov::List<long long>>& lists)
+void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::List<smolyakov::List<size_t>>& lists)
 {
-  smolyakov::List<smolyakov::List<long long>>::Iterator iterator = lists.begin();
+  smolyakov::List<smolyakov::List<size_t>>::Iterator iterator = lists.begin();
   while (iterator != ++lists.end())
   {
     outputListValues(outputStream, *iterator);
@@ -113,15 +113,15 @@ void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::Lis
   }
 }
 
-void smolyakov::calculateSums(smolyakov::List<smolyakov::List<long long>>& lists, smolyakov::List<long long>& destination)
+void smolyakov::calculateSums(smolyakov::List<smolyakov::List<size_t>>& lists, smolyakov::List<size_t>& destination)
 {
-  smolyakov::List<smolyakov::List<long long>>::Iterator iterator = lists.begin();
-  const long long maxPossibleValue = std::numeric_limits<long long>::max();
+  smolyakov::List<smolyakov::List<size_t>>::Iterator iterator = lists.begin();
+  const size_t maxPossibleValue = std::numeric_limits<size_t>::max();
 
   while (iterator != ++lists.end())
   {
-    long long sum = 0;
-    smolyakov::List<long long>::Iterator innerIterator = iterator->begin();
+    size_t sum = 0;
+    smolyakov::List<size_t>::Iterator innerIterator = iterator->begin();
     while (innerIterator != ++(iterator->end()))
     {
       if (maxPossibleValue - sum < *innerIterator)
@@ -137,11 +137,11 @@ void smolyakov::calculateSums(smolyakov::List<smolyakov::List<long long>>& lists
 }
 
 
-void smolyakov::outputListValues(std::ostream& outputStream, smolyakov::List<long long>& list)
+void smolyakov::outputListValues(std::ostream& outputStream, smolyakov::List<size_t>& list)
 {
   if (!list.isEmpty())
   {
-    smolyakov::List<long long>::Iterator iterator = list.begin();
+    smolyakov::List<size_t>::Iterator iterator = list.begin();
     bool firstOutput = true;
     while (iterator != ++list.end())
     {
