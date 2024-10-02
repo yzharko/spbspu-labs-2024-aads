@@ -25,11 +25,11 @@ listOfPairs smolyakov::inputList(std::istream& inputStream)
     {
       try
       {
-        inputNumber = std::stoll(rawInput);
+        inputNumber = std::stoull(rawInput);
       }
       catch (std::out_of_range& e)
       {
-        throw std::overflow_error("overflow error");
+        throw std::overflow_error("Could not read list: value too big");
       }
       list.end()->second.pushBack(inputNumber);
     }

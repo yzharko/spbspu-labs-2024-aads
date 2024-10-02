@@ -27,9 +27,9 @@ int main()
       return 0;
     }
 
-    smolyakov::calculateSums(rearrangedLists, sums);
-
     smolyakov::outputRearrangedLists(std::cout, rearrangedLists);
+
+    smolyakov::calculateSums(rearrangedLists, sums);
     smolyakov::outputListValues(std::cout, sums);
     return 0;
   }
