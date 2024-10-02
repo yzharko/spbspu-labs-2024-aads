@@ -24,7 +24,7 @@ int main()
     if (rearrangedLists.isEmpty())
     {
       std::cout << "0\n";
-     return 0;
+      return 0;
     }
 
     smolyakov::calculateSums(rearrangedLists, sums);
