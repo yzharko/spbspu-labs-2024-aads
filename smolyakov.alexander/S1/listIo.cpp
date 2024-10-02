@@ -14,6 +14,7 @@ listOfPairs smolyakov::inputList(std::istream& inputStream)
   std::string rawInput = "";
   long long inputNumber = 0;
   listOfPairs list;
+  const long long maxPossibleValue = std::numeric_limits<long long>::max();
 
   while (inputStream >> rawInput)
   {
@@ -23,7 +24,14 @@ listOfPairs smolyakov::inputList(std::istream& inputStream)
     }
     else
     {
-      inputNumber = std::stoll(rawInput);
+      try
+      {
+        inputNumber = std::stoll(rawInput);
+      }
+      catch (std::out_of_range& e)
+      {
+	throw std::out_of_range("Could not read input list: value too big");
+      }
       list.end()->second.pushBack(inputNumber);
     }
   }
@@ -100,22 +108,7 @@ void smolyakov::outputRearrangedLists(std::ostream& outputStream, smolyakov::Lis
   smolyakov::List<smolyakov::List<long long>>::Iterator iterator = lists.begin();
   while (iterator != ++lists.end())
   {
-    smolyakov::List<long long>::Iterator innerIterator = iterator->begin();
-    bool firstOutput = true;
-    while (innerIterator != ++iterator->end())
-    {
-      if (firstOutput)
-      {
-        firstOutput = false;
-      }
-      else
-      {
-        outputStream << ' ';
-      }
-      outputStream << *innerIterator;
-      innerIterator++;
-    }
-    outputStream << '\n';
+    outputListValues(outputStream, *iterator);
     iterator++;
   }
 }
@@ -149,9 +142,18 @@ void smolyakov::outputListValues(std::ostream& outputStream, smolyakov::List<lon
   if (!list.isEmpty())
   {
     smolyakov::List<long long>::Iterator iterator = list.begin();
+    bool firstOutput = true;
     while (iterator != ++list.end())
     {
-      outputStream << *iterator << ' ';
+      if (firstOutput)
+      {
+	firstOutput = false;
+      }
+      else
+      {
+	outputStream << ' ';
+      }
+      outputStream << *iterator;
       iterator++;
     }
     outputStream << '\n';
