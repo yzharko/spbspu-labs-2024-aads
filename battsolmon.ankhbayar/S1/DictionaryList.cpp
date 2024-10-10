@@ -2,16 +2,16 @@
 #include <iostream>
 DictionaryList::DictionaryList()
 {
-	_head = nullptr;
+  _head = nullptr;
 }
 DictionaryList::DictionaryList(DictionaryList&& other) noexcept
 {
-	_head = other._head;
+  _head = other._head;
 	other._head = nullptr;
 }
 DictionaryList::~DictionaryList()
 {
-	while (_head != nullptr)
+  while (_head != nullptr)
 	{
 		Node* tmp = _head->next;
 		delete _head;
